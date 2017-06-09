@@ -9,7 +9,8 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/users', authLK, function (req, res) {
-    res.render('users', {title: 'USERS authLK'});
+    var user = req.user;
+    res.render('users', {title: 'USERS authLK', user: user});
 });
 
 module.exports = router;

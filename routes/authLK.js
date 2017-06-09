@@ -4,8 +4,8 @@
 
 var authLK = function(req, res, next) {
     console.log('Middlware');
-    if (false){
-        req.user = 'user';
+    if (true){
+        req.user = 'user fking shits';
         next();
     } else {
         next(new Error('Failed to load user'));
