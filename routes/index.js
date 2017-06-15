@@ -13,4 +13,9 @@ router.get('/users', authLK, function (req, res) {
     res.render('users', {title: 'USERS authLK', user: user});
 });
 
+router.post('/users', authLK, users_post, function (req, res) {
+    var user = req.user;
+    res.render('users', {title: 'USERS authLK', user: user});
+});
+
 module.exports = router;
