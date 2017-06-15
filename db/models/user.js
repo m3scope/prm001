@@ -6,7 +6,9 @@ var Schema = mongoose.Schema;
 
 var UserSchema   = new Schema({
     catagory: String,
-    createDate: { type: Date, default: Date.now },
+    name_f: String,
+    create_at: { type: Date, default: Date.now },
+    update_at: Date,
     email: String
 });
 

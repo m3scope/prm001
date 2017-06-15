@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 
 var authLK = require('./authLK');
+//var users_post = require('./users_post');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -13,9 +14,9 @@ router.get('/users', authLK, function (req, res) {
     res.render('users', {title: 'USERS authLK', user: user});
 });
 
-router.post('/users', authLK, users_post, function (req, res) {
+router.post('/users', authLK, require('./users_post'), function (req, res) {
     var user = req.user;
-    res.render('users', {title: 'USERS authLK', user: user});
+    res.render('users', {title: 'Ceate new User', user: user});
 });
 
 module.exports = router;
