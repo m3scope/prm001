@@ -20,6 +20,7 @@ var users_post = function(req, res, next) {
         console.log('User created!!!');
         req.name_f = newUser.name_f;
     });
+
     next();
 };
 
