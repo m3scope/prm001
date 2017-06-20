@@ -1,27 +1,18 @@
 /**
  * Created by freez on 01.06.2017.
  */
-var mongoose = require('mongoose');
-
-var config = require('config');
-
-var dbConfig = config.get('dbConfig');
-
-var db = mongoose.connect(dbConfig.uri);    //, dbConfig.options);
-db.connection.on('error', console.error.bind(console, 'connection error:'));
-db.connection.once('open', function () {
-    console.log('Running DB');
-
-});
+var mongoose = require('../libs/mongoose');
 
 var authLK = function(req, res, next) {
     console.log('Middlware');
     console.log(dbConfig.uri);
-    if (true){
-        req.user = 'user fking shits';
+    if (false){
+        req.Authorized = true;
         next();
     } else {
-        next(new Error('Failed to load user'));
+        req.Authorized = false;
+        next();
+        //next(new Error('Failed to load user'));
     }
     //res.status(500);
     //res.render('error', {message: 'USERS Error!'});

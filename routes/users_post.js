@@ -1,7 +1,7 @@
 /**
  * Created by freez on 15.06.2017.
  */
-var UserModel = require('../db/models/user');
+var UserModel = require('../models/user');
 
 var rnd = Math.round(Math.random()*1000);
 var newUser = new UserModel({

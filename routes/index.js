@@ -5,7 +5,7 @@ var authLK = require('./authLK');
 //var users_post = require('./users_post');
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
+router.get('/', authLK, function(req, res, next) {
   res.render('index', { title: 'PRIZM Stock Exchange' });
 });
 

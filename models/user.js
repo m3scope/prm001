@@ -1,7 +1,7 @@
 /**
  * Created by freez on 09.06.2017.
  */
-var mongoose = require('mongoose');
+var mongoose = require('../libs/mongoose');
 var Schema = mongoose.Schema;
 
 var UserSchema   = new Schema({
