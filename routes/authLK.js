@@ -5,7 +5,6 @@ var mongoose = require('../libs/mongoose');
 
 var authLK = function(req, res, next) {
     console.log('Middlware');
-    console.log(dbConfig.uri);
     if (false){
         req.Authorized = true;
         next();
