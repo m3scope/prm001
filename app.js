@@ -5,6 +5,9 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session');
+var mongoose = require('./libs/mongoose');
+const MongoStore = require('connect-mongo')(session);
+var config = require('config');
 
 var routes = require('./routes');
 var users = require('./routes/users');
@@ -15,17 +18,6 @@ var app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
-var sess = {
-    secret: 'keyboard cat',
-    cookie: {maxAge: 60000}
-};
-if (app.get('env') === 'production') {
-    app.set('trust proxy', 1); // trust first proxy
-    sess.cookie.secure = true // serve secure cookies
-}
-
-app.use(session(sess));
-
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
@@ -33,6 +25,14 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+var sess = config.get('session');
+sess.store = new MongoStore({ mongooseConnection: mongoose.connection });
+if (app.get('env') === 'production') {
+    app.set('trust proxy', 1); // trust first proxy
+    sess.cookie.secure = true // serve secure cookies
+}
+app.use(session(sess));
 
 app.use('/', routes);
 //app.use('/users', users);

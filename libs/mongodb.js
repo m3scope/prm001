@@ -2,6 +2,8 @@
  * Created by freez on 29.06.2017.
  */
 
+/*
+
 var MongoClient = require('mongodb').MongoClient;
 var config = require('config');
 
@@ -12,3 +14,5 @@ MongoClient.connect(dbConfig.uri, function(err, db){
 });
 
 module.exports = MongoClient;
+
+*/

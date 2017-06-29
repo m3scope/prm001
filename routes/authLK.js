@@ -3,8 +3,10 @@
  */
 var mongoose = require('../libs/mongoose');
 
+
 var authLK = function(req, res, next) {
     console.log('Middlware');
+
     if (false){
         req.Authorized = true;
         next();
