@@ -7,7 +7,8 @@ var rnd = Math.round(Math.random()*1000);
 var newUser = new UserModel({
     catagory: 'amd',
     name_f: 'name'+String(rnd),
-    email: 'email'+ String(rnd) +'@gmail.com'
+    email: 'email'+ String(rnd) +'@gmail.com',
+    password: '1234567890'
 });
 
 //newUser.dudify()

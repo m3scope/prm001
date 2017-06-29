@@ -6,6 +6,8 @@ var crypto = require('crypto'); // модуль node.js для выполнен�
 
 var userSchema = new mongoose.Schema({
     displayName: String,
+    catagory: String,
+    name_f: String,
     email: {
         type: String,
         required: 'Укажите e-mail',
@@ -40,3 +42,5 @@ userSchema.methods.checkPassword = function (password) {
 };
 
 var User = mongoose.model('User', userSchema);
+
+module.exports = User;
