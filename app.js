@@ -7,6 +7,7 @@ const session = require('express-session');
 const mongoose = require('./libs/mongoose');
 const MongoStore = require('connect-mongo')(session);
 const config = require('config');
+const path = require('path');
 
 const routes = require('./routes');
 const users = require('./routes/users');
@@ -14,7 +15,8 @@ const users = require('./routes/users');
 const app = express();
 
 // view engine setup
-app.set('views', global.path.join(__dirname, 'views'));
+app.set('views', path.join(__dirname, 'views'));
+
 app.set('view engine', 'ejs');
 
 // uncomment after placing your favicon in /public
