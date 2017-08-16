@@ -1,10 +1,10 @@
 /**
  * Created by freez on 01.06.2017.
  */
-var mongoose = require('../libs/mongoose');
+const mongoose = require('../libs/mongoose');
 
 
-var authLK = function(req, res, next) {
+let authLK = function(req, res, next) {
     console.log('Middlware');
 
     if (false){

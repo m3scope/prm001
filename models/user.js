@@ -1,10 +1,10 @@
 /**
  * Created by freez on 09.06.2017.
  */
-var mongoose = require('../libs/mongoose');
-var crypto = require('crypto'); // модуль node.js для выполнения различных шифровальных операций, в т.ч. для создания хэшей.
+const mongoose = require('../libs/mongoose');
+const crypto = require('crypto'); // модуль node.js для выполнения различных шифровальных операций, в т.ч. для создания хэшей.
 
-var userSchema = new mongoose.Schema({
+const userSchema = new mongoose.Schema({
     displayName: String,
     catagory: String,
     name_f: String,
@@ -41,6 +41,6 @@ userSchema.methods.checkPassword = function (password) {
     return crypto.pbkdf2Sync(password, this.salt, 1, 128, 'sha1') == this.passwordHash;
 };
 
-var User = mongoose.model('User', userSchema);
+const User = mongoose.model('User', userSchema);
 
 module.exports = User;

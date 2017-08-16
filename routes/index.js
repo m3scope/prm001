@@ -1,7 +1,7 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
 
-var authLK = require('./authLK');
+const authLK = require('./authLK');
 //var users_post = require('./users_post');
 
 /* GET home page. */
@@ -10,17 +10,17 @@ router.get('/', authLK, function(req, res, next) {
 });
 
 router.get('/users', authLK, function (req, res) {
-    var user = req.user;
+    let user = req.user;
     res.render('users', {title: 'USERS authLK', user: user});
 });
 
 router.post('/users', authLK, require('./users_post'), function (req, res) {
-    var user = req.user;
+    let user = req.user;
     res.render('users', {title: 'Ceate new User', user: user});
 });
 
 router.get('/sess', function(req, res, next) {
-    var sess = req.session;
+    let sess = req.session;
     if (sess.views) {
         sess.views++;
         res.setHeader('Content-Type', 'text/html');

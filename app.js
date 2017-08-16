@@ -1,21 +1,20 @@
-var express = require('express');
-var path = require('path');
-var favicon = require('serve-favicon');
-var logger = require('morgan');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
-var session = require('express-session');
-var mongoose = require('./libs/mongoose');
+const express = require('express');
+const favicon = require('serve-favicon');
+const logger = require('morgan');
+const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
+const session = require('express-session');
+const mongoose = require('./libs/mongoose');
 const MongoStore = require('connect-mongo')(session);
-var config = require('config');
+const config = require('config');
 
-var routes = require('./routes');
-var users = require('./routes/users');
+const routes = require('./routes');
+const users = require('./routes/users');
 
-var app = express();
+const app = express();
 
 // view engine setup
-app.set('views', path.join(__dirname, 'views'));
+app.set('views', global.path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
 // uncomment after placing your favicon in /public
@@ -26,7 +25,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-var sess = config.get('session');
+const sess = config.get('session');
 sess.store = new MongoStore({ mongooseConnection: mongoose.connection });
 if (app.get('env') === 'production') {
     app.set('trust proxy', 1); // trust first proxy
@@ -39,7 +38,7 @@ app.use('/', routes);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
-  var err = new Error('Not Found');
+  let err = new Error('Not Found');
   err.status = 404;
   next(err);
 });

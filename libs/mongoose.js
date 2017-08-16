@@ -1,10 +1,10 @@
 /**
  * Created by freez on 20.06.2017.
  */
-var mongoose = require('mongoose');
-var config = require('config');
+const mongoose = require('mongoose');
+const config = require('config');
 
-var dbConfig = config.get('dbConfig');
+const dbConfig = config.get('dbConfig');
 
 mongoose.Promise = Promise; // Просим Mongoose использовать стандартные Промисы
 mongoose.set('debug', true);  // Просим Mongoose писать все запросы к базе в консоль. Удобно для отладки кода
