@@ -25,15 +25,8 @@ const userSchema = new mongoose.Schema({
 userSchema.virtual('password')
     .set((password) => {
         this._plainPassword = password;
-        if (password) {
-            console.log(password);
-            this.salt = crypto.randomBytes(128).toString('base64');
-            this.passwordHash = crypto.pbkdf2Sync(password, this.salt, 1, 128, 'sha1');
-        } else {
-            console.log('fucking!!!');
-            this.salt = undefined;
-            this.passwordHash = undefined;
-        }
+        this.salt = crypto.randomBytes(128).toString('base64');
+        this.passwordHash = crypto.pbkdf2Sync(password, this.salt, 1, 128, 'sha1');
     })
     .get(() => {
         return this._plainPassword;
