@@ -40,15 +40,21 @@ router.get('/login', (req, res) => {
     res.render('login', {title: 'LOGIN PAGE'});
 });
 
+router.get('/register', (req, res) => {
+    res.render('register', {title: 'REGISTER PAGE'});
+});
+
 router.post('/register', (req, res) => {
     const username = req.body.username;
     const password = req.body.password;
+    const email = req.body.email;
     const prizmaddress = req.body.prizmaddress;
 
     const newuser = new User();
     newuser.username = username;
     newuser.password = password;
     newuser.prizmaddress = prizmaddress;
+    newuser.email = email;
     newuser.save((err, savedUser) => {
         if(err) {
             console.log(err);
@@ -63,7 +69,7 @@ router.post('/login', (req, res) => {
     const username = req.body.username;
     const password = req.body.password;
 
-    User.findOne({username: username, password: password}, (err, user) => {
+    User.findOne({username: username}, (err, user) => {
         if(err) {
             console.log(err);
             return res.status(500).send();
@@ -71,7 +77,11 @@ router.post('/login', (req, res) => {
         if(!user) {
             return res.status(404).send();
         }
-        return res.status(200).send();
+        if(user.checkPassword(password)){
+            return res.status(200).send(user);
+        }
+        console.log(password);
+        return res.status(404).send();
     });
 });
 
