@@ -6,7 +6,7 @@ const crypto = require('crypto'); // модуль node.js для выполне�
 
 const userSchema = new mongoose.Schema({
     displayName: String,
-    catagory: String,
+    category: String,
     name_f: String,
     email: {
         type: String,
@@ -20,7 +20,7 @@ const userSchema = new mongoose.Schema({
 });
 
 userSchema.virtual('password')
-    .set(function (password) {
+    .set((password) => {
         this._plainPassword = password;
         if (password) {
             this.salt = crypto.randomBytes(128).toString('base64');
@@ -30,15 +30,15 @@ userSchema.virtual('password')
             this.passwordHash = undefined;
         }
     })
-
-    .get(function () {
+    .get(() => {
         return this._plainPassword;
     });
 
-userSchema.methods.checkPassword = function (password) {
+userSchema.methods.checkPassword = (password) => {
     if (!password) return false;
     if (!this.passwordHash) return false;
-    return crypto.pbkdf2Sync(password, this.salt, 1, 128, 'sha1') == this.passwordHash;
+    const pwd = crypto.pbkdf2Sync(password, this.salt, 1, 128, 'sha1');
+    return this.passwordHash === pwd;
 };
 
 const User = mongoose.model('User', userSchema);
