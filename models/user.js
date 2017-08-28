@@ -5,7 +5,10 @@ const mongoose = require('../libs/mongoose');
 const crypto = require('crypto'); // модуль node.js для выполнения различных шифровальных операций, в т.ч. для создания хэшей.
 
 const userSchema = new mongoose.Schema({
-    displayName: String,
+    username: String,
+    prizmaddress: {
+        type: String,
+    },
     category: String,
     name_f: String,
     email: {
