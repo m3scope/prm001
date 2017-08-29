@@ -2,20 +2,21 @@ const express = require('express');
 const router = express.Router();
 const User = require('../models/user');
 
-const authLK = require('./authLK');
+const authLK = require('../middleware/authLK');
+const checkAuth = require('../middleware/checkAuth');
 //var users_post = require('./users_post');
 
 /* GET home page. */
-router.get('/', authLK, function(req, res) {
+router.get('/', function(req, res) {
   res.render('index', { title: 'PRIZM Stock Exchange' });
 });
 
-router.get('/users', authLK, function (req, res) {
-    let user = req.user;
+router.get('/users', checkAuth, function (req, res) {
+    let user = req.session.user;
     res.render('users', {title: 'USERS authLK', user: user});
 });
 
-router.post('/users', authLK, require('./users_post'), function (req, res) {
+router.post('/users', checkAuth, require('./users_post'), function (req, res){
     let user = req.user;
     res.render('users', {title: 'Ceate new User', user: user});
 });
@@ -77,6 +78,7 @@ router.post('/login', (req, res) => {
             return res.status(200).send('Пользователь не найден!');
         }
         if(user.checkPassword(password)){
+            req.session.user = user._id;
             return res.status(200).send('Welcome, '+ username + '!');
         }
         return res.status(200).send('Пользователь не найден!');
