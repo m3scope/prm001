@@ -88,6 +88,8 @@ router.post('/login', (req, res) => {
     });
 });
 
+router.get('/logout', require('./logout').get);
+
 //***********************************************
 
 module.exports = router;
