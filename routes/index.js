@@ -71,19 +71,14 @@ router.post('/login', (req, res) => {
 
     User.findOne({username: username}, function(err, user){
         if(err) {
-            console.log(err);
             return res.status(500).send();
         }
         if(!user) {
-            return res.status(404).send();
-        } else {
-            console.log(user);
+            return res.status(200).send('Пользователь не найден!');
         }
         if(user.checkPassword(password)){
-            console.log('ЗАЛОГИНИЛСЯ!');
-            return res.status(200).send(user);
+            return res.status(200).send('Welcome, '+ username + '!');
         }
-
         return res.status(404).send();
     });
 });

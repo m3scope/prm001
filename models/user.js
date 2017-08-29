@@ -27,9 +27,9 @@ userSchema.methods.encryptPassword = function(password){
 };
 
 userSchema.virtual('password')
-    .set(function(password) {
+    .set(function(password){
         this._plainPassword = password;
-        if(password) {
+        if(password){
             this.salt = crypto.randomBytes(128).toString('base64');
             this.passwordHash = this.encryptPassword(password);
         } else {
@@ -37,11 +37,11 @@ userSchema.virtual('password')
             this.passwordHash = undefined;
         }
     })
-    .get(function() {
+    .get(function(){
         return this._plainPassword;
     });
 
-userSchema.methods.checkPassword = function(password) {
+userSchema.methods.checkPassword = function(password){
     if (!password) return false;
     if (!this.passwordHash) return false;
     return this.encryptPassword(password) == this.passwordHash;
