@@ -5,7 +5,10 @@ const User = require('../models/user');
 const authLK = require('../middleware/authLK');
 const checkAuth = require('../middleware/checkAuth');
 //var users_post = require('./users_post');
-
+const noCache = function(req, res, next) {
+    res.header('Cache-Control', 'no-cache, private, no-store, must-revalidate');
+    return next();
+};
 /* GET home page. */
 router.get('/', function(req, res) {
   res.render('index', { title: 'PRIZM Stock Exchange' });
@@ -16,7 +19,7 @@ router.get('/users', checkAuth, function (req, res) {
     res.render('users', {title: 'USERS authLK', user: user});
 });
 
-router.post('/users', checkAuth, require('./users_post'), function (req, res){
+router.post('/users', checkAuth, noCache, require('./users_post'), function (req, res){
     let user = req.user;
     res.render('users', {title: 'Ceate new User', user: user});
 });
