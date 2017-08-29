@@ -22,21 +22,29 @@ const userSchema = new mongoose.Schema({
     timestamps: true
 });
 
+userSchema.methods.encryptPassword = function(password){
+    return crypto.pbkdf2Sync(password, this.salt, 1, 128, 'sha1');
+};
+
 userSchema.virtual('password')
-    .set((password) => {
+    .set(function(password) {
         this._plainPassword = password;
-        this.salt = crypto.randomBytes(128).toString('base64');
-        this.passwordHash = crypto.pbkdf2Sync(password, this.salt, 1, 128, 'sha1');
+        if(password) {
+            this.salt = crypto.randomBytes(128).toString('base64');
+            this.passwordHash = this.encryptPassword(password);
+        } else {
+            this.salt = undefined;
+            this.passwordHash = undefined;
+        }
     })
-    .get(() => {
+    .get(function() {
         return this._plainPassword;
     });
 
-userSchema.methods.checkPassword = (password) => {
+userSchema.methods.checkPassword = function(password) {
     if (!password) return false;
     if (!this.passwordHash) return false;
-    const pwd = crypto.pbkdf2Sync(password, this.salt, 1, 128, 'sha1');
-    return this.passwordHash === pwd;
+    return this.encryptPassword(password) == this.passwordHash;
 };
 
 const User = mongoose.model('User', userSchema);
