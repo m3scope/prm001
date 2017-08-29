@@ -55,12 +55,12 @@ router.post('/register', (req, res) => {
     newuser.password = password;
     newuser.prizmaddress = prizmaddress;
     newuser.email = email;
-    newuser.save((err, savedUser) => {
+    newuser.save(function(err, savedUser){
         if(err) {
             console.log(err);
-            return res.status(500).send()
+            return res.status(500).send('Внутренняя ошибка!');
         }
-        return res.status(200).send();
+        return res.status(200).send('Успешная регистрация!');
     });
 
 });
@@ -71,7 +71,7 @@ router.post('/login', (req, res) => {
 
     User.findOne({username: username}, function(err, user){
         if(err) {
-            return res.status(500).send();
+            return res.status(500).send('Внутренняя ошибка!');
         }
         if(!user) {
             return res.status(200).send('Пользователь не найден!');
@@ -79,7 +79,7 @@ router.post('/login', (req, res) => {
         if(user.checkPassword(password)){
             return res.status(200).send('Welcome, '+ username + '!');
         }
-        return res.status(404).send();
+        return res.status(200).send('Пользователь не найден!');
     });
 });
 
