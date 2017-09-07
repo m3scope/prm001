@@ -18,10 +18,7 @@ router.get('/', function(req, res) {
   res.render('index', { title: 'PRIZM Stock Exchange', LoginRegister: LoginRegister });
 });
 
-router.get('/profile', checkAuth, function (req, res) {
-    let user = req.session.user;
-    res.render('profile', {title: 'USERS authLK', user: user});
-});
+router.get('/profile', checkAuth, require('./getProfile').get);
 
 router.post('/users', checkAuth, noCache, require('./users_post'), function (req, res){
     let user = req.user;

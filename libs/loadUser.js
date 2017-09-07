@@ -1,16 +1,16 @@
 const User = require('../models/user');
 
-let loadUser = function(id) {
+let loadUser = function(id, cb) {
     //console.log('Middlware');
 
     User.findById(id, function(err, user){
         if(err) {
-            return null
+            cb(err, null);
         }
         if(!user) {
-            return null
+            cb(null, null);
         }
-        return user;
+        cb(null, user);
     });
 };
 
