@@ -11,12 +11,16 @@ const noCache = function(req, res, next) {
 };
 /* GET home page. */
 router.get('/', function(req, res) {
-  res.render('index', { title: 'PRIZM Stock Exchange' });
+    let LoginRegister = '<b><a href="/profile">Профиль</a></b>';
+    if(!req.session.user){
+        LoginRegister = '<b><a href="/login">вход</a></b>';
+    }
+  res.render('index', { title: 'PRIZM Stock Exchange', LoginRegister: LoginRegister });
 });
 
-router.get('/users', checkAuth, function (req, res) {
+router.get('/profile', checkAuth, function (req, res) {
     let user = req.session.user;
-    res.render('users', {title: 'USERS authLK', user: user});
+    res.render('profile', {title: 'USERS authLK', user: user});
 });
 
 router.post('/users', checkAuth, noCache, require('./users_post'), function (req, res){
