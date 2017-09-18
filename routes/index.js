@@ -11,7 +11,7 @@ const noCache = function(req, res, next) {
 };
 /* GET home page. */
 router.get('/', function(req, res) {
-    let LoginRegister = '<b><a href="/profile">Профиль</a></b>';
+    let LoginRegister = '<b><a href="/profile">Профиль</a></b><br><b><a href="/logout">выход</a></b>';
     if(!req.session.user){
         LoginRegister = '<b><a href="/login">вход</a></b>';
     }
@@ -45,6 +45,27 @@ router.get('/login', (req, res) => {
     res.render('login', {title: 'LOGIN PAGE'});
 });
 
+router.post('/login', (req, res) => {
+    const username = req.body.username;
+    const password = req.body.password;
+
+    User.findOne({username: username}, function(err, user){
+        if(err) {
+            return res.status(500).send('Внутренняя ошибка!');
+        }
+        if(!user) {
+            return res.status(200).send('Пользователь не найден!');
+        }
+        if(user.checkPassword(password)){
+            req.session.user = user._id;
+            return res.redirect('/'); //res.status(200).send('Welcome, '+ username + '!');
+        }
+        return res.status(200).send('Пользователь не найден!');
+    });
+});
+
+router.get('/logout', require('./logout').get);
+
 router.get('/register', (req, res) => {
     res.render('register', {title: 'REGISTER PAGE'});
 });
@@ -70,26 +91,7 @@ router.post('/register', (req, res) => {
 
 });
 
-router.post('/login', (req, res) => {
-    const username = req.body.username;
-    const password = req.body.password;
 
-    User.findOne({username: username}, function(err, user){
-        if(err) {
-            return res.status(500).send('Внутренняя ошибка!');
-        }
-        if(!user) {
-            return res.status(200).send('Пользователь не найден!');
-        }
-        if(user.checkPassword(password)){
-            req.session.user = user._id;
-            return res.status(200).send('Welcome, '+ username + '!');
-        }
-        return res.status(200).send('Пользователь не найден!');
-    });
-});
-
-router.get('/logout', require('./logout').get);
 
 //***********************************************
 
