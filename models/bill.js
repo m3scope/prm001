@@ -10,6 +10,9 @@
 //      4. зачисление продавцу купленной валюты
 //      5. зачисление комиссии сервису в валюте оплаты покупки
 //
+//      6. Пополнение баланса
+//      7. Вывод средств
+//
 ****************************
  */
 
@@ -25,7 +28,8 @@ const billSchema = new mongoose.Schema({
     deal_currency: {type: Number, default: 0},  // Код (число) валюты продажи
     pay_cost: {type: Number, default: 0},       // сумма оплаты без комиссии
     pay_currency: {type: Number, default: 0},   // Код (число) валюты покупки
-    commission: {type: Number, default: 0}      // Сумма комиссии (~5-7%)
+    commission: {type: Number, default: 0},     // Сумма комиссии (~5-7%)
+    status: {type: Number, default: 0}          // Статус счета ()
 },  {
     timestamps: true
 });
