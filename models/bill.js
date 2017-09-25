@@ -3,6 +3,12 @@
 //
 //      СЧЕТ, выставляется для оплаты пользователю
 //      Создается на основании СДЕЛКИ (deal, биржа)
+//      Является основанием для создания транзакции (5 шт)
+//      1. списание проданной валюты у продавца
+//      2. зачисление оплаты продавцу
+//      3. списание оплаты у покупателя
+//      4. зачисление продавцу купленной валюты
+//      5. зачисление комиссии сервису в валюте оплаты покупки
 //
 ****************************
  */
@@ -16,9 +22,9 @@ const billSchema = new mongoose.Schema({
     dealerId: { type: mongoose.Schema.ObjectId, ref: 'User', required: true },     // Id пользователя создавшего транзакцию (продавца)
     bayerId: { type: mongoose.Schema.ObjectId, ref: 'User', required: true },      // Id пользователя покупателя
     deal_cost: {type: Number, default: 0},      // количество продаваемой валюты
-    deal_currency: {type: Number, default: 0},  // ИД (число код) валюты продажи
+    deal_currency: {type: Number, default: 0},  // Код (число) валюты продажи
     pay_cost: {type: Number, default: 0},       // сумма оплаты без комиссии
-    pay_currency: {type: Number, default: 0},   // ИД (число код) валюты покупки
+    pay_currency: {type: Number, default: 0},   // Код (число) валюты покупки
     commission: {type: Number, default: 0}      // Сумма комиссии (~5-7%)
 },  {
     timestamps: true
