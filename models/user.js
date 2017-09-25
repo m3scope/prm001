@@ -5,7 +5,18 @@ const mongoose = require('../libs/mongoose');
 const crypto = require('crypto'); // модуль node.js для выполнения различных шифровальных операций, в т.ч. для создания хэшей.
 
 const userSchema = new mongoose.Schema({
-    username: String,
+    username:{
+        type:String, // тип: String
+        required:[true,"usernameRequired"],
+        // Данное поле обязательно. Если его нет вывести ошибку с текстом usernameRequired
+        maxlength:[32,"tooLong"],
+        // Максимальная длинна 32 Юникод символа (Unicode symbol != byte)
+        minlength:[6,"tooShort"],
+        // Слишком короткий Логин!
+        match:[/^[a-z0-9]+$/,"usernameIncorrect"],
+        // Мой любимй формат! ЗАПРЕТИТЬ НИЖНЕЕ ТИРЕ!
+        unique:true // Оно должно быть уникальным
+    },
     prizmaddress: {
         type: String,
     },
