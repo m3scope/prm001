@@ -12,9 +12,15 @@ const crypto = require('crypto'); // модуль node.js для выполне�
 //const User = require('./user');
 
 const billSchema = new mongoose.Schema({
-    dealerId: { type: mongoose.Schema.ObjectId, ref: 'User', required: true },     // Id пользователя создавшего транзакцию
-    bayerId: { type: mongoose.Schema.ObjectId, ref: 'User', required: true }      // Id покупателя
-}, {
+    dealId: { type: mongoose.Schema.ObjectId, ref: 'Deal', required: false },       // ID сделки (deal), используется в работе биржи
+    dealerId: { type: mongoose.Schema.ObjectId, ref: 'User', required: true },     // Id пользователя создавшего транзакцию (продавца)
+    bayerId: { type: mongoose.Schema.ObjectId, ref: 'User', required: true },      // Id пользователя покупателя
+    deal_cost: {type: Number, default: 0},      // количество продаваемой валюты
+    deal_currency: {type: Number, default: 0},  // ИД (число код) валюты продажи
+    pay_cost: {type: Number, default: 0},       // сумма оплаты без комиссии
+    pay_currency: {type: Number, default: 0},   // ИД (число код) валюты покупки
+    commission: {type: Number, default: 0}      // Сумма комиссии (~5-7%)
+},  {
     timestamps: true
 });
 
