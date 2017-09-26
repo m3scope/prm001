@@ -20,6 +20,9 @@ const userSchema = new mongoose.Schema({
     prizmaddress: {
         type: String,
     },
+    publicKey: {
+        type: String,
+    },
     category: String,
     name_f: String,
     email: {

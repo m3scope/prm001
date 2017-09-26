@@ -24,9 +24,9 @@ const billSchema = new mongoose.Schema({
     dealId: { type: mongoose.Schema.ObjectId, ref: 'Deal', required: false },       // ID сделки (deal), используется в работе биржи
     dealerId: { type: mongoose.Schema.ObjectId, ref: 'User', required: true },     // Id пользователя создавшего транзакцию (продавца)
     bayerId: { type: mongoose.Schema.ObjectId, ref: 'User', required: true },      // Id пользователя покупателя
-    deal_cost: {type: Number, default: 0},      // количество продаваемой валюты
+    deal_amount: {type: Number, default: 0},      // количество продаваемой валюты
     deal_currency: {type: Number, default: 0},  // Код (число) валюты продажи
-    pay_cost: {type: Number, default: 0},       // сумма оплаты без комиссии
+    pay_amount: {type: Number, default: 0},       // сумма оплаты без комиссии
     pay_currency: {type: Number, default: 0},   // Код (число) валюты покупки
     commission: {type: Number, default: 0},     // Сумма комиссии (~5-7%)
     status: {type: Number, default: 0}          // Статус счета ()

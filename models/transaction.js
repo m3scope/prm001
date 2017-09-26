@@ -21,7 +21,7 @@ const transactionSchema = new mongoose.Schema({
     userId: { type: mongoose.Schema.ObjectId, ref: 'User', required: true },     // Id пользователя создавшего транзакцию
     accountId: { type: mongoose.Schema.ObjectId, ref: 'Account', required: true },      // Id покупателя
     currency: {type: Number, default: 0},       // Код (число) валюты
-    cost: {type: Number, default: 0},           // Количество валюты
+    amount: {type: Number, default: 0},           // Количество валюты
     up_down: {type: Boolean, default: false},   // Вид движения, пополнение(true), списание(false)
     sort: {type: Number, default: 1}            // Вид транзакции (см. выше)
 },  {
