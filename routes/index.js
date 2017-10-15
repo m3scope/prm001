@@ -119,6 +119,32 @@ router.get('/getrec/:id', (req, res) => {
     });
 });
 
+router.get('/gettrans/:id', (req, res) => {
+    //const request = require("request");
+    let rnd = Math.random();
+    const pzm = req.params.id;
+    const http = require('http');
+    const url = "http://blockchain.prizm.space/prizm?requestType=getBlockchainTransactions&account="+pzm+"&firstIndex=0&lastIndex=100&random="+rnd;
+    //http://blockchain.prizm.space/prizm?requestType=getAccount&account="+pzm+"&random="+rnd;
+    console.log(url);
+
+    http.get(url, function(ress){
+        let body = '';
+
+        ress.on('data', function(chunk){
+            body += chunk;
+        });
+
+        ress.on('end', function(){
+            let fbResponse = JSON.parse(body);
+            console.log("Got a response: ", fbResponse.transactions.length);
+            return res.status(200).send(fbResponse.transactions[0]);
+        });
+    }).on('error', function(e){
+        console.log("Got an error: ", e);
+        return res.status(500).send('Внутренняя ошибка!');
+    });
+});
 
 //***********************************************
 
