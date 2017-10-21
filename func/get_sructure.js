@@ -1,7 +1,7 @@
 
 function getTransactions(id, num, cb) {
     const rnd = Math.random();
-    //const pzm = id;
+    let nm = num;
     const http = require('http');
     const url = "http://blockchain.prizm.space/prizm?requestType=getBlockchainTransactions&account="+id+"&firstIndex=0&lastIndex=100&random="+rnd;
     //http://blockchain.prizm.space/prizm?requestType=getAccount&account="+pzm+"&random="+rnd;
@@ -32,21 +32,34 @@ function getTransactions(id, num, cb) {
     });
 }
 
-let getStructure = function (id, cb) {
+let getStructure = (id, cb) => {
     //const request = require("request");
-    let transaction = getTransactions(id, 0, function (err, num, data) {
-        if (err){
-            console.log(err);
-            return cb({status: err.status, txt:err.txt});
+    let num = 0;
+    let idd = id;
+    let dta = [];
+    (async function () {
+        while (num<8) {
+            let trnc = await getTransactions(idd, num, (err, num, data) => {
+                if (err) {
+                    console.log(err);
+                    return cb({status: err.status, txt: err.txt});
+                }
+                const dt = data;
+                console.log(num, dt[dt.length - 1].senderRS, dt[dt.length - 1].amountNQT, dt[dt.length - 1].recipientRS);
+                dt.forEach((entry, indx) => {
+                    if (indx === dt.length - 1) {
+                        console.log(indx);
+                        num++;
+                        idd = entry.senderRS;
+                        dta.push({senderRS: entry.senderRS, amountNQT: entry.amountNQT, recipientRS: entry.recipientRS});
+                    }
+                });
+                //return cb(null, data);
+            })
         }
-        //let fbResponse = JSON.parse(data[0]);
-        console.log(num, data.length);
-
-
-
-
-        return cb(null, data);
     })
+
+    return cb(null, dta);
 };
 
 module.exports = getStructure;
