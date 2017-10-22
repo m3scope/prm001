@@ -137,6 +137,13 @@ getStructure = (id, cb) => {
                 //         dtaa.push({first: false, check: false, nm: nm, senderRS: entry.senderRS, amountNQT: entry.amountNQT, recipientRS: entry.recipientRS, block: entry.block});
                 //     }
                 // });
+                if(dtaa.length >45){
+                    dtaa.forEach((entry, indx) => {
+                        if(entry.check && !entry.first){
+                            dtaa.splice(indx, 1);
+                        }
+                    })
+                }
                 for(let i=0; i<dtaa.length; i++){
                     if(!dtaa[i].check) {
                         url = dtaa[i].recipientRS;
