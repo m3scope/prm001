@@ -33,7 +33,7 @@ function getTransactions(id, num, cb) {
 
 
 function requestAsync(id) {
-  //return new Promise((resolve, reject) => {
+  return new Promise((resolve, reject) => {
       const rnd = Math.random();
       const http = require('http');
       const url = "http://blockchain.prizm.space/prizm?requestType=getBlockchainTransactions&account="+id+"&firstIndex=0&lastIndex=100&random="+rnd;
@@ -51,25 +51,28 @@ function requestAsync(id) {
               let fbResponse = JSON.parse(body);
               //console.log(fbResponse);
               if (fbResponse.errorCode){
-                  return({status: 500, txt: fbResponse.errorDescription})
+                  reject(fbResponse)
               }
               console.log("Got a response: ", fbResponse.transactions.length);
               //***********************
               //      функция разбора транзакций
               //***********************
-              return(fbResponse.transactions);
+              const ddt = fbResponse.transactions;
+              const dt = 'answere';
+              //console.log(ddt);
+              resolve(ddt);
           });
       }).on('error', function(e){
           console.log("Got an error: ", e);
-          if(err) return (err)
+          if(err) reject(err)
       });
-  //});
+  });
 }
 
-async function getURL(_url) {
+async function getURL2(_url) {
   let data, url = _url, num =0, dtaa = [];
   do {
-    const {body} = await requestAsync(url);
+    const body = await requestAsync(url);
     data = JSON.parse(body);
       const dt = data;
       //console.log(numm, dt[dt.length - 1].senderRS, dt[dt.length - 1].amountNQT, dt[dt.length - 1].recipientRS);
@@ -139,19 +142,41 @@ function awtfnc(id, dta, num) {
     }
 }
 
-let getStructure = (id, cb) => {
+let getStructure;
+getStructure = (id, cb) => {
     //const request = require("request");
-    let num = 0;
+    //let num = 0;
     let idd = id;
     let dta = [];
+    let nm =0;
+    async function getURL(_url) {
+        let data, url = _url, num = 0, dtaa = [];
+        do {
+            const body = await requestAsync(url, nm);
+            console.log('body', body);
+            data = body; //JSON.parse(body);
+            console.log(data);
+            num++;
+            //const dt = data;
+            //console.log(numm, dt[dt.length - 1].senderRS, dt[dt.length - 1].amountNQT, dt[dt.length - 1].recipientRS);
+            data.forEach((entry, indx) => {
+                //if (indx === data.length - 1) {
+                if (entry.senderRS === url) {
+                    console.log(indx);
+                    //num++;
+                    url = entry.recipientRS;
+                    dtaa.push({nm: nm, senderRS: entry.senderRS, amountNQT: entry.amountNQT, recipientRS: entry.recipientRS});
+                }
+            });
+            nm++;
+            //url = _url + '&pageToken=' + data.nextPageToken;
+        } while (num < 10);
+        //return dtaa;
+        return cb(null, dtaa);
+    }
 
-    // async function main() {
-    //     //let resultat = await awtfnc(idd, dta, num);
-    //     //console.log('resultat', resultat);
-    //     return cb(null, await awtfnc(idd, dta, num));
-    // }
-    // main();
-return cb(null, getURL(idd));
+    getURL(idd);
+//return cb(null, getURL(idd));
 
 
 };
