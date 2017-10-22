@@ -98,7 +98,7 @@ function awtfnc(id, dta, num) {
         console.log('awtfnc', numm);
         const rnd = Math.random();
         const http = require('http');
-        const url = "http://blockchain.prizm.space/prizm?requestType=getBlockchainTransactions&account="+idd+"&firstIndex=0&lastIndex=100&random="+rnd;
+        const url = "http://blockchain.prizm.space/prizm?requestType=getBlockchainTransactions&account="+idd+"&firstIndex=0&lastIndex=3000&random="+rnd;
         //http://blockchain.prizm.space/prizm?requestType=getAccount&account="+pzm+"&random="+rnd;
         console.log(url);
 
@@ -159,12 +159,21 @@ getStructure = (id, cb) => {
             num++;
             //const dt = data;
             //console.log(numm, dt[dt.length - 1].senderRS, dt[dt.length - 1].amountNQT, dt[dt.length - 1].recipientRS);
+            // data.forEach((entry, indx) => {
+            //     //if (indx === data.length - 1) {
+            //     if (entry.senderRS === url && entry.recipientRS !== url) {
+            //         console.log(indx);
+            //         //num++;
+            //         url = entry.recipientRS;
+            //         dtaa.push({nm: nm, senderRS: entry.senderRS, amountNQT: entry.amountNQT, recipientRS: entry.recipientRS});
+            //     }
+            // });
             data.forEach((entry, indx) => {
-                //if (indx === data.length - 1) {
-                if (entry.senderRS === url) {
+                if (indx === data.length - 1) {
+                //if (entry.recipientRS === url) {
                     console.log(indx);
                     //num++;
-                    url = entry.recipientRS;
+                    url = entry.senderRS;
                     dtaa.push({nm: nm, senderRS: entry.senderRS, amountNQT: entry.amountNQT, recipientRS: entry.recipientRS});
                 }
             });
