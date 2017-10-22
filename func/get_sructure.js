@@ -117,7 +117,8 @@ getStructure = (id, cb) => {
                     if(data[data.length-1].senderRS === senderRS){
                         dtaa[dtIndx].first = true;
                         data.forEach((entry, indx) => {
-                            if (entry.senderRS === url && entry.recipientRS !== url && entry.block !== block) {
+                            let picked = dtaa.find({block: entry.block});
+                            if (entry.senderRS === url && entry.recipientRS !== url && picked) {
                                 console.log(indx);
                                 dtaa.push({first: false, check: false, nm: nm, senderRS: entry.senderRS, amountNQT: entry.amountNQT, recipientRS: entry.recipientRS, block: entry.block});
                             }
