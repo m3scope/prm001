@@ -78,7 +78,7 @@ getStructure = (id, cb) => {
     let nm =0;
     let firstIndex = 0;
     async function getURL(_url) {
-        let data, url = _url, num = 0, dtaa = [], block=0, dtIndx=0, senderRS;
+        let data, url = _url, num = 0, dtaa = [], block=0, dtIndx=0, senderRS='';
         do {
             const body = await requestAsync(url, nm, firstIndex);
             //console.log('body', body);
@@ -117,7 +117,7 @@ getStructure = (id, cb) => {
                     if(data[data.length-1].senderRS === senderRS){
                         dtaa[dtIndx].first = true;
                         data.forEach((entry, indx) => {
-                            if (entry.senderRS === url && entry.recipientRS !== url) {
+                            if (entry.senderRS === url && entry.recipientRS !== url && entry.block !== block) {
                                 console.log(indx);
                                 dtaa.push({first: false, check: false, nm: nm, senderRS: entry.senderRS, amountNQT: entry.amountNQT, recipientRS: entry.recipientRS, block: entry.block});
                             }
@@ -137,13 +137,13 @@ getStructure = (id, cb) => {
                 //         dtaa.push({first: false, check: false, nm: nm, senderRS: entry.senderRS, amountNQT: entry.amountNQT, recipientRS: entry.recipientRS, block: entry.block});
                 //     }
                 // });
-                if(dtaa.length >45){
-                    dtaa.forEach((entry, indx) => {
-                        if(entry.check && !entry.first){
-                            dtaa.splice(indx, 1);
-                        }
-                    })
-                }
+                // if(dtaa.length >45){
+                //     dtaa.forEach((entry, indx) => {
+                //         if(entry.check && !entry.first){
+                //             dtaa.splice(indx, 1);
+                //         }
+                //     })
+                // }
                 for(let i=0; i<dtaa.length; i++){
                     if(!dtaa[i].check) {
                         url = dtaa[i].recipientRS;
