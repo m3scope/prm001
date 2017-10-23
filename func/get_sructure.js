@@ -1,3 +1,4 @@
+const fs = require('fs');
 
 function getTransactions(id, num, cb) {
     const rnd = Math.random();
@@ -114,11 +115,15 @@ getStructure = (id, cb) => {
             if (data.length < 100)
             {
                 if(block > 0){
-                    if(data[data.length-1].senderRS === senderRS){
+                    if(data[data.length-1].senderRS === senderRS && data[data.length-1].block === dtaa[dtIndx].block){
                         dtaa[dtIndx].first = true;
                         data.forEach((entry, indx) => {
-                            let picked = dtaa.find({block: entry.block});
-                            if (entry.senderRS === url && entry.recipientRS !== url && picked) {
+                            let picked = dtaa.filter(function (el) {
+                                return el.block === entry.block;
+                            });
+                            console.log('*** entry.block   ', entry.block);
+                            console.log('************ picked   ', picked);
+                            if (entry.senderRS === url && entry.recipientRS !== url && !picked.length > 0) {
                                 console.log(indx);
                                 dtaa.push({first: false, check: false, nm: nm, senderRS: entry.senderRS, amountNQT: entry.amountNQT, recipientRS: entry.recipientRS, block: entry.block});
                             }
@@ -146,7 +151,7 @@ getStructure = (id, cb) => {
                 //     })
                 // }
                 for(let i=0; i<dtaa.length; i++){
-                    if(!dtaa[i].check) {
+                    if(!dtaa[i].check && dtaa[i].recipientRS) {
                         url = dtaa[i].recipientRS;
                         nm = dtaa[i].nm+1;
                         block = dtaa[i].block;
@@ -168,9 +173,21 @@ getStructure = (id, cb) => {
             //**************************************************
 
 
-        } while (num < 50);
-        console.log(dtaa);
-        return cb(null, dtaa);
+        } while (num < 1500);
+        //console.log(dtaa);
+        let result = dtaa.filter(function (el) {
+            return el.first === true && el.check === true;
+        });
+
+
+        const file = fs.createWriteStream('array.txt');
+        file.on('error', function(err) { /* error handling */ });
+        result.forEach(function(v) { file.write(JSON.stringify(v) + ',\n'); });
+        file.end();
+        // dtaa.forEach((entry, indx) => {
+        //
+        // });
+        return cb(null, result);
     }
 
     getURL(idd);
