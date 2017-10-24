@@ -1,38 +1,5 @@
 const fs = require('fs');
 
-function getTransactions(id, num, cb) {
-    const rnd = Math.random();
-    const http = require('http');
-    const url = "http://blockchain.prizm.space/prizm?requestType=getBlockchainTransactions&account="+id+"&firstIndex=0&lastIndex=100&random="+rnd;
-    //http://blockchain.prizm.space/prizm?requestType=getAccount&account="+pzm+"&random="+rnd;
-    console.log(url);
-
-    http.get(url, function(ress){
-        let body = '';
-
-        ress.on('data', function(chunk){
-            body += chunk;
-        });
-
-        ress.on('end', function(){
-            let fbResponse = JSON.parse(body);
-            //console.log(fbResponse);
-            if (fbResponse.errorCode){
-                return cb({status: 500, txt: fbResponse.errorDescription}, num, null)
-            }
-            console.log("Got a response: ", fbResponse.transactions.length);
-            //***********************
-            //      функция разбора транзакций
-            //***********************
-            return cb(null, num, fbResponse.transactions);
-        });
-    }).on('error', function(e){
-        console.log("Got an error: ", e);
-        return cb({status: 500, txt: 'Внутренняя ошибка!'}, num, null);
-    });
-}
-
-
 function requestAsync(id, nm, firstIndex) {
   return new Promise((resolve, reject) => {
       const rnd = Math.random();
@@ -69,6 +36,15 @@ function requestAsync(id, nm, firstIndex) {
       });
   });
 }
+
+let createStructure;
+createStructure = () => {
+    let jsn = require('../array.txt');
+    jsn = JSON.parse(jsn);
+    jsn.forEach((entry, indx) => {
+
+    })
+};
 
 let getStructure;
 getStructure = (id, cb) => {
@@ -176,17 +152,20 @@ getStructure = (id, cb) => {
             //**************************************************
 
 
-        } while (num < 3000);
+        } while (num < 50);
         //console.log(dtaa);
         let result = dtaa.filter(function (el) {
             return el.first === true && el.check === true;
         });
 
 
-        const file = fs.createWriteStream('array.txt');
-        file.on('error', function(err) { /* error handling */ });
-        result.forEach(function(v) { file.write(JSON.stringify(v) + ',\n'); });
-        file.end();
+        // const file = fs.createWriteStream('array.txt');
+        // file.on('error', function(err) { /* error handling */ });
+        // result.forEach(function(v) { file.write(JSON.stringify(v)+','); });
+        // file.end();
+        fs.writeFile('array.json', JSON.stringify(result),(data)=>{
+            console.log('FILE SAVE!');
+        });
         // dtaa.forEach((entry, indx) => {
         //
         // });
