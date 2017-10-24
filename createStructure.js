@@ -12,8 +12,12 @@ createStructure = () => {
             obj.forEach((entry, indx) => {
                 //console.log(entry);
                 if(!entry.nm > nm){
-                    dtaa[nm] = new Array();
-                    dtaa[nm].push(entry.senderRS);
+                    dtaa.push(entry.senderRS);
+                    dtaa[entry.senderRS] = new Array();
+                    //dtaa[entry.senderRS].push(entry.recipientRS);
+                    console.log();
+                } else {
+
                 }
 
             });
