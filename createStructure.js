@@ -12,11 +12,12 @@ createStructure = () => {
             obj.forEach((entry, indx) => {
                 //console.log(entry);
                 if(!entry.nm > nm){
-                    dtaa.push(entry.senderRS);
-                    dtaa[entry.senderRS] = new Array();
-                    //dtaa[entry.senderRS].push(entry.recipientRS);
+                    dtaa.push({[entry.senderRS]:new Array()});
+                    //dtaa["PRIZM-XVNM-4Z9Y-F9DR-9BVTP"] = new Array();
+                    dtaa[entry.senderRS].push({[entry.recipientRS]: new Array()});
                     console.log();
                 } else {
+                    //dtaa.find()
 
                 }
 
