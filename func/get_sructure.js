@@ -78,6 +78,8 @@ getStructure = (id, cb) => {
     let dta = [];
     let nm =0;
     let firstIndex = 0;
+    const time1 = Date.now();
+    let time2 = Date.now();
     async function getURL(_url) {
         let data, url = _url, num = 0, dtaa = [], block=0, dtIndx=0, senderRS='';
         do {
@@ -150,6 +152,7 @@ getStructure = (id, cb) => {
                 //         }
                 //     })
                 // }
+                dtaa[dtIndx].check = true;
                 for(let i=0; i<dtaa.length; i++){
                     if(!dtaa[i].check && dtaa[i].recipientRS) {
                         url = dtaa[i].recipientRS;
@@ -157,7 +160,7 @@ getStructure = (id, cb) => {
                         block = dtaa[i].block;
                         dtIndx = i;
                         senderRS = dtaa[i].senderRS;
-                        dtaa[i].check = true;
+                        //dtaa[i].check = true;
                         break;
                     }
                 }
@@ -173,7 +176,7 @@ getStructure = (id, cb) => {
             //**************************************************
 
 
-        } while (num < 1500);
+        } while (num < 3000);
         //console.log(dtaa);
         let result = dtaa.filter(function (el) {
             return el.first === true && el.check === true;
@@ -187,6 +190,8 @@ getStructure = (id, cb) => {
         // dtaa.forEach((entry, indx) => {
         //
         // });
+        time2 = Date.now();
+        console.log('********* TIMEs :  ', time1, time2, time2-time1);
         return cb(null, result);
     }
 
