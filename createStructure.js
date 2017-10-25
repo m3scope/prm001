@@ -2,7 +2,7 @@ const fs = require('fs');
 
 let createStructure;
 createStructure = () => {
-    let obj, tmpObj, nm =0, dtaa=[], senderRS='';
+    let obj, tmpObj, nm =0, dtaa=[], senderRS='', HTMLstr='';
 
     fs.readFile('./array.json', 'utf8', (err, data)=>{
         if (err){
@@ -11,20 +11,23 @@ createStructure = () => {
             obj = JSON.parse(data);
             obj.forEach((entry, indx) => {
                 //console.log(entry);
-                if(!entry.nm > nm){
-                    dtaa.push({[entry.senderRS]:new Array()});
-                    //dtaa["PRIZM-XVNM-4Z9Y-F9DR-9BVTP"] = new Array();
-                    dtaa[entry.senderRS].push({[entry.recipientRS]: new Array()});
-                    console.log();
+                if(entry.nm > nm){
+                    let picked = obj.filter(function (el) {
+                        return el.nm === entry.nm;
+                    });
+                    console.log(picked);
+                    nm = entry.nm;
                 } else {
                     //dtaa.find()
+                    //HTMLstr =
+                    let div = document.createElement(entry.senderRS);
 
                 }
 
             });
-            fs.writeFile('arraySTR.json', JSON.stringify(dtaa),(data)=>{
-                console.log('FILE SAVE!');
-            });
+            // fs.writeFile('arraySTR.json', JSON.stringify(dtaa),(data)=>{
+            //     console.log('FILE SAVE!');
+            // });
         }
     });
     //let obj = JSON.parse(jsn);
