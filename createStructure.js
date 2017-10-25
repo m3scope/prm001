@@ -2,7 +2,7 @@ const fs = require('fs');
 
 let createStructure;
 createStructure = () => {
-    let obj, tmpObj, nm =0, dtaa=[], senderRS='', HTMLstr='';
+    let obj, tmpObj, nm =0, dtaa=[], senderRS='', HTMLstr=''; //, div = new ;
 
     fs.readFile('./array.json', 'utf8', (err, data)=>{
         if (err){
@@ -15,12 +15,12 @@ createStructure = () => {
                     let picked = obj.filter(function (el) {
                         return el.nm === entry.nm;
                     });
-                    console.log(picked);
+                    //console.log(picked);
                     nm = entry.nm;
                 } else {
                     //dtaa.find()
                     //HTMLstr =
-                    let div = document.createElement(entry.senderRS);
+                    div.innerHTML = document.createElement(entry.senderRS);
 
                 }
 
@@ -31,7 +31,7 @@ createStructure = () => {
         }
     });
     //let obj = JSON.parse(jsn);
-
+    console.log(div);
 };
 createStructure();
 
