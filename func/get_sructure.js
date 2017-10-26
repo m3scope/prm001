@@ -1,4 +1,5 @@
 const fs = require('fs');
+//const idd = '';
 
 function requestAsync(id, nm, firstIndex) {
   return new Promise((resolve, reject) => {
@@ -99,11 +100,11 @@ getStructure = (id, cb) => {
                             let picked = dtaa.filter(function (el) {
                                 return el.block === entry.block;
                             });
-                            console.log('*** entry.block   ', entry.block);
-                            console.log('************ picked   ', picked);
+                            // console.log('*** entry.block   ', entry.block);
+                            // console.log('************ picked   ', picked);
                             if (entry.senderRS === url && entry.recipientRS !== url && !picked.length > 0) {
-                                console.log(indx);
-                                dtaa.push({first: false, check: false, nm: nm, senderRS: entry.senderRS, amountNQT: entry.amountNQT, recipientRS: entry.recipientRS, block: entry.block});
+                                console.log('dtaa.lenght', dtaa.length);
+                                dtaa.push({first: false, check: false, nm: nm, parent: senderRS, senderRS: entry.senderRS, amountNQT: entry.amountNQT, recipientRS: entry.recipientRS, block: entry.block});
                             }
                         });
                     }
@@ -111,7 +112,7 @@ getStructure = (id, cb) => {
                     data.forEach((entry, indx) => {
                         if (entry.senderRS === url && entry.recipientRS !== url) {
                             console.log(indx);
-                            dtaa.push({first: false, check: false, nm: nm, senderRS: entry.senderRS, amountNQT: entry.amountNQT, recipientRS: entry.recipientRS, block: entry.block});
+                            dtaa.push({first: false, check: false, nm: nm, parent: senderRS, senderRS: entry.senderRS, amountNQT: entry.amountNQT, recipientRS: entry.recipientRS, block: entry.block});
                         }
                     });
                 }
@@ -128,6 +129,7 @@ getStructure = (id, cb) => {
                 //         }
                 //     })
                 // }
+
                 dtaa[dtIndx].check = true;
                 for(let i=0; i<dtaa.length; i++){
                     if(!dtaa[i].check && dtaa[i].recipientRS) {
@@ -152,13 +154,13 @@ getStructure = (id, cb) => {
             //**************************************************
 
 
-        } while (num < 50);
+        } while (num < 500);
         //console.log(dtaa);
-        let result = dtaa.filter(function (el) {
-            return el.first === true && el.check === true;
-        });
+        // let result = dtaa.filter(function (el) {
+        //     return el.first === true && el.check === true;
+        // });
 
-
+        let result = dtaa;
         // const file = fs.createWriteStream('array.txt');
         // file.on('error', function(err) { /* error handling */ });
         // result.forEach(function(v) { file.write(JSON.stringify(v)+','); });
