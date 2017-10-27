@@ -58,7 +58,7 @@ getStructure = (id, cb) => {
     const time1 = Date.now();
     let time2 = Date.now();
     async function getURL(_url) {
-        let data, url = _url, num = 0, dtaa = [], block=0, dtIndx=0, senderRS='';
+        let data, url = _url, num = 0, dtaa = [], block='', dtIndx=0, senderRS='';
         do {
             const body = await requestAsync(url, nm, firstIndex);
             //console.log('body', body);
@@ -67,55 +67,54 @@ getStructure = (id, cb) => {
             console.log('data.length', data.length);
 
             //************************************************
-            //******  ВВЕРХ  ********************************
-            // if (data.length < 100)
-            // {
-            //     data.forEach((entry, indx) => {
-            //         if (indx === data.length - 1) {
-            //             //if (entry.recipientRS === url) {
-            //             console.log(indx);
-            //             num++;
-            //             if(entry.senderRS === 'Genesis' || entry.senderRS === 'PRIZM-ZZZZ-55YT-Z2TZ-RKDCK') num = 100;
-            //             url = entry.senderRS;
-            //             dtaa.push({first: false, check: false, nm: nm, senderRS: entry.senderRS, amountNQT: entry.amountNQT, recipientRS: entry.recipientRS});
-            //         }
-            //     });
-            //     firstIndex = 0;
-            //     nm++;
-            // } else {
-            //     firstIndex = firstIndex + 99;
-            // }
-            //
-            // //************************************************
-            // //**************************************************
-
-            //************************************************
             //******  ВНИЗ  **********************************
             if (data.length < 100)
             {
-                if(block > 0){
+                if(block !== '')
+                {
                     if(data[data.length-1].senderRS === senderRS && data[data.length-1].block === dtaa[dtIndx].block){
                         dtaa[dtIndx].first = true;
-                        data.forEach((entry, indx) => {
+                        // dtaa = dtaa.concat(data);
+                        // dtaa = Array.from(new Set(dtaa));
+                        for (let i=0; i<data.length; i++){
                             let picked = dtaa.filter(function (el) {
-                                return el.block === entry.block;
+                                return el.block === data[i].block;
                             });
-                            // console.log('*** entry.block   ', entry.block);
-                            // console.log('************ picked   ', picked);
-                            if (entry.senderRS === url && entry.recipientRS !== url && !picked.length > 0) {
+                            if(data[i].senderRS === url && data[i].recipientRS !== url  && !picked.length > 0){
+                                dtaa.push({first: false, check: false, nm: nm, parent: senderRS, senderRS: data[i].senderRS, amountNQT: data[i].amountNQT, recipientRS: data[i].recipientRS, block: data[i].block});
                                 console.log('dtaa.lenght', dtaa.length);
-                                dtaa.push({first: false, check: false, nm: nm, parent: senderRS, senderRS: entry.senderRS, amountNQT: entry.amountNQT, recipientRS: entry.recipientRS, block: entry.block});
                             }
-                        });
-                    }
-                } else {
-                    data.forEach((entry, indx) => {
-                        if (entry.senderRS === url && entry.recipientRS !== url) {
-                            console.log(indx);
-                            dtaa.push({first: false, check: false, nm: nm, parent: senderRS, senderRS: entry.senderRS, amountNQT: entry.amountNQT, recipientRS: entry.recipientRS, block: entry.block});
                         }
-                    });
-                }
+                        // data.forEach((entry, indx) => {
+                        //     let picked = dtaa.filter(function (el) {
+                        //         return el.block === entry.block;
+                        //     });
+                        //     // console.log('*** entry.block   ', entry.block);
+                        //     // console.log('************ picked   ', picked);
+                        //     if (entry.senderRS === url && entry.recipientRS !== url && !picked.length > 0) {
+                        //         console.log('dtaa.lenght', dtaa.length);
+                        //         dtaa.push({first: false, check: false, nm: nm, parent: senderRS, senderRS: entry.senderRS, amountNQT: entry.amountNQT, recipientRS: entry.recipientRS, block: entry.block});
+                        //     }
+                        // });
+
+
+
+                    }
+                } else
+                    {
+                        // dtaa = dtaa.concat(data);
+                        // dtaa = Array.from(new Set(dtaa));
+
+                        for (let i=0; i<data.length; i++){
+                            if (data[i].senderRS === url && data[i].recipientRS !== url) {
+                                //console.log('indx', indx);
+                                console.log('block', block);
+                                console.log(dtaa);
+                                console.log(data[i]);
+                                dtaa.push({first: false, check: false, nm: nm, parent: senderRS, senderRS: data[i].senderRS, amountNQT: data[i].amountNQT, recipientRS: data[i].recipientRS, block: data[i].block});
+                            }
+                        }
+                    }
                 // data.forEach((entry, indx) => {
                 //     if (entry.senderRS === url && entry.recipientRS !== url) {
                 //         console.log(indx);
@@ -130,21 +129,20 @@ getStructure = (id, cb) => {
                 //     })
                 // }
 
+                //dtaa[dtIndx].check = true;
+                do {
+                    dtIndx = dtIndx +1;
+                    if(dtIndx >= dtaa.length) dtIndx = dtaa.length-1;
+                    console.log('dtIndx', dtIndx);
+                } while (dtaa[dtIndx].recipientRS === undefined);
+
                 dtaa[dtIndx].check = true;
-                for(let i=0; i<dtaa.length; i++){
-                    if(!dtaa[i].check && dtaa[i].recipientRS) {
-                        url = dtaa[i].recipientRS;
-                        nm = dtaa[i].nm+1;
-                        block = dtaa[i].block;
-                        dtIndx = i;
-                        senderRS = dtaa[i].senderRS;
-                        //dtaa[i].check = true;
-                        break;
-                    }
-                }
+                        url = dtaa[dtIndx].recipientRS;
+                        nm = dtaa[dtIndx].nm+1;
+                        block = dtaa[dtIndx].block;
+                        senderRS = dtaa[dtIndx].senderRS;
 
                 firstIndex = 0;
-                //nm++;
                 num++;
             } else {
                 firstIndex = firstIndex + 99;
