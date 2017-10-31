@@ -64,7 +64,11 @@ router.post('/login', (req, res) => {
     });
 });
 
-router.get('/logout', require('./logout').get);
+router.get('/logout', (req, res) => {
+    "use strict";
+    req.session.destroy();
+    return res.redirect('/');
+});
 
 router.get('/register', (req, res) => {
     res.render('register', {title: 'REGISTER PAGE'});
