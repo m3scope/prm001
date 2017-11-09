@@ -26,10 +26,10 @@ const billSchema = new mongoose.Schema({
     bayerId: { type: mongoose.Schema.ObjectId, ref: 'User', required: true },      // Id пользователя покупателя
     deal_amount: {type: Number, default: 0},      // количество продаваемой валюты
     deal_currency: {type: Number, default: 0},  // Код (число) валюты продажи
-    pay_amount: {type: Number, default: 0},       // сумма оплаты без комиссии
-    pay_currency: {type: Number, default: 0},   // Код (число) валюты покупки
+    price_amount: {type: Number, default: 0},       // цена без комиссии
+    price_currency: {type: Number, default: 0},   // Код (число) валюты покупки
     commission: {type: Number, default: 0},     // Сумма комиссии (~5-7%)
-    status: {type: Number, default: 0}          // Статус счета ()
+    status: {type: Number, default: 0}          // Статус счета (активный, отменен, закрыт)
 },  {
     timestamps: true
 });
