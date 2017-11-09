@@ -8,6 +8,7 @@
   <%- LoginRegister%>
     <h1><%= title %></h1>
     <p>Welcome to <%= title %>, <%= user.username %></p>
+  <p><%= user.pzmAmount %></p>
   <form method="post" action="/createdeal" >
     deal_amount: <input name="deal_amount">&nbsp
     price_amount: <input name="price_amount"><br>

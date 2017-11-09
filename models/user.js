@@ -23,6 +23,15 @@ const userSchema = new mongoose.Schema({
     publicKey: {
         type: String,
     },
+    pzmAmount: {
+        type: Number
+    },
+    goldAmount: {
+        type: Number
+    },
+    silverAmount: {
+        type: Number
+    },
     category: String,
     name_f: String,
     email: {
