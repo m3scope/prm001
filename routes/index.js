@@ -152,6 +152,8 @@ router.get('/gettrans/:id', (req, res) => {
 
 router.get('/createdeal', checkAuth, noCache, require('./createdeal').get);
 
+router.post('/createdeal', checkAuth, noCache, require('./createdeal').post);
+
 //----------------------------------------------
 
 

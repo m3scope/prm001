@@ -17,7 +17,7 @@ function formatDate(dt, cb) {
 
 exports.get = function(req, res){
     loadUser(req.session.user, function (err, user) {
-        let LoginRegister = '<b><a href="/profile">Профиль</a></b>';
+        let LoginRegister = '<b><a href="/profile">Профиль</a>&nbsp;<a href="/logout">Выход</a></b>';
         if(!req.session.user){
             LoginRegister = '<b><a href="/login">вход</a></b>';
         }
@@ -34,7 +34,7 @@ exports.get = function(req, res){
 
 exports.post = function(req, res){
     loadUser(req.session.user, function (err, user) {
-        let LoginRegister = '<b><a href="/profile">Профиль</a></b>';
+        let LoginRegister = '<b><a href="/profile">Профиль</a>&nbsp;<a href="/logout">Выход</a></b><p>'+req.body.deal_amount+'</p>';
         if(!req.session.user){
             LoginRegister = '<b><a href="/login">вход</a></b>';
         }

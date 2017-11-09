@@ -5,10 +5,11 @@
     <link rel='stylesheet' href='/stylesheets/style.css' />
   </head>
   <body>
+  <%- LoginRegister%>
     <h1><%= title %></h1>
     <p>Welcome to <%= title %>, <%= user.username %></p>
-  <form>
-    deal_amount: <input name="deal_amount">&nbsp;
+  <form method="post" action="/createdeal" >
+    deal_amount: <input name="deal_amount">&nbsp
     price_amount: <input name="price_amount"><br>
     <button type="submit">send</button>
   </form>
