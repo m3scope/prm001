@@ -6,13 +6,27 @@
   </head>
   <body>
   <%- LoginRegister%>
+  <br>
+  <i>pzm:</i>&nbsp;<%= user.pzmAmount %>&nbsp; | &nbsp;<i>gold:</i>&nbsp;<%= user.goldAmount %> &nbsp;|&nbsp; <i>silver:</i>&nbsp;<%= user.silverAmount %>
     <h1><%= title %></h1>
     <p>Welcome to <%= title %>, <%= user.username %></p>
   <p><%= user.pzmAmount %></p>
   <form method="post" action="/createdeal" >
-    deal_amount: <input name="deal_amount">&nbsp
-    price_amount: <input name="price_amount"><br>
-    <button type="submit">send</button>
+    Количество: <input name="deal_amount">&nbsp;
+      <select name="deal_currency" >
+          <option>Prizm</option>
+          <option>Gold</option>
+          <option>Silver</option>
+      </select>
+      <br>
+    Цена: <input name="price_amount">&nbsp;
+      <select name="price_currency" >
+          <option>Prizm</option>
+          <option>Gold</option>
+          <option>Silver</option>
+      </select>
+      <br>
+    <button type="submit">Отправить заявку</button>
   </form>
   </body>
 </html>

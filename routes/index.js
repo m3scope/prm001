@@ -11,9 +11,9 @@ const noCache = function(req, res, next) {
 };
 /* GET home page. */
 router.get('/', function(req, res) {
-    let LoginRegister = '<b><a href="/profile">Профиль</a></b><br><b><a href="/logout">выход</a></b>';
+    let LoginRegister = '<b><a href="/profile">Профиль</a>&nbsp;&nbsp;<a href="/createdeal">Создать сделку</a>&nbsp;&nbsp;<a href="/logout">Выход</a></b>';
     if(!req.session.user){
-        LoginRegister = '<b><a href="/login">вход</a></b>';
+        LoginRegister = '<b><a href="/login">Вход</a> </b>';
     }
   res.render('index', { title: 'PRIZM Stock Exchange', LoginRegister: LoginRegister });
 });

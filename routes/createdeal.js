@@ -21,9 +21,10 @@ function formatDate(dt, cb) {
 
 exports.get = function(req, res){
     loadUser.findID(req.session.user, function (err, user) {
-        let LoginRegister = '<b><a href="/profile">Профиль</a>&nbsp;<a href="/logout">Выход</a></b>';
+        let LoginRegister = '<b><a href="/profile">Профиль</a>&nbsp;&nbsp;<a href="/logout">Выход</a></b>';
         if(!req.session.user){
             LoginRegister = '<b><a href="/login">вход</a></b>';
+
             res.redirect('/login');
         }
         res.render('createdeal', {title: 'Создать СДЕЛКУ', user: user, LoginRegister: LoginRegister});
@@ -33,25 +34,49 @@ exports.get = function(req, res){
 
 exports.post = function(req, res){
     loadUser.findID(req.session.user, function (err, user) {
-        let LoginRegister = '<b><a href="/profile">Профиль</a>&nbsp;<a href="/logout">Выход</a></b><p>'+req.body.deal_amount+'</p>';
+        let LoginRegister = '<b><a href="/profile">Профиль</a>&nbsp;&nbsp;<a href="/logout">Выход</a></b><p>'+req.body.deal_amount+'</p>';
         if(!req.session.user){
             LoginRegister = '<b><a href="/login">вход</a></b>';
         }
-        if(user.pzmAmount>=req.body.deal_amount){
-            loadUser.saves(req.session.user, 'pzmAmount', user.pzmAmount-req.body.deal_amount , (err, user)=>{
-                "use strict";
-                if(err) res.status(500).send('Внутренняя ошибка!');
-                if(!user){
-                    req.session.destroy();
-                    res.redirect('/login');
+        switch (req.body.deal_amount){
+            case 'Prizm':
+                if(user.pzmAmount>=req.body.deal_amount){
+                    loadUser.saves(req.session.user, 'pzmAmount', user.pzmAmount-req.body.deal_amount , (err, user)=>{
+                        "use strict";
+                        if(err) res.status(500).send('Внутренняя ошибка!');
+                        if(!user){
+                            req.session.destroy();
+                            res.redirect('/login');
+                        }
+                        //console.logтзь(user.prizmaddress);
+                        res.render('createdeal', {title: 'Создать СДЕЛКУ', user: user, LoginRegister: LoginRegister});
+                    });
+                } else {
+                    LoginRegister = '<b><a href="/profile">Профиль</a>&nbsp;&nbsp;<a href="/logout">Выход</a></b><p>Недостаточно средств</p>';
+                    res.render('createdeal', {title: 'Создать СДЕЛКУ', user: user, LoginRegister: LoginRegister});
                 }
-                //console.logтзь(user.prizmaddress);
+                break;
+            case 'Gold':
+                if(user.goldAmount>=req.body.deal_amount){
+                    loadUser.saves(req.session.user, 'pzmAmount', user.goldAmount-req.body.deal_amount , (err, user)=>{
+                        "use strict";
+                        if(err) res.status(500).send('Внутренняя ошибка!');
+                        if(!user){
+                            req.session.destroy();
+                            res.redirect('/login');
+                        }
+                        //console.logтзь(user.prizmaddress);
+                        res.render('createdeal', {title: 'Создать СДЕЛКУ', user: user, LoginRegister: LoginRegister});
+                    });
+                } else {
+                    LoginRegister = '<b><a href="/profile">Профиль</a>&nbsp;&nbsp;<a href="/logout">Выход</a></b><p>Недостаточно средств</p>';
+                    res.render('createdeal', {title: 'Создать СДЕЛКУ', user: user, LoginRegister: LoginRegister});
+                }
+                break;
+            default:
                 res.render('createdeal', {title: 'Создать СДЕЛКУ', user: user, LoginRegister: LoginRegister});
-            });
-        } else {
-            LoginRegister = '<b><a href="/profile">Профиль</a>&nbsp;&nbsp;<a href="/logout">Выход</a></b><p>Недостаточно средств</p>';
-            res.render('createdeal', {title: 'Создать СДЕЛКУ', user: user, LoginRegister: LoginRegister});
         }
+
 
 
     });
