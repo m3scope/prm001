@@ -16,13 +16,14 @@ function formatDate(dt, cb) {
 }
 
 exports.get = function(req, res){
-    loadUser(req.session.user, function (err, user) {
-        let LoginRegister = '<b><a href="/profile">Профиль</a></b>';
+    loadUser.findID(req.session.user, function (err, user) {
+        let LoginRegister = '<b><a href="/profile">Профиль</a>&nbsp;&nbsp;<a href="/logout">Выход</a></b>';
         if(!req.session.user){
-            LoginRegister = '<b><a href="/login">вход</a></b>';
+            LoginRegister = '<b><a href="/login">Вход</a></b>';
         }
         formatDate(user.createdAt, function(dt){
             //console.log(user.createdAt);
+
             user.createAt = dt;
             console.log(user.createAt);
             res.render('profile', {title: 'Профиль', user: user, LoginRegister: LoginRegister});

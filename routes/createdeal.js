@@ -45,11 +45,11 @@ exports.post = function(req, res){
                     req.session.destroy();
                     res.redirect('/login');
                 }
-                //console.log(user.prizmaddress);
+                //console.logтзь(user.prizmaddress);
                 res.render('createdeal', {title: 'Создать СДЕЛКУ', user: user, LoginRegister: LoginRegister});
             });
         } else {
-            LoginRegister = '<b><a href="/profile">Профиль</a>&nbsp;<a href="/logout">Выход</a></b><p>Недостаточно средств</p>';
+            LoginRegister = '<b><a href="/profile">Профиль</a>&nbsp;&nbsp;<a href="/logout">Выход</a></b><p>Недостаточно средств</p>';
             res.render('createdeal', {title: 'Создать СДЕЛКУ', user: user, LoginRegister: LoginRegister});
         }
 
