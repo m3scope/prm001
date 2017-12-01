@@ -33,12 +33,16 @@ exports.get = function(req, res){
 };
 
 exports.post = function(req, res){
-    loadUser.findID(req.session.user, function (err, user) {
+    console.log(req.body);
+    const tUser = req.session.user;
+    let tdeal_amount, tdeal_currency, tprice_amount, tprice_currency;
+    loadUser.findID(tUser, function (err, user) {
         let LoginRegister = '<b><a href="/profile">Профиль</a>&nbsp;&nbsp;<a href="/logout">Выход</a></b><p>'+req.body.deal_amount+'</p>';
-        if(!req.session.user){
+        if(!tUser){
             LoginRegister = '<b><a href="/login">вход</a></b>';
         }
-        switch (req.body.deal_amount){
+        //console.log(req.body.deal_amount);
+        switch (req.body.deal_currency){
             case 'Prizm':
                 if(user.pzmAmount>=req.body.deal_amount){
                     loadUser.saves(req.session.user, 'pzmAmount', user.pzmAmount-req.body.deal_amount , (err, user)=>{
@@ -77,7 +81,21 @@ exports.post = function(req, res){
                 res.render('createdeal', {title: 'Создать СДЕЛКУ', user: user, LoginRegister: LoginRegister});
         }
 
-
+        const newDeal = new Deal();
+        newDeal.dealerId = user.id;   //: { type: mongoose.Schema.ObjectId, ref: 'User', required: true },     // Id пользователя создавшего сделку
+        newDeal.deal_amount = req.body.deal_amount;   //: {type: Number, default: 0},      // количество продаваемой валюты
+        newDeal.deal_currency = req.body.deal_currency;   //: {type: Number, default: 0},  // Код (число) валюты продажи
+        newDeal.price_amount = req.body.price_amount;   //: {type: Number, default: 0},       // цена без комиссии
+        newDeal.price_currency = req.body.price_currency;   //: {type: Number, default: 0},   // Код (число) валюты покупки
+        newDeal.commission = req.body.price_amount*0.07;   //: {type: Number, default: 0},     // Сумма комиссии (~5-7%)
+        newDeal.status = 0;   //: {type: Number, default: 0},          // Статус сделки (активный, отменен, закрыт)
+        newDeal.save(function(err, savedDeal){
+            if(err) {
+                console.log(err);
+                //return res.status(500).send('Внутренняя ошибка!');
+            }
+            //return res.status(200).send('Успешная регистрация!');
+        });
 
     });
     //res.render('profile', {title: 'USERS authLK', user: User});
