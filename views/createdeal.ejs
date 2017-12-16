@@ -7,23 +7,23 @@
   <body>
   <%- LoginRegister%>
   <br>
-  <i>pzm:</i>&nbsp;<%= user.pzmAmount %>&nbsp; | &nbsp;<i>gold:</i>&nbsp;<%= user.goldAmount %> &nbsp;|&nbsp; <i>silver:</i>&nbsp;<%= user.silverAmount %>
+  <i>pzm:</i>&nbsp;<%= user.currPrizm %>&nbsp; | &nbsp;<i>gold:</i>&nbsp;<%= user.currGold %> &nbsp;|&nbsp; <i>silver:</i>&nbsp;<%= user.currSilver %>
     <h1><%= title %></h1>
     <p>Welcome to <%= title %>, <%= user.username %></p>
   <p><%= user.pzmAmount %></p>
   <form method="post" action="/createdeal" >
     Количество: <input name="deal_amount">&nbsp;
       <select name="deal_currency" >
-          <option>Prizm</option>
-          <option>Gold</option>
-          <option>Silver</option>
+          <option value="currPrizm">Prizm</option>
+          <option value="currGold">Gold</option>
+          <option value="currSilver">Silver</option>
       </select>
       <br>
     Цена: <input name="price_amount">&nbsp;
       <select name="price_currency" >
-          <option>Prizm</option>
-          <option>Gold</option>
-          <option>Silver</option>
+          <option value="currPrizm">Prizm</option>
+          <option value="currGold">Gold</option>
+          <option value="currSilver">Silver</option>
       </select>
       <br>
     <button type="submit">Отправить заявку</button>

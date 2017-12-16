@@ -23,14 +23,14 @@ const userSchema = new mongoose.Schema({
     publicKey: {
         type: String,
     },
-    pzmAmount: {
-        type: Number
+    currPrizm: {
+        type: Number, default: 10000
     },
-    goldAmount: {
-        type: Number
+    currGold: {
+        type: Number, default: 10000
     },
-    silverAmount: {
-        type: Number
+    currSilver: {
+        type: Number, default: 10000
     },
     category: String,
     name_f: String,

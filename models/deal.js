@@ -3,6 +3,7 @@
 //
 //      СДЕЛКА, используетя в работе биржи
 //      Создается пользователем (биржа)
+//      Коды валют (101 - Prizm, 102 - Gold, 103 - Silver)
 //
 ****************************
  */
@@ -13,7 +14,7 @@ const crypto = require('crypto'); // модуль node.js для выполне�
 const dealSchema = new mongoose.Schema({
     dealerId: { type: mongoose.Schema.ObjectId, ref: 'User', required: true },     // Id пользователя создавшего сделку
     deal_amount: {type: Number, default: 0},      // количество продаваемой валюты
-    deal_currency: {type: Number, default: 0},  // Код (число) валюты продажи
+    deal_currency: {type: Number, default: 0},  // Код (число) валюты продажи ()
     price_amount: {type: Number, default: 0},       // цена без комиссии
     price_currency: {type: Number, default: 0},   // Код (число) валюты покупки
     commission: {type: Number, default: 0},     // Сумма комиссии (~5-7%)

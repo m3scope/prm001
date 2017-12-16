@@ -1,5 +1,10 @@
 const loadUser = require("../libs/loadUser");
 const Deal = require('../models/deal');
+const Curr = {
+    'currSilver' : 103,
+    'currGold' : 102,
+    'currPrizm' : 101
+};
 
 function formatDate(dt, cb) {
     const today = new Date(dt); // сутки (60000*60*24)
@@ -42,51 +47,28 @@ exports.post = function(req, res){
             LoginRegister = '<b><a href="/login">вход</a></b>';
         }
         //console.log(req.body.deal_amount);
-        switch (req.body.deal_currency){
-            case 'Prizm':
-                if(user.pzmAmount>=req.body.deal_amount){
-                    loadUser.saves(req.session.user, 'pzmAmount', user.pzmAmount-req.body.deal_amount , (err, user)=>{
-                        "use strict";
-                        if(err) res.status(500).send('Внутренняя ошибка!');
-                        if(!user){
-                            req.session.destroy();
-                            res.redirect('/login');
-                        }
-                        //console.logтзь(user.prizmaddress);
-                        res.render('createdeal', {title: 'Создать СДЕЛКУ', user: user, LoginRegister: LoginRegister});
-                    });
-                } else {
-                    LoginRegister = '<b><a href="/profile">Профиль</a>&nbsp;&nbsp;<a href="/logout">Выход</a></b><p>Недостаточно средств</p>';
-                    res.render('createdeal', {title: 'Создать СДЕЛКУ', user: user, LoginRegister: LoginRegister});
+        if(user[req.body.deal_currency]>=req.body.deal_amount){
+            loadUser.saves(req.session.user, [req.body.deal_currency], user[req.body.deal_currency]-req.body.deal_amount , (err, user)=>{
+                "use strict";
+                if(err) res.status(500).send('Внутренняя ошибка!');
+                if(!user){
+                    req.session.destroy();
+                    res.redirect('/login');
                 }
-                break;
-            case 'Gold':
-                if(user.goldAmount>=req.body.deal_amount){
-                    loadUser.saves(req.session.user, 'pzmAmount', user.goldAmount-req.body.deal_amount , (err, user)=>{
-                        "use strict";
-                        if(err) res.status(500).send('Внутренняя ошибка!');
-                        if(!user){
-                            req.session.destroy();
-                            res.redirect('/login');
-                        }
-                        //console.logтзь(user.prizmaddress);
-                        res.render('createdeal', {title: 'Создать СДЕЛКУ', user: user, LoginRegister: LoginRegister});
-                    });
-                } else {
-                    LoginRegister = '<b><a href="/profile">Профиль</a>&nbsp;&nbsp;<a href="/logout">Выход</a></b><p>Недостаточно средств</p>';
-                    res.render('createdeal', {title: 'Создать СДЕЛКУ', user: user, LoginRegister: LoginRegister});
-                }
-                break;
-            default:
+                //console.log(user.prizmaddress);
                 res.render('createdeal', {title: 'Создать СДЕЛКУ', user: user, LoginRegister: LoginRegister});
+            });
+        } else {
+            LoginRegister = '<b><a href="/profile">Профиль</a>&nbsp;&nbsp;<a href="/logout">Выход</a></b><p>Недостаточно средств</p>';
+            res.render('createdeal', {title: 'Создать СДЕЛКУ', user: user, LoginRegister: LoginRegister});
         }
 
-        const newDeal = new Deal();
+        let newDeal = new Deal();
         newDeal.dealerId = user.id;   //: { type: mongoose.Schema.ObjectId, ref: 'User', required: true },     // Id пользователя создавшего сделку
         newDeal.deal_amount = req.body.deal_amount;   //: {type: Number, default: 0},      // количество продаваемой валюты
-        newDeal.deal_currency = req.body.deal_currency;   //: {type: Number, default: 0},  // Код (число) валюты продажи
+        newDeal.deal_currency = Curr[req.body.deal_currency];   //: {type: Number, default: 0},  // Код (число) валюты продажи
         newDeal.price_amount = req.body.price_amount;   //: {type: Number, default: 0},       // цена без комиссии
-        newDeal.price_currency = req.body.price_currency;   //: {type: Number, default: 0},   // Код (число) валюты покупки
+        newDeal.price_currency = Curr[req.body.price_currency];   //: {type: Number, default: 0},   // Код (число) валюты покупки
         newDeal.commission = req.body.price_amount*0.07;   //: {type: Number, default: 0},     // Сумма комиссии (~5-7%)
         newDeal.status = 0;   //: {type: Number, default: 0},          // Статус сделки (активный, отменен, закрыт)
         newDeal.save(function(err, savedDeal){
