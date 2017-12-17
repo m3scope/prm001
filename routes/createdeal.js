@@ -1,9 +1,9 @@
 const loadUser = require("../libs/loadUser");
 const Deal = require('../models/deal');
 const Curr = {
-    'currSilver' : 103,
-    'currGold' : 102,
-    'currPrizm' : 101
+    'currSilver' : 3,
+    'currGold' : 2,
+    'currPrizm' : 1
 };
 
 function formatDate(dt, cb) {
