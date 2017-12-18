@@ -14,10 +14,12 @@ const crypto = require('crypto'); // модуль node.js для выполне�
 const dealSchema = new mongoose.Schema({
     dealerId: { type: mongoose.Schema.ObjectId, ref: 'User', required: true },     // Id пользователя создавшего сделку
     deal_amount: {type: Number, default: 0},      // количество продаваемой валюты
+    deal_amount_bill: {type: Number, default: 0},      // количество остаток валюты
     deal_currency: {type: Number, default: 0},  // Код (число) валюты продажи ()
     price_amount: {type: Number, default: 0},       // цена без комиссии
     price_currency: {type: Number, default: 0},   // Код (число) валюты покупки
     commission: {type: Number, default: 0},     // Сумма комиссии (~5-7%)
+    price: {type: Number, default: 0},
     status: {type: Number, default: 0},          // Статус сделки (активный, отменен, закрыт)
     bills: [
         {
@@ -27,6 +29,11 @@ const dealSchema = new mongoose.Schema({
 }, {
     timestamps: true
 });
+
+dealSchema.virtual('_price')
+    .get(function () {
+        return this.price_amount + commission;
+    });
 
 const Deal = mongoose.model('Deal', dealSchema);
 

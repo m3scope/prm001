@@ -66,10 +66,12 @@ exports.post = function(req, res){
         let newDeal = new Deal();
         newDeal.dealerId = user.id;   //: { type: mongoose.Schema.ObjectId, ref: 'User', required: true },     // Id пользователя создавшего сделку
         newDeal.deal_amount = req.body.deal_amount;   //: {type: Number, default: 0},      // количество продаваемой валюты
+        newDeal.deal_amount_bill = req.body.deal_amount;   //: {type: Number, default: 0},      // количество продаваемой валюты
         newDeal.deal_currency = Curr[req.body.deal_currency];   //: {type: Number, default: 0},  // Код (число) валюты продажи
         newDeal.price_amount = req.body.price_amount;   //: {type: Number, default: 0},       // цена без комиссии
         newDeal.price_currency = Curr[req.body.price_currency];   //: {type: Number, default: 0},   // Код (число) валюты покупки
         newDeal.commission = req.body.price_amount*0.07;   //: {type: Number, default: 0},     // Сумма комиссии (~5-7%)
+        newDeal.price = req.body.price_amount*1+req.body.price_amount*0.07;
         newDeal.status = 0;   //: {type: Number, default: 0},          // Статус сделки (активный, отменен, закрыт)
         newDeal.save(function(err, savedDeal){
             if(err) {
