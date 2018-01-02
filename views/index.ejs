@@ -10,29 +10,25 @@
       html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
 </style>
 <body class="w3-light-grey">
-<!-- Header -->
-<%- include('header') -%>
-
 <!-- Page Container -->
 <div class="w3-content w3-margin-top" style="max-width:1400px;">
+      <!-- Header -->
+    <%- include('includes/header') -%>
       <!-- The Grid -->
       <div class="w3-row-padding">
             <!-- Left Column -->
             <div class="w3-third">
-
+                  w3-third
             </div>
 
             <!-- Right Column -->
             <div class="w3-twothird">
-
+                  <%- include('includes/deals') %>
             </div>
       </div>
+      <!-- Footer -->
+    <%- include('includes/footer') -%>
 </div>
 <!-- End Grid -->
-
-<!-- Footer -->
-<%- include('footer') -%>
-
-
 </body>
 </html>

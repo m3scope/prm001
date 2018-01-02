@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const User = require('../models/user');
+const Deal = require('../models/deal');
 
 const authLK = require('../middleware/authLK');
 const checkAuth = require('../middleware/checkAuth');
@@ -15,7 +16,19 @@ router.get('/', function(req, res) {
     if(!req.session.user){
         LoginRegister = '<b><a href="/login">Вход</a> </b>';
     }
-  res.render('index', { title: 'PRIZM Stock Exchange', LoginRegister: LoginRegister });
+    Deal.aggregate([
+        {
+            $match:{deal_currency: 1, price_currency: 2}
+        },
+        {
+            $group: { _id: "$price",  deal_am: { $sum: "$deal_amount_bill" }}
+        }
+    ], function (err, data) {
+        console.log(data);
+        //res.send(data);
+        res.render('index', { title: 'PRIZM Stock Exchange', LoginRegister: LoginRegister, deals: data});
+    });
+
 });
 
 router.get('/profile', checkAuth, require('./getProfile').get);

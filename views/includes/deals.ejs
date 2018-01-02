@@ -1,0 +1,8 @@
+<% if (deals.length) { %>
+<ul>
+    <% deals.forEach(function (name) { %>
+    <%# Notice how the single quotation mark is escaped in the output HTML %>
+    <li foo='<%= name._id + "'" %>'><%= name._id %></li>
+    <% }) %>
+</ul>
+<% } %>
