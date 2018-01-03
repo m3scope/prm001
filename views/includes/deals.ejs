@@ -1,8 +1,16 @@
-<% if (deals.length) { %>
-<ul>
+<table class="w3-table-all w3-hoverable w3-card-4">
+    <tr class="w3-green">
+        <th>Price</th>
+        <th>Amount</th>
+    </tr>
+    <% if (deals.length) { %>
     <% deals.forEach(function (name) { %>
-    <%# Notice how the single quotation mark is escaped in the output HTML %>
-    <li foo='<%= name._id + "'" %>'><%= name._id %></li>
+    <tr>
+        <td><%= Math.round(name._id*10000)/10000 %></td>
+        <td><%= name.deal_am %></td>
+    </tr>
     <% }) %>
-</ul>
-<% } %>
+    <% } %>
+</table>
+
+

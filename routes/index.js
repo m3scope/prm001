@@ -3,6 +3,7 @@ const router = express.Router();
 const User = require('../models/user');
 const Deal = require('../models/deal');
 
+const db_deals = require('../libs/db_deals');
 const authLK = require('../middleware/authLK');
 const checkAuth = require('../middleware/checkAuth');
 //var users_post = require('./users_post');
@@ -16,16 +17,9 @@ router.get('/', function(req, res) {
     if(!req.session.user){
         LoginRegister = '<b><a href="/login">Вход</a> </b>';
     }
-    Deal.aggregate([
-        {
-            $match:{deal_currency: 1, price_currency: 2}
-        },
-        {
-            $group: { _id: "$price",  deal_am: { $sum: "$deal_amount_bill" }}
-        }
-    ], function (err, data) {
-        console.log(data);
-        //res.send(data);
+    db_deals.getdeals(1,2, function (err, data) {
+        if(err) res.status(500).send('Внутренняя ошибка!');
+
         res.render('index', { title: 'PRIZM Stock Exchange', LoginRegister: LoginRegister, deals: data});
     });
 
@@ -167,7 +161,8 @@ router.get('/createdeal', checkAuth, noCache, require('./createdeal').get);
 
 router.post('/createdeal', checkAuth, noCache, require('./createdeal').post);
 
-router.get('/getdeals', checkAuth, noCache, require('./getdeals').get);
+//router.get('/getdeals', checkAuth, noCache, require('./getdeals').get);
+router.get('/getdeals', noCache, require('./getdeals').get);
 
 //----------------------------------------------
 
