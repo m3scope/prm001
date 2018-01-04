@@ -27,7 +27,7 @@ exports.getdeals = function (curr1, curr2, cb) {
             console.log(data2);
             if (err) cb(err, null);
             dt2 =data2;
-            cb(null, {dt1:dt1,dt2:dt2});
+            cb(null, {curr1: curr1, curr2: curr2, dt1:dt1, dt2:dt2});
         });
     });
 
