@@ -10,17 +10,19 @@
     <!-- Left Column -->
     <div class="w3-col s6">
         <% if (deals.dt1.length) {  %>
-        <h4>Продажа</h4>
+        <h4></h4>
         <table class="w3-table-all w3-hoverable w3-card-4">
             <tr class="w3-green">
-                <th>Цена(<%= curr[deals.curr2] %>)</th>
-                <th>Количество</th>
+                <th>Цена (<%= curr[deals.curr2] %>)</th>
+                <th>Кол-во (<%= curr[deals.curr1] %>)</th>
+                <th>Сумма</th>
             </tr>
 
             <% deals.dt1.forEach(function (name) { %>
             <tr>
                 <td><%= Math.round(name._id*10000)/10000 %></td>
                 <td><%= name.deal_am %></td>
+                <td><%= Math.round((Math.round(name._id*10000)/10000 * name.deal_am)* 10000000) / 10000000 %></td>
             </tr>
             <% }) %>
         </table>
@@ -29,16 +31,18 @@
     <!-- Right Column -->
     <div class="w3-col s6">
         <% if (deals.dt2.length) { %>
-        <h4>Покупка</h4>
+        <h4></h4>
         <table class="w3-table-all w3-hoverable w3-card-4">
             <tr class="w3-green">
-                <th>Цена(<%= curr[deals.curr2] %>)</th>
-                <th>Количество</th>
+                <th>Цена (<%= curr[deals.curr1] %>)</th>
+                <th>Кол-во (<%= curr[deals.curr2] %>)</th>
+                <th>Сумма</th>
             </tr>
             <% deals.dt2.forEach(function (name) { %>
             <tr>
                 <td><%= Math.round(name._id*10000)/10000 %></td>
                 <td><%= name.deal_am %></td>
+                <td><%= Math.round((Math.round(name._id*10000)/10000 * name.deal_am)* 10000000) / 10000000 %></td>
             </tr>
             <% }) %>
         </table>
