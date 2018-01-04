@@ -12,7 +12,7 @@ const noCache = function(req, res, next) {
     return next();
 };
 /* GET home page. */
-router.get('/:id?', function(req, res) {
+router.get('/', function(req, res) {
     //const id = req.params.id;
     let curr1 = 1;
     let curr2 = 2;
@@ -171,7 +171,26 @@ router.get('/createdeal', checkAuth, noCache, require('./createdeal').get);
 router.post('/createdeal', checkAuth, noCache, require('./createdeal').post);
 
 //router.get('/getdeals', checkAuth, noCache, require('./getdeals').get);
-router.get('/getdeals', noCache, require('./getdeals').get);
+router.get('/deals/:id?', function (req, res) {
+    //const id = req.params.id;
+    let curr1 = 1;
+    let curr2 = 2;
+    if(req.params.id){
+        const ids = req.params.id.split(';');
+        curr1 = ids[0]*1;
+        curr2 = ids[1]*1;
+        console.log(ids);
+    }
+
+    let LoginRegister = '<b><a href="/profile">Профиль</a>&nbsp;&nbsp;<a href="/createdeal">Создать сделку</a>&nbsp;&nbsp;<a href="/logout">Выход</a></b>';
+    if(!req.session.user){
+        LoginRegister = '<b><a href="/login">Вход</a> </b>';
+    }
+    db_deals.getdeals(curr1,curr2, function (err, data) {
+        if(err) res.status(500).send('Внутренняя ошибка!');
+        res.render('index', { title: 'PRIZM Stock Exchange', LoginRegister: LoginRegister, deals: data});
+    });
+});
 
 //----------------------------------------------
 
