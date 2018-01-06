@@ -5,7 +5,7 @@ exports.getdeals = function (curr1, curr2, cb) {
     let dt2 = null;
     Deal.aggregate([
         {
-            $match:{deal_currency: curr1, price_currency: curr2}
+            $match:{deal_currency: curr1, price_currency: curr2, status: 1}
         },
         {
             $group: { _id: "$price", deal_am: { $sum: "$deal_amount_bill" }}
@@ -17,7 +17,7 @@ exports.getdeals = function (curr1, curr2, cb) {
         dt1 = data1;
         Deal.aggregate([
             {
-                $match:{deal_currency: curr2, price_currency: curr1}
+                $match:{deal_currency: curr2, price_currency: curr1, status: 1}
             },
             {
                 $group: { _id: "$price", deal_am: { $sum: "$deal_amount_bill" }}

@@ -1,32 +1,71 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title><%= title %></title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-  </head>
-  <body>
-  <%- LoginRegister%>
-  <br>
-  <i>pzm:</i>&nbsp;<%= user.currPrizm %>&nbsp; | &nbsp;<i>gold:</i>&nbsp;<%= user.currGold %> &nbsp;|&nbsp; <i>silver:</i>&nbsp;<%= user.currSilver %>
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %>, <%= user.username %></p>
-  <p><%= user.pzmAmount %></p>
-  <form method="post" action="/createdeal" >
-    Количество: <input name="deal_amount">&nbsp;
-      <select name="deal_currency" >
-          <option value="currPrizm">Prizm</option>
-          <option value="currGold">Gold</option>
-          <option value="currSilver">Silver</option>
-      </select>
-      <br>
-    Цена: <input name="price_amount">&nbsp;
-      <select name="price_currency" >
-          <option value="currPrizm">Prizm</option>
-          <option value="currGold">Gold</option>
-          <option value="currSilver">Silver</option>
-      </select>
-      <br>
-    <button type="submit">Отправить заявку</button>
-  </form>
-  </body>
+<title>PrizmEx: <%= title %></title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Roboto'>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+<style>
+    html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
+</style>
+<body class="w3-light-grey" ng-app>
+
+<!-- Page Container -->
+<div class="w3-content w3-margin-top" style="max-width:1400px;">
+    <!-- The Grid -->
+    <div class="w3-row-padding">
+        <!-- Left Column -->
+        <div class="w3-third">
+            <br>
+            <i>pzm:</i>&nbsp;<%= user.currPrizm %>&nbsp; | &nbsp;<i>gold:</i>&nbsp;<%= user.currGold %> &nbsp;|&nbsp; <i>silver:</i>&nbsp;<%= user.currSilver %>
+            <h1><%= title %></h1>
+            <p>Welcome to <%= title %>, <%= user.username %></p>
+            <p><%= user.pzmAmount %></p>
+            <div class="w3-card-4">
+                <div class="w3-container w3-teal">
+                    <h2>Создать сделку</h2>
+                </div>
+
+                <form action="/createdeal" method="post" class="w3-container">
+                    <p>
+                        <input class="w3-input" type="text" name="deal_amount" required ng-model="deal_amount">
+                        <select name="deal_currency">
+                            <option value="currPrizm" selected>Prizm</option>
+                            <option value="currGold">Gold</option>
+                            <option value="currSilver">Silver</option>
+                        </select>
+                        <label>Кол-во: {{deal_amount}}</label>
+                    </p>
+                    <p>
+
+                    </p>
+
+                    <p>
+                        <input class="w3-input" type="text" name="price_amount" required ng-model="price_amount">
+                        <select name="price_currency" >
+                            <option value="currPrizm">Prizm</option>
+                            <option value="currGold" selected>Gold</option>
+                            <option value="currSilver">Silver</option>
+                        </select>
+                        <label>Цена с комиссией: {{price_amount*1+price_amount*0.07}}</label>
+                    </p>
+                    <p>
+                        <input class="w3-btn w3-teal" type="submit">
+                    </p>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- End Grid -->
+
+<footer>
+
+</footer>
+
+</body>
 </html>

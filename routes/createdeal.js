@@ -48,7 +48,7 @@ exports.post = function(req, res){
         }
         //console.log(req.body.deal_amount);
         if(user[req.body.deal_currency]>=req.body.deal_amount){
-            loadUser.saves(req.session.user, [req.body.deal_currency], user[req.body.deal_currency]-req.body.deal_amount , (err, user)=>{
+            loadUser.saves(req.session.user, [req.body.deal_currency], user[req.body.deal_currency]-req.body.deal_amount, (err, user)=>{
                 "use strict";
                 if(err) res.status(500).send('Внутренняя ошибка!');
                 if(!user){
