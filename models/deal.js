@@ -19,7 +19,8 @@ const dealSchema = new mongoose.Schema({
     price_amount: {type: Number, default: 0},       // цена без комиссии
     price_currency: {type: Number, default: 0},   // Код (число) валюты покупки
     commission: {type: Number, default: 0},     // Сумма комиссии (~5-7%)
-    price: {type: Number, default: 0},
+    price: {type: Number, default: 0},          // Цена продажи с комиссией
+    price1: {type: Number, default: 0},         // Цена покупки ( 1 / price)
     status: {type: Number, default: 0},          // Статус сделки (создан, активный, отменен, закрыт)
     bills: [
         {

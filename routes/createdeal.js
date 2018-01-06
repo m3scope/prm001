@@ -72,6 +72,7 @@ exports.post = function(req, res){
         newDeal.price_currency = Curr[req.body.price_currency];   //: {type: Number, default: 0},   // Код (число) валюты покупки
         newDeal.commission = req.body.price_amount*0.07;   //: {type: Number, default: 0},     // Сумма комиссии (~5-7%)
         newDeal.price = req.body.price_amount*1+newDeal.commission;
+        newDeal.price1 = 1/newDeal.price;
         newDeal.status = 0;   //: {type: Number, default: 0},          // Статус сделки (активный, отменен, закрыт)
         newDeal.save(function(err, savedDeal){
             if(err) {
