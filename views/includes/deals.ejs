@@ -7,25 +7,22 @@
 </div>
 
 <% const curr = ['', 'Prizm', 'Gold', 'Silver']; %>
-<div class="w3-row-padding">
+<div class="w3-row-padding" ng-app="myApp">
     <!-- Left Column -->
     <div class="w3-col s6">
         <% if (deals.dt1.length) {  %>
         <h5>Продажа <%= curr[deals.curr1] %></h5>
-        <table class="w3-table-all w3-hoverable w3-card-4">
+        <table class="w3-table-all w3-hoverable w3-card-4" ng-controller="MainCtrl">
             <tr class="w3-green">
                 <th>Цена (<%= curr[deals.curr2] %>)</th>
                 <th>Кол-во (<%= curr[deals.curr1] %>)</th>
                 <th>Сумма</th>
             </tr>
-
-            <% deals.dt1.forEach(function (name) { %>
-            <tr>
-                <td><%= Math.round(name._id*10000)/10000 %></td>
-                <td><%= name.deal_am %></td>
-                <td><%= Math.round((Math.round(name._id*10000)/10000 * name.deal_am)* 10000000) / 10000000 %></td>
+            <tr ng-repeat="dt in dt1" ng-click="setSelected();">
+                <td>{{ dt.name }}</td>
+                <td>{{ dt.deal_am }}</td>
+                <td>{{ dt.sm }}</td>
             </tr>
-            <% }) %>
         </table>
         <% } %>
     </div>
@@ -52,38 +49,23 @@
 </div>
 
 <div ng-app="myApp">
-    <div ng-controller="MainCtrl">
-        <table class="table table-hover">
-            <thead>
-            <tr>
-                <th>Name</th>
-                <th>Status</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr ng-repeat="ingredient in ingredients" ng-click="setSelected();">
-                <td>{{ ingredient.name }}</td>
-                <td>{{ ingredient.status }}</td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
-</div>
 
 <script type="text/javascript">
     //<![CDATA[
     let myApp = angular.module('myApp',[]);
-    let m103 = 0;
+    let nm = {};
     myApp.controller('MainCtrl', function($scope) {
-        $scope.ingredients = [];
+        $scope.dt1 = [];
         <% deals.dt1.forEach(function (name) { %>
-        m103 = <%= Math.round(name._id*10000)/10000 %>
-        $scope.ingredients.push({name:m103, status: 0})
+        nm.name = <%= Math.round(name._id*10000)/10000 %>
+            nm.deal_am = <%= name.deal_am %>
+                nm.sm = <%= Math.round((Math.round(name._id*10000)/10000 * name.deal_am)* 10000000) / 10000000 %>
+        $scope.dt1.push({name:nm.name, deal_am: nm.deal_am, sm: nm.sm})
         <%})%>
         $scope.setSelected = function() {
-            $scope.selected = this.ingredient;
+            $scope.selected = this.dt;
             console.log($scope.selected.name);
-            this.ingredient.name = this.ingredient.name+1;
+            this.dt.name = this.dt.name+1;
         };
     });
     //]]>
