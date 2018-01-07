@@ -6,7 +6,7 @@
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Roboto'>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
 <style>
     html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
 </style>
@@ -30,6 +30,14 @@
 
                 <form action="/createdeal" method="post" class="w3-container">
                     <p>
+                        <input class="w3-radio" type="radio" name="class" value="0" checked="true">
+                        <label>Продажа</label>
+
+                        <input class="w3-radio" type="radio" name="class" value="1" >
+                        <label>Покупка</label>
+
+                    </p>
+                    <p>
                         <input class="w3-input" type="text" name="deal_amount" required ng-model="deal_amount">
                         <select name="deal_currency">
                             <option value="currPrizm" selected>Prizm</option>
@@ -39,10 +47,6 @@
                         <label>Кол-во: {{deal_amount}}</label>
                     </p>
                     <p>
-
-                    </p>
-
-                    <p>
                         <input class="w3-input" type="text" name="price_amount" required ng-model="price_amount">
                         <select name="price_currency" >
                             <option value="currPrizm">Prizm</option>
@@ -50,6 +54,9 @@
                             <option value="currSilver">Silver</option>
                         </select>
                         <label>Цена с комиссией: {{price_amount*1+price_amount*0.07 | number}}</label>
+                    </p>
+                    <p>
+                        <label>Сумма: {{deal_amount*1*(price_amount*1+price_amount*0.07) | number}}</label>
                     </p>
                     <p>
                         <input class="w3-btn w3-teal" type="submit">

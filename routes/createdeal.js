@@ -48,16 +48,31 @@ exports.post = function(req, res){
         }
         //console.log(req.body.deal_amount);
         if(user[req.body.deal_currency]>=req.body.deal_amount){
-            loadUser.saves(req.session.user, [req.body.deal_currency], user[req.body.deal_currency]-req.body.deal_amount, (err, user)=>{
-                "use strict";
-                if(err) res.status(500).send('Внутренняя ошибка!');
-                if(!user){
-                    req.session.destroy();
-                    res.redirect('/login');
-                }
-                //console.log(user.prizmaddress);
-                res.render('createdeal', {title: 'Создать СДЕЛКУ', user: user, LoginRegister: LoginRegister});
-            });
+            if(req.body.class*1){
+                console.log(req.body.deal_amount*(req.body.price_amount*1+req.body.price_amount*0.07));
+                loadUser.saves(req.session.user, [req.body.price_currency], user[req.body.price_currency]-req.body.deal_amount*(req.body.price_amount*1+req.body.price_amount*0.07), (err, user)=>{
+                    "use strict";
+                    if(err) res.status(500).send('Внутренняя ошибка!');
+                    if(!user){
+                        req.session.destroy();
+                        res.redirect('/login');
+                    }
+                    //console.log(user.prizmaddress);
+                    res.render('createdeal', {title: 'Создать СДЕЛКУ', user: user, LoginRegister: LoginRegister});
+                });
+            }
+            else {
+                loadUser.saves(req.session.user, [req.body.deal_currency], user[req.body.deal_currency]-req.body.deal_amount, (err, user)=>{
+                    "use strict";
+                    if(err) res.status(500).send('Внутренняя ошибка!');
+                    if(!user){
+                        req.session.destroy();
+                        res.redirect('/login');
+                    }
+                    //console.log(user.prizmaddress);
+                    res.render('createdeal', {title: 'Создать СДЕЛКУ', user: user, LoginRegister: LoginRegister});
+                });
+            }
         } else {
             LoginRegister = '<b><a href="/profile">Профиль</a>&nbsp;&nbsp;<a href="/logout">Выход</a></b><p>Недостаточно средств</p>';
             res.render('createdeal', {title: 'Создать СДЕЛКУ', user: user, LoginRegister: LoginRegister});
@@ -73,6 +88,7 @@ exports.post = function(req, res){
         newDeal.commission = req.body.price_amount*0.07;   //: {type: Number, default: 0},     // Сумма комиссии (~5-7%)
         newDeal.price = req.body.price_amount*1+newDeal.commission;
         newDeal.price1 = 1/newDeal.price;
+        newDeal.class = req.body.class*1;
         newDeal.status = 0;   //: {type: Number, default: 0},          // Статус сделки (активный, отменен, закрыт)
         newDeal.save(function(err, savedDeal){
             if(err) {
