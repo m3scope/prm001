@@ -29,11 +29,11 @@
     <!-- Right Column -->
     <div class="w3-col s6">
         <% if (deals.dt2.length) { %>
-        <h5>Продажа <%= curr[deals.curr2] %></h5>
+        <h5>Покупка <%= curr[deals.curr1] %></h5>
         <table class="w3-table-all w3-hoverable w3-card-4" ng-controller="Main2Ctrl">
             <tr class="w3-green">
-                <th>Цена (<%= curr[deals.curr1] %>)</th>
-                <th>Кол-во (<%= curr[deals.curr2] %>)</th>
+                <th>Цена (<%= curr[deals.curr2] %>)</th>
+                <th>Кол-во (<%= curr[deals.curr1] %>)</th>
                 <th>Сумма</th>
             </tr>
             <tr ng-repeat="dt in dt2" ng-click="setSelected();">

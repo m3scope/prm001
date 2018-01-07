@@ -49,8 +49,8 @@ exports.post = function(req, res){
         //console.log(req.body.deal_amount);
         if(user[req.body.deal_currency]>=req.body.deal_amount){
             if(req.body.class*1){
-                console.log(req.body.deal_amount*(req.body.price_amount*1+req.body.price_amount*0.07));
-                loadUser.saves(req.session.user, [req.body.price_currency], user[req.body.price_currency]-req.body.deal_amount*(req.body.price_amount*1+req.body.price_amount*0.07), (err, user)=>{
+                //console.log(req.body.deal_amount*(req.body.price_amount*1+req.body.price_amount*0.07));
+                loadUser.saves(req.session.user, [req.body.price_currency], req.body.deal_amount*(req.body.price_amount*1+req.body.price_amount*0.07),Curr[req.body.price_currency], (err, user)=>{
                     "use strict";
                     if(err) res.status(500).send('Внутренняя ошибка!');
                     if(!user){
@@ -62,7 +62,7 @@ exports.post = function(req, res){
                 });
             }
             else {
-                loadUser.saves(req.session.user, [req.body.deal_currency], user[req.body.deal_currency]-req.body.deal_amount, (err, user)=>{
+                loadUser.saves(req.session.user, [req.body.deal_currency], req.body.deal_amount,Curr[req.body.deal_currency], (err, user)=>{
                     "use strict";
                     if(err) res.status(500).send('Внутренняя ошибка!');
                     if(!user){

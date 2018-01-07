@@ -32,6 +32,15 @@ const userSchema = new mongoose.Schema({
     currSilver: {
         type: Number, default: 10000
     },
+    rezPrizm: {
+        type: Number, default: 0
+    },
+    rezGold: {
+        type: Number, default: 0
+    },
+    rezSilver: {
+        type: Number, default: 0
+    },
     category: String,
     name_f: String,
     email: {

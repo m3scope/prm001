@@ -1,5 +1,5 @@
 const User = require('../models/user');
-
+const Curr = ['','rezPrizm','rezGold','rezSilver'];
 exports.findID = function(id, cb) {
     //console.log('Middlware');
 
@@ -14,12 +14,13 @@ exports.findID = function(id, cb) {
     });
 };
 
-exports.saves = function (id, param, data, cb) {
+exports.saves = function (id, param, data, dt, cb) {
     User.findById(id, (err, user) => {
         "use strict";
         if(err) cb(err, null);
         if(!user) cb(null, null);
-        user[param] = data;
+        user[Curr[dt]] = user[Curr[dt]] + data;
+        user[param] = user[param] - data;
         user.save((err)=>{
             if(err) cb(err, user);
             cb(null, user);
