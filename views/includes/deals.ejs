@@ -73,10 +73,12 @@
 <script type="text/javascript">
     //<![CDATA[
     let myApp = angular.module('myApp',[]);
+    let m103 = 0;
     myApp.controller('MainCtrl', function($scope) {
         $scope.ingredients = [];
         <% deals.dt1.forEach(function (name) { %>
-        $scope.ingredients.push({name: <%= Math.round(name._id*10000)/10000 %>, status: 0})
+        m103 = <%= Math.round(name._id*10000)/10000 %>
+        $scope.ingredients.push({name:m103, status: 0})
         <%})%>
         $scope.setSelected = function() {
             $scope.selected = this.ingredient;
