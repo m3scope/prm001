@@ -14,15 +14,17 @@
 
 <!-- Page Container -->
 <div class="w3-content w3-margin-top" style="max-width:1400px;">
+    <!-- Header -->
+    <%- include('includes/header') -%>
     <!-- The Grid -->
     <div class="w3-row-padding">
         <!-- Left Column -->
         <div class="w3-third">
-            <br>
-            <i>pzm:</i>&nbsp;<%= user.currPrizm %>&nbsp; | &nbsp;<i>gold:</i>&nbsp;<%= user.currGold %> &nbsp;|&nbsp; <i>silver:</i>&nbsp;<%= user.currSilver %>
-            <h1><%= title %></h1>
-            <p>Welcome to <%= title %>, <%= user.username %></p>
-            <p><%= user.pzmAmount %></p>
+            <div class="w3-panel w3-grey">
+                <p class="w3-text-dark-grey">Баланс: <br><i>pzm:</i>&nbsp;<%= user.currPrizm %>&nbsp; | &nbsp;<i>gold:</i>&nbsp;<%= user.currGold %> &nbsp;|&nbsp; <i>silver:</i>&nbsp;<%= user.currSilver %></p>
+            </div>
+
+
             <div class="w3-card-4">
                 <div class="w3-container w3-teal">
                     <h2>Создать сделку</h2>
@@ -42,7 +44,6 @@
                         <select name="deal_currency">
                             <option value="currPrizm" selected>Prizm</option>
                             <option value="currGold">Gold</option>
-                            <option value="currSilver">Silver</option>
                         </select>
                         <label>Кол-во: {{deal_amount}}</label>
                     </p>
@@ -66,13 +67,14 @@
             </div>
         </div>
     </div>
+    <!-- End Grid -->
+    <div class="w3-panel">
+    </div>
+    <!-- Footer -->
+    <%- include('includes/footer') -%>
 </div>
 
-<!-- End Grid -->
 
-<footer>
-
-</footer>
 
 </body>
 </html>

@@ -42,41 +42,47 @@ exports.post = function(req, res){
     const tUser = req.session.user;
     let tdeal_amount, tdeal_currency, tprice_amount, tprice_currency;
     loadUser.findID(tUser, function (err, user) {
-        let LoginRegister = '<b><a href="/profile">Профиль</a>&nbsp;&nbsp;<a href="/logout">Выход</a></b><p>'+req.body.deal_amount+'</p>';
+        let LoginRegister = '<b><a href="/profile">Профиль</a>&nbsp;&nbsp;<a href="/logout">Выход</a></b>';
         if(!tUser){
             LoginRegister = '<b><a href="/login">вход</a></b>';
         }
         //console.log(req.body.deal_amount);
-        if(user[req.body.deal_currency]>=req.body.deal_amount){
+
             if(req.body.class*1){
-                //console.log(req.body.deal_amount*(req.body.price_amount*1+req.body.price_amount*0.07));
-                loadUser.saves(req.session.user, [req.body.price_currency], req.body.deal_amount*(req.body.price_amount*1+req.body.price_amount*0.07),Curr[req.body.price_currency], (err, user)=>{
-                    "use strict";
-                    if(err) res.status(500).send('Внутренняя ошибка!');
-                    if(!user){
-                        req.session.destroy();
-                        res.redirect('/login');
-                    }
-                    //console.log(user.prizmaddress);
+                if(user[req.body.price_currency]>=req.body.deal_amount*(req.body.price_amount*1+req.body.price_amount*0.07)){
+                    //console.log(req.body.deal_amount*(req.body.price_amount*1+req.body.price_amount*0.07));
+                    loadUser.saves(req.session.user, [req.body.price_currency], req.body.deal_amount*(req.body.price_amount*1+req.body.price_amount*0.07),Curr[req.body.price_currency], (err, user)=>{
+                        "use strict";
+                        if(err) res.status(500).send('Внутренняя ошибка!');
+                        if(!user){
+                            req.session.destroy();
+                            res.redirect('/login');
+                        }
+                        //console.log(user.prizmaddress);
+                        res.render('createdeal', {title: 'Создать СДЕЛКУ', user: user, LoginRegister: LoginRegister+'<div class="w3-green">Сделака создана</div>'});
+                    });
+                } else {
+                    LoginRegister = '<b><a href="/profile">Профиль</a>&nbsp;&nbsp;<a href="/logout">Выход</a></b><div class="w3-red">Недостаточно средств</div>';
                     res.render('createdeal', {title: 'Создать СДЕЛКУ', user: user, LoginRegister: LoginRegister});
-                });
+                }
             }
             else {
-                loadUser.saves(req.session.user, [req.body.deal_currency], req.body.deal_amount,Curr[req.body.deal_currency], (err, user)=>{
-                    "use strict";
-                    if(err) res.status(500).send('Внутренняя ошибка!');
-                    if(!user){
-                        req.session.destroy();
-                        res.redirect('/login');
-                    }
-                    //console.log(user.prizmaddress);
+                if(user[req.body.deal_currency]>=req.body.deal_amount){
+                    loadUser.saves(req.session.user, [req.body.deal_currency], req.body.deal_amount,Curr[req.body.deal_currency], (err, user)=>{
+                        "use strict";
+                        if(err) res.status(500).send('Внутренняя ошибка!');
+                        if(!user){
+                            req.session.destroy();
+                            res.redirect('/login');
+                        }
+                        //console.log(user.prizmaddress);
+                        res.render('createdeal', {title: 'Создать СДЕЛКУ', user: user, LoginRegister: LoginRegister+'<div class="w3-green">Сделака создана</div>'});
+                    });
+                } else {
+                    LoginRegister = '<b><a href="/profile">Профиль</a>&nbsp;&nbsp;<a href="/logout">Выход</a></b><div class="w3-red">Недостаточно средств</div>';
                     res.render('createdeal', {title: 'Создать СДЕЛКУ', user: user, LoginRegister: LoginRegister});
-                });
+                }
             }
-        } else {
-            LoginRegister = '<b><a href="/profile">Профиль</a>&nbsp;&nbsp;<a href="/logout">Выход</a></b><p>Недостаточно средств</p>';
-            res.render('createdeal', {title: 'Создать СДЕЛКУ', user: user, LoginRegister: LoginRegister});
-        }
 
         let newDeal = new Deal();
         newDeal.dealerId = user.id;   //: { type: mongoose.Schema.ObjectId, ref: 'User', required: true },     // Id пользователя создавшего сделку
