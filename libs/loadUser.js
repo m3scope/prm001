@@ -19,8 +19,8 @@ exports.saves = function (id, param, data, dt, cb) {
         "use strict";
         if(err) cb(err, null);
         if(!user) cb(null, null);
-        user[Curr[dt]] = user[Curr[dt]] + data;
-        user[param] = user[param] - data;
+        user[Curr[dt]] = user[Curr[dt]]*1 + data*1;
+        user[param] = user[param]*1 - data*1;
         user.save((err)=>{
             if(err) cb(err, user);
             cb(null, user);
