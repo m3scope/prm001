@@ -8,7 +8,7 @@
 <% const curr = ['', 'Prizm', 'Gold', 'Silver']; %>
 <div class="w3-row-padding" ng-app="myApp">
     <!-- Left Column -->
-    <div class="w3-col s6">
+    <div class="w3-col s6" ng-controller="MainCtrl">
         <div class="w3-card-4">
             <div class="w3-container w3-teal">
                 <h5>Купить</h5>
@@ -36,7 +36,7 @@
 
         <% if (deals.dt1.length) {  %>
         <h5>Ордера продажи <%= curr[deals.curr1] %></h5>
-        <table class="w3-table-all w3-hoverable w3-card-4" ng-controller="MainCtrl">
+        <table class="w3-table-all w3-hoverable w3-card-4" >
             <tr class="w3-green">
                 <th>Цена (<%= curr[deals.curr2] %>)</th>
                 <th>Кол-во (<%= curr[deals.curr1] %>)</th>
@@ -51,7 +51,7 @@
         <% } %>
     </div>
     <!-- Right Column -->
-    <div class="w3-col s6">
+    <div class="w3-col s6" ng-controller="Main2Ctrl">
         <div class="w3-card-4">
             <div class="w3-container w3-teal">
                 <h5>Продать</h5>
@@ -78,7 +78,7 @@
         </div>
         <% if (deals.dt2.length) { %>
         <h5>Ордера покупки <%= curr[deals.curr1] %></h5>
-        <table class="w3-table-all w3-hoverable w3-card-4" ng-controller="Main2Ctrl">
+        <table class="w3-table-all w3-hoverable w3-card-4" >
             <tr class="w3-green">
                 <th>Цена (<%= curr[deals.curr2] %>)</th>
                 <th>Кол-во (<%= curr[deals.curr1] %>)</th>
@@ -108,8 +108,8 @@
         <%})%>
         $scope.setSelected = function() {
             $scope.selected = this.dt;
-            console.log($scope.selected.name);
-            this.dt.name = this.dt.name+1;
+            $scope.deal_amount = this.dt.deal_am;
+            $scope.price_amount = this.dt.name;
         };
     });
     myApp.controller('Main2Ctrl', function($scope) {
@@ -122,8 +122,8 @@
         <%})%>
         $scope.setSelected = function() {
             $scope.selected = this.dt;
-            console.log($scope.selected.name);
-            this.dt.name = this.dt.name+1;
+            $scope.deal_amount = this.dt.deal_am;
+            $scope.price_amount = this.dt.name;
         };
     });
     //]]>
