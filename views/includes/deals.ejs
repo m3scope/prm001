@@ -16,17 +16,17 @@
             <form action="/createdeal" method="post" class="w3-container">
                     <input type="hidden" name="class" value="1">
                 <p>
-                    <input class="w3-input" type="number" value="0.0" pattern="[\d+(\.\d{2})?]" step="any" name="deal_amount" required ng-model="deal_amount">
+                    <input class="w3-input" type="number" value="0.00" pattern="[\d+(\.\d{2})?]" step="any" name="deal_amount" required ng-model="deal_amount_buy">
                     <input type="hidden" name="deal_currency" value="currPrizm">
                     <label>Кол-во: {{deal_amount}}</label>
                 </p>
                 <p>
-                    <input class="w3-input" type="text" name="price_amount" required ng-model="price_amount">
+                    <input class="w3-input" type="number" value="0.00" pattern="[\d+(\.\d{2})?]" step="any" name="price_amount" required ng-model="price_amount_buy">
                     <input type="hidden" name="price_currency" value="currGold">
-                    <label>Цена с комиссией: {{price_amount*1+price_amount*0.07 | number}}</label>
+                    <label>Цена с комиссией: {{ price_amount_buy*1+price_amount_buy*0.07 | number }}</label>
                 </p>
                 <p>
-                    <label>Сумма: {{deal_amount*1*(price_amount*1+price_amount*0.07) | number}}</label>
+                    <label>Сумма: {{ deal_amount_buy*1*(price_amount_buy*1+price_amount_buy*0.07) | number }}</label>
                 </p>
                 <p>
                     <input class="w3-btn w3-teal" type="submit" value="Купить">
@@ -59,17 +59,17 @@
             <form action="/createdeal" method="post" class="w3-container">
                 <input type="hidden" name="class" value="0">
                 <p>
-                    <input class="w3-input" type="number" value="0.0" pattern="[\d+(\.\d{2})?]" step="any" name="deal_amount" required ng-model="deal_amount">
+                    <input class="w3-input" type="number" value="0.0" pattern="[\d+(\.\d{2})?]" step="any" name="deal_amount" required ng-model="deal_amount_sell">
                     <input type="hidden" name="deal_currency" value="currPrizm">
                     <label>Кол-во: {{deal_amount}}</label>
                 </p>
                 <p>
-                    <input class="w3-input" type="text" name="price_amount" required ng-model="price_amount">
+                    <input class="w3-input" type="number" value="0.00" pattern="[\d+(\.\d{2})?]" step="any" name="price_amount" required ng-model="price_amount_sell">
                     <input type="hidden" name="price_currency" value="currGold">
-                    <label>Цена с комиссией: {{price_amount*1+price_amount*0.07 | number}}</label>
+                    <label>Цена с комиссией: {{price_amount_sell*1+price_amount_sell*0.07 | number:4}}</label>
                 </p>
                 <p>
-                    <label>Сумма: {{deal_amount*1*(price_amount*1+price_amount*0.07) | number}}</label>
+                    <label>Сумма: {{deal_amount_sell*1*(price_amount_sell*1+price_amount_sell*0.07) | number:4}}</label>
                 </p>
                 <p>
                     <input class="w3-btn w3-teal" type="submit" value="Продать">
@@ -108,8 +108,8 @@
         <%})%>
         $scope.setSelected = function() {
             $scope.selected = this.dt;
-            $scope.deal_amount = this.dt.deal_am;
-            $scope.price_amount = this.dt.name;
+            $scope.deal_amount_buy = this.dt.deal_am;
+            $scope.price_amount_buy = this.dt.name;
         };
     });
     myApp.controller('Main2Ctrl', function($scope) {
@@ -122,8 +122,8 @@
         <%})%>
         $scope.setSelected = function() {
             $scope.selected = this.dt;
-            $scope.deal_amount = this.dt.deal_am;
-            $scope.price_amount = this.dt.name;
+            $scope.deal_amount_sell = this.dt.deal_am;
+            $scope.price_amount_sell = this.dt.name;
         };
     });
     //]]>
