@@ -1,5 +1,6 @@
 const loadUser = require("../libs/loadUser");
 const Deal = require('../models/deal');
+const Bill = require('../models/bill');
 const Curr = {
     'currSilver' : 3,
     'currGold' : 2,
@@ -40,6 +41,7 @@ exports.get = function(req, res){
 exports.post = function(req, res){
     console.log(req.body);
     const tUser = req.session.user;
+    let crDeals = false;
     let tdeal_amount, tdeal_currency, tprice_amount, tprice_currency;
     loadUser.findID(tUser, function (err, user) {
         let LoginRegister = '<b><a href="/profile">Профиль</a>&nbsp;&nbsp;<a href="/logout">Выход</a></b>';
@@ -57,9 +59,47 @@ exports.post = function(req, res){
                         if(!user){
                             req.session.destroy();
                             res.redirect('/login');
+                        } else {
+                            //console.log(user.prizmaddress);
+                            crDeals = true;
+                            if(crDeals) {
+                                let newDeal = new Deal();
+                                const commission_tax = 0.007;
+                                newDeal.dealerId = user.id;   //: { type: mongoose.Schema.ObjectId, ref: 'User', required: true },     // Id пользователя создавшего сделку
+                                newDeal.deal_amount = req.body.deal_amount;   //: {type: Number, default: 0},      // количество продаваемой валюты
+                                newDeal.deal_amount_bill = req.body.deal_amount;   //: {type: Number, default: 0},      // количество продаваемой валюты
+                                newDeal.deal_currency = Curr[req.body.deal_currency];   //: {type: Number, default: 0},  // Код (число) валюты продажи
+                                newDeal.price_amount = req.body.price_amount;   //: {type: Number, default: 0},       // цена без комиссии
+                                newDeal.price_currency = Curr[req.body.price_currency];   //: {type: Number, default: 0},   // Код (число) валюты покупки
+
+                                newDeal.class = req.body.class * 1;
+
+                                newDeal.commission_tax = commission_tax;
+                                newDeal.commission = Math.round(req.body.price_amount * commission_tax * 10000)/10000;   //: {type: Number, default: 0},     // Сумма комиссии (~5-7%)
+                                newDeal.commission_summ = (Math.round(req.body.price_amount * commission_tax * 10000)/10000) * newDeal.deal_amount;   // сумма коммисии
+
+                                newDeal.price = req.body.price_amount * 1;
+                                newDeal.price1 = 1 / req.body.price_amount;
+
+                                newDeal.status = 0;   //: {type: Number, default: 0},          // Статус сделки (активный, отменен, закрыт)
+                                newDeal.save(function (err, savedDeal) {
+                                    if (err) {
+                                        console.log(err);
+                                        //return res.status(500).send('Внутренняя ошибка!');
+                                    }
+                                    console.log('--------------------');
+                                    Deal.find({class: Math.abs(req.body.class * 1 - 1), price_amount: {$lt: req.body.price_amount}, status: 0}).limit(10).sort({updatedAt: -1}).exec(function (err, deals) {
+                                        console.log(deals);
+                                    });
+                                    //return res.status(200).send('Успешная регистрация!');
+                                });
+                            }
+                            res.render('createdeal', {
+                                title: 'Создать СДЕЛКУ',
+                                user: user,
+                                LoginRegister: LoginRegister + '<div class="w3-green">Сделака создана</div>'
+                            });
                         }
-                        //console.log(user.prizmaddress);
-                        res.render('createdeal', {title: 'Создать СДЕЛКУ', user: user, LoginRegister: LoginRegister+'<div class="w3-green">Сделака создана</div>'});
                     });
                 } else {
                     LoginRegister = '<b><a href="/profile">Профиль</a>&nbsp;&nbsp;<a href="/logout">Выход</a></b><div class="w3-red">Недостаточно средств</div>';
@@ -74,42 +114,53 @@ exports.post = function(req, res){
                         if(!user){
                             req.session.destroy();
                             res.redirect('/login');
+                        } else {
+                            //console.log(user.prizmaddress);
+                            crDeals = true;
+                            if(crDeals) {
+                                let newDeal = new Deal();
+                                const commission_tax = 0.007;
+                                newDeal.dealerId = user.id;   //: { type: mongoose.Schema.ObjectId, ref: 'User', required: true },     // Id пользователя создавшего сделку
+                                newDeal.deal_amount = req.body.deal_amount;   //: {type: Number, default: 0},      // количество продаваемой валюты
+                                newDeal.deal_amount_bill = req.body.deal_amount;   //: {type: Number, default: 0},      // количество продаваемой валюты
+                                newDeal.deal_currency = Curr[req.body.deal_currency];   //: {type: Number, default: 0},  // Код (число) валюты продажи
+                                newDeal.price_amount = req.body.price_amount;   //: {type: Number, default: 0},       // цена без комиссии
+                                newDeal.price_currency = Curr[req.body.price_currency];   //: {type: Number, default: 0},   // Код (число) валюты покупки
+
+                                newDeal.class = req.body.class * 1;
+
+                                newDeal.commission_tax = commission_tax;
+                                newDeal.commission = Math.round(req.body.price_amount * commission_tax * 10000)/10000;   //: {type: Number, default: 0},     // Сумма комиссии (~5-7%)
+                                newDeal.commission_summ = (Math.round(req.body.price_amount * commission_tax * 10000)/10000) * newDeal.deal_amount;   // сумма коммисии
+
+                                newDeal.price = req.body.price_amount * 1;
+                                newDeal.price1 = 1 / req.body.price_amount;
+
+                                newDeal.status = 0;   //: {type: Number, default: 0},          // Статус сделки (активный, отменен, закрыт)
+                                newDeal.save(function (err, savedDeal) {
+                                    if (err) {
+                                        console.log(err);
+                                        //return res.status(500).send('Внутренняя ошибка!');
+                                    }
+                                    console.log('--------------------');
+                                    Deal.find({class: Math.abs(req.body.class * 1 - 1), price_amount: {$lt: req.body.price_amount}, status: 0}).limit(10).sort({createdAt: 1}).exec(function (err, deals) {
+                                        console.log(deals);
+                                    });
+                                    //return res.status(200).send('Успешная регистрация!');
+                                });
+                            }
+                            res.render('createdeal', {
+                                title: 'Создать СДЕЛКУ',
+                                user: user,
+                                LoginRegister: LoginRegister + '<div class="w3-green">Сделака создана</div>'
+                            });
                         }
-                        //console.log(user.prizmaddress);
-                        res.render('createdeal', {title: 'Создать СДЕЛКУ', user: user, LoginRegister: LoginRegister+'<div class="w3-green">Сделака создана</div>'});
                     });
                 } else {
                     LoginRegister = '<b><a href="/profile">Профиль</a>&nbsp;&nbsp;<a href="/logout">Выход</a></b><div class="w3-red">Недостаточно средств</div>';
                     res.render('createdeal', {title: 'Создать СДЕЛКУ', user: user, LoginRegister: LoginRegister});
                 }
             }
-
-        let newDeal = new Deal();
-        newDeal.dealerId = user.id;   //: { type: mongoose.Schema.ObjectId, ref: 'User', required: true },     // Id пользователя создавшего сделку
-        newDeal.deal_amount = req.body.deal_amount;   //: {type: Number, default: 0},      // количество продаваемой валюты
-        newDeal.deal_amount_bill = req.body.deal_amount;   //: {type: Number, default: 0},      // количество продаваемой валюты
-        newDeal.deal_currency = Curr[req.body.deal_currency];   //: {type: Number, default: 0},  // Код (число) валюты продажи
-        newDeal.price_amount = req.body.price_amount;   //: {type: Number, default: 0},       // цена без комиссии
-        newDeal.price_currency = Curr[req.body.price_currency];   //: {type: Number, default: 0},   // Код (число) валюты покупки
-
-        newDeal.class = req.body.class*1;
-
-        newDeal.commission_tax = 0.005;
-        newDeal.commission = req.body.price_amount*newDeal.commission_tax;   //: {type: Number, default: 0},     // Сумма комиссии (~5-7%)
-        newDeal.commission_summ = newDeal.commission*newDeal.deal_amount;   // сумма коммисии
-
-        newDeal.price = req.body.price_amount*1;
-        newDeal.price1 = 1/newDeal.price;
-
-        newDeal.status = 0;   //: {type: Number, default: 0},          // Статус сделки (активный, отменен, закрыт)
-        newDeal.save(function(err, savedDeal){
-            if(err) {
-                console.log(err);
-                //return res.status(500).send('Внутренняя ошибка!');
-            }
-            //return res.status(200).send('Успешная регистрация!');
-        });
-
     });
     //res.render('profile', {title: 'USERS authLK', user: User});
 };
