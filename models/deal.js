@@ -21,6 +21,7 @@ const dealSchema = new mongoose.Schema({
     price: {type: Number, default: 0},          // Цена продажи с комиссией
     price1: {type: Number, default: 0},         // Цена покупки
 
+    commission_tax: {type: Number, default: 0},     // процент комиссии (~0,005-0,007)
     commission: {type: Number, default: 0},     // Цена комиссии (~5-7%)
     commission_summ: {type: Number, default: 0},     // Сумма комиссии (~5-7%)
 

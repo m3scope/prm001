@@ -16,17 +16,17 @@
             <form action="/createdeal" method="post" class="w3-container">
                     <input type="hidden" name="class" value="1">
                 <p>
-                    <input class="w3-input" type="number" value="0.00" pattern="[\d+(\.\d{2})?]" step="any" name="deal_amount" required ng-model="deal_amount_buy">
+                    <input class="w3-input" type="number" value="0.00" pattern="[\d+(\.\d{2})?]" step="any" name="deal_amount" required ng-model="deal_amount_buy" ng-change="change_buy()">
+                    <span class="w3-tag w3-green">PZM</span>
                     <input type="hidden" name="deal_currency" value="currPrizm">
-                    <label>Кол-во: {{deal_amount}}</label>
                 </p>
                 <p>
-                    <input class="w3-input" type="number" value="0.00" pattern="[\d+(\.\d{2})?]" step="any" name="price_amount" required ng-model="price_amount_buy">
+                    <input class="w3-input" type="number" value="0.00" pattern="[\d+(\.\d{2})?]" step="any" name="price_amount" required ng-model="price_amount_buy" ng-change="change_buy()">
+                    <span class="w3-tag w3-green">GLD</span>
                     <input type="hidden" name="price_currency" value="currGold">
-                    <label>Цена с комиссией: {{ price_amount_buy*1+price_amount_buy*0.07 | number }}</label>
                 </p>
                 <p>
-                    <label>Сумма: {{ deal_amount_buy*1*(price_amount_buy*1+price_amount_buy*0.07) | number }}</label>
+                    <span class="w3-text-yellow">Комиcсия:</span>{{commission_buy}}
                 </p>
                 <p>
                     <input class="w3-btn w3-teal" type="submit" value="Купить">
@@ -59,17 +59,17 @@
             <form action="/createdeal" method="post" class="w3-container">
                 <input type="hidden" name="class" value="0">
                 <p>
-                    <input class="w3-input" type="number" value="0.0" pattern="[\d+(\.\d{2})?]" step="any" name="deal_amount" required ng-model="deal_amount_sell">
+                    <input class="w3-input" type="text" value="0.0" pattern="[\d+(\.\d{2})?]" step="any" name="deal_amount" required ng-model="deal_amount_sell">
+                    <span class="w3-tag w3-green">PZM</span>
                     <input type="hidden" name="deal_currency" value="currPrizm">
-                    <label>Кол-во: {{deal_amount}}</label>
                 </p>
                 <p>
-                    <input class="w3-input" type="number" value="0.00" pattern="[\d+(\.\d{2})?]" step="any" name="price_amount" required ng-model="price_amount_sell">
+                    <input class="w3-input" type="text" value="0.00" pattern="[\d+(\.\d{2})?]" step="any" name="price_amount" required ng-model="price_amount_sell">
+                    <span class="w3-tag w3-green">GLD</span>
                     <input type="hidden" name="price_currency" value="currGold">
-                    <label>Цена с комиссией: {{price_amount_sell*1+price_amount_sell*0.07 | number:4}}</label>
                 </p>
                 <p>
-                    <label>Сумма: {{deal_amount_sell*1*(price_amount_sell*1+price_amount_sell*0.07) | number:4}}</label>
+                    <span class="w3-text-yellow">Комиcсия:</span><span class="w3-text-yellow" ng-model=""></span>
                 </p>
                 <p>
                     <input class="w3-btn w3-teal" type="submit" value="Продать">
@@ -100,7 +100,8 @@
     let nm = {};
     myApp.controller('MainCtrl', function($scope) {
         $scope.dt1 = [];
-        <% deals.dt1.forEach(function (name) { %>
+        $scope.commission_buy = 0;
+                <% deals.dt1.forEach(function (name) { %>
         nm.name = <%= Math.round(name._id*10000)/10000 %>
             nm.deal_am = <%= name.deal_am %>
                 nm.sm = <%= Math.round((Math.round(name._id*10000)/10000 * name.deal_am)* 10000000) / 10000000 %>
@@ -110,6 +111,12 @@
             $scope.selected = this.dt;
             $scope.deal_amount_buy = this.dt.deal_am;
             $scope.price_amount_buy = this.dt.name;
+            $scope.commission_buy = this.dt.deal_am*this.dt.name*0.007;
+        };
+        $scope.change_buy = function () {
+            console.log(parseFloat($scope.deal_amount_buy));
+            console.log(Number($scope.deal_amount_buy));
+            $scope.commission_buy = Number($scope.deal_amount_buy)*Number($scope.price_amount_buy)*0.007;
         };
     });
     myApp.controller('Main2Ctrl', function($scope) {

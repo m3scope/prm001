@@ -91,10 +91,16 @@ exports.post = function(req, res){
         newDeal.deal_currency = Curr[req.body.deal_currency];   //: {type: Number, default: 0},  // Код (число) валюты продажи
         newDeal.price_amount = req.body.price_amount;   //: {type: Number, default: 0},       // цена без комиссии
         newDeal.price_currency = Curr[req.body.price_currency];   //: {type: Number, default: 0},   // Код (число) валюты покупки
-        newDeal.commission = req.body.price_amount*0.07;   //: {type: Number, default: 0},     // Сумма комиссии (~5-7%)
-        newDeal.price = req.body.price_amount*1+newDeal.commission;
-        newDeal.price1 = 1/newDeal.price;
+
         newDeal.class = req.body.class*1;
+
+        newDeal.commission_tax = 0.005;
+        newDeal.commission = req.body.price_amount*newDeal.commission_tax;   //: {type: Number, default: 0},     // Сумма комиссии (~5-7%)
+        newDeal.commission_summ = newDeal.commission*newDeal.deal_amount;   // сумма коммисии
+
+        newDeal.price = req.body.price_amount*1;
+        newDeal.price1 = 1/newDeal.price;
+
         newDeal.status = 0;   //: {type: Number, default: 0},          // Статус сделки (активный, отменен, закрыт)
         newDeal.save(function(err, savedDeal){
             if(err) {
