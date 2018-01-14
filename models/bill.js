@@ -21,7 +21,7 @@ const crypto = require('crypto'); // модуль node.js для выполне�
 //const User = require('./user');
 
 const billSchema = new mongoose.Schema({
-    dealId: { type: mongoose.Schema.ObjectId, ref: 'Deal', required: false },       // ID сделки (deal), используется в работе биржи
+    dealSellId: { type: mongoose.Schema.ObjectId, ref: 'Deal', required: false },       // ID сделки (deal), используется в работе биржи
     dealBuyId: { type: mongoose.Schema.ObjectId, ref: 'Deal', required: false },       // ID сделки (deal), используется в работе биржи
     dealerId: { type: mongoose.Schema.ObjectId, ref: 'User', required: true },     // Id пользователя создавшего транзакцию (продавца)
     buyerId: { type: mongoose.Schema.ObjectId, ref: 'User', required: true },      // Id пользователя покупателя
@@ -31,7 +31,8 @@ const billSchema = new mongoose.Schema({
     price_currency: {type: Number, default: 0},   // Код (число) валюты покупки
     price: {type: Number, default: 0},          // Цена с комиссией
     commission: {type: Number, default: 0},     // Сумма комиссии (~5-7%)
-    status: {type: Number, default: 2}          // Статус счета (активный, отменен, закрыт)
+    viewStatus: {type: Number, default: 0},     // статус просмотра
+    status: {type: Number, default: 2}          // Статус счета (активный(ожидает подтверждения), отменен, закрыт(исполнен))
 },  {
     timestamps: true
 });

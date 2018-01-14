@@ -1,4 +1,6 @@
 const loadUser = require("../libs/loadUser");
+//const Deal = require('../models/deal');
+const db_deals = require('../libs/db_deals');
 
 function formatDate(dt, cb) {
     const today = new Date();
@@ -21,14 +23,13 @@ exports.get = function(req, res){
         if(!req.session.user){
             LoginRegister = '<b><a href="/login">Вход</a></b>';
         }
-        formatDate(user.createdAt, function(dt){
-            //console.log(user.createdAt);
-
-            user.createAt = dt;
-            console.log(user.createAt);
-            res.render('profile', {title: 'Профиль', user: user, LoginRegister: LoginRegister});
+            db_deals.getUserDeals(user._id, function (err, userDeals) {
+                if(err) console.log(err);
+                user.deals = userDeals;
+                res.render('profile', {title: 'Профиль', user: user, LoginRegister: LoginRegister});
+            });
+            //res.render('profile', {title: 'Профиль', user: user, LoginRegister: LoginRegister});
         });
 
-    });
     //res.render('profile', {title: 'USERS authLK', user: User});
 };
