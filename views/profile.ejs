@@ -61,8 +61,8 @@
     let dt = new Date;
     myApp.controller('userDealsCtrl', function ($scope) {
         $scope.itms = [{}];
-        <% let dt = new Date; user.deals.forEach(function (nmm) { dt = nmm.createdAt.toDateString(); console.log(dt); %>
-            $scope.itms.push({dt: '<%= dt %>', clas: <%= nmm.class%>, deal_amount: <%= nmm.deal_amount %>, deal_summ: <%= nmm.deal_amount*nmm.price_amount%>});
+        <% user.deals.forEach(function (nmm) { %>
+            $scope.itms.push({dt: '<%= nmm.createdAt %>', clas: <%= nmm.class%>, deal_amount: <%= nmm.deal_amount %>, deal_summ: <%= nmm.deal_amount*nmm.price_amount%>});
         <%})%>
     })
 
