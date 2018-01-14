@@ -39,7 +39,7 @@ exports.get = function(req, res){
 };
 
 exports.post = function(req, res){
-    console.log(req.body);
+    //console.log(req);
     const tUser = req.session.user;
     let crDeals = false;
     let tdeal_amount, tdeal_currency, tprice_amount, tprice_currency;
@@ -94,11 +94,12 @@ exports.post = function(req, res){
                                     //return res.status(200).send('Успешная регистрация!');
                                 });
                             }
-                            res.render('createdeal', {
-                                title: 'Создать СДЕЛКУ',
-                                user: user,
-                                LoginRegister: LoginRegister + '<div class="w3-green">Сделака создана</div>'
-                            });
+                                    // res.render('createdeal', {
+                                    //     title: 'Создать СДЕЛКУ',
+                                    //     user: user,
+                                    //     LoginRegister: LoginRegister + '<div class="w3-green">Сделака создана</div>'
+                                    // });
+                            res.redirect('/deals/1;2');
                         }
                     });
                 } else {
