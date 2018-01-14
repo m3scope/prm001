@@ -18,12 +18,12 @@
                 <p>
                     <input class="w3-input" type="number" value="0" step="any" name="deal_amount" required ng-model="deal_amount_buy" ng-change="change_buy()">
                     <span class="w3-tag w3-green"><%= curr[deals.curr1] %></span>
-                    <input type="hidden" name="deal_currency" value="currPrizm">
+                    <input type="hidden" name="deal_currency" value="{{ curr1 }}">
                 </p>
                 <p>
                     <input class="w3-input" type="number" value="0" step="any" name="price_amount" required ng-model="price_amount_buy" ng-change="change_buy()">
                     <span class="w3-tag w3-green"><%= curr[deals.curr2] %></span>
-                    <input type="hidden" name="price_currency" value="currGold">
+                    <input type="hidden" name="price_currency" value="{{ curr2 }}">
                 </p>
                 <p>
                     <span class="w3-text-yellow">Комиcсия: {{commission_buy | number:4}}</span>
@@ -61,12 +61,12 @@
                 <p>
                     <input class="w3-input" type="number" value="0" step="any" name="deal_amount" required ng-model="deal_amount_sell" ng-change="change_sell()">
                     <span class="w3-tag w3-green"><%= curr[deals.curr1] %></span>
-                    <input type="hidden" name="deal_currency" value="currPrizm">
+                    <input type="hidden" name="deal_currency" value="{{ curr1 }}">
                 </p>
                 <p>
                     <input class="w3-input" type="number" value="0" step="any" name="price_amount" required ng-model="price_amount_sell" ng-change="change_sell()">
                     <span class="w3-tag w3-green"><%= curr[deals.curr2] %></span>
-                    <input type="hidden" name="price_currency" value="currGold">
+                    <input type="hidden" name="price_currency" value="{{ curr2 }}">
                 </p>
                 <p>
                     <span class="w3-text-yellow">Комиcсия: {{commission_sell | number:4}}</span>
@@ -98,7 +98,10 @@
     //<![CDATA[
     let myApp = angular.module('myApp',[]);
     let nm = {};
+    const Curr = ['','currPrizm','currGold','currSilver'];
     myApp.controller('MainCtrl', function($scope) {
+        $scope.curr1 = Curr[<%= deals.curr1 %>];
+        $scope.curr2 = Curr[<%= deals.curr2 %>];
         $scope.dt1 = [];
         $scope.commission_buy = 0;
                 <% deals.dt1.forEach(function (name) { %>
@@ -118,6 +121,8 @@
         };
     });
     myApp.controller('Main2Ctrl', function($scope) {
+        $scope.curr1 = Curr[<%= deals.curr1 %>];
+        $scope.curr2 = Curr[<%= deals.curr2 %>];
         $scope.dt2 = [];
         $scope.commission_sell = 0;
         <% deals.dt2.forEach(function (name) { %>

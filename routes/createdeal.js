@@ -51,7 +51,7 @@ exports.post = function(req, res){
         //console.log(req.body.deal_amount);
 
             if(req.body.class*1){
-                if(user[req.body.price_currency]>=req.body.deal_amount*(req.body.price_amount*1+req.body.price_amount*0.07)){
+                if(user[req.body.price_currency]>=req.body.deal_amount*(req.body.price_amount*1+req.body.price_amount*0.05)){
                     //console.log(req.body.deal_amount*(req.body.price_amount*1+req.body.price_amount*0.07));
                     loadUser.saves(req.session.user, [req.body.price_currency], req.body.deal_amount*(req.body.price_amount*1+req.body.price_amount*0.07),Curr[req.body.price_currency], (err, user)=>{
                         "use strict";

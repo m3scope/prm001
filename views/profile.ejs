@@ -37,17 +37,21 @@
         <h5>Ордера</h5>
         <table class="w3-table-all w3-hoverable w3-card-4" >
           <tr class="w3-green">
-            <th>Dates</th>
-            <th>Class</th>
+            <th>Пара</th>
+            <th>Операция</th>
             <th>Кол-во</th>
+            <th>Цена</th>
             <th>Сумма</th>
+            <th>Дата</th>
           </tr>
 
           <tr ng-repeat="itm in itms">
-            <td>{{ itm.dt }}</td>
+            <td>{{ itm.para }}</td>
             <td>{{ itm.clas }}</td>
             <td>{{ itm.deal_amount }}</td>
+            <td>{{ itm.price }}</td>
             <td>{{ itm.deal_summ }}</td>
+            <td>{{ itm.dt }}</td>
           </tr>
 
         </table>
@@ -56,13 +60,24 @@
 </div>
 <script type="text/javascript">
     //<![CDATA[
+    function formatDate(date) {
+        let d = new Date(date),
+            month = '' + (d.getMonth() + 1),
+            day = '' + d.getDate(),
+            year = d.getFullYear();
+
+        if (month.length < 2) month = '0' + month;
+        if (day.length < 2) day = '0' + day;
+
+        return [year, month, day].join('-');
+    }
     let myApp = angular.module('myApp',[]);
-    //const dealClasses = ['Продажа', 'Покупка'];
-    let dt = new Date;
+    const Curr = ['','Pzm','Gld','Slv'];
+    const dealClasses = ['Продажа', 'Покупка'];
     myApp.controller('userDealsCtrl', function ($scope) {
         $scope.itms = [{}];
         <% user.deals.forEach(function (nmm) { %>
-            $scope.itms.push({dt: '<%= nmm.createdAt %>', clas: <%= nmm.class%>, deal_amount: <%= nmm.deal_amount %>, deal_summ: <%= nmm.deal_amount*nmm.price_amount%>});
+            $scope.itms.push({para: Curr[<%= nmm.deal_currency%>]+'/'+Curr[<%= nmm.price_currency%>], dt: '<%= nmm.createdAt.toLocaleString() %>', clas: dealClasses[<%= nmm.class%>], deal_amount: <%= nmm.deal_amount %>, price: <%= nmm.price_amount%>, deal_summ: <%= nmm.deal_amount*nmm.price_amount%>});
         <%})%>
     })
 
