@@ -1,6 +1,7 @@
 const loadUser = require("../libs/loadUser");
 const Deal = require('../models/deal');
 const Bill = require('../models/bill');
+const db_bills = require('../libs/db_bills');
 const Curr = {
     'currSilver' : 3,
     'currGold' : 2,
@@ -90,9 +91,10 @@ exports.post = function(req, res){
                                         //return res.status(500).send('Внутренняя ошибка!');
                                     }
                                     console.log('--------------------');
-                                    Deal.find({class: Math.abs(req.body.class * 1 - 1), price_amount: {$lt: req.body.price_amount}, status: 0}).limit(10).sort({updatedAt: -1}).exec(function (err, deals) {
-                                        console.log(deals);
-                                    });
+                                    // Deal.find({class: Math.abs(req.body.class * 1 - 1), price_amount: {$lt: req.body.price_amount}, status: 0}).limit(10).sort({updatedAt: -1}).exec(function (err, deals) {
+                                    //     console.log(deals);
+                                    // });
+                                    db_bills.createBillsFromDeal(savedDeal._id);
                                     //return res.status(200).send('Успешная регистрация!');
                                 });
                             }
