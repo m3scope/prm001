@@ -9,8 +9,9 @@ const Curr = {
 };
 
 //const dealId = Deal.ObjectId("5a532408b1dc980da81bfcc1");
-function requestAsync(saldo) {
+async function requestAsync(saldo, deal) {
 
+    return data;
 }
 
 exports.createBillsFromDeal = function (dealId) {
@@ -32,10 +33,10 @@ exports.createBillsFromDeal = function (dealId) {
                     async function cr_Bill(amount) {
                         let saldo = amount;
                         // noinspection JSAnnotator
-                        do {
-                            let data = await requestAsync(saldo);
+                        for (let deal of deals){
+                            let data = await requestAsync(saldo, deal);
                             num++;
-                        } while (saldo <= 0 || num = deals.length);
+                        }
                     }
                 }
         });
