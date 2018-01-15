@@ -105,9 +105,9 @@
         $scope.dt1 = [];
         $scope.commission_buy = 0;
                 <% deals.dt1.forEach(function (name) { %>
-                    nm.name = <%= Math.round(name._id*10000)/10000 %>
+                    nm.name = <%= Math.round(name._id*10000000)/10000000 %>
                     nm.deal_am = <%= name.deal_am %>
-                    nm.sm = <%= Math.round((Math.round(name._id*10000)/10000 * name.deal_am)* 10000000) / 10000000 %>
+                    nm.sm = <%= Math.round((Math.round(name._id*10000000)/10000000 * name.deal_am)* 10000000) / 10000000 %>
                     $scope.dt1.push({name:nm.name, deal_am: nm.deal_am, sm: nm.sm})
                 <%})%>
         $scope.setSelected = function() {
@@ -126,9 +126,9 @@
         $scope.dt2 = [];
         $scope.commission_sell = 0;
         <% deals.dt2.forEach(function (name) { %>
-        nm.name = <%= Math.round(name._id*10000)/10000 %>
+        nm.name = <%= Math.round(name._id*10000000)/10000000 %>
             nm.deal_am = <%= name.deal_am %>
-                nm.sm = <%= Math.round((Math.round(name._id*10000)/10000 * name.deal_am)* 10000000) / 10000000 %>
+                nm.sm = <%= Math.round((Math.round(name._id*10000000)/10000000 * name.deal_am)* 10000000) / 10000000 %>
                     $scope.dt2.push({name:nm.name, deal_am: nm.deal_am, sm: nm.sm})
         <%})%>
         $scope.setSelected = function() {
