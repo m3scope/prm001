@@ -7,18 +7,74 @@ const Curr = {
     'currPrizm' : 1
 };
 
-function cr_Bill(dealID, saldo, deal2Id, cb) {
-    let newBill = new Bill;
+function cr_Bill(dealID, deal_amount, deal2Id, cb) {
+    let newGeneralBill = new Bill;
+    let newTwoBill = new Bill;
 
-
-    newBill.save((err, savedBill)=>{
+    Deal.findById(dealID, function(err, dealOne){
         "use strict";
-        if(err) {
-            console.error(err);
-            cb(err, null);
-        }
-        cb(null, savedBill);
+        if(err) console.error(err);
+
+        Deal.findById(deal2Id, function(err, dealTwo){
+
+            newTwoBill.dealGeneralIdId = dealTwo._id;
+            newTwoBill.dealTwoId = dealOne._id;
+
+            newTwoBill.dealerGeneralId = dealTwo.dealerId;
+            newTwoBill.dealerTwoId = dealOne.dealerId;
+
+            newTwoBill.deal_amount = deal_amount;
+            newTwoBill.deal_currency = dealTwo.deal_currency;
+
+            newTwoBill.price_amount = dealTwo.price_amount;
+            newTwoBill.price_currency = dealTwo.price_currency;
+
+            newTwoBill.summ = deal_amount * dealTwo.price_amount;
+
+            newTwoBill.commission_tax = dealTwo.commission_tax;
+            newTwoBill.commission_summ = deal_amount * dealTwo.price_amount * dealTwo.commission_tax;
+
+            newTwoBill.save((err, savedTwoBill)=>{
+                "use strict";
+                if(err) {
+                    console.error(err);
+                    cb(err, null);
+                }
+                //cb(null, savedBill);
+            });
+
+            newGeneralBill.dealGeneralIdId = dealOne._id;
+            newGeneralBill.dealTwoId = dealTwo._id;
+
+            newGeneralBill.dealerGeneralId = dealOne.dealerId;
+            newGeneralBill.dealerTwoId = dealTwo.dealerId;
+
+            newGeneralBill.deal_amount = deal_amount;
+            newGeneralBill.deal_currency = dealOne.deal_currency;
+
+            newGeneralBill.price_amount = dealOne.price_amount;
+            newGeneralBill.price_currency = dealOne.price_currency;
+
+            newGeneralBill.summ = deal_amount * dealOne.price_amount;
+
+            newGeneralBill.commission_tax = dealOne.commission_tax;
+            newGeneralBill.commission_summ = deal_amount * dealOne.price_amount * dealOne.commission_tax;
+
+            newGeneralBill.save((err, savedGeneralBill)=>{
+                "use strict";
+                if(err) {
+                    console.error(err);
+                    cb(err, null);
+                }
+                //cb(null, savedBill);
+            });
+
+        });
     });
+
+
+
+
 }
 
 //const dealId = Deal.ObjectId("5a532408b1dc980da81bfcc1");
