@@ -34,14 +34,6 @@ function cr_Bill(dealID, deal_amount, deal2Id, cb) {
             newTwoBill.commission_tax = dealTwo.commission_tax;
             newTwoBill.commission_summ = deal_amount * dealTwo.price_amount * dealTwo.commission_tax;
 
-            newTwoBill.save((err, savedTwoBill)=>{
-                "use strict";
-                if(err) {
-                    console.error(err);
-                    cb(err, null);
-                }
-                //cb(null, savedBill);
-            });
 
             newGeneralBill.dealGeneralIdId = dealOne._id;
             newGeneralBill.dealTwoId = dealTwo._id;
@@ -66,6 +58,14 @@ function cr_Bill(dealID, deal_amount, deal2Id, cb) {
                     console.error(err);
                     cb(err, null);
                 }
+                newTwoBill.save((err, savedTwoBill)=>{
+                    "use strict";
+                    if(err) {
+                        console.error(err);
+                        cb(err, null);
+                    }
+                    //cb(null, savedBill);
+                });
                 //cb(null, savedBill);
             });
 
@@ -84,13 +84,16 @@ async function requestAsync(dealID, saldo, deal2Id) {
     Deal.findById(deal2Id, (err, deal2) => {
         "use strict";
         if(err) console.error(err);
+
         if(saldo <= deal2.deal_amount_bill){
             deal2.deal_amount_bill = deal2.deal_amount_bill - saldo;
+            if(deal2.deal_amount_bill - saldo <= 0) deal2.status = 9;
             deal2.save((err)=>{
                 if(err) console.error(err);
                 Deal.findById(dealID, (err, deal)=>{
                     if(err) console.error(err);
                     deal.deal_amount_bill = deal.deal_amount_bill - saldo;
+                    if(deal.deal_amount_bill - saldo <= 0) deal.status = 9;
                     deal.save((err)=>{
                         if(err) console.error(err);
                         data.saldo = 0;
@@ -103,11 +106,13 @@ async function requestAsync(dealID, saldo, deal2Id) {
             deal_amount_bill = deal2.deal_amount_bill;
             data.saldo = saldo - deal_amount_bill;
             deal2.deal_amount_bill = 0;
+            deal2.status = 9;
             deal2.save((err)=>{
                 if(err) console.error(err);
                 Deal.findById(dealID, (err, deal)=>{
                     if(err) console.error(err);
                     deal.deal_amount_bill = deal.deal_amount_bill - deal_amount_bill;
+                    if(deal.deal_amount_bill - saldo <= 0) deal.status = 9;
                     deal.save((err)=>{
                         if(err) console.error(err);
                         cr_Bill(dealID, deal_amount_bill, deal2Id);
@@ -123,31 +128,78 @@ async function requestAsync(dealID, saldo, deal2Id) {
 exports.createBillsFromDeal = function (dealId) {
     Deal.findOne({_id: dealId}, function (err, dataDeal) {
         if(err) console.error(err);
-        Deal.find({
-            class: Math.abs(dataDeal.status*1 - 1),
-            price_amount: {$lte: dataDeal.price_amount},
-            status: 0
-        })
-            .limit(100)
-            .sort({price_amount: 1, createdAt: 1})
-            .exec(function (err, deals) {
-                console.log('------------- DEALS -----------');
-                console.log(deals);
-                if(err) console.error(err);
-                if(deals.length>0){
-                    let num = 0;
-                    async function update_Deals(amount) {
-                        let saldo = amount;
-                        // noinspection JSAnnotator
-                        for (let deal of deals){
-                            let data = await requestAsync(dataDeal._id, saldo, deal._id);
-                            saldo = data.saldo;
-                            if(saldo <=0) {break;}
-                            num++;
+        console.log('------------- CLASS -------------');
+        console.log(Math.abs(dataDeal.class*1 - 1));
+        if(Math.abs(dataDeal.class*1)){     // 1 - покупка
+            Deal.find({
+                class: Math.abs(dataDeal.class * 1 - 1),
+                price_amount: {$lte: dataDeal.price_amount},
+                status: 0
+            })
+                .limit(100)
+                .sort({price_amount: 1, createdAt: 1})
+                .exec(function (err, deals) {
+                    console.log('------------- DEALS -----------');
+                    console.log(deals);
+                    if (err) console.error(err);
+                    if (deals.length > 0) {
+                        let num = 0;
+                        let saldo =0;
+                        async function update_Deals(amount) {
+                            saldo = amount;
+                            // noinspection JSAnnotator
+                            for (let deal of deals) {
+                                console.log('--------- SALDO --------------');
+                                console.log(''+saldo+' / '+ num);
+                                let data = await requestAsync(dataDeal._id, saldo, deal._id);
+                                console.log('*********** data');
+                                console.log(data);
+                                saldo = data.saldo;
+                                if (saldo <= 0) {
+                                    break;
+                                }
+                                num++;
+                            }
                         }
+
+                        update_Deals(dataDeal.deal_amount_bill);
                     }
-                    update_Deals(dataDeal.deal_amount_bill);
-                }
-        });
+                });
+        } else {
+            Deal.find({
+                class: Math.abs(dataDeal.class * 1 - 1),
+                price_amount: {$gte: dataDeal.price_amount},
+                status: 0
+            })
+                .limit(100)
+                .sort({price_amount: -1, createdAt: 1})
+                .exec(function (err, deals) {
+                    console.log('------------- DEALS -----------');
+                    console.log(deals);
+                    if (err) console.error(err);
+                    if (deals.length > 0) {
+                        let num = 0;
+                        let saldo = 0;
+                        async function update_Deals(amount) {
+                            saldo = amount;
+                            // noinspection JSAnnotator
+                            for (let deal of deals) {
+                                console.log('--------- SALDO --------------');
+                                console.log(''+saldo+' / '+ num);
+                                let data = await requestAsync(dataDeal._id, saldo, deal._id);
+                                console.log('*********** data');
+                                console.log(data);
+                                saldo = data.saldo;
+                                if (saldo <= 0) {
+                                    break;
+                                }
+                                num++;
+                            }
+                        }
+
+                        update_Deals(dataDeal.deal_amount_bill);
+                    }
+                });
+        }
     });
 };

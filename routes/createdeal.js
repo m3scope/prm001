@@ -154,11 +154,12 @@ exports.post = function(req, res){
                                     //return res.status(200).send('Успешная регистрация!');
                                 });
                             }
-                            res.render('createdeal', {
-                                title: 'Создать СДЕЛКУ',
-                                user: user,
-                                LoginRegister: LoginRegister + '<div class="w3-green">Сделака создана</div>'
-                            });
+                            // /*res.render('createdeal', {
+                            //     title: 'Создать СДЕЛКУ',
+                            //     user: user,
+                            //     LoginRegister: LoginRegister + '<div class="w3-green">Сделака создана</div>'
+                            // });*/
+                            res.redirect('/deals/1;2');
                         }
                     });
                 } else {
