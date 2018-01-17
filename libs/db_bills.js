@@ -71,10 +71,6 @@ function cr_Bill(dealID, deal_amount, deal2Id, cb) {
 
         });
     });
-
-
-
-
 }
 
 //const dealId = Deal.ObjectId("5a532408b1dc980da81bfcc1");
@@ -125,24 +121,6 @@ async function requestAsync(dealID, saldo, deal2Id) {
     //return data;
 }
 
-async function update_Deals(amount) {
-    let saldo = amount;
-    // noinspection JSAnnotator
-    for (let deal of deals) {
-        console.log('--------- SALDO --------------');
-        console.log('' + saldo + ' / ' + num);
-        let data = await requestAsync(dataDeal._id, saldo, deal._id);
-        console.log('*********** data');
-        console.log(data);
-        saldo = data.saldo;
-        if (saldo <= 0) {
-            break;
-        }
-    }
-}
-
-//update_Deals(dataDeal.deal_amount_bill);
-
 async function BillsFromDeal(dealId) {
     let deals = [];
     let generalDeal = await Deal.findOne({_id: dealId});
@@ -165,6 +143,7 @@ async function BillsFromDeal(dealId) {
             .sort({price_amount: -1, createdAt: 1});
     }
     let saldo = generalDeal.deal_amount_bill;
+    let num = 0;
     for (let deal of deals) {
         console.log('--------- SALDO --------------');
         console.log(''+saldo+' / '+ num);
@@ -175,6 +154,7 @@ async function BillsFromDeal(dealId) {
         if (saldo <= 0) {
             break;
         }
+        num++;
     }
 
     console.log('1111****************************');
