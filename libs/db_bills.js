@@ -58,12 +58,16 @@ function cr_Bill(dealID, deal_amount, deal2Id, cb) {
                     console.error(err);
                     return cb(err, null, null);
                 }
+                dealOne.bills.push({billId: savedGeneralBill._id});
+                dealOne.save();
                 newTwoBill.save((err, savedTwoBill)=>{
                     "use strict";
                     if(err) {
                         console.error(err);
                         return cb(err, null, null);
                     }
+                    dealTwo.bills.push({billId: savedTwoBill._id});
+                    dealTwo.save();
                     return cb(null, savedGeneralBill, savedTwoBill);
                 });
                 //cb(null, savedBill);
@@ -206,13 +210,16 @@ async function BillsFromDeal(dealId) {
 
     let saldo = generalDeal.deal_amount_bill;
     let num = 0;
+    let deal_amount_bill = 0;
     for (let dealTwo of deals) {
         console.log('--------- SALDO --------------');
         console.log(''+saldo+' / '+ num);
         console.log(dealTwo);
 
         if(saldo <= dealTwo.deal_amount_bill) {
-            dealTwo.deal_amount_bill = dealTwo.deal_amount_bill - saldo;
+            deal_amount_bill = saldo;
+            saldo = 0;
+                dealTwo.deal_amount_bill = dealTwo.deal_amount_bill - deal_amount_bill;
             if(dealTwo.deal_amount_bill <= 0) {
                 dealTwo.status = 9;
             }
@@ -222,15 +229,15 @@ async function BillsFromDeal(dealId) {
                      if(err) console.error(err);
                  });*/
             });
-            generalDeal.deal_amount_bill = generalDeal.deal_amount_bill - saldo;
+            generalDeal.deal_amount_bill = generalDeal.deal_amount_bill - deal_amount_bill;
             if(generalDeal.deal_amount_bill <= 0) {
                 generalDeal.status = 9;
             }
-            cr_Bill(generalDeal._id, saldo, dealTwo._id, (err, o, t)=>{
+            cr_Bill(generalDeal._id, deal_amount_bill, dealTwo._id, (err, o, t)=>{
                 if(err) console.error(err);
             });
         } else {
-            let deal_amount_bill = dealTwo.deal_amount_bill;
+            deal_amount_bill = dealTwo.deal_amount_bill;
             saldo = saldo - deal_amount_bill;
             dealTwo.deal_amount_bill = 0;
             dealTwo.status = 9;
