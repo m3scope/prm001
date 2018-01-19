@@ -98,6 +98,9 @@ function cr_Bill(dealID, deal_amount, deal2Id, cb) {
                     }
                     dealTwo.bills.push({billId: savedTwoBill._id});
                     dealTwo.deal_amount_bill = dealTwo.deal_amount_bill - savedTwoBill.deal_amount;
+                    if(dealTwo.deal_amount_bill <= 0) {
+                        dealTwo.status = 9;
+                    }
                     dealTwo.save();
                     return cb(null, savedGeneralBill, savedTwoBill);
                 });
@@ -143,38 +146,12 @@ async function BillsFromDeal(dealId) {
         if(saldo <= dealTwo.deal_amount_bill) {
             deal_amount_bill = saldo;
             saldo = 0;
-                dealTwo.deal_amount_bill = dealTwo.deal_amount_bill - deal_amount_bill;
-            if(dealTwo.deal_amount_bill <= 0) {
-                dealTwo.status = 9;
-            }
-            dealTwo.save((err, tDeal)=>{
-                "use strict";
-                /* cr_Bill(genDealID, saldo, dealTwoID, (err, o, t)=>{
-                     if(err) console.error(err);
-                 });*/
-            });
-            generalDeal.deal_amount_bill = generalDeal.deal_amount_bill - deal_amount_bill;
-            if(generalDeal.deal_amount_bill <= 0) {
-                generalDeal.status = 9;
-            }
             cr_Bill(generalDeal._id, deal_amount_bill, dealTwo._id, (err, o, t)=>{
                 if(err) console.error(err);
             });
         } else {
             deal_amount_bill = dealTwo.deal_amount_bill;
             saldo = saldo - deal_amount_bill;
-            dealTwo.deal_amount_bill = 0;
-            dealTwo.status = 9;
-            dealTwo.save((err, tDeal) => {
-                "use strict";
-                /*cr_Bill(genDealID, saldo, dealTwoID, (err, o, t)=>{
-                    if(err) console.error(err);
-                });*/
-            });
-            generalDeal.deal_amount_bill = generalDeal.deal_amount_bill - deal_amount_bill;
-            if (generalDeal.deal_amount_bill <= 0) {
-                generalDeal.status = 9;
-            }
             cr_Bill(generalDeal._id, deal_amount_bill, dealTwo._id, (err, o, t) => {
                 if (err) console.error(err);
             });
@@ -189,13 +166,6 @@ async function BillsFromDeal(dealId) {
         }
         num++;
     }
-    generalDeal.save((err, gDeal)=>{
-        "use strict";
-        //resSaldo.amount_bill = gDeal.deal_amount_bill;
-        console.log('********* DealsFromSaldo / resSaldo');
-        //console.log(resSaldo);
-        //return resSaldo;
-    });
 
     console.log('1111****************************');
     console.log(generalDeal);
