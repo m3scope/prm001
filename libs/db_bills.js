@@ -2,6 +2,7 @@
 const User = require('../models/user');
 const Deal = require('../models/deal');
 const Bill = require('../models/bill');
+const Transaction = require('../models/transaction');
 const Curr = ['', 'currPrizm', 'currGold', 'currSilver'];
 const rezCurr = ['', 'rezPrizm', 'rezGold', 'rezSilver'];
 
@@ -19,6 +20,91 @@ function updUserBalance(userId, addCurr, addSum, deductCurr, deductSumm) {
 
 
     })
+}
+
+function crTrans(bill) {
+    if(bill.class){     // покупка
+        //for(let i=0; i<4; i++){
+        //******** ЗАЧИСЛЕНИЕ КУПЛЕННОЙ
+            let newTrans = new Transaction;
+            newTrans.sort = 1;
+            newTrans.billId = bill._id;
+            newTrans.userId = bill.dealerGeneralId;
+            newTrans.currency = bill.deal_currency;
+            newTrans.amount = bill.deal_amount;
+            newTrans.up_down = true;
+            newTrans.save();
+        //******** СПИСАНИЕ ОПЛАТЫ
+        let newTrans2 = new Transaction;
+        newTrans2.sort = 2;
+        newTrans2.billId = bill._id;
+        newTrans2.userId = bill.dealerGeneralId;
+        newTrans2.currency = bill.price_currency;
+        newTrans2.amount = bill.deal_amount*bill.price_amount;
+        newTrans2.up_down = false;
+
+        //******** СПИСАНИЕ КОМИССИИ
+        let newTrans3 = new Transaction;
+        newTrans3.sort = 3;
+        newTrans3.billId = bill._id;
+        newTrans3.userId = bill.dealerGeneralId;
+        newTrans3.currency = bill.price_currency;
+        newTrans3.amount = bill.commission_summ;
+        newTrans3.up_down = false;
+
+        //******** зачисление комиссии сервису в валюте оплаты
+        /*let newTrans = new Transaction;
+        newTrans.sort = 3;
+        newTrans.billId = bill._id;
+        newTrans.userId = bill.dealerGeneralId;
+        newTrans.currency = bill.deal_currency;
+        newTrans.amount = bill.deal_amount;
+        newTrans.up_down = false;*/
+        //}
+    } else {        // Продажа
+        //for(let i=0; i<4; i++){
+        //******** СПИСАНИЕ ПРОДАННОЙ
+        let newTrans = new Transaction;
+        newTrans.sort = 1;
+        newTrans.billId = bill._id;
+        newTrans.userId = bill.dealerGeneralId;
+        newTrans.currency = bill.deal_currency;
+        newTrans.amount = bill.deal_amount;
+        newTrans.up_down = false;
+        newTrans.save();
+        //******** Зачисление ОПЛАТЫ
+        let newTrans2 = new Transaction;
+        newTrans2.sort = 2;
+        newTrans2.billId = bill._id;
+        newTrans2.userId = bill.dealerGeneralId;
+        newTrans2.currency = bill.price_currency;
+        newTrans2.amount = bill.deal_amount*bill.price_amount;
+        newTrans2.up_down = true;
+
+        //******** СПИСАНИЕ КОМИССИИ
+        let newTrans3 = new Transaction;
+        newTrans3.sort = 3;
+        newTrans3.billId = bill._id;
+        newTrans3.userId = bill.dealerGeneralId;
+        newTrans3.currency = bill.price_currency;
+        newTrans3.amount = bill.commission_summ;
+        newTrans3.up_down = false;
+
+        //******** зачисление комиссии сервису в валюте оплаты
+        /*let newTrans = new Transaction;
+        newTrans.sort = 3;
+        newTrans.billId = bill._id;
+        newTrans.userId = bill.dealerGeneralId;
+        newTrans.currency = bill.deal_currency;
+        newTrans.amount = bill.deal_amount;
+        newTrans.up_down = false;*/
+        //}
+
+    }
+    let newTrans = new Transaction;
+    newTrans.billId = bill._id;
+    newTrans.userId = bill.dealerGeneralId;
+
 }
 
 function cr_Bill(dealID, deal_amount, deal2Id, cb) {
@@ -48,6 +134,7 @@ function cr_Bill(dealID, deal_amount, deal2Id, cb) {
             newTwoBill.commission_tax = dealTwo.commission_tax;
             newTwoBill.commission_summ = deal_amount * dealTwo.price_amount * dealTwo.commission_tax;
 
+            newTwoBill.class = dealTwo.class;
 
             newGeneralBill.dealGeneralIdId = dealOne._id;
             newGeneralBill.dealTwoId = dealTwo._id;
@@ -66,6 +153,8 @@ function cr_Bill(dealID, deal_amount, deal2Id, cb) {
             newGeneralBill.commission_tax = dealOne.commission_tax;
             newGeneralBill.commission_summ = deal_amount * dealOne.price_amount * dealOne.commission_tax;
 
+            newGeneralBill.class = dealOne.class;
+//**********************
             newGeneralBill.save((err, savedGeneralBill)=>{
                 "use strict";
                 if(err) {
@@ -79,12 +168,12 @@ function cr_Bill(dealID, deal_amount, deal2Id, cb) {
                 } else {
                     updUserBalance(savedGeneralBill.dealerGeneralId, savedGeneralBill.price_currency, savedGeneralBill.summ - savedGeneralBill.commission_summ, savedGeneralBill.deal_currency, savedGeneralBill.deal_amount);
                 }
-                
                 if(dealOne.deal_amount_bill <= 0) {
                     dealOne.status = 9;
                 }
                 dealOne.save();
 
+//*************************
                 newTwoBill.save((err, savedTwoBill)=>{
                     "use strict";
                     if(err) {
