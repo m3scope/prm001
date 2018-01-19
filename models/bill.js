@@ -35,7 +35,8 @@ const billSchema = new mongoose.Schema({
 
     summ: {type: Number, default: 0},
 
-    price: {type: Number, default: 0},          // Цена с комиссией
+    saldo_price: {type: Number, default: 0},          // разница цен
+    saldo_summ: {type: Number, default: 0},          // разница сумма
 
     commission_tax: {type: Number, default: 0},     // Сумма комиссии (~5-7%)
     commission_summ: {type: Number, default: 0},     // Сумма комиссии (~5-7%)

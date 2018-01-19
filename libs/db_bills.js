@@ -117,7 +117,7 @@ function cr_Bill(dealID, deal_amount, deal2Id, cb) {
 
         Deal.findById(deal2Id, function(err, dealTwo){
 
-            newTwoBill.dealGeneralIdId = dealTwo._id;
+            newTwoBill.dealGeneralId = dealTwo._id;
             newTwoBill.dealTwoId = dealOne._id;
 
             newTwoBill.dealerGeneralId = dealTwo.dealerId;
@@ -136,7 +136,12 @@ function cr_Bill(dealID, deal_amount, deal2Id, cb) {
 
             newTwoBill.class = dealTwo.class;
 
-            newGeneralBill.dealGeneralIdId = dealOne._id;
+            newTwoBill.saldo_price = Math.abs(dealOne.price_amount - dealTwo.price_amount);
+            newTwoBill.saldo_summ = deal_amount * (Math.abs(dealOne.price_amount - dealTwo.price_amount));
+
+            //*******************************
+
+            newGeneralBill.dealGeneralId = dealOne._id;
             newGeneralBill.dealTwoId = dealTwo._id;
 
             newGeneralBill.dealerGeneralId = dealOne.dealerId;
@@ -154,6 +159,10 @@ function cr_Bill(dealID, deal_amount, deal2Id, cb) {
             newGeneralBill.commission_summ = deal_amount * dealOne.price_amount * dealOne.commission_tax;
 
             newGeneralBill.class = dealOne.class;
+
+            newGeneralBill.saldo_price = Math.abs(dealOne.price_amount - dealTwo.price_amount);
+            newGeneralBill.saldo_summ = deal_amount * (Math.abs(dealOne.price_amount - dealTwo.price_amount));
+
 //**********************
             newGeneralBill.save((err, savedGeneralBill)=>{
                 "use strict";
