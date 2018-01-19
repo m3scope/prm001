@@ -42,6 +42,7 @@ function crTrans(bill) {
         newTrans2.currency = bill.price_currency;
         newTrans2.amount = bill.deal_amount*bill.price_amount;
         newTrans2.up_down = false;
+        newTrans2.save();
 
         //******** СПИСАНИЕ КОМИССИИ
         let newTrans3 = new Transaction;
@@ -51,6 +52,7 @@ function crTrans(bill) {
         newTrans3.currency = bill.price_currency;
         newTrans3.amount = bill.commission_summ;
         newTrans3.up_down = false;
+        newTrans3.save();
 
         //******** зачисление комиссии сервису в валюте оплаты
         /*let newTrans = new Transaction;
@@ -80,6 +82,7 @@ function crTrans(bill) {
         newTrans2.currency = bill.price_currency;
         newTrans2.amount = bill.deal_amount*bill.price_amount;
         newTrans2.up_down = true;
+        newTrans2.save();
 
         //******** СПИСАНИЕ КОМИССИИ
         let newTrans3 = new Transaction;
@@ -89,6 +92,7 @@ function crTrans(bill) {
         newTrans3.currency = bill.price_currency;
         newTrans3.amount = bill.commission_summ;
         newTrans3.up_down = false;
+        newTrans3.save();
 
         //******** зачисление комиссии сервису в валюте оплаты
         /*let newTrans = new Transaction;
@@ -101,10 +105,6 @@ function crTrans(bill) {
         //}
 
     }
-    let newTrans = new Transaction;
-    newTrans.billId = bill._id;
-    newTrans.userId = bill.dealerGeneralId;
-
 }
 
 function cr_Bill(dealID, deal_amount, deal2Id, cb) {
@@ -172,6 +172,7 @@ function cr_Bill(dealID, deal_amount, deal2Id, cb) {
                     dealOne.status = 9;
                 }
                 dealOne.save();
+                crTrans(savedGeneralBill);
 
 //*************************
                 newTwoBill.save((err, savedTwoBill)=>{
@@ -191,6 +192,8 @@ function cr_Bill(dealID, deal_amount, deal2Id, cb) {
                         dealTwo.status = 9;
                     }
                     dealTwo.save();
+                    crTrans(savedTwoBill);
+
                     return cb(null, savedGeneralBill, savedTwoBill);
                 });
                 //cb(null, savedBill);
