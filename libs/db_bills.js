@@ -1,11 +1,25 @@
 //const loadUser = require("loadUser");
+const User = require('../models/user');
 const Deal = require('../models/deal');
 const Bill = require('../models/bill');
-const Curr = {
-    'currSilver' : 3,
-    'currGold' : 2,
-    'currPrizm' : 1
-};
+const Curr = ['', 'currPrizm', 'currGold', 'currSilver'];
+const rezCurr = ['', 'rezPrizm', 'rezGold', 'rezSilver'];
+
+function updUserBalance(userId, addCurr, addSum, deductCurr, deductSumm) {
+    console.log('*** updUserBalance ***');
+    User.findById(userId, function (err, user) {
+        if(err) console.error(err);
+        if(!user) {
+            console.log(new Error('User not found!!!'))
+        } else {
+            user[Curr[addCurr]] = user[Curr[addCurr]] + addSum;
+            user[rezCurr[deductCurr]] = user[rezCurr[deductCurr]] - deductSumm;
+            user.save();
+        }
+
+
+    })
+}
 
 function cr_Bill(dealID, deal_amount, deal2Id, cb) {
     let newGeneralBill = new Bill;
@@ -59,14 +73,31 @@ function cr_Bill(dealID, deal_amount, deal2Id, cb) {
                     return cb(err, null, null);
                 }
                 dealOne.bills.push({billId: savedGeneralBill._id});
+                dealOne.deal_amount_bill = dealOne.deal_amount_bill - savedGeneralBill.deal_amount;
+                if(dealOne.class*1){
+                    updUserBalance(savedGeneralBill.dealerGeneralId, savedGeneralBill.deal_currency, savedGeneralBill.deal_amount, savedGeneralBill.price_currency, savedGeneralBill.summ + savedGeneralBill.commission_summ);
+                } else {
+                    updUserBalance(savedGeneralBill.dealerGeneralId, savedGeneralBill.price_currency, savedGeneralBill.summ - savedGeneralBill.commission_summ, savedGeneralBill.deal_currency, savedGeneralBill.deal_amount);
+                }
+                
+                if(dealOne.deal_amount_bill <= 0) {
+                    dealOne.status = 9;
+                }
                 dealOne.save();
+
                 newTwoBill.save((err, savedTwoBill)=>{
                     "use strict";
                     if(err) {
                         console.error(err);
                         return cb(err, null, null);
                     }
+                    if(dealTwo.class*1){
+                        updUserBalance(savedTwoBill.dealerGeneralId, savedTwoBill.deal_currency, savedTwoBill.deal_amount, savedTwoBill.price_currency, savedTwoBill.summ + savedTwoBill.commission_summ);
+                    } else {
+                        updUserBalance(savedTwoBill.dealerGeneralId, savedTwoBill.price_currency, savedTwoBill.summ - savedTwoBill.commission_summ, savedTwoBill.deal_currency, savedTwoBill.deal_amount);
+                    }
                     dealTwo.bills.push({billId: savedTwoBill._id});
+                    dealTwo.deal_amount_bill = dealTwo.deal_amount_bill - savedTwoBill.deal_amount;
                     dealTwo.save();
                     return cb(null, savedGeneralBill, savedTwoBill);
                 });
@@ -78,113 +109,6 @@ function cr_Bill(dealID, deal_amount, deal2Id, cb) {
 }
 
 //const dealId = Deal.ObjectId("5a532408b1dc980da81bfcc1");
-
-/*async function DealsFromSaldo(genDealID, saldo, dealTwoID) {
-    let resSaldo = 0;
-    let generalDeal = await Deal.findOne({_id: genDealID});
-    let dealTwo = await Deal.findOne({_id: dealTwoID});
-    if(saldo <= dealTwo.deal_amount_bill){
-        dealTwo.deal_amount_bill = dealTwo.deal_amount_bill - saldo;
-        if(dealTwo.deal_amount_bill <= 0) {
-            dealTwo.status = 9;
-        }
-        dealTwo.save((err, tDeal)=>{
-            "use strict";
-           /!* cr_Bill(genDealID, saldo, dealTwoID, (err, o, t)=>{
-                if(err) console.error(err);
-            });*!/
-        });
-        generalDeal.deal_amount_bill = generalDeal.deal_amount_bill - saldo;
-        if(generalDeal.deal_amount_bill <= 0) {
-            generalDeal.status = 9;
-        }
-        generalDeal.save((err, gDeal)=>{
-            "use strict";
-            cr_Bill(genDealID._id, saldo, dealTwoID._id, (err, o, t)=>{
-                if(err) console.error(err);
-            });
-            //resSaldo.amount_bill = gDeal.deal_amount_bill;
-            console.log('********* DealsFromSaldo / resSaldo');
-            //console.log(resSaldo);
-            return true;
-        });
-
-    } else {
-        let deal_amount_bill = dealTwo.deal_amount_bill;
-        resSaldo = saldo - deal_amount_bill;
-        dealTwo.deal_amount_bill = 0;
-        dealTwo.status = 9;
-        dealTwo.save((err, tDeal)=>{
-            "use strict";
-            /!*cr_Bill(genDealID, saldo, dealTwoID, (err, o, t)=>{
-                if(err) console.error(err);
-            });*!/
-        });
-        generalDeal.deal_amount_bill = generalDeal.deal_amount_bill - deal_amount_bill;
-        if(generalDeal.deal_amount_bill <= 0) {
-            generalDeal.status = 9;
-        }
-        generalDeal.save((err, gDeal)=>{
-            "use strict";
-            cr_Bill(genDealID._id, saldo, dealTwoID._id, (err, o, t)=>{
-                if(err) console.error(err);
-            });
-            //resSaldo.amount_bill = gDeal.deal_amount_bill;
-            console.log('********* DealsFromSaldo / resSaldo');
-            //console.log(resSaldo);
-            return true;
-        });
-
-    }
-
-}*/
-
-/*async function requestAsync(dealID, saldo, deal2Id) {
-    let data = {};
-    let deal_amount_bill = 0;
-    Deal.findById(deal2Id, (err, deal2) => {
-        "use strict";
-        if(err) console.error(err);
-
-        if(saldo <= deal2.deal_amount_bill){
-            data.saldo = 0;
-            deal2.deal_amount_bill = deal2.deal_amount_bill - saldo;
-            if(deal2.deal_amount_bill - saldo <= 0) deal2.status = 9;
-            deal2.save((err)=>{
-                if(err) console.error(err);
-                Deal.findById(dealID, (err, deal)=>{
-                    if(err) console.error(err);
-                    deal.deal_amount_bill = deal.deal_amount_bill - saldo;
-                    if(deal.deal_amount_bill - saldo <= 0) deal.status = 9;
-                    deal.save((err)=>{
-                        if(err) console.error(err);
-                        cr_Bill(dealID, saldo, deal2Id);
-                    });
-                });
-            });
-            return data;
-        } else {
-            deal_amount_bill = deal2.deal_amount_bill;
-            data.saldo = saldo - deal_amount_bill;
-            deal2.deal_amount_bill = 0;
-            deal2.status = 9;
-            deal2.save((err)=>{
-                if(err) console.error(err);
-                Deal.findById(dealID, (err, deal)=>{
-                    if(err) console.error(err);
-                    deal.deal_amount_bill = deal.deal_amount_bill - deal_amount_bill;
-                    if(deal.deal_amount_bill - saldo <= 0) deal.status = 9;
-                    deal.save((err)=>{
-                        if(err) console.error(err);
-                        cr_Bill(dealID, deal_amount_bill, deal2Id);
-                    });
-                });
-            });
-            return data;
-        }
-    });
-    //return data;
-}*/
 
 async function BillsFromDeal(dealId) {
     let deals = [];

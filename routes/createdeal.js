@@ -1,4 +1,5 @@
 const loadUser = require("../libs/loadUser");
+
 const Deal = require('../models/deal');
 const Bill = require('../models/bill');
 const db_bills = require('../libs/db_bills');
