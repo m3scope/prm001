@@ -54,14 +54,6 @@ function crTrans(bill) {
         newTrans3.up_down = false;
         newTrans3.save();
 
-        //******** зачисление комиссии сервису в валюте оплаты
-        /*let newTrans = new Transaction;
-        newTrans.sort = 3;
-        newTrans.billId = bill._id;
-        newTrans.userId = bill.dealerGeneralId;
-        newTrans.currency = bill.deal_currency;
-        newTrans.amount = bill.deal_amount;
-        newTrans.up_down = false;*/
         //}
     } else {        // Продажа
         //for(let i=0; i<4; i++){
@@ -174,6 +166,18 @@ function cr_Bill(dealID, deal_amount, deal2Id, cb) {
                 dealOne.deal_amount_bill = dealOne.deal_amount_bill - savedGeneralBill.deal_amount;
                 if(dealOne.class*1){
                     updUserBalance(savedGeneralBill.dealerGeneralId, savedGeneralBill.deal_currency, savedGeneralBill.deal_amount, savedGeneralBill.price_currency, savedGeneralBill.summ + savedGeneralBill.commission_summ);
+                    if(savedGeneralBill.price_amount > newTwoBill.price_amount){
+                        //******** зачисление разницы в цене
+                        //******** непредвиденное сальдо
+                        let newTrans = new Transaction;
+                        newTrans.sort = 9;
+                        newTrans.billId = savedGeneralBill._id;
+                        newTrans.userId = savedGeneralBill.dealerGeneralId;
+                        newTrans.currency = savedGeneralBill.deal_currency;
+                        newTrans.amount = savedGeneralBill.deal_amount * (savedGeneralBill.price_amount - newTwoBill.price_amount);
+                        newTrans.up_down = true;
+                        newTrans.save();
+                    }
                 } else {
                     updUserBalance(savedGeneralBill.dealerGeneralId, savedGeneralBill.price_currency, savedGeneralBill.summ - savedGeneralBill.commission_summ, savedGeneralBill.deal_currency, savedGeneralBill.deal_amount);
                 }
@@ -191,6 +195,18 @@ function cr_Bill(dealID, deal_amount, deal2Id, cb) {
                         return cb(err, null, null);
                     }
                     if(dealTwo.class*1){
+                        if(newTwoBill.price_amount > savedGeneralBill.price_amount){
+                            //******** зачисление разницы в цене
+                            //******** непредвиденное сальдо
+                            let newTrans = new Transaction;
+                            newTrans.sort = 9;
+                            newTrans.billId = savedGeneralBill._id;
+                            newTrans.userId = savedGeneralBill.dealerGeneralId;
+                            newTrans.currency = savedGeneralBill.deal_currency;
+                            newTrans.amount = savedGeneralBill.deal_amount * (newTwoBill.price_amount - savedGeneralBill.price_amount);
+                            newTrans.up_down = true;
+                            newTrans.save();
+                        }
                         updUserBalance(savedTwoBill.dealerGeneralId, savedTwoBill.deal_currency, savedTwoBill.deal_amount, savedTwoBill.price_currency, savedTwoBill.summ + savedTwoBill.commission_summ);
                     } else {
                         updUserBalance(savedTwoBill.dealerGeneralId, savedTwoBill.price_currency, savedTwoBill.summ - savedTwoBill.commission_summ, savedTwoBill.deal_currency, savedTwoBill.deal_amount);
