@@ -23,9 +23,9 @@ router.get('/', function(req, res) {
         console.log(ids);
     }
 
-    let LoginRegister = '<b><a href="/profile">Профиль</a>&nbsp;&nbsp;<a href="/createdeal">Создать сделку</a>&nbsp;&nbsp;<a href="/logout">Выход</a></b>';
-    if(!req.session.user){
-        LoginRegister = '<b><a href="/login">Вход</a> </b>';
+    let LoginRegister = '<b><a href="/login">Вход</a> </b>';
+    if(req.session.user){
+        LoginRegister = '<b><a href="/profile">'+req.session.username+'</a>&nbsp;&nbsp;<a href="/createdeal">Создать сделку</a>&nbsp;&nbsp;<a href="/logout">Выход</a></b>';
     }
     db_deals.getdeals(curr1,curr2, function (err, data) {
         if(err) res.status(500).send('Внутренняя ошибка!');
@@ -77,6 +77,7 @@ router.post('/login', (req, res) => {
         }
         if(user.checkPassword(password)){
             req.session.user = user._id;
+            req.session.username = user.username;
             return res.redirect('/'); //res.status(200).send('Welcome, '+ username + '!');
         }
         return res.status(200).send('Пользователь не найден!');
@@ -182,9 +183,9 @@ router.get('/deals/:id?', function (req, res) {
         console.log(ids);
     }
 
-    let LoginRegister = '<b><a href="/profile">Профиль</a>&nbsp;&nbsp;<a href="/createdeal">Создать сделку</a>&nbsp;&nbsp;<a href="/logout">Выход</a></b>';
-    if(!req.session.user){
-        LoginRegister = '<b><a href="/login">Вход</a> </b>';
+    let LoginRegister = '<b><a href="/login">Вход</a> </b>';
+    if(req.session.user){
+        LoginRegister = '<b><a href="/profile">'+req.session.username+'</a>&nbsp;&nbsp;<a href="/createdeal">Создать сделку</a>&nbsp;&nbsp;<a href="/logout">Выход</a></b>';
     }
     db_deals.getdeals(curr1,curr2, function (err, data) {
         if(err) res.status(500).send('Внутренняя ошибка!');
