@@ -5,7 +5,13 @@ const Bill = require('../models/bill');
 const Transaction = require('../models/transaction');
 const Curr = ['', 'currPrizm', 'currGold', 'currSilver'];
 const rezCurr = ['', 'rezPrizm', 'rezGold', 'rezSilver'];
-const sortName = [['',''], ['Списание проданной вылюты', 'Зачисление купленной валюты'], ['Списание оплаты','Зачисление оплаты'],['Списание комиссии',''],['','']];
+const sort_Name = [
+    ['',''],
+    ['Списание проданной вылюты', 'Зачисление купленной валюты'],
+    ['Списание оплаты','Зачисление оплаты'],
+    ['Списание комиссии',''],
+    ['','']
+];
 
 function updUserBalance(userId, addCurr, addSum, deductCurr, deductSumm) {
     console.log('*** updUserBalance ***');
@@ -29,7 +35,9 @@ function crTrans(bill) {
         //******** ЗАЧИСЛЕНИЕ КУПЛЕННОЙ
             let newTrans = new Transaction;
             newTrans.sort = 1;
-        newTrans.sortName = sortName[1][1];
+            console.log('----------- sortName[1][1] --------------');
+        console.log(sort_Name[1][1]);
+        newTrans.sortName = sort_Name[1][1];
             newTrans.billId = bill._id;
             newTrans.userId = bill.dealerGeneralId;
             newTrans.currency = bill.deal_currency;
@@ -40,7 +48,7 @@ function crTrans(bill) {
         //******** СПИСАНИЕ ОПЛАТЫ
         let newTrans2 = new Transaction;
         newTrans2.sort = 2;
-        newTrans.sortName = sortName[2][0];
+        newTrans2.sortName = sort_Name[2][0];
         newTrans2.billId = bill._id;
         newTrans2.userId = bill.dealerGeneralId;
         newTrans2.currency = bill.price_currency;
@@ -51,7 +59,7 @@ function crTrans(bill) {
         //******** СПИСАНИЕ КОМИССИИ
         let newTrans3 = new Transaction;
         newTrans3.sort = 3;
-        newTrans.sortName = sortName[3][0];
+        newTrans3.sortName = sort_Name[3][0];
         newTrans3.billId = bill._id;
         newTrans3.userId = bill.dealerGeneralId;
         newTrans3.currency = bill.price_currency;
@@ -63,36 +71,36 @@ function crTrans(bill) {
     } else {        // Продажа
         //for(let i=0; i<4; i++){
         //******** СПИСАНИЕ ПРОДАННОЙ
-        let newTrans = new Transaction;
-        newTrans.sort = 1;
-        newTrans.sortName = sortName[1][0];
-        newTrans.billId = bill._id;
-        newTrans.userId = bill.dealerGeneralId;
-        newTrans.currency = bill.deal_currency;
-        newTrans.amount = bill.deal_amount;
-        newTrans.up_down = false;
-        newTrans.save();
+        let newTrans4 = new Transaction;
+        newTrans4.sort = 1;
+        newTrans4.sortName = sort_Name[1][0];
+        newTrans4.billId = bill._id;
+        newTrans4.userId = bill.dealerGeneralId;
+        newTrans4.currency = bill.deal_currency;
+        newTrans4.amount = bill.deal_amount;
+        newTrans4.up_down = false;
+        newTrans4.save();
         //******** Зачисление ОПЛАТЫ
-        let newTrans2 = new Transaction;
-        newTrans2.sort = 2;
-        newTrans.sortName = sortName[2][1];
-        newTrans2.billId = bill._id;
-        newTrans2.userId = bill.dealerGeneralId;
-        newTrans2.currency = bill.price_currency;
-        newTrans2.amount = bill.deal_amount*bill.price_amount;
-        newTrans2.up_down = true;
-        newTrans2.save();
+        let newTrans5 = new Transaction;
+        newTrans5.sort = 2;
+        newTrans5.sortName = sort_Name[2][1];
+        newTrans5.billId = bill._id;
+        newTrans5.userId = bill.dealerGeneralId;
+        newTrans5.currency = bill.price_currency;
+        newTrans5.amount = bill.deal_amount*bill.price_amount;
+        newTrans5.up_down = true;
+        newTrans5.save();
 
         //******** СПИСАНИЕ КОМИССИИ
-        let newTrans3 = new Transaction;
-        newTrans3.sort = 3;
-        newTrans.sortName = sortName[3][0];
-        newTrans3.billId = bill._id;
-        newTrans3.userId = bill.dealerGeneralId;
-        newTrans3.currency = bill.price_currency;
-        newTrans3.amount = bill.commission_summ;
-        newTrans3.up_down = false;
-        newTrans3.save();
+        let newTrans6 = new Transaction;
+        newTrans6.sort = 3;
+        newTrans6.sortName = sort_Name[3][0];
+        newTrans6.billId = bill._id;
+        newTrans6.userId = bill.dealerGeneralId;
+        newTrans6.currency = bill.price_currency;
+        newTrans6.amount = bill.commission_summ;
+        newTrans6.up_down = false;
+        newTrans6.save();
 
         //******** зачисление комиссии сервису в валюте оплаты
         /*let newTrans = new Transaction;
@@ -404,4 +412,11 @@ async function BillsFromDeal(dealId){  // получаем объект    //(de
 
 exports.createBillsFromDeal = (dealId)=>{    // получаем объект
     BillsFromDeal(dealId);
+};
+
+exports.getUserBills = function (userId, cb) {
+    Bill.find({dealerGeneralId: userId}).limit(100).sort({createdAt: -1}).exec(function (err, deals) {
+        console.log(deals);
+        cb(null, deals);
+    });
 };
