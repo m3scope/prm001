@@ -22,7 +22,8 @@ const transactionSchema = new mongoose.Schema({
     currency: {type: Number, default: 0},       // Код (число) валюты
     amount: {type: Number, default: 0},           // Количество валюты
     up_down: {type: Boolean, default: false},   // Вид движения, пополнение(true), списание(false)
-    sort: {type: Number, default: 1}            // Вид транзакции (см. выше)
+    sort: {type: Number, default: 1},            // Вид транзакции (см. выше)
+    sortName: {type: String, default: 'none'}
 },  {
     timestamps: true
 });

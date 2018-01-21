@@ -5,6 +5,7 @@ const Bill = require('../models/bill');
 const Transaction = require('../models/transaction');
 const Curr = ['', 'currPrizm', 'currGold', 'currSilver'];
 const rezCurr = ['', 'rezPrizm', 'rezGold', 'rezSilver'];
+const sortName = [['',''], ['Списание проданной вылюты', 'Зачисление купленной валюты'], ['Списание оплаты','Зачисление оплаты'],['Списание комиссии',''],['','']];
 
 function updUserBalance(userId, addCurr, addSum, deductCurr, deductSumm) {
     console.log('*** updUserBalance ***');
@@ -28,15 +29,18 @@ function crTrans(bill) {
         //******** ЗАЧИСЛЕНИЕ КУПЛЕННОЙ
             let newTrans = new Transaction;
             newTrans.sort = 1;
+        newTrans.sortName = sortName[1][1];
             newTrans.billId = bill._id;
             newTrans.userId = bill.dealerGeneralId;
             newTrans.currency = bill.deal_currency;
             newTrans.amount = bill.deal_amount;
             newTrans.up_down = true;
+
             newTrans.save();
         //******** СПИСАНИЕ ОПЛАТЫ
         let newTrans2 = new Transaction;
         newTrans2.sort = 2;
+        newTrans.sortName = sortName[2][0];
         newTrans2.billId = bill._id;
         newTrans2.userId = bill.dealerGeneralId;
         newTrans2.currency = bill.price_currency;
@@ -47,6 +51,7 @@ function crTrans(bill) {
         //******** СПИСАНИЕ КОМИССИИ
         let newTrans3 = new Transaction;
         newTrans3.sort = 3;
+        newTrans.sortName = sortName[3][0];
         newTrans3.billId = bill._id;
         newTrans3.userId = bill.dealerGeneralId;
         newTrans3.currency = bill.price_currency;
@@ -60,6 +65,7 @@ function crTrans(bill) {
         //******** СПИСАНИЕ ПРОДАННОЙ
         let newTrans = new Transaction;
         newTrans.sort = 1;
+        newTrans.sortName = sortName[1][0];
         newTrans.billId = bill._id;
         newTrans.userId = bill.dealerGeneralId;
         newTrans.currency = bill.deal_currency;
@@ -69,6 +75,7 @@ function crTrans(bill) {
         //******** Зачисление ОПЛАТЫ
         let newTrans2 = new Transaction;
         newTrans2.sort = 2;
+        newTrans.sortName = sortName[2][1];
         newTrans2.billId = bill._id;
         newTrans2.userId = bill.dealerGeneralId;
         newTrans2.currency = bill.price_currency;
@@ -79,6 +86,7 @@ function crTrans(bill) {
         //******** СПИСАНИЕ КОМИССИИ
         let newTrans3 = new Transaction;
         newTrans3.sort = 3;
+        newTrans.sortName = sortName[3][0];
         newTrans3.billId = bill._id;
         newTrans3.userId = bill.dealerGeneralId;
         newTrans3.currency = bill.price_currency;
