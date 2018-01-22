@@ -4,10 +4,12 @@ const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const session = require('express-session');
-const mongoose = require('./libs/mongoose');
-const MongoStore = require('connect-mongo')(session);
+// const mongoose = require('./libs/mongoose');
+// const MongoStore = require('connect-mongo')(session);
 const config = require('config');
 const path = require('path');
+
+const socket = require('socket.io');
 
 const routes = require('./routes');
 const users = require('./routes/users');
@@ -27,13 +29,15 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+const sessionStore = require('./libs/sessionStore');
 const sess = config.get('session');
-sess.store = new MongoStore({ mongooseConnection: mongoose.connection });
+sess.store = sessionStore;      //new MongoStore({ mongooseConnection: mongoose.connection });
 if (app.get('env') === 'production') {
     app.set('trust proxy', 1); // trust first proxy
     sess.cookie.secure = true // serve secure cookies
 }
 app.use(session(sess));
+
 
 app.use('/', routes);
 //app.use('/users', users);

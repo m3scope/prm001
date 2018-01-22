@@ -6,6 +6,7 @@
 const app = require('../app');
 const debug = require('debug')('prizm001:server');
 const http = require('http');
+//const socket = require('socket.io');
 
 /**
  * Get port from environment and store in Express.
@@ -29,6 +30,14 @@ server.on('listening', onListening);
 /**
  * Normalize a port into a number, string, or false.
  */
+
+// const io = socket(server);
+//
+// io.on('connection', function (socket) {
+//     console.log('**** Made SOCKET connection', socket.id);
+// });
+
+require('../socket')(server);
 
 function normalizePort(val) {
   let port = parseInt(val, 10);
