@@ -18,8 +18,8 @@ const app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
-
 app.set('view engine', 'ejs');
+app.engine('html', require('ejs').renderFile);
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
@@ -37,7 +37,6 @@ if (app.get('env') === 'production') {
     sess.cookie.secure = true // serve secure cookies
 }
 app.use(session(sess));
-
 
 app.use('/', routes);
 //app.use('/users', users);

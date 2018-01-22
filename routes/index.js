@@ -12,7 +12,7 @@ const noCache = function(req, res, next) {
     return next();
 };
 /* GET home page. */
-router.get('/', function(req, res) {
+router.get('/', function(req, res, next) {
     //const id = req.params.id;
     let curr1 = 1;
     let curr2 = 2;
