@@ -64,3 +64,36 @@ async function BillsFromDeal(generalDeal){  // получаем объект    
     console.log(deals);
     return {err: null, g: generalDeal, d: deals};
 }
+
+
+<script type="text/javascript">
+    //<![CDATA[
+    function formatDate(date) {
+        let d = new Date(date),
+            month = '' + (d.getMonth() + 1),
+            day = '' + d.getDate(),
+            year = d.getFullYear();
+
+        if (month.length < 2) month = '0' + month;
+        if (day.length < 2) day = '0' + day;
+
+        return [year, month, day].join('-');
+    }
+let myApp = angular.module('myApp',[]);
+const Curr = ['','Pzm','Gld','Slv'];
+const dealClasses = ['Продажа', 'Покупка'];
+myApp.controller('userDealsCtrl', function ($scope) {
+    $scope.itms = [{}];
+<% user.deals.forEach(function (nmm) { %>
+        $scope.itms.push({para: Curr[<%= nmm.deal_currency%>]+'/'+Curr[<%= nmm.price_currency%>], dt: '<%= nmm.createdAt.toLocaleString() %>', clas: dealClasses[<%= nmm.class%>], deal_amount: <%= nmm.deal_amount %>, price: <%= nmm.price_amount%>, deal_summ: <%= nmm.deal_amount*nmm.price_amount%>});
+    <%})%>
+})
+myApp.controller('userBillsCtrl', function ($scope) {
+    $scope.bills = [{}];
+<% user.bills.forEach(function (nmm) { %>
+        $scope.bills.push({para: Curr[<%= nmm.deal_currency%>]+'/'+Curr[<%= nmm.price_currency%>], dt: '<%= nmm.createdAt.toLocaleString() %>', clas: dealClasses[<%= nmm.class%>], deal_amount: <%= nmm.deal_amount %>, price: <%= nmm.price_amount%>, deal_summ: <%= nmm.deal_amount*nmm.price_amount%>});
+    <%})%>
+})
+
+//]]>
+</script>
