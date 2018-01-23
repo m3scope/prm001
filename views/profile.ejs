@@ -20,6 +20,12 @@
 
 <div class="w3-content w3-margin-top" style="max-width:1400px;">
     <%- include('includes/header') -%>
+  <div class="w3-bar w3-border w3-light-grey">
+    <a href="#" class="w3-bar-item w3-button">Link 1</a>
+    <a href="#" class="w3-bar-item w3-button">Link 2</a>
+    <a href="#" class="w3-bar-item w3-button">Link 3</a>
+  </div>
+
   <div class="w3-panel">
     <b>Баланс: </b>
       <span>Prizm: </span>
@@ -29,9 +35,28 @@
       <span>Silver: </span>
       <label class="w3-border"><%= user.currSilver%></label>
   </div>
-  <div class="w3-row-padding">
 
+  <div class="w3-row-padding">
     <div class="w3-col s6" >
+
+      <div class="w3-twothird">
+        <div class="w3-container w3-blue">
+          <b>Данные</b>
+        </div>
+        <div class="w3-container w3-card-4">
+          <table>
+            <tr>
+              <td>e-mail:</td>
+              <td><%= user.email%></td>
+            </tr>
+            <tr>
+              <td>prizm address:</td>
+              <td><%= user.prizmaddress%></td>
+            </tr>
+
+          </table>
+        </div>
+      </div>
       <div class="w3-card-4" ng-controller="userBillsCtrl">
 
       </div>
