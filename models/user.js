@@ -20,6 +20,11 @@ const userSchema = new mongoose.Schema({
     prizmaddress: {
         type: String,
     },
+    fiats: [{
+        fiatName: {type: String},
+        fiatAddress: {type: String},
+        fiatAbout: {type: String}
+    }],
     publicKey: {
         type: String,
     },
@@ -47,6 +52,10 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: 'Укажите e-mail',
         unique: 'Такой e-mail уже существует'
+    },
+    email_confirmed: {
+        type: Boolean,
+        default: false
     },
     passwordHash: String,
     salt: String
