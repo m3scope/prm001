@@ -35,6 +35,7 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/profile', checkAuth, require('./getProfile').get);
+router.post('/profile', checkAuth, require('./getProfile').post);
 
 router.post('/users', checkAuth, noCache, require('./users_post'), function (req, res){
     let user = req.user;

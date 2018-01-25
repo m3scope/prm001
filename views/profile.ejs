@@ -40,34 +40,37 @@
     <div class="w3-col s6" >
 
       <div class="w3-twothird">
-        <div class="w3-container w3-blue">
-          <b>Данные</b>
+        <div class="w3-card-4">
+        <div class="w3-container w3-teal">
+          <h5>Личные данные</h5>
         </div>
-        <div class="w3-container w3-card-4">
-          <table>
-            <tr>
-              <td>Login:</td>
-              <td><%= user.username%></td>
-            </tr>
-            <tr>
-              <td>Имя пользователя:</td>
-              <td><%= user.name_f%></td>
-            </tr>
-            <tr>
-              <td>e-mail:</td>
-              <td><%= user.email%><% if(user.email_confirmed){%>
-                      <span class="w3-badge w3-green">V</span>
+          <form action="/profile" method="post" class="w3-container">
+            <p>
+              <span class="w3-input w3-border" ><%= user.username%></span>
+              <span class="w3-tag w3-green">Login</span>
+            </p>
+            <p>
+              <input class="w3-input w3-border" value="<%= user.name_f%>" name="name_f">
+              <span class="w3-tag w3-green">Имя пользователя</span>
+            </p>
+            <p>
+              <span class="w3-input w3-border" ><%= user.email%><% if(user.email_confirmed){%>
+                <span class="w3-badge w3-green">V</span>
                   <%} else {%>
-                      <span class="w3-badge w3-red">x</span>
-                <%}%>
-              </td>
-            </tr>
-            <tr>
-              <td>Адрес Prizm:</td>
-              <td><%= user.prizmaddress%></td>
-            </tr>
-          </table>
-          <a href="#" class="w3-button w3-orange">Редактировать</a>
+                <span class="w3-badge w3-red">x</span>
+                  <%}%>
+              </span>
+              <span class="w3-tag w3-green">e-mail</span>
+            </p>
+            <p>
+              <input class="w3-input w3-border" value="<%= user.prizmaddress%>" name="prizmaddress">
+              <span class="w3-tag w3-green">Адрес Prizm</span>
+            </p>
+            <p>
+              <input class="w3-btn w3-teal" type="submit" value="Сохранить">
+            </p>
+          </form>
+
         </div>
       </div>
       <div class="w3-card-4" ng-controller="userBillsCtrl">
