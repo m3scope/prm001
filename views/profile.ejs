@@ -111,14 +111,22 @@
           <h5>Счета</h5>
         </div>
         <% if(user.bills.length>0) {%>
-        <table>
+        <table class="w3-table w3-table-all w3-small w3-striped w3-bordered">
           <tr>
             <th>Пара</th>
+            <th>Тип</th>
+            <th>Кол.</th>
+            <th>Цена</th>
+            <th>Сумма</th>
             <th>Дата</th>
           </tr>
           <% for(var i=0, len=user.bills.length; i<len; i++){%>
             <tr>
-              <td></td>
+              <td><%= currs[user.bills[i].deal_currency]%>/<%= currs[user.bills[i].price_currency]%></td>
+              <td><%= bs[user.bills[i].class] %></td>
+              <td><%= user.bills[i].deal_amount%></td>
+              <td><%= user.bills[i].price_amount%></td>
+              <td><%= user.bills[i].summ%></td>
               <td><%= new Date(user.bills[i].createdAt).toISOString().replace(/T/, ' ').replace(/\..+/, ''); %></td>
             </tr>
           <%}%>
@@ -136,13 +144,19 @@
         <table class="w3-table w3-table-all w3-small w3-striped w3-bordered">
           <tr>
             <th>Пара</th>
-            <th></th>
+            <th>Тип</th>
+            <th>Кол.</th>
+            <th>Цена</th>
+            <th>Сумма</th>
             <th>Дата</th>
           </tr>
             <% for(var y=0, leny=user.deals.length; y<leny; y++){%>
           <tr>
             <td><%= currs[user.deals[y].deal_currency]%>/<%= currs[user.deals[y].price_currency]%></td>
             <td><%= bs[user.deals[y].class] %></td>
+            <td><%= user.deals[y].deal_amount%><span class="w3-small">(<%= user.deals[y].deal_amount_bill%>)</span></td>
+            <td><%= user.deals[y].price_amount%></td>
+            <td><%= Math.round(user.deals[y].deal_amount*user.deals[y].price_amount*10000)/10000%></td>
             <td><%= new Date(user.deals[y].createdAt).toISOString().replace(/T/, ' ').replace(/\..+/, ''); %></td>
           </tr>
             <%}%>
