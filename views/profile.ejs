@@ -102,7 +102,9 @@
         </div>
 
       </div>
-    <% let currs=['','Pzm','Gld','Slv']%>
+    <% let currs=['','Pzm','Gld','Slv'];
+        let bs=['sell','buy'];
+    %>
     <div class="w3-col m4" >
       <div class="w3-border-left">
         <div class="w3-container w3-teal">
@@ -131,15 +133,16 @@
           <h5>Ордера</h5>
         </div>
           <% if(user.deals.length>0) {%>
-        <table>
+        <table class="w3-table w3-table-all w3-small w3-striped w3-bordered">
           <tr>
             <th>Пара</th>
+            <th></th>
             <th>Дата</th>
           </tr>
             <% for(var y=0, leny=user.deals.length; y<leny; y++){%>
           <tr>
             <td><%= currs[user.deals[y].deal_currency]%>/<%= currs[user.deals[y].price_currency]%></td>
-            <td></td>
+            <td><%= bs[user.deals[y].class] %></td>
             <td><%= new Date(user.deals[y].createdAt).toISOString().replace(/T/, ' ').replace(/\..+/, ''); %></td>
           </tr>
             <%}%>
