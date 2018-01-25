@@ -186,7 +186,7 @@ router.get('/deals/:id?', function (req, res) {
 
     let LoginRegister = '<b><a href="/login">Вход</a> </b>';
     if(req.session.user){
-        LoginRegister = '<b><a href="/profile">'+req.session.username+'</a>&nbsp;&nbsp;<a href="/createdeal">Создать сделку</a>&nbsp;&nbsp;<a href="/logout">Выход</a></b>';
+        LoginRegister = '<b><a href="/profile" class="w3-button w3-border w3-border-white w3-round">'+req.session.username+'</a>&nbsp;&nbsp;<a href="/logout" class="w3-button w3-border w3-border-white w3-round">Выход</a></b>';
     }
     db_deals.getdeals(curr1,curr2, function (err, data) {
         if(err) res.status(500).send('Внутренняя ошибка!');
