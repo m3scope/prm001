@@ -36,7 +36,7 @@
       <label class="w3-border"><%= user.currSilver%></label>
   </div>
 
-  <div class="w3-row-padding">
+  <div class="w3-row-padding w3-small">
 
       <div class="w3-col m2">
         <div class="w3-border-left">
@@ -104,6 +104,7 @@
       </div>
     <% let currs=['','Pzm','Gld','Slv'];
         let bs=['sell','buy'];
+        let clors=['w3-orange','w3-green'];
     %>
     <div class="w3-col m4" >
       <div class="w3-border-left">
@@ -123,7 +124,7 @@
           <% for(var i=0, len=user.bills.length; i<len; i++){%>
             <tr>
               <td><%= currs[user.bills[i].deal_currency]%>/<%= currs[user.bills[i].price_currency]%></td>
-              <td><%= bs[user.bills[i].class] %></td>
+              <td class="<%= clors[user.bills[i].class]%>"><%= bs[user.bills[i].class] %></td>
               <td><%= user.bills[i].deal_amount%></td>
               <td><%= user.bills[i].price_amount%></td>
               <td><%= user.bills[i].summ%></td>
@@ -153,7 +154,7 @@
             <% for(var y=0, leny=user.deals.length; y<leny; y++){%>
           <tr>
             <td><%= currs[user.deals[y].deal_currency]%>/<%= currs[user.deals[y].price_currency]%></td>
-            <td><%= bs[user.deals[y].class] %></td>
+            <td class="<%= clors[user.deals[y].class]%>"><%= bs[user.deals[y].class] %></td>
             <td><%= user.deals[y].deal_amount%><span class="w3-small">(<%= user.deals[y].deal_amount_bill%>)</span></td>
             <td><%= user.deals[y].price_amount%></td>
             <td><%= Math.round(user.deals[y].deal_amount*user.deals[y].price_amount*10000)/10000%></td>
