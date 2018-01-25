@@ -24,18 +24,18 @@ exports.get = function(req, res){
         if(req.session.user){
             LoginRegister = '<b><a href="/profile">'+req.session.username+'</a>&nbsp;&nbsp;<a href="/logout">Выход</a></b>';
         }
-            // db_deals.getUserDeals(user._id, function (err, userDeals) {
-            //     if(err) console.log(err);
-            //     user.deals = userDeals;
-            //     db_bills.getUserBills(user._id, (err, userBills)=>{
-            //         "use strict";
-            //         if(err) console.log(err);
-            //         user.bills = userBills;
-            //         res.render('profile', {title: 'Профиль', user: user, LoginRegister: LoginRegister});
-            //     });
-            //
-            // });
-            res.render('profile', {title: 'Профиль', user: user, LoginRegister: LoginRegister});
+            db_deals.getUserDeals(user._id, function (err, userDeals) {
+                if(err) console.log(err);
+                user.deals = userDeals;
+                db_bills.getUserBills(user._id, (err, userBills)=>{
+                    "use strict";
+                    if(err) console.log(err);
+                    user.bills = userBills;
+                    res.render('profile', {title: 'Профиль', user: user, LoginRegister: LoginRegister});
+                });
+
+            });
+            //res.render('profile', {title: 'Профиль', user: user, LoginRegister: LoginRegister});
         });
 
     //res.render('profile', {title: 'USERS authLK', user: User});
