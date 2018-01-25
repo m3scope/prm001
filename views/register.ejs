@@ -24,15 +24,15 @@
         </div>
         <form action="/register" method="post" class="w3-container">
           <p>
-            <input class="w3-input" type="text" name="username">
-            <label>Пользователь</label></p>
+            <input class="w3-input" type="text" pattern="/^[a-zA-Z0-9]+$/" name="username">
+            <label class="w3-tag w3-teal">Пользователь</label><span class="w3-small">(6-32зн./лат.,цифры/)</span></p>
           <p>
           <p>
             <input class="w3-input" type="email" name="email">
-            <label>E-mail</label></p>
+            <label class="w3-tag w3-teal">E-mail</label></p>
           <p>
             <input class="w3-input" type="password" name="password">
-            <label>Пароль</label></p>
+            <label class="w3-tag w3-teal">Пароль</label></p>
           <p>
             <input class="w3-btn w3-green" type="submit">
           </p>

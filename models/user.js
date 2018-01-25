@@ -13,7 +13,7 @@ const userSchema = new mongoose.Schema({
         // Максимальная длинна 32 Юникод символа (Unicode symbol != byte)
         minlength:[6,"tooShort"],
         // Слишком короткий Логин!
-        match:[/^[a-z0-9]+$/,"usernameIncorrect"],
+        match:[/^[a-zA-Z0-9]+$/,"usernameIncorrect"],
         // Мой любимй формат! ЗАПРЕТИТЬ НИЖНЕЕ ТИРЕ!
         unique:true // Оно должно быть уникальным
     },
