@@ -197,9 +197,21 @@ router.get('/deals/:id?', function (req, res) {
 
 //*** (API) - ЗАПРОСЫ / ОТВЕТЫ ********************
 
-router.get('/api/:id?');
+router.get('/api/q/res/:id?', function (req, res) {
+    if(req.params.id){
+        const ids = req.params.id.split(';');
+        curr1 = ids[0]*1;
+        curr2 = ids[1]*1;
+        console.log(ids);
+    } else {
+        console.log(req.body);
+    }
+});
 
 
+router.get('/api/q/req', function (req, res) {
+    console.log(req.body);
+});
 
 //----------------------------------------------
 
