@@ -12,7 +12,7 @@ const  querySchema = new mongoose.Schema({
 });
 
 querySchema.methods.encryptKey = function () {
-    return crypto.pbkdf2Sync(this.data, this.key_Salt, 1, 128, 'sha1');
+    return crypto.pbkdf2Sync(this.data, this.key_Salt, 1, 16, 'sha1');
 };
 querySchema.methods.checkData = function(data){
     //if (!password) return false;
@@ -24,7 +24,7 @@ querySchema.virtual('datas')
     .set(function (data) {
         if(data){
             this.data = data;
-            this.key_Salt = crypto.randomBytes(128).toString('base64');
+            this.key_Salt = crypto.randomBytes(16).toString('base64');
             this.key_Hash = this.encryptKey(data);
         } else {
             this.key_Salt = undefined;
