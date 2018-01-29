@@ -14,15 +14,22 @@ const  querySchema = new mongoose.Schema({
 querySchema.methods.encryptKey = function () {
     return crypto.pbkdf2Sync(this.data, this.key_Salt, 1, 128, 'sha1');
 };
-querySchema.methods.checkData = function(){
+querySchema.methods.checkData = function(data){
     //if (!password) return false;
     //if (!this.passwordHash) return false;
-    return this.encryptPassword(this.data) == this.passwordHash;
+    return this.encryptKey(data) == this.key_Hash;
 };
 
 querySchema.virtual('datas')
-    .set(function () {
-
+    .set(function (data) {
+        if(data){
+            this.data = data;
+            this.key_Salt = crypto.randomBytes(128).toString('base64');
+            this.key_Hash = this.encryptKey(data);
+        } else {
+            this.key_Salt = undefined;
+            this.key_Hash = undefined;
+        }
     });
 
 
