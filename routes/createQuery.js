@@ -40,8 +40,6 @@ exports.post = function (req, res, next) {
             res.redirect('/login');
         }
 
-
-
         res.render('createquery', {title: 'Создать ЗАПРОС', user: user, LoginRegister: LoginRegister});
     });
 };

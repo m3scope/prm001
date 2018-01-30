@@ -197,12 +197,10 @@ router.get('/deals/:id?', function (req, res) {
 
 //*** (API) - ЗАПРОСЫ / ОТВЕТЫ ********************
 
-router.get('/api/q/res/:id?', checkAuth, noCache, require('./createQuery').get);
+router.get('/api/q/res/:id?', checkAuth, noCache, require('./responseQuery').get);
 
 
-router.get('/api/q/req', function (req, res) {
-    console.log(req.body);
-});
+router.get('/api/q/req/:id?', checkAuth, noCache, require('./createQuery').get);
 
 //----------------------------------------------
 
