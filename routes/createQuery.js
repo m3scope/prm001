@@ -39,6 +39,9 @@ exports.post = function (req, res, next) {
             LoginRegister = '<b><a href="/login">вход</a></b>';
             res.redirect('/login');
         }
+        if(req.params.id) {
+
+        }
 
         res.render('createquery', {title: 'Создать ЗАПРОС', user: user, LoginRegister: LoginRegister});
     });
