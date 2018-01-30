@@ -18,7 +18,7 @@ exports.get = function (req, res, next) {
             LoginRegister = '<b><a href="/login">вход</a></b>';
             res.redirect('/login');
         }
-        let ids = [true,2];
+        let ids = [true,3];
         let i = 'q_silverAdd';
         if(req.params.id) {
             ids = req.params.id.split(';');
@@ -27,7 +27,7 @@ exports.get = function (req, res, next) {
             }
         }
         console.log(ids);
-        res.render('createquery', {inc: i, title: 'Создать ЗАПРОС', user: user, LoginRegister: LoginRegister});
+        res.render('createquery', {inc: {f:i,curr:ids[1]*1}, title: 'Создать ЗАПРОС', user: user, LoginRegister: LoginRegister});
     });
 };
 
