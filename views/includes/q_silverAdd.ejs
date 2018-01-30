@@ -23,12 +23,12 @@
           <span class="w3-text-yellow">Комиcсия: {{commission_buy | number:2}}</span>
         </p>
           <p>
-              <input type="checkbox" name="check_TermsOfService" ng-model="checked_TOS">
+              <input type="checkbox" name="check_TermsOfService" ng-model="data.disabled">
               <label>* Согласен с условиями работы сервиса</label>
           </p>
         <p>
-          <input  type="submit" value="Создать" ng-desabled="checked_TOS">
-            <button ng-dsabled="checked_TOS">buttonssssssss</button>
+          <input  type="submit" value="Создать" ng-disabled="data.disabled">
+            <button ng-disabled="data.disabled">buttonssssssss</button>
         </p>
       </form>
     </div>
@@ -42,6 +42,8 @@
     let nm = {};
     const Curr = ['','currPrizm','currGold','currSilver'];
     myApp.controller('MainCtrl', function($scope) {
+        $scope.data = {};
+        $scope.data.disabled = false;
         $scope.curr1 = Curr[<%= inc.curr %>];
         $scope.dt1 = [];
         $scope.commission_buy = 0;

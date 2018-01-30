@@ -1,0 +1,60 @@
+<% const curr = ['', 'Prizm', 'Gold', 'Silver']; %>
+<div class="w3-panel"></div>
+<div class="w3-row-padding" ng-app="myApp">
+    <!-- Left Column -->
+    <div class="w3-col s6" ng-controller="MainCtrl">
+        <div class="w3-card-4">
+            <div class="w3-container w3-teal">
+                <h5>Помощь проекту</h5>
+            </div>
+            <form action="/api/q/req/add_prizm" method="post" class="w3-container">
+                <input type="hidden" name="class" value="1">
+                <p>
+                    <input class="w3-input" type="number" value="0" step="any" name="deal_amount" required ng-model="deal_amount_buy_rub" ng-change="change_buy_rub()">
+                    <span class="w3-tag w3-green">RUB</span>
+                    <input type="hidden" name="deal_currency" value="{{ curr1 }}">
+                </p>
+                <p>
+                    <input class="w3-input" type="number" value="0" step="any" name="price_amount" required ng-model="deal_amount_buy_curr" ng-change="change_buy_curr()">
+                    <span class="w3-tag w3-green"><%= curr[inc.curr] %></span>
+                    <input type="hidden" name="price_currency" value="{{ curr2 }}">
+                </p>
+                <p>
+                    <span class="w3-text-yellow">Комиcсия: {{commission_buy | number:2}}</span>
+                </p>
+                <p>
+                    <input type="checkbox" name="check_TermsOfService" ng-model="data.disabled">
+                    <label>* Согласен с условиями работы сервиса</label>
+                </p>
+                <p>
+                    <input  type="submit" value="Создать" ng-disabled="checked_TOS">
+                    <button ng-disabled="data.disabled">buttonssssssss</button>
+                </p>
+            </form>
+        </div>
+
+    </div>
+</div>
+
+<script type="text/javascript">
+    //<![CDATA[
+    let myApp = angular.module('myApp',[]);
+    let nm = {};
+    const Curr = ['','currPrizm','currGold','currSilver'];
+    myApp.controller('MainCtrl', function($scope) {
+        $scope.data = {};
+        $scope.data.disabled = false;
+        $scope.curr1 = Curr[<%= inc.curr %>];
+        $scope.dt1 = [];
+        $scope.commission_buy = 0;
+        $scope.change_buy_rub = function () {
+            $scope.commission_buy = Math.round(Number($scope.deal_amount_buy_rub)*0.05*100)/100;
+            $scope.deal_amount_buy_curr = Math.round((Number($scope.deal_amount_buy_rub)- Number($scope.deal_amount_buy_rub)*0.05)*100)/100;
+        };
+        $scope.change_buy_curr = function () {
+            $scope.commission_buy = Math.round(Number($scope.deal_amount_buy_rub)*0.05*100)/100;
+            $scope.deal_amount_buy_rub = Math.round((Number($scope.deal_amount_buy_rub)+ Number($scope.deal_amount_buy_rub)*0.05)*100)/100;
+        };
+    });
+    //]]>
+</script>
