@@ -18,9 +18,30 @@ exports.get = function (req, res, next) {
             LoginRegister = '<b><a href="/login">вход</a></b>';
             res.redirect('/login');
         }
+        let ids = [true,2];
+        let i = 'q_silverAdd';
+        if(req.params.id) {
+            ids = req.params.id.split(';');
+            if (ids[0]!=='true'){
+                i = 'q_silverDec';
+            }
+        }
+        console.log(ids);
+        res.render('createquery', {inc: i, title: 'Создать ЗАПРОС', user: user, LoginRegister: LoginRegister});
+    });
+};
+
+exports.post = function (req, res, next) {
+    console.log('************** QUERY *********');
+    loadUser.findID(req.session.user, function (err, user) {
+        let LoginRegister = '<b><a href="/profile">Профиль</a>&nbsp;&nbsp;<a href="/logout">Выход</a></b>';
+        if(!req.session.user){
+            LoginRegister = '<b><a href="/login">вход</a></b>';
+            res.redirect('/login');
+        }
 
 
 
-        //res.render('createdeal', {title: 'Создать СДЕЛКУ', user: user, LoginRegister: LoginRegister});
+        res.render('createquery', {title: 'Создать ЗАПРОС', user: user, LoginRegister: LoginRegister});
     });
 };
