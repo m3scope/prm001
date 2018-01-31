@@ -5,14 +5,16 @@ const  querySchema = new mongoose.Schema({
     userId: { type: mongoose.Schema.ObjectId, ref: 'User', required: true },     // Id пользователя создавшего Запрос
     key_Hash: {type: String},
     key_Salt: {type: String},
-    data: {type: String},       // данные для запроса
+    datas: {type: String},       // данные для запроса
     action: String,     // Строка действий после поддтверждения запроса
     status: {type: Number, default: 0},
-    sort: {type: Number, default: 0}
+    class: {type: Number, default: 0},
+    sort: {type: Number, default: 0},
+    views: {type: Number, default: 0}
 });
 
-querySchema.methods.encryptKey = function () {
-    return crypto.pbkdf2Sync(this.data, this.key_Salt, 1, 16, 'sha1');
+querySchema.methods.encryptKey = function (data) {
+    return crypto.pbkdf2Sync(data, this.key_Salt, 1, 128, 'sha1');
 };
 querySchema.methods.checkData = function(data){
     //if (!password) return false;
@@ -20,12 +22,12 @@ querySchema.methods.checkData = function(data){
     return this.encryptKey(data) == this.key_Hash;
 };
 
-querySchema.virtual('datas')
+querySchema.virtual('data')
     .set(function (data) {
         if(data){
-            this.data = data;
-            this.key_Salt = crypto.randomBytes(16).toString('base64');
-            this.key_Hash = this.encryptKey(data);
+            this.datas = JSON.stringify(data);
+            this.key_Salt = crypto.randomBytes(128).toString('base64');
+            this.key_Hash = this.encryptKey(JSON.stringify(data));
         } else {
             this.key_Salt = undefined;
             this.key_Hash = undefined;
