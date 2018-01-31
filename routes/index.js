@@ -111,7 +111,8 @@ router.post('/register', (req, res) => {
             console.log(err);
             return res.status(500).send('Внутренняя ошибка!');
         }
-        return res.status(200).send('Успешная регистрация!');
+        //return res.status(200).send('Успешная регистрация!');
+        res.render('info', {infoTitle: '<div class="w3-green">Успех!</div>', infoText: 'Операция успешно выполнена!', url: '/register', title: 'Вход', user: null, LoginRegister: '<b><a href="/login">вход</a></b>'});
     });
 
 });
