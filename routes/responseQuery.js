@@ -27,5 +27,7 @@ exports.get = function (req, res, next) {
 };
 
 exports.post = function (req, res, next) {
-    Query.findOne({key_Hash:req.params.id});
+    Query.findById(req.params.id, function (err, qq) {
+
+    });
 };

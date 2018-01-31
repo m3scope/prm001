@@ -1,20 +1,34 @@
+<div class="w3-panel"></div>
+
 <div class="w3-row-padding" ng-app="myApp">
   <!-- Left Column -->
   <div class="w3-col s6" ng-controller="MainCtrl">
     <div class="w3-card-4">
       <div class="w3-container w3-teal">
-        <h5>Купить</h5>
+        <h5>Подтвердите ввод</h5>
       </div>
-      <% const url = '/api/q/res/'+qq.key_Hash %>
+      <% const url = '/api/q/res/'+qq._id %>
       <form action="<%= url %>" method="post" class="w3-container">
-        <span><%= qq.datas %></span>
+        <input hidden name="q_ID" value="<%= qq._id%>">
+        <div class="w3-panel w3-leftbar w3-light-grey">
+          <p class="w3-xlarge w3-serif">
+            <i><%= qq.info %></i></p>
+          <p><%= qq.comment %></p>
+        </div>
         <p>
           <input class="w3-btn w3-teal" type="submit" value="Подтвердить">
         </p>
       </form>
 
-
-
     </div>
   </div>
 </div>
+
+<script type="text/javascript">
+    //<![CDATA[
+    let myApp = angular.module('myApp',[]);
+    let nm = {};
+    const Curr = ['','currPrizm','currGold','currSilver'];
+    myApp.controller('MainCtrl', function($scope) {});
+    //]]>
+</script>

@@ -6,11 +6,19 @@ const  querySchema = new mongoose.Schema({
     key_Hash: {type: String},
     key_Salt: {type: String},
     datas: {type: String},       // данные для запроса
+    bank: String,
+    amount: Number,
+    commission_summ: Number,
     action: String,     // Строка действий после поддтверждения запроса
+    info: String,
+    comment: String,
+    cod: String,
     status: {type: Number, default: 0},
     class: {type: Number, default: 0},
     sort: {type: Number, default: 0},
     views: {type: Number, default: 0}
+}, {
+    timestamps: true
 });
 
 querySchema.methods.encryptKey = function (data) {

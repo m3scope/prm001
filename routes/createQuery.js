@@ -40,10 +40,20 @@ exports.post = function (req, res, next) {
             res.redirect('/login');
         }
         if(req.params.id) {
+            console.log(req.body);
+            const banks = [{QIWI: '+79627948161', Yandex: '410012300589165'}];
             const query = new Query;
-            query.data = {deal_amount: req.body.deal_amount, deal_currency: req.body.deal_currency, price_amount: req.body.price_amount, price_currency: req.body.price_currency, commission_buy: req.body.commission_buy};
+            const cod = Math.round(Math.random()*1000000);
+            const commiss_buy = Math.round(Number(req.body.deal_amount)*0.05*100)/100;
+            query.data = {bank: req.body.bank, cod: cod, deal_amount: req.body.deal_amount, deal_currency: req.body.deal_currency, price_amount: req.body.price_amount, price_currency: req.body.price_currency, commiss_buy: commiss_buy};
             query.userId = req.session.user;
+            query.bank = req.body.bank;
+            query.amount = req.body.deal_amount;
+            query.commission_summ = commiss_buy;
             query.action = 'function()';
+            query.cod = cod;
+            query.info = 'Переведите '+req.body.deal_amount + 'р. на номер '+req.body.bank+ ' '+banks[0][req.body.bank];
+            query.comment = 'В комментарии к переводу вставьте код: '+cod;
             query.class = req.body.class;
             query.save(function (err, saved_Q) {
                 if(err) console.error(err);
