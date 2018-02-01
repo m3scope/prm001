@@ -15,7 +15,7 @@ const noCache = function(req, res, next) {
 router.get('/', function(req, res, next) {
     //const id = req.params.id;
     let curr1 = 1;
-    let curr2 = 2;
+    let curr2 = 3;
     if(req.params.id){
         const ids = req.params.id.split(';');
         curr1 = ids[0]*1;
@@ -100,9 +100,11 @@ router.post('/register', (req, res) => {
     const password = req.body.password;
     const email = req.body.email;
     const prizmaddress = req.body.prizmaddress;
+    const name_f = req.body.name_f;
 
     const newuser = new User();
     newuser.username = username;
+    newuser.name_f = name_f;
     newuser.password = password;
     newuser.prizmaddress = prizmaddress;
     newuser.email = email;

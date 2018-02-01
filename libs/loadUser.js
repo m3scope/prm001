@@ -1,5 +1,5 @@
 const User = require('../models/user');
-const Curr = ['','rezPrizm','rezGold','rezSilver'];
+const Curr = ['','rezPzm','rezUsd','rezRur'];
 exports.findID = function(id, cb) {
     //console.log('Middlware');
 

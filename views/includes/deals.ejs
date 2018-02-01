@@ -1,12 +1,12 @@
 <div class="w3-panel" xmlns="http://www.w3.org/1999/html">
-    <a href="/deals/1;2" class="w3-btn w3-white w3-border w3-border-green w3-round-xlarge">Pzm/Gld</a>
-    <a href="/deals/1;3" class="w3-btn w3-white w3-border w3-border-green w3-round-xlarge">Pzm/Slv</a>
-    <a href="/deals/2;3" class="w3-btn w3-white w3-border w3-border-green w3-round-xlarge">Gld/Slv</a>
+    <a href="/deals/1;3" class="w3-btn w3-white w3-border w3-border-green w3-round-xlarge">Pzm/Rur</a>
+    <a href="/deals/1;2" class="w3-btn w3-white w3-border w3-border-green w3-round-xlarge">Pzm/Usd</a>
+    <a href="/deals/2;3" class="w3-btn w3-white w3-border w3-border-green w3-round-xlarge">Usd/Rur</a>
     <!-- <a href="/3;3" class="w3-btn w3-white w3-border w3-border-green w3-round-xlarge">Pzm/Slv</a> -->
 </div>
 
-<% const curr = ['', 'Prizm', 'Gold', 'Silver']; %>
-<div class="w3-row-padding" ng-app="myApp">
+<% const curr = ['','Pzm','Usd','Rur']; %>
+<div class="w3-row-padding w3-text-small" ng-app="myApp">
     <!-- Left Column -->
     <div class="w3-col s6" ng-controller="MainCtrl">
         <div class="w3-card-4">
@@ -16,18 +16,23 @@
             <form action="/createdeal" method="post" class="w3-container">
                     <input type="hidden" name="class" value="1">
                 <p>
+                    <span>Количество:</span>
                     <input class="w3-input" type="number" value="0" step="any" name="deal_amount" required ng-model="deal_amount_buy" ng-change="change_buy()">
                     <span class="w3-tag w3-green"><%= curr[deals.curr1] %></span>
                     <input type="hidden" name="deal_currency" value="{{ curr1 }}">
                 </p>
                 <p>
+                    <span>Цена:</span>
                     <input class="w3-input" type="number" value="0" step="any" name="price_amount" required ng-model="price_amount_buy" ng-change="change_buy()">
                     <span class="w3-tag w3-green"><%= curr[deals.curr2] %></span>
                     <input type="hidden" name="price_currency" value="{{ curr2 }}">
                 </p>
                 <p>
-                    <span class="w3-text-yellow">Комиcсия: {{commission_buy | number:4}}</span>
+                    <span class="w3-text-yellow">Комиссия:</span>
+                    <input ng-disabled="true" class="w3-input w3-text-yellow" type="number" value="{{commission_buy | number:4}}" name="commiss_buy">
+                    <span class="w3-tag w3-green"><%= curr[deals.curr1] %></span>
                 </p>
+
                 <p>
                     <input class="w3-btn w3-teal" type="submit" value="Купить">
                 </p>
@@ -59,18 +64,23 @@
             <form action="/createdeal" method="post" class="w3-container">
                 <input type="hidden" name="class" value="0">
                 <p>
+                    <span>Количество:</span>
                     <input class="w3-input" type="number" value="0" step="any" name="deal_amount" required ng-model="deal_amount_sell" ng-change="change_sell()">
                     <span class="w3-tag w3-green"><%= curr[deals.curr1] %></span>
                     <input type="hidden" name="deal_currency" value="{{ curr1 }}">
                 </p>
                 <p>
+                    <span>Цена:</span>
                     <input class="w3-input" type="number" value="0" step="any" name="price_amount" required ng-model="price_amount_sell" ng-change="change_sell()">
                     <span class="w3-tag w3-green"><%= curr[deals.curr2] %></span>
                     <input type="hidden" name="price_currency" value="{{ curr2 }}">
                 </p>
                 <p>
-                    <span class="w3-text-yellow">Комиcсия: {{commission_sell | number:4}}</span>
+                    <span class="w3-text-yellow">Комиссия:</span>
+                    <input ng-disabled="true" class="w3-input w3-text-yellow" type="number" value="{{commission_sell | number:4}}" name="commiss_sell">
+                    <span class="w3-tag w3-green"><%= curr[deals.curr2] %></span>
                 </p>
+
                 <p>
                     <input class="w3-btn w3-teal" type="submit" value="Продать">
                 </p>
@@ -98,7 +108,7 @@
     //<![CDATA[
     let myApp = angular.module('myApp',[]);
     let nm = {};
-    const Curr = ['','currPrizm','currGold','currSilver'];
+    const Curr = ['','Pzm','Usd','Rur'];
     myApp.controller('MainCtrl', function($scope) {
         $scope.curr1 = Curr[<%= deals.curr1 %>];
         $scope.curr2 = Curr[<%= deals.curr2 %>];
@@ -114,10 +124,10 @@
             $scope.selected = this.dt;
             $scope.deal_amount_buy = this.dt.deal_am;
             $scope.price_amount_buy = this.dt.name;
-            $scope.commission_buy = this.dt.deal_am*this.dt.name*0.007;
+            $scope.commission_buy = this.dt.deal_am*0.007;
         };
         $scope.change_buy = function () {
-            $scope.commission_buy = Number($scope.deal_amount_buy)*Number($scope.price_amount_buy)*0.007;
+            $scope.commission_buy = Number($scope.deal_amount_buy)*0.007;
         };
     });
     myApp.controller('Main2Ctrl', function($scope) {

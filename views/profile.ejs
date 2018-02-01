@@ -29,11 +29,11 @@
   <div class="w3-panel">
     <b>Баланс: </b>
       <span>Prizm: </span>
-      <label class="w3-border"><%= user.currPrizm%></label>
+      <label class="w3-border"><%= user.Pzm%></label>
       <span>Gold: </span>
-      <label class="w3-border"><%= user.currGold%></label>
+      <label class="w3-border"><%= user.Usd%></label>
       <span>Silver: </span>
-      <label class="w3-border"><%= user.currSilver%></label>
+      <label class="w3-border"><%= user.Rur%></label>
   </div>
 
   <div class="w3-row-padding w3-small">
@@ -96,8 +96,8 @@
         </div>
 
       </div>
-    <% let currs=['','Pzm','Gld','Slv'];
-        let bs=['sell','buy'];
+    <% let currs=['','Pzm','Usd','Rur'];
+        let bs=['продажа','покупка'];
         let clors=['w3-orange','w3-green'];
     %>
     <div class="w3-col m4" >

@@ -3,8 +3,8 @@ const User = require('../models/user');
 const Deal = require('../models/deal');
 const Bill = require('../models/bill');
 const Transaction = require('../models/transaction');
-const Curr = ['', 'currPrizm', 'currGold', 'currSilver'];
-const rezCurr = ['', 'rezPrizm', 'rezGold', 'rezSilver'];
+const Curr = ['','Pzm','Usd','Rur'];
+const rezCurr = ['', 'rezPzm', 'rezUsd', 'rezRur'];
 const sort_Name = [
     ['',''],
     ['Списание проданной вылюты', 'Зачисление купленной валюты'],

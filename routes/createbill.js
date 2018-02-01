@@ -2,9 +2,9 @@ const loadUser = require("../libs/loadUser");
 const Deal = require('../models/deal');
 const Bill = require('../models/bill');
 const Curr = {
-    'currSilver' : 3,
-    'currGold' : 2,
-    'currPrizm' : 1
+    'Rur' : 3,
+    'Usd' : 2,
+    'Pzm' : 1
 };
 
 exports.get = function (req, res) {

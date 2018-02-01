@@ -28,22 +28,22 @@ const userSchema = new mongoose.Schema({
     publicKey: {
         type: String,
     },
-    currPrizm: {
+    Pzm: {
         type: Number, default: 10000
     },
-    currGold: {
+    Usd: {
         type: Number, default: 10000
     },
-    currSilver: {
+    Rur: {
         type: Number, default: 10000
     },
-    rezPrizm: {
+    rezPzm: {
         type: Number, default: 0
     },
-    rezGold: {
+    rezUsd: {
         type: Number, default: 0
     },
-    rezSilver: {
+    rezRur: {
         type: Number, default: 0
     },
     category: String,

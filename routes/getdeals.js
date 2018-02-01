@@ -1,11 +1,11 @@
-const CurrName = ['', 'Prizm', 'Gold', 'Silver'];
+const CurrName = ['', 'Pzm', 'Usd', 'Rur'];
 const loadUser = require("../libs/loadUser");
 const Deal = require('../models/deal');
 const db_deals = require('../libs/db_deals');
 const Curr = {
-    'currSilver' : 3,
-    'currGold' : 2,
-    'currPrizm' : 1
+    'Rur' : 3,
+    'Usd' : 2,
+    'Pzm' : 1
 };
 
 exports.get = function (req, res) {
