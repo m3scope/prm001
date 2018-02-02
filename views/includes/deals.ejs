@@ -157,10 +157,10 @@
             $scope.selected = this.dt;
             $scope.deal_amount_buy = this.dt.glub_buy;
             $scope.price_amount_buy = this.dt.name;
-            $scope.commission_buy = this.dt.deal_am*0.007;
+            $scope.commission_buy = this.dt.glub_buy*0.007;
         };
         $scope.change_buy = function () {
-            $scope.commission_buy = Number($scope.glub_buy)*0.007;
+            $scope.commission_buy = Number($scope.deal_amount_buy)*0.007;
         };
     });
     myApp.controller('Main2Ctrl', function($scope) {
