@@ -34,7 +34,6 @@ exports.get = function(req, res){
         let LoginRegister = '<b><a href="/profile">Профиль</a>&nbsp;&nbsp;<a href="/logout">Выход</a></b>';
         if(!req.session.user){
             LoginRegister = '<b><a href="/login">вход</a></b>';
-
             res.redirect('/login');
         }
         res.render('createdeal', {title: 'Создать СДЕЛКУ', user: user, LoginRegister: LoginRegister});
@@ -71,6 +70,7 @@ exports.post = function(req, res){
                             crDeals = true;
                             if(crDeals) {
                                 let newDeal = new Deal();
+                                let cl = req.body.class * 1;
 
                                 newDeal.dealerId = user.id;   //: { type: mongoose.Schema.ObjectId, ref: 'User', required: true },     // Id пользователя создавшего сделку
                                 newDeal.deal_amount = req.body.deal_amount;   //: {type: Number, default: 0},      // количество продаваемой валюты
@@ -79,11 +79,11 @@ exports.post = function(req, res){
                                 newDeal.price_amount = req.body.price_amount;   //: {type: Number, default: 0},       // цена без комиссии
                                 newDeal.price_currency = Curr[req.body.price_currency][0];   //: {type: Number, default: 0},   // Код (число) валюты покупки
 
-                                newDeal.class = req.body.class * 1;
+                                newDeal.class = cl;
 
                                 newDeal.commission_tax = commission_tax;
-                                newDeal.commission = Math.round(req.body.price_amount * commission_tax * 10000000)/10000000;   //: {type: Number, default: 0},     // Сумма комиссии (~5-7%)
-                                newDeal.commission_summ = (Math.round(req.body.price_amount * commission_tax * 10000000)/10000000) * newDeal.deal_amount;   // сумма коммисии
+                                //newDeal.commission = ((Boolean(cl)) ? Math.round() : Math.round(req.body.price_amount * commission_tax * 10000000)/10000000);   //: {type: Number, default: 0},     // Сумма комиссии (~5-7%)
+                                newDeal.commission_summ = ((Boolean(cl)) ? Math.round((newDeal.deal_amount* commission_tax * 10000000)/10000000) : (Math.round(req.body.price_amount * commission_tax * 10000000)/10000000) * newDeal.deal_amount);   // сумма коммисии
 
                                 newDeal.price = req.body.price_amount * 1;
                                 newDeal.price1 = 1 / req.body.price_amount;
