@@ -131,12 +131,20 @@
     let nm = {};
     let glub_buy = 0;
     let glub_sell = 0;
+    let minPrice = 0;
+    let maxPrice = 0;
+    <% if (deals.dt1.length>0){%>
+    minPrice = <%= deals.dt1[0]._id%>
+    <%}%>
+    <% if (deals.dt2.length>0){%>
+        maxPrice = <%= deals.dt2[0]._id%>
+    <%}%>
     const Curr = ['','Pzm','Usd','Rur'];
     myApp.controller('MainCtrl', function($scope) {
         $scope.curr1 = Curr[<%= deals.curr1 %>];
         $scope.curr2 = Curr[<%= deals.curr2 %>];
         $scope.dt1 = [];
-        $scope.minPrice = <%= deals.dt1[0]._id%>
+        $scope.minPrice = minPrice;
         $scope.commission_buy = 0;
                 <% deals.dt1.forEach(function (name) { %>
                     nm.name = <%= Math.round(name._id*10000000)/10000000 %>
@@ -159,7 +167,7 @@
         $scope.curr1 = Curr[<%= deals.curr1 %>];
         $scope.curr2 = Curr[<%= deals.curr2 %>];
         $scope.dt2 = [];
-        $scope.maxPrice = <%= deals.dt2[0]._id%>
+        $scope.maxPrice = maxPrice;
         $scope.commission_sell = 0;
         <% deals.dt2.forEach(function (name) { %>
         nm.name = <%= Math.round(name._id*10000000)/10000000 %>
