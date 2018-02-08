@@ -18,6 +18,11 @@
 </style>
 <body class="w3-light-grey ng-scope" ng-app="myApp">
 
+<% let currs=['','PZM','USD','RUR'];
+let bs=['продажа','покупка'];
+let clors=['w3-orange','w3-green'];
+%>
+
 <div class="w3-content w3-margin-top" style="max-width:1400px;">
     <%- include('includes/header') -%>
   <div class="w3-bar w3-border w3-light-grey">
@@ -29,7 +34,7 @@
   <div class="w3-row-padding w3-small">
 
       <div class="w3-col m2">
-        <div class="w3-border-left">
+        <div class="w3-border">
         <div class="w3-container w3-teal">
           <h5>Личные данные</h5>
         </div>
@@ -39,7 +44,7 @@
               <span class="w3-tag w3-green">Login</span>
             </p>
             <p>
-              <input class="w3-input w3-border" value="<%= user.name_f%>" name="name_f">
+              <span class="w3-input w3-border"><%= user.name_f%></span>
               <span class="w3-tag w3-green">Имя пользователя</span>
             </p>
             <p>
@@ -58,7 +63,7 @@
       </div>
 
       <div class="w3-col m2">
-        <div class="w3-border-left">
+        <div class="w3-border">
           <div class="w3-container w3-teal">
             <h5>Баланс</h5>
           </div>
@@ -89,47 +94,14 @@
         </div>
 
       </div>
-    <% let currs=['','PZM','USD','RUR'];
-        let bs=['продажа','покупка'];
-        let clors=['w3-orange','w3-green'];
-    %>
-    <div class="w3-col m4" >
-      <div class="w3-border-left">
-        <div class="w3-container w3-teal">
-          <h5>Счета</h5>
-        </div>
-        <% if(user.bills.length>0) {%>
-        <table class="w3-table w3-table-all w3-small w3-striped w3-bordered">
-          <tr>
-            <th>Пара</th>
-            <th>Тип</th>
-            <th>Кол.</th>
-            <th>Цена</th>
-            <th>Сумма</th>
-            <th>Дата</th>
-          </tr>
-          <% for(var i=0, len=user.bills.length; i<len; i++){%>
-            <tr>
-              <td><%= currs[user.bills[i].deal_currency]%>/<%= currs[user.bills[i].price_currency]%></td>
-              <td class="<%= clors[user.bills[i].class]%>"><%= bs[user.bills[i].class] %></td>
-              <td><%= user.bills[i].deal_amount%></td>
-              <td><%= user.bills[i].price_amount%></td>
-              <td><%= user.bills[i].summ%></td>
-              <td><%= new Date(user.bills[i].createdAt).toISOString().replace(/T/, ' ').replace(/\..+/, ''); %></td>
-            </tr>
-          <%}%>
-        </table>
-        <%}%>
-      </div>
-    </div>
 
-    <div class="w3-col m4" >
-      <div class="w3-border-left">
+    <div class="w3-col m6" ng-controller="CtrlDeals">
+      <div class="">
         <div class="w3-container w3-teal">
           <h5>Ордера</h5>
         </div>
           <% if(user.deals.length>0) {%>
-        <table class="w3-table w3-table-all w3-small w3-striped w3-bordered">
+        <table class="w3-table-all w3-small w3-striped">
           <tr>
             <th>Пара</th>
             <th>Тип</th>
@@ -137,6 +109,7 @@
             <th>Цена</th>
             <th>Сумма</th>
             <th>Дата</th>
+            <th></th>
           </tr>
             <% for(var y=0, leny=user.deals.length; y<leny; y++){%>
           <tr>
@@ -146,6 +119,7 @@
             <td><%= user.deals[y].price_amount%></td>
             <td><%= Math.round(user.deals[y].deal_amount*user.deals[y].price_amount*10000)/10000%></td>
             <td><%= new Date(user.deals[y].createdAt).toISOString().replace(/T/, ' ').replace(/\..+/, ''); %></td>
+            <td><span  class="w3-tag w3-orange"><a href="">отменить</a> </span></td>
           </tr>
             <%}%>
         </table>
@@ -153,16 +127,127 @@
       </div>
     </div>
 
+    <div class="w3-col m2">
+      <div class="w3-border">
+        <div class="w3-container w3-teal">
+          <h5>Личные данные</h5>
+        </div>
+        <form action="/profile" method="post" class="w3-container">
+          <p>
+            <span class="w3-input w3-border" ><%= user.username%></span>
+            <span class="w3-tag w3-green">Login</span>
+          </p>
+          <p>
+            <span class="w3-input w3-border"><%= user.name_f%></span>
+            <span class="w3-tag w3-green">Имя пользователя</span>
+          </p>
+          <p>
+              <span class="w3-input w3-border" ><%= user.email%><% if(user.email_confirmed){%>
+                <span class="w3-badge w3-green">&nbsp;</span>
+                  <%} else {%>
+                <span class="w3-badge w3-red">&nbsp;</span>
+                  <%}%>
+              </span>
+            <span class="w3-tag w3-green">e-mail</span>
+          </p>
 
+        </form>
+
+      </div>
+    </div>
 
   </div>
+
+  <div class="w3-panel"></div>
+
+    <% if(user.bills.length>0) {%>
+  <div  class="w3-row-padding w3-small">
+    <div class="w3-col m6" >
+      <div class="w3-border-left">
+        <div class="w3-container w3-teal">
+          <h5>Счета</h5>
+        </div>
+
+        <table class="w3-table w3-table-all w3-small w3-striped w3-bordered">
+          <tr>
+            <th>Пара</th>
+            <th>Тип</th>
+            <th>Кол.</th>
+            <th>Цена</th>
+            <th>Сумма</th>
+            <th>Дата</th>
+
+          </tr>
+          <% for(var i=0, len=user.bills.length; i<len; i++){%>
+            <tr>
+              <td><%= currs[user.bills[i].deal_currency]%>/<%= currs[user.bills[i].price_currency]%></td>
+              <td class="<%= clors[user.bills[i].class]%>"><%= bs[user.bills[i].class] %></td>
+              <td><%= user.bills[i].deal_amount%></td>
+              <td><%= user.bills[i].price_amount%></td>
+              <td><%= user.bills[i].summ%></td>
+              <td><%= new Date(user.bills[i].createdAt).toISOString().replace(/T/, ' ').replace(/\..+/, ''); %></td>
+
+            </tr>
+          <%}%>
+        </table>
+
+      </div>
+    </div>
+  </div>
+    <%}%>
   <div class="w3-panel">
   </div>
     <%- include('includes/footer') -%>
 </div>
 <script>
     //<![CDATA[
-    let myApp = angular.module('myApp',[]);
+        let myApp = angular.module('myApp',[]);
+    let nm = {};
+    let glub_buy = 0;
+    let glub_sell = 0;
+    let minPrice = 0;
+    let maxPrice = 0;
+
+    const Curr = ['','PZM','USD','RUR'];
+    const w3Btn = [[],['','','w3-white', 'w3-white'],['','w3-white','','w3-white'],['','w3-white','w3-white','']];
+    myApp.controller('w3BtnCtrl', function ($scope) {
+        $scope.w3Btn = w3Btn;
+        $scope.w3Btn[<%= user.deals.curr1 %>][<%= user.deals.curr2 %>] = 'w3-gray';
+    });
+    myApp.controller('CtrlDeals', function($scope) {
+        $scope.curr1 = Curr[<%= user.deals.curr1 %>];
+        $scope.curr2 = Curr[<%= user.deals.curr2 %>];
+        $scope.dt1 = [];
+        $scope.minPrice = minPrice;
+        $scope.commission_buy = 0;
+        $scope.data = {disabled_buy: true};
+        $scope.UBalance_buy = <%= UBalance[user.deals.curr2]%>
+          <% user.deals.forEach(function (name) { %>
+            nm.name = <%= Math.round(name._id*10000000)/10000000 %>
+            nm.deal_am = <%= name.deal_am %>
+            nm.sm = <%= Math.round((Math.round(name._id*10000000)/10000000 * name.deal_am)* 10000000) / 10000000 %>
+            glub_buy = glub_buy + nm.deal_am;
+            $scope.dt1.push({name:nm.name, deal_am:nm.deal_am, sm:nm.sm, glub_buy:glub_buy});
+          <%})%>
+        $scope.setSelected = function() {
+            $scope.selected = this.dt;
+            $scope.deal_amount_buy = this.dt.glub_buy;
+            $scope.price_amount_buy = this.dt.name;
+            $scope.commission_buy = Math.round(this.dt.glub_buy*0.007*10000)/10000;
+            $scope.data.disabled_buy = !($scope.deal_amount_buy > 0 && $scope.price_amount_buy > 0);
+        };
+        $scope.change_buy = function () {
+            $scope.commission_buy = Math.round($scope.deal_amount_buy*0.007*10000)/10000;
+            $scope.data.disabled_buy = !($scope.deal_amount_buy > 0 && $scope.price_amount_buy > 0);
+        };
+        $scope.getSelectBuy = function () {
+            let price_buy = ($scope.price_amount_buy !== undefined ? $scope.price_amount_buy : minPrice);
+            $scope.deal_amount_buy = Math.round(this.UBalance_buy / price_buy * 100) / 100;
+            $scope.price_amount_buy = price_buy;
+            $scope.commission_buy = Math.round($scope.deal_amount_buy*0.007*10000)/10000;
+            $scope.data.disabled_buy = !($scope.deal_amount_buy > 0 && $scope.price_amount_buy > 0);
+        }
+    });
     //]]>
 </script>
 </body>

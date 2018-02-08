@@ -40,7 +40,7 @@ exports.get = function(req, res){
                     "use strict";
                     if(err) console.log(err);
                     user.bills = userBills;
-                    res.render('profile', {title: 'Профиль', user: user, LoginRegister: LoginRegister});
+                    res.render('profile', {title: 'Профиль', user: user, LoginRegister: LoginRegister, UBalance: UserBalance});
                 });
 
             });
@@ -51,8 +51,10 @@ exports.get = function(req, res){
 };
 
 exports.post = function (req, res, next) {
-    console.log(req.body);
+    //console.log(req.body);
+    let UserBalance = [0,0,0,0,0];
     loadUser.findID(req.session.user, function (err, user) {
+        UserBalance = [0,Math.round(user.PZM*100)/100,Math.round(user.USD*100)/100,Math.round(user.RUR*100)/100];
         let LoginRegister = '<b><a href="/login">Вход</a> </b>';
         if(req.session.user){
             LoginRegister = '<b><a href="/profile" class="w3-button w3-border w3-border-white w3-round">'+req.session.username+'</a>&nbsp;&nbsp;<a href="/logout" class="w3-button w3-border w3-border-white w3-round">Выход</a></b>' +
@@ -65,6 +67,6 @@ exports.post = function (req, res, next) {
                 '<label class="w3-border-top w3-border-bottom">'+UserBalance[2]+'</label></div>';
         }
 
-        res.render('profile', {title: 'Профиль', user: user, LoginRegister: LoginRegister});
+        res.render('profile', {title: 'Профиль', user: user, LoginRegister: LoginRegister, UBalance: UserBalance});
     });
 };

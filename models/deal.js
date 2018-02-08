@@ -13,11 +13,14 @@ const crypto = require('crypto'); // модуль node.js для выполне�
 
 const dealSchema = new mongoose.Schema({
     dealerId: { type: mongoose.Schema.ObjectId, ref: 'User', required: true },     // Id пользователя создавшего сделку
+
     deal_amount: {type: Number, default: 0},      // количество продаваемой/покупаемой валюты
     deal_amount_bill: {type: Number, default: 0},      // количество остаток валюты
     deal_currency: {type: Number, default: 0},  // Код (число) валюты продажи/покупки
+
     price_amount: {type: Number, default: 0},       // цена без комиссии
     price_currency: {type: Number, default: 0},   // Код (число) валюты покупки/продажи
+
     price: {type: Number, default: 0},          // Цена продажи с комиссией
     price1: {type: Number, default: 0},         // Цена покупки
 
