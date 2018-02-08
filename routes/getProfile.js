@@ -19,10 +19,19 @@ function formatDate(dt, cb) {
 }
 
 exports.get = function(req, res){
+    let UserBalance = [0,0,0,0,0];
     loadUser.findID(req.session.user, function (err, user) {
+        UserBalance = [0,Math.round(user.PZM*100)/100,Math.round(user.USD*100)/100,Math.round(user.RUR*100)/100];
         let LoginRegister = '<b><a href="/login">Вход</a> </b>';
         if(req.session.user){
-            LoginRegister = '<b><a href="/profile">'+req.session.username+'</a>&nbsp;&nbsp;<a href="/logout">Выход</a></b>';
+            LoginRegister = '<b><a href="/profile" class="w3-button w3-border w3-border-white w3-round">'+req.session.username+'</a>&nbsp;&nbsp;<a href="/logout" class="w3-button w3-border w3-border-white w3-round">Выход</a></b>' +
+                '<div class="w3-right-align w3-small">' +
+                '<span>PZM: </span>' +
+                '<label class="w3-border-top w3-border-bottom">'+UserBalance[1]+'</label>' +
+                '<span>&nbsp;RUR: </span>' +
+                '<label class="w3-border-top w3-border-bottom">'+UserBalance[3]+'</label>' +
+                '<span>&nbsp;USD: </span>' +
+                '<label class="w3-border-top w3-border-bottom">'+UserBalance[2]+'</label></div>';
         }
             db_deals.getUserDeals(user._id, function (err, userDeals) {
                 if(err) console.log(err);
@@ -46,19 +55,16 @@ exports.post = function (req, res, next) {
     loadUser.findID(req.session.user, function (err, user) {
         let LoginRegister = '<b><a href="/login">Вход</a> </b>';
         if(req.session.user){
-            LoginRegister = '<b><a href="/profile">'+req.session.username+'</a>&nbsp;&nbsp;<a href="/logout">Выход</a></b>';
+            LoginRegister = '<b><a href="/profile" class="w3-button w3-border w3-border-white w3-round">'+req.session.username+'</a>&nbsp;&nbsp;<a href="/logout" class="w3-button w3-border w3-border-white w3-round">Выход</a></b>' +
+                '<div class="w3-right-align w3-small">' +
+                '<span>PZM: </span>' +
+                '<label class="w3-border-top w3-border-bottom">'+UserBalance[1]+'</label>' +
+                '<span>&nbsp;RUR: </span>' +
+                '<label class="w3-border-top w3-border-bottom">'+UserBalance[3]+'</label>' +
+                '<span>&nbsp;USD: </span>' +
+                '<label class="w3-border-top w3-border-bottom">'+UserBalance[2]+'</label></div>';
         }
-        // db_deals.getUserDeals(user._id, function (err, userDeals) {
-        //     if(err) console.log(err);
-        //     user.deals = userDeals;
-        //     db_bills.getUserBills(user._id, (err, userBills)=>{
-        //         "use strict";
-        //         if(err) console.log(err);
-        //         user.bills = userBills;
-        //         res.render('profile', {title: 'Профиль', user: user, LoginRegister: LoginRegister});
-        //     });
-        //
-        // });
+
         res.render('profile', {title: 'Профиль', user: user, LoginRegister: LoginRegister});
     });
 };
