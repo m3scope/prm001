@@ -45,7 +45,7 @@
                 </p>
 
                 <p>
-                    <input class="w3-btn w3-teal" type="submit" value="Купить">
+                    <input class="w3-btn w3-teal" type="submit" value="Купить" ng-disabled="data.disabled_buy">
                 </p>
             </form>
         </div>
@@ -104,7 +104,7 @@
                 </p>
 
                 <p>
-                    <input class="w3-btn w3-teal" type="submit" value="Продать">
+                    <input class="w3-btn w3-teal" type="submit" value="Продать" ng-disabled="data.disabled_sell">
                 </p>
             </form>
         </div>
@@ -154,6 +154,7 @@
         $scope.dt1 = [];
         $scope.minPrice = minPrice;
         $scope.commission_buy = 0;
+        $scope.data = {disabled_buy: true};
         $scope.UBalance_buy = <%= UBalance[deals.curr2]%>
                 <% deals.dt1.forEach(function (name) { %>
                     nm.name = <%= Math.round(name._id*10000000)/10000000 %>
@@ -166,16 +167,19 @@
             $scope.selected = this.dt;
             $scope.deal_amount_buy = this.dt.glub_buy;
             $scope.price_amount_buy = this.dt.name;
-            $scope.commission_buy = this.dt.glub_buy*0.007;
+            $scope.commission_buy = Math.round(this.dt.glub_buy*0.007*10000)/10000;
+            $scope.data.disabled_buy = !($scope.deal_amount_buy > 0 && $scope.price_amount_buy > 0);
         };
         $scope.change_buy = function () {
-            $scope.commission_buy = Math.round($scope.deal_amount_buy*0.007*10000000)/10000000;
+            $scope.commission_buy = Math.round($scope.deal_amount_buy*0.007*10000)/10000;
+            $scope.data.disabled_buy = !($scope.deal_amount_buy > 0 && $scope.price_amount_buy > 0);
         };
         $scope.getSelectBuy = function () {
             let price_buy = ($scope.price_amount_buy !== undefined ? $scope.price_amount_buy : minPrice);
             $scope.deal_amount_buy = Math.round(this.UBalance_buy / price_buy * 100) / 100;
             $scope.price_amount_buy = price_buy;
-            $scope.commission_buy = Math.round($scope.deal_amount_buy*0.007*10000000)/10000000;
+            $scope.commission_buy = Math.round($scope.deal_amount_buy*0.007*10000)/10000;
+            $scope.data.disabled_buy = !($scope.deal_amount_buy > 0 && $scope.price_amount_buy > 0);
         }
     });
     myApp.controller('Main2Ctrl', function($scope) {
@@ -184,6 +188,7 @@
         $scope.dt2 = [];
         $scope.maxPrice = maxPrice;
         $scope.commission_sell = 0;
+        $scope.data = {disabled_sell:true};
         $scope.UBalance_sell = <%= UBalance[deals.curr1]%>
         <% deals.dt2.forEach(function (name) { %>
         nm.name = <%= Math.round(name._id*10000000)/10000000 %>
@@ -196,16 +201,19 @@
             $scope.selected = this.dt;
             $scope.deal_amount_sell = this.dt.glub_sell;
             $scope.price_amount_sell = this.dt.name;
-            $scope.commission_sell = this.dt.glub_sell*this.dt.name*0.007;
+            $scope.commission_sell = Math.round(this.dt.glub_sell*this.dt.name*0.007*10000)/10000;
+            $scope.data.disabled_sell = !($scope.deal_amount_sell > 0 && $scope.price_amount_sell > 0);
         };
         $scope.change_sell = function () {
-            $scope.commission_sell = Math.round($scope.deal_amount_sell*$scope.price_amount_sell*0.007*10000000)/10000000;
+            $scope.commission_sell = Math.round($scope.deal_amount_sell*$scope.price_amount_sell*0.007*10000)/10000;
+            $scope.data.disabled_sell = !($scope.deal_amount_sell > 0 && $scope.price_amount_sell > 0);
         };
         $scope.getSelectSell = function () {
             let price_sell = ($scope.price_amount_sell !== undefined ? $scope.price_amount_sell : maxPrice);
             $scope.deal_amount_sell = this.UBalance_sell;
             $scope.price_amount_sell = price_sell;
-            $scope.commission_sell = this.UBalance_sell*price_sell*0.007;
+            $scope.commission_sell = Math.round(this.UBalance_sell*price_sell*0.007*10000)/10000;
+            $scope.data.disabled_sell = !($scope.deal_amount_sell > 0 && $scope.price_amount_sell > 0);
         }
     });
     //]]>
