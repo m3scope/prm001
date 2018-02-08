@@ -101,25 +101,25 @@ let clors=['w3-orange','w3-green'];
           <h5>Ордера</h5>
         </div>
           <% if(user.deals.length>0) {%>
-        <table class="w3-table-all w3-small w3-striped">
-          <tr>
+        <table class="w3-table-all w3-small w3-striped w3-hoverable">
+          <tr  class="w3-green">
             <th>Пара</th>
-            <th>Тип</th>
-            <th>Кол.</th>
-            <th>Цена</th>
-            <th>Сумма</th>
-            <th>Дата</th>
-            <th></th>
+            <th class="w3-border-left">Тип</th>
+            <th class="w3-border-left">Кол.</th>
+            <th class="w3-border-left">Цена</th>
+            <th class="w3-border-left">Сумма</th>
+            <th class="w3-border-left">Дата</th>
+            <th class="w3-border-left"></th>
           </tr>
 
           <tr ng-repeat="dt in dt1" ng-click="setSelected();">
             <td>{{ dt.deal_currency }}/{{ dt.price_currency}}</td>
             <td class="{{ dt.color }}">{{ dt.typ }}</td>
-            <td>{{ dt.deal_amount }}<span class="w3-small">({{ dt.deal_amount_bill }}</span></td>
-            <td>{{ dt.price_amount}}</td>
-            <td>{{ dt.summ }}</td>
-            <td>{{ dt.dat }}</td>
-            <td><span  class="w3-tag w3-orange"><a href="">отменить</a> </span></td>
+            <td class="w3-border-left">{{ dt.deal_amount }}<span class="w3-small">({{ dt.deal_amount_bill }})</span></td>
+            <td class="w3-border-left">{{ dt.price_amount}}</td>
+            <td class="w3-border-left">{{ dt.summ }}</td>
+            <td class="w3-border-left">{{ dt.dat }}</td>
+            <td class="w3-border-left"><span  class="w3-tag w3-orange"><a href="">отменить</a> </span></td>
           </tr>
 
         </table>
@@ -220,7 +220,9 @@ let clors=['w3-orange','w3-green'];
         $scope.data = {disabled_buy: true};
         i=0;
           <% user.deals.forEach(function (deal) { %>
-            dl.par = Curr[<%= deal.deal_currency%>]+'/'+Curr[<%= deal.price_currency%>];
+            dl={};
+            dl.deal_currency = Curr[<%= deal.deal_currency%>];
+            dl.price_currency = Curr[<%= deal.price_currency%>];
             dl.typ = bs[<%= deal.class %>];
             dl.color = clors[<%= deal.class%>];
             dl.deal_amount = <%= deal.deal_amount%>
