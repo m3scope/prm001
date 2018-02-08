@@ -111,17 +111,17 @@ let clors=['w3-orange','w3-green'];
             <th>Дата</th>
             <th></th>
           </tr>
-            <% for(var y=0, leny=user.deals.length; y<leny; y++){%>
-          <tr>
-            <td><%= currs[user.deals[y].deal_currency]%>/<%= currs[user.deals[y].price_currency]%></td>
-            <td class="<%= clors[user.deals[y].class]%>"><%= bs[user.deals[y].class] %></td>
-            <td><%= user.deals[y].deal_amount%><span class="w3-small">(<%= user.deals[y].deal_amount_bill%>)</span></td>
-            <td><%= user.deals[y].price_amount%></td>
-            <td><%= Math.round(user.deals[y].deal_amount*user.deals[y].price_amount*10000)/10000%></td>
-            <td><%= new Date(user.deals[y].createdAt).toISOString().replace(/T/, ' ').replace(/\..+/, ''); %></td>
+
+          <tr ng-repeat="dt in dt1" ng-click="setSelected();">
+            <td>{{ dt.deal_currency }}/{{ dt.price_currency}}</td>
+            <td class="{{ dt.color }}">{{ dt.typ }}</td>
+            <td>{{ dt.deal_amount }}<span class="w3-small">({{ dt.deal_amount_bill }}</span></td>
+            <td>{{ dt.price_amount}}</td>
+            <td>{{ dt.summ }}</td>
+            <td>{{ dt.dat }}</td>
             <td><span  class="w3-tag w3-orange"><a href="">отменить</a> </span></td>
           </tr>
-            <%}%>
+
         </table>
           <%}%>
       </div>
@@ -202,32 +202,36 @@ let clors=['w3-orange','w3-green'];
 <script>
     //<![CDATA[
         let myApp = angular.module('myApp',[]);
-    let nm = {};
+    let dl = {};
+    let i = 0;
     let glub_buy = 0;
     let glub_sell = 0;
     let minPrice = 0;
     let maxPrice = 0;
-
+    let bs=['продажа','покупка'];
+    let clors=['w3-orange','w3-green'];
     const Curr = ['','PZM','USD','RUR'];
     const w3Btn = [[],['','','w3-white', 'w3-white'],['','w3-white','','w3-white'],['','w3-white','w3-white','']];
-    myApp.controller('w3BtnCtrl', function ($scope) {
-        $scope.w3Btn = w3Btn;
-        $scope.w3Btn[<%= user.deals.curr1 %>][<%= user.deals.curr2 %>] = 'w3-gray';
-    });
+
     myApp.controller('CtrlDeals', function($scope) {
-        $scope.curr1 = Curr[<%= user.deals.curr1 %>];
-        $scope.curr2 = Curr[<%= user.deals.curr2 %>];
         $scope.dt1 = [];
         $scope.minPrice = minPrice;
         $scope.commission_buy = 0;
         $scope.data = {disabled_buy: true};
-        $scope.UBalance_buy = <%= UBalance[user.deals.curr2]%>
-          <% user.deals.forEach(function (name) { %>
-            nm.name = <%= Math.round(name._id*10000000)/10000000 %>
-            nm.deal_am = <%= name.deal_am %>
-            nm.sm = <%= Math.round((Math.round(name._id*10000000)/10000000 * name.deal_am)* 10000000) / 10000000 %>
-            glub_buy = glub_buy + nm.deal_am;
-            $scope.dt1.push({name:nm.name, deal_am:nm.deal_am, sm:nm.sm, glub_buy:glub_buy});
+        i=0;
+          <% user.deals.forEach(function (deal) { %>
+            dl.par = Curr[<%= deal.deal_currency%>]+'/'+Curr[<%= deal.price_currency%>];
+            dl.typ = bs[<%= deal.class %>];
+            dl.color = clors[<%= deal.class%>];
+            dl.deal_amount = <%= deal.deal_amount%>
+            dl.deal_amount_bill = <%= deal.deal_amount_bill%>
+            dl.price_amount = <%= deal.price_amount%>
+            dl.summ = <%= Math.round(deal.deal_amount*deal.price_amount*10000)/10000%>
+            dl.dat = '<%= new Date(deal.createdAt).toISOString().replace(/T/, ' ').replace(/\..+/, '') %>';
+            dl.i = i;
+
+            $scope.dt1.push(dl);
+            i++;
           <%})%>
         $scope.setSelected = function() {
             $scope.selected = this.dt;
