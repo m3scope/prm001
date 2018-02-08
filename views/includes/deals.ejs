@@ -1,24 +1,26 @@
-<div class="w3-panel" xmlns="http://www.w3.org/1999/html">
 
-    <a href="/deals/1;3" class="w3-btn w3-white w3-border w3-border-green w3-round-xlarge">Pzm/Rur</a>
-    <a href="/deals/1;2" class="w3-btn w3-white w3-border w3-border-green w3-round-xlarge">Pzm/Usd</a>
-    <a href="/deals/2;3" class="w3-btn w3-white w3-border w3-border-green w3-round-xlarge">Usd/Rur</a>
-    <!-- <a href="/3;3" class="w3-btn w3-white w3-border w3-border-green w3-round-xlarge">Pzm/Slv</a> -->
 
-</div>
-
-<% const curr = ['','Pzm','Usd','Rur']; %>
+<% const curr = ['','PZM','USD','RUR']; %>
 <div class="w3-row-padding w3-text-small" ng-app="myApp">
+    <div class="w3-panel" xmlns="http://www.w3.org/1999/html" ng-controller="w3BtnCtrl">
+
+        <a href="/deals/1;3" class="w3-btn {{ w3Btn[1][3] }} w3-border w3-border-green w3-round-xlarge">PZM/RUR</a>
+        <a href="/deals/1;2" class="w3-btn {{ w3Btn[1][2] }} w3-border w3-border-green w3-round-xlarge">PZM/USD</a>
+        <a href="/deals/2;3" class="w3-btn {{ w3Btn[2][3] }} w3-border w3-border-green w3-round-xlarge">USD/RUR</a>
+        <!-- <a href="/3;3" class="w3-btn w3-white w3-border w3-border-green w3-round-xlarge">Pzm/Slv</a> -->
+
+    </div>
     <!-- Left Column -->
     <div class="w3-col s6" ng-controller="MainCtrl">
         <div class="w3-card-4">
             <table class="w3-table w3-teal">
                 <tr>
                     <td>
-                        <span>Купить</span>
+                        <span class="w3-text-black">Купить <%= curr[deals.curr1] %></span>
                     </td>
-                    <td class="w3-right-align">
-                        <span>Мин.цена:  {{ minPrice}}</span>
+                    <td class="w3-small" ng-click="getSelectBuy()">Ваши средства: <a href="#" class="w3-text-black">{{ UBalance_buy }}</a></td>
+                    <td class="w3-small w3-right-align w3-small">
+                        <span>Мин.цена:  {{ minPrice}} <%= curr[deals.curr2] %></span>
                     </td>
                 </tr>
             </table>
@@ -38,7 +40,7 @@
                 </p>
                 <p>
                     <span class="w3-text-yellow">Комиссия:</span>
-                    <input ng-disabled="true" class="w3-input w3-text-yellow" type="number" value="{{commission_buy | number:4}}" name="commiss_buy">
+                    <input ng-disabled="true" class="w3-input w3-text-yellow" type="number" value="{{commission_buy}}" name="commiss_buy">
                     <span class="w3-tag w3-green"><%= curr[deals.curr1] %></span>
                 </p>
 
@@ -53,15 +55,15 @@
         <table class="w3-table-all w3-hoverable w3-card-4" >
             <tr class="w3-green">
                 <th>Цена (<%= curr[deals.curr2] %>)</th>
-                <th>Кол-во (<%= curr[deals.curr1] %>)</th>
-                <th>Сумма</th>
-                <th>Глубина</th>
+                <th class="w3-border-left">Кол-во (<%= curr[deals.curr1] %>)</th>
+                <th class="w3-border-left">Сумма</th>
+                <th class="w3-border-left">Глубина</th>
             </tr>
             <tr ng-repeat="dt in dt1" ng-click="setSelected();">
                 <td>{{ dt.name }}</td>
-                <td>{{ dt.deal_am }}</td>
-                <td>{{ dt.sm }}</td>
-                <td>{{ dt.glub_buy }}</td>
+                <td class="w3-border-left">{{ dt.deal_am }}</td>
+                <td class="w3-border-left">{{ dt.sm }}</td>
+                <td class="w3-border-left">{{ dt.glub_buy }}</td>
             </tr>
         </table>
         <% } %>
@@ -72,10 +74,11 @@
             <table class="w3-table w3-teal">
                 <tr>
                     <td>
-                        <span>Продать</span>
+                        <span>Продать <%= curr[deals.curr1] %></span>
                     </td>
-                    <td class="w3-right-align">
-                        <span>Макс.цена:  {{ maxPrice}}</span>
+                    <td class="w3-small" ng-click="getSelectSell()">Ваши средства: <a href="#" class="w3-text-black">{{ UBalance_sell }}</a></td>
+                    <td class="w3-small w3-right-align">
+                        <span>Макс.цена:  {{ maxPrice}} <%= curr[deals.curr2] %></span>
                     </td>
                 </tr>
             </table>
@@ -96,7 +99,7 @@
                 </p>
                 <p>
                     <span class="w3-text-yellow">Комиссия:</span>
-                    <input ng-disabled="true" class="w3-input w3-text-yellow" type="number" value="{{commission_sell | number:4}}" name="commiss_sell">
+                    <input ng-disabled="true" class="w3-input w3-text-yellow" type="number" value="{{commission_sell}}" name="commiss_sell">
                     <span class="w3-tag w3-green"><%= curr[deals.curr2] %></span>
                 </p>
 
@@ -110,15 +113,15 @@
         <table class="w3-table-all w3-hoverable w3-card-4" >
             <tr class="w3-green">
                 <th>Цена (<%= curr[deals.curr2] %>)</th>
-                <th>Кол-во (<%= curr[deals.curr1] %>)</th>
-                <th>Сумма</th>
-                <th>Глубина</th>
+                <th class="w3-border-left">Кол-во (<%= curr[deals.curr1] %>)</th>
+                <th class="w3-border-left">Сумма</th>
+                <th class="w3-border-left">Глубина</th>
             </tr>
             <tr ng-repeat="dt in dt2" ng-click="setSelected();">
                 <td>{{ dt.name }}</td>
-                <td>{{ dt.deal_am }}</td>
-                <td>{{ dt.sm }}</td>
-                <td>{{ dt.glub_sell }}</td>
+                <td class="w3-border-left">{{ dt.deal_am }}</td>
+                <td class="w3-border-left">{{ dt.sm }}</td>
+                <td class="w3-border-left">{{ dt.glub_sell }}</td>
             </tr>
         </table>
         <% } %>
@@ -139,13 +142,19 @@
     <% if (deals.dt2.length>0){%>
         maxPrice = <%= deals.dt2[0]._id%>
     <%}%>
-    const Curr = ['','Pzm','Usd','Rur'];
+    const Curr = ['','PZM','USD','RUR'];
+    const w3Btn = [[],['','','w3-white', 'w3-white'],['','w3-white','','w3-white'],['','w3-white','w3-white','']];
+    myApp.controller('w3BtnCtrl', function ($scope) {
+        $scope.w3Btn = w3Btn;
+        $scope.w3Btn[<%= deals.curr1 %>][<%= deals.curr2 %>] = 'w3-gray';
+    });
     myApp.controller('MainCtrl', function($scope) {
         $scope.curr1 = Curr[<%= deals.curr1 %>];
         $scope.curr2 = Curr[<%= deals.curr2 %>];
         $scope.dt1 = [];
         $scope.minPrice = minPrice;
         $scope.commission_buy = 0;
+        $scope.UBalance_buy = <%= UBalance[deals.curr2]%>
                 <% deals.dt1.forEach(function (name) { %>
                     nm.name = <%= Math.round(name._id*10000000)/10000000 %>
                     nm.deal_am = <%= name.deal_am %>
@@ -160,8 +169,14 @@
             $scope.commission_buy = this.dt.glub_buy*0.007;
         };
         $scope.change_buy = function () {
-            $scope.commission_buy = Number($scope.deal_amount_buy)*0.007;
+            $scope.commission_buy = Math.round($scope.deal_amount_buy*0.007*10000000)/10000000;
         };
+        $scope.getSelectBuy = function () {
+            let price_buy = ($scope.price_amount_buy !== undefined ? $scope.price_amount_buy : minPrice);
+            $scope.deal_amount_buy = Math.round(this.UBalance_buy / price_buy * 100) / 100;
+            $scope.price_amount_buy = price_buy;
+            $scope.commission_buy = Math.round($scope.deal_amount_buy*0.007*10000000)/10000000;
+        }
     });
     myApp.controller('Main2Ctrl', function($scope) {
         $scope.curr1 = Curr[<%= deals.curr1 %>];
@@ -169,6 +184,7 @@
         $scope.dt2 = [];
         $scope.maxPrice = maxPrice;
         $scope.commission_sell = 0;
+        $scope.UBalance_sell = <%= UBalance[deals.curr1]%>
         <% deals.dt2.forEach(function (name) { %>
         nm.name = <%= Math.round(name._id*10000000)/10000000 %>
             nm.deal_am = <%= name.deal_am %>
@@ -183,8 +199,14 @@
             $scope.commission_sell = this.dt.glub_sell*this.dt.name*0.007;
         };
         $scope.change_sell = function () {
-            $scope.commission_sell = Number($scope.deal_amount_sell)*Number($scope.price_amount_sell)*0.007;
+            $scope.commission_sell = Math.round($scope.deal_amount_sell*$scope.price_amount_sell*0.007*10000000)/10000000;
         };
+        $scope.getSelectSell = function () {
+            let price_sell = ($scope.price_amount_sell !== undefined ? $scope.price_amount_sell : maxPrice);
+            $scope.deal_amount_sell = this.UBalance_sell;
+            $scope.price_amount_sell = price_sell;
+            $scope.commission_sell = this.UBalance_sell*price_sell*0.007;
+        }
     });
     //]]>
 </script>

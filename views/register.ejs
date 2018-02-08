@@ -22,20 +22,22 @@
         <div class="w3-container w3-green">
           <h2>Регистрация</h2>
         </div>
+
         <form action="/register" method="post" class="w3-container">
+          <label class="w3-text-yellow w3-small">* Все поля обязательны для заполнения!</label>
           <p>
-            <input class="w3-input" type="text" pattern="^[a-z0-9_-]{6,18}$" name="username" placeholder="(6-18зн./лат.,цифры/)">
+            <input class="w3-input" type="text" pattern="^[a-z0-9_-]{6,18}$" name="username" placeholder="(6-18зн./лат.,цифры/)" required>
             <label class="w3-tag w3-teal">Пользователь</label></p>
           <p>
           <p>
-            <input class="w3-input" type="text" name="name_f">
+            <input class="w3-input" type="text" name="name_f" required>
             <label class="w3-tag w3-teal">Отображаемое имя</label></p>
           <p>
           <p>
-            <input class="w3-input" type="email" name="email">
+            <input class="w3-input" type="email" name="email" required>
             <label class="w3-tag w3-teal">E-mail</label></p>
           <p>
-            <input class="w3-input" type="password" name="password">
+            <input class="w3-input" type="password" name="password" required>
             <label class="w3-tag w3-teal">Пароль</label></p>
           <p>
             <input class="w3-btn w3-green" type="submit">

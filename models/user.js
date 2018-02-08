@@ -28,13 +28,13 @@ const userSchema = new mongoose.Schema({
     publicKey: {
         type: String,
     },
-    Pzm: {
+    PZM: {
         type: Number, default: 10000
     },
-    Usd: {
+    USD: {
         type: Number, default: 10000
     },
-    Rur: {
+    RUR: {
         type: Number, default: 10000
     },
     rezPzm: {
@@ -48,6 +48,7 @@ const userSchema = new mongoose.Schema({
     },
     category: String,
     name_f: String,
+    tel: String,
     email: {
         type: String,
         required: 'Укажите e-mail',
