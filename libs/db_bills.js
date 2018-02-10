@@ -269,7 +269,7 @@ async function BillsFromDeal(dealId){  // получаем объект    //(de
     }
 
     let deals = await Deal.find({
-        dealerId: {$ne: generalDeal.dealerId},
+        //dealerId: {$ne: generalDeal.dealerId},
         class: Math.abs(generalDeal.class * 1 - 1),
         price_amount: price_amount,
         status: 0
@@ -319,88 +319,6 @@ async function BillsFromDeal(dealId){  // получаем объект    //(de
     console.log(deals);
     return {err: null, g: generalDeal, d: deals};
 }
-
-//BillsFromDeal(ObjectId("5a5ef5bde7c85705e44183b6"));
-
-/*exports.createBillsFromDeal = async function (dealId, cb) {
-    Deal.findOne({_id: dealId}, async function (err, dataDeal) {
-        if(err) console.error(err);
-        console.log('------------- CLASS -------------');
-        console.log(Math.abs(dataDeal.class*1 - 1));
-        if(Math.abs(dataDeal.class*1)){     // 1 - покупка
-            Deal.find({
-                class: Math.abs(dataDeal.class * 1 - 1),
-                price_amount: {$lte: dataDeal.price_amount},
-                status: 0
-            })
-                .limit(100)
-                .sort({price_amount: 1, createdAt: 1})
-                .exec(async function (err, deals) {
-                    console.log('------------- DEALS -----------');
-                    console.log(deals);
-                    if (err) console.error(err);
-                    if (deals.length > 0) {
-                        let num = 0;
-                        let saldo =0;
-                        async function update_Deals(amount) {
-                            saldo = amount;
-                            // noinspection JSAnnotator
-                            for (let deal of deals) {
-                                console.log('--------- SALDO --------------');
-                                console.log(''+saldo+' / '+ num);
-                                let data = await requestAsync(dataDeal._id, saldo, deal._id);
-                                console.log('*********** data');
-                                console.log(data);
-                                saldo = data.saldo;
-                                if (saldo <= 0) {
-                                    break;
-                                }
-                                num++;
-                            }
-                        }
-                        update_Deals(dataDeal.deal_amount_bill);
-                        return cb(null, dealId);
-                    }
-                });
-        } else {
-            Deal.find({
-                class: Math.abs(dataDeal.class * 1 - 1),
-                price_amount: {$gte: dataDeal.price_amount},
-                status: 0
-            })
-                .limit(100)
-                .sort({price_amount: -1, createdAt: 1})
-                .exec(function (err, deals) {
-                    console.log('------------- DEALS -----------');
-                    console.log(deals);
-                    if (err) console.error(err);
-                    if (deals.length > 0) {
-                        let num = 0;
-                        let saldo = 0;
-                        async function update_Deals(amount) {
-                            saldo = amount;
-                            // noinspection JSAnnotator
-                            for (let deal of deals) {
-                                console.log('--------- SALDO --------------');
-                                console.log(''+saldo+' / '+ num);
-                                let data = await requestAsync(dataDeal._id, saldo, deal._id);
-                                console.log('*********** data');
-                                console.log(data);
-                                saldo = data.saldo;
-                                if (saldo <= 0) {
-                                    break;
-                                }
-                                num++;
-                            }
-                        }
-
-                        update_Deals(dataDeal.deal_amount_bill);
-                        return cb(null, dealId);
-                    }
-                });
-        }
-    });
-};*/
 
 exports.createBillsFromDeal = (dealId)=>{    // получаем объект
     BillsFromDeal(dealId);
