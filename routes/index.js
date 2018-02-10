@@ -25,8 +25,10 @@ router.get('/', function(req, res, next) {
 
     let LoginRegister = '<b><a href="/login">Вход</a> </b>';
     let UserBalance = [0,0,0,0,0];
+    let infoText = {txt:"<i>Внимание! Акция! Проценты на депозит снижены! Акция продлится до 20 февраля 2018г.</i><p>Для полноценного участия в обмене - необходимо зарегистрироваться</p>", sign:'Администрация'};
     if(req.session.user){
         User.findById(req.session.user, function (err, user) {
+            infoText.txt = 'Внимание! Акция! Проценты на депозит снижены! Акция продлится до 20 февраля 2018г.';
             UserBalance = [0,Math.round(user.PZM*100)/100,Math.round(user.USD*100)/100,Math.round(user.RUR*100)/100];
             LoginRegister = '<b><a href="/profile" class="w3-button w3-border w3-border-white w3-round">'+req.session.username+'</a>&nbsp;&nbsp;<a href="/logout" class="w3-button w3-border w3-border-white w3-round">Выход</a></b>' +
                 '<div class="w3-right-align w3-small">' +
@@ -39,13 +41,13 @@ router.get('/', function(req, res, next) {
 
             db_deals.getdeals(curr1,curr2, function (err, data) {
                 if(err) res.status(500).send('Внутренняя ошибка!');
-                res.render('index', { title: 'PRIZM Stock Exchange', LoginRegister: LoginRegister, deals: data, UBalance: UserBalance});
+                res.render('index', { title: 'PRIZM Stock Exchange', LoginRegister: LoginRegister, deals: data, UBalance: UserBalance, infoText: infoText});
             });
         });
     } else {
         db_deals.getdeals(curr1,curr2, function (err, data) {
             if(err) res.status(500).send('Внутренняя ошибка!');
-            res.render('index', { title: 'PRIZM Stock Exchange', LoginRegister: LoginRegister, deals: data, UBalance: UserBalance});
+            res.render('index', { title: 'PRIZM Stock Exchange', LoginRegister: LoginRegister, deals: data, UBalance: UserBalance, infoText: infoText});
         });
     }
 
@@ -219,8 +221,10 @@ router.get('/deals/:id?', function (req, res) {
 
     let LoginRegister = '<b><a href="/login">Вход</a> </b>';
     let UserBalance = [0,0,0,0,0];
+    let infoText = {txt:"<i>Внимание! Акция! Проценты на депозит снижены! Акция продлится до 20 февраля 2018г.</i><p>Для полноценного участия в обмене - необходимо зарегистрироваться</p>", sign:'Администрация'};
     if(req.session.user){
         User.findById(req.session.user, function (err, user) {
+            infoText.txt = 'Внимание! Акция! Проценты на депозит снижены! Акция продлится до 20 февраля 2018г.';
             UserBalance = [0,Math.round(user.PZM*100)/100,Math.round(user.USD*100)/100,Math.round(user.RUR*100)/100];
             LoginRegister = '<b><a href="/profile" class="w3-button w3-border w3-border-white w3-round">'+req.session.username+'</a>&nbsp;&nbsp;<a href="/logout" class="w3-button w3-border w3-border-white w3-round">Выход</a></b>' +
                 '<div class="w3-right-align w3-small">' +
@@ -233,13 +237,13 @@ router.get('/deals/:id?', function (req, res) {
 
             db_deals.getdeals(curr1,curr2, function (err, data) {
                 if(err) res.status(500).send('Внутренняя ошибка!');
-                res.render('index', { title: 'PRIZM Stock Exchange', LoginRegister: LoginRegister, deals: data, UBalance: UserBalance});
+                res.render('index', { title: 'PRIZM Stock Exchange', LoginRegister: LoginRegister, deals: data, UBalance: UserBalance, infoText:infoText});
             });
         });
     } else {
         db_deals.getdeals(curr1,curr2, function (err, data) {
             if(err) res.status(500).send('Внутренняя ошибка!');
-            res.render('index', { title: 'PRIZM Stock Exchange', LoginRegister: LoginRegister, deals: data, UBalance: UserBalance});
+            res.render('index', { title: 'PRIZM Stock Exchange', LoginRegister: LoginRegister, deals: data, UBalance: UserBalance, infoText:infoText});
         });
     }
 
