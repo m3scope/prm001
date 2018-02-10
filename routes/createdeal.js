@@ -48,9 +48,9 @@ exports.post = function(req, res){
     let crDeals = false;
     const commission_tax = 0.007;
     let tdeal_amount, tdeal_currency, tprice_amount, tprice_currency;
+    let UserBalance = [0,0,0,0,0];
+    let LoginRegister = '<b><a href="/profile">Профиль</a>&nbsp;&nbsp;<a href="/logout">Выход</a></b>';
     loadUser.findID(tUser, function (err, user) {
-        let LoginRegister = '<b><a href="/profile">Профиль</a>&nbsp;&nbsp;<a href="/logout">Выход</a></b>';
-
         if(!tUser){
             LoginRegister = '<b><a href="/login">вход</a></b>';
         }
