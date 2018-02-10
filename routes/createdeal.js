@@ -67,6 +67,15 @@ exports.post = function(req, res){
                             res.redirect('/login');
                         } else {
                             //console.log(user.prizmaddress);
+                            LoginRegister = '<b><a href="/profile" class="w3-button w3-border w3-border-white w3-round">'+req.session.username+'</a>&nbsp;&nbsp;<a href="/logout" class="w3-button w3-border w3-border-white w3-round">Выход</a></b>' +
+                                '<div class="w3-right-align w3-small">' +
+                                '<span>PZM: </span>' +
+                                '<label class="w3-border-top w3-border-bottom">'+UserBalance[1]+'</label>' +
+                                '<span>&nbsp;RUR: </span>' +
+                                '<label class="w3-border-top w3-border-bottom">'+UserBalance[3]+'</label>' +
+                                '<span>&nbsp;USD: </span>' +
+                                '<label class="w3-border-top w3-border-bottom">'+UserBalance[2]+'</label></div>';
+
                             crDeals = true;
                             if(crDeals) {
                                 let newDeal = new Deal();
@@ -107,7 +116,7 @@ exports.post = function(req, res){
                                     //     user: user,
                                     //     LoginRegister: LoginRegister + '<div class="w3-green">Сделака создана</div>'
                                     // });
-                            LoginRegister = LoginRegister + '<div class="w3-green">Сделака создана</div>';
+                            //LoginRegister = LoginRegister + '<div class="w3-green">Сделака создана</div>';
                             // res.redirect(Curr[req.body.price_currency][Curr[req.body.deal_currency][0]]);
                             res.render('info', {infoTitle: '<div class="w3-green">Успех!</div>', infoText: 'Операция успешно выполнена!', url: Curr[req.body.price_currency][Curr[req.body.deal_currency][0]], title: 'Создать СДЕЛКУ', user: user, LoginRegister: LoginRegister});
                         }
@@ -128,6 +137,15 @@ exports.post = function(req, res){
                             res.redirect('/login');
                         } else {
                             //console.log(user.prizmaddress);
+                            LoginRegister = '<b><a href="/profile" class="w3-button w3-border w3-border-white w3-round">'+req.session.username+'</a>&nbsp;&nbsp;<a href="/logout" class="w3-button w3-border w3-border-white w3-round">Выход</a></b>' +
+                                '<div class="w3-right-align w3-small">' +
+                                '<span>PZM: </span>' +
+                                '<label class="w3-border-top w3-border-bottom">'+UserBalance[1]+'</label>' +
+                                '<span>&nbsp;RUR: </span>' +
+                                '<label class="w3-border-top w3-border-bottom">'+UserBalance[3]+'</label>' +
+                                '<span>&nbsp;USD: </span>' +
+                                '<label class="w3-border-top w3-border-bottom">'+UserBalance[2]+'</label></div>';
+
                             crDeals = true;
                             if(crDeals) {
                                 let newDeal = new Deal();
@@ -164,7 +182,7 @@ exports.post = function(req, res){
 
                                 });
                             }
-                            LoginRegister = LoginRegister + '<div class="w3-green">Сделака создана</div>';
+                            //LoginRegister = LoginRegister + '<div class="w3-green">Сделака создана</div>';
                             // res.redirect(Curr[req.body.price_currency][Curr[req.body.deal_currency][0]]);
                             res.render('info', {infoTitle: '<div class="w3-green">Успех!</div>', infoText: 'Операция успешно выполнена!', url: Curr[req.body.price_currency][Curr[req.body.deal_currency][0]], title: 'Создать СДЕЛКУ', user: user, LoginRegister: LoginRegister});
                         }
