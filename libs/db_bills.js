@@ -3,7 +3,7 @@ const User = require('../models/user');
 const Deal = require('../models/deal');
 const Bill = require('../models/bill');
 const Transaction = require('../models/transaction');
-const Curr = ['','Pzm','Usd','Rur'];
+const Curr = ['','PZM','USD','RUR'];
 const rezCurr = ['', 'rezPzm', 'rezUsd', 'rezRur'];
 const sort_Name = [
     ['',''],
@@ -190,18 +190,6 @@ async function cr_Bill(dealID, deal_amount, deal2Id) {
                 //dealOne.deal_amount_bill = dealOne.deal_amount_bill - savedGeneralBill.deal_amount;
                 if(dealOne.class*1){
                     updUserBalance(savedGeneralBill.dealerGeneralId, savedGeneralBill.deal_currency, savedGeneralBill.deal_amount - savedGeneralBill.commission_summ, savedGeneralBill.price_currency, savedGeneralBill.summ);
-                    // if(savedGeneralBill.price_amount > newTwoBill.price_amount){
-                    //     //******** зачисление разницы в цене
-                    //     //******** непредвиденное сальдо
-                    //     let newTrans = new Transaction;
-                    //     newTrans.sort = 9;
-                    //     newTrans.billId = savedGeneralBill._id;
-                    //     newTrans.userId = savedGeneralBill.dealerGeneralId;
-                    //     newTrans.currency = savedGeneralBill.deal_currency;
-                    //     newTrans.amount = savedGeneralBill.deal_amount * (savedGeneralBill.price_amount - newTwoBill.price_amount);
-                    //     newTrans.up_down = true;
-                    //     newTrans.save();
-                    // }
                 } else {
                     updUserBalance(savedGeneralBill.dealerGeneralId, savedGeneralBill.price_currency, savedGeneralBill.summ - savedGeneralBill.commission_summ, savedGeneralBill.deal_currency, savedGeneralBill.deal_amount);
                 }

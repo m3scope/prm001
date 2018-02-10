@@ -1,31 +1,42 @@
-<% const curr = ['','Pzm','Usd','Rur']; %>
+<% const curr = ['','PZM','USD','RUR']; %>
 <div class="w3-panel"></div>
 <div class="w3-row-padding" ng-app="myApp">
   <!-- Left Column -->
   <div class="w3-col s6" ng-controller="MainCtrl">
     <div class="w3-card-4">
       <div class="w3-container w3-teal">
-        <h5>Купить</h5>
+        <h5>Вывод средств</h5>
       </div>
-      <form action="/createdeal" method="post" class="w3-container">
-        <input type="hidden" name="class" value="1">
-        <p>
-          <input class="w3-input" type="number" value="0" step="any" name="deal_amount" required ng-model="deal_amount_buy" ng-change="change_buy()">
-          <span class="w3-tag w3-green"><%= curr[inc.curr] %></span>
-          <input type="hidden" name="deal_currency" value="{{ curr1 }}">
-        </p>
-        <p>
-          <input class="w3-input" type="number" value="0" step="any" name="price_amount" required ng-model="price_amount_buy" ng-change="change_buy()">
-          <span class="w3-tag w3-green"><%= curr[inc.curr] %></span>
-          <input type="hidden" name="price_currency" value="{{ curr2 }}">
-        </p>
-        <p>
-          <span class="w3-text-yellow">Комиcсия: {{commission_buy | number:4}}</span>
-        </p>
-        <p>
-          <input class="w3-btn w3-teal" type="submit" value="Купить">
-        </p>
-      </form>
+        <form action="/api/q/req/dec_silver" method="post" class="w3-container">
+            <input type="hidden" name="class" value="1">
+            <p>
+                <input class="w3-input" type="number" value="0" step="any" name="deal_amount" required ng-model="deal_amount_buy_rub" ng-change="change_buy_rub()">
+                <span class="w3-tag w3-green">RUB</span>
+                <input type="hidden" name="deal_currency" value="{{ curr1 }}">
+            </p>
+            <p>
+                <input ng-disabled="true" class="w3-input" type="number" value="0" step="any" name="price_amount" required ng-model="deal_amount_buy_curr" ng-change="change_buy_curr()">
+                <span class="w3-tag w3-green"><%= curr[inc.curr] %></span>
+                <input type="hidden" name="price_currency" value="{{ curr2 }}">
+            </p>
+            <p>
+                <input class="w3-radio" type="radio" name="bank" value="QIWI" checked>
+                <label>QIWI</label>
+                <input class="w3-radio" type="radio" name="bank" value="Yandex">
+                <label>Яндекс.Деньги</label>
+            </p>
+            <p>
+                <input class="w3-input w3-text-yellow" ng-disabled="true" type="text" name="commiss_buy" value="{{commission_buy | number:2}}">
+                <label class="w3-tag w3-green">Комиcсия</label>
+            </p>
+            <p>
+                <input type="checkbox" name="check_TermsOfService" ng-model="data.disabled">
+                <label class="w3-text-yellow" >* Согласен с условиями работы сервиса</label>
+            </p>
+            <p>
+                <input class="w3-btn w3-teal" type="submit" value="Создать" ng-disabled="!data.disabled">
+            </p>
+        </form>
     </div>
 
   </div>
@@ -35,7 +46,7 @@
     //<![CDATA[
     let myApp = angular.module('myApp',[]);
     let nm = {};
-    const Curr = ['','Pzm','Usd','Rur'];
+    const Curr = ['','PZM','USD','RUR'];
     myApp.controller('MainCtrl', function($scope) {
         $scope.curr1 = Curr[<%= inc.curr %>];
         $scope.dt1 = [];
