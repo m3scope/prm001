@@ -187,6 +187,7 @@ async function cr_Bill(dealID, deal_amount, deal2Id) {
                     //return cb(err, null, null);
                 }
                 dealOne.bills.push({billId: savedGeneralBill._id});
+                dealOne.summ_bill = dealOne.summ_bill - savedGeneralBill.summ;
                 //dealOne.deal_amount_bill = dealOne.deal_amount_bill - savedGeneralBill.deal_amount;
                 if(dealOne.class*1){
                     updUserBalance(savedGeneralBill.dealerGeneralId, savedGeneralBill.deal_currency, savedGeneralBill.deal_amount - savedGeneralBill.commission_summ, savedGeneralBill.price_currency, savedGeneralBill.summ);
@@ -224,6 +225,7 @@ async function cr_Bill(dealID, deal_amount, deal2Id) {
                         updUserBalance(savedTwoBill.dealerGeneralId, savedTwoBill.price_currency, savedTwoBill.summ - savedTwoBill.commission_summ, savedTwoBill.deal_currency, savedTwoBill.deal_amount);
                     }
                     dealTwo.bills.push({billId: savedTwoBill._id});
+                    dealTwo.summ_bill = dealTwo.summ_bill - savedTwoBill.summ;
                     // dealTwo.deal_amount_bill = dealTwo.deal_amount_bill - savedTwoBill.deal_amount;
                     // if(dealTwo.deal_amount_bill <= 0) {
                     //     dealTwo.status = 9;

@@ -88,6 +88,9 @@ exports.post = function(req, res){
                                 newDeal.price_amount = req.body.price_amount;   //: {type: Number, default: 0},       // цена без комиссии
                                 newDeal.price_currency = Curr[req.body.price_currency][0];   //: {type: Number, default: 0},   // Код (число) валюты покупки
 
+                                newDeal.summ = req.body.deal_amount * req.body.price_amount;
+                                newDeal.summ_bill = req.body.deal_amount * req.body.price_amount;
+
                                 newDeal.class = cl;
 
                                 newDeal.commission_tax = commission_tax;
@@ -156,6 +159,9 @@ exports.post = function(req, res){
                                 newDeal.deal_currency = Curr[req.body.deal_currency][0];   //: {type: Number, default: 0},  // Код (число) валюты продажи
                                 newDeal.price_amount = req.body.price_amount;   //: {type: Number, default: 0},       // цена без комиссии
                                 newDeal.price_currency = Curr[req.body.price_currency][0];   //: {type: Number, default: 0},   // Код (число) валюты покупки
+
+                                newDeal.summ = req.body.deal_amount * req.body.price_amount;
+                                newDeal.summ_bill = req.body.deal_amount * req.body.price_amount;
 
                                 newDeal.class = req.body.class * 1;
 
