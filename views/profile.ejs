@@ -168,24 +168,24 @@ let clors=['w3-orange','w3-cyan'];
           <h5>Счета</h5>
         </div>
 
-        <table class="w3-table w3-table-all w3-small w3-striped w3-bordered">
-          <tr>
+        <table class="w3-table-all w3-small w3-striped w3-hoverable">
+          <tr class="w3-green">
             <th>Пара</th>
-            <th>Тип</th>
-            <th>Кол.</th>
-            <th>Цена</th>
-            <th>Сумма</th>
-            <th>Дата</th>
+            <th class="w3-border-left">Тип</th>
+            <th class="w3-border-left">Кол.</th>
+            <th class="w3-border-left">Цена</th>
+            <th class="w3-border-left">Сумма</th>
+            <th class="w3-border-left">Дата</th>
 
           </tr>
           <% for(var i=0, len=user.bills.length; i<len; i++){%>
             <tr>
               <td><%= currs[user.bills[i].deal_currency]%>/<%= currs[user.bills[i].price_currency]%></td>
               <td class="<%= clors[user.bills[i].class]%>"><%= bs[user.bills[i].class] %></td>
-              <td><%= user.bills[i].deal_amount%></td>
-              <td><%= user.bills[i].price_amount%></td>
-              <td><%= user.bills[i].summ%></td>
-              <td><%= new Date(user.bills[i].createdAt).toISOString().replace(/T/, ' ').replace(/\..+/, ''); %></td>
+              <td class="w3-border-left"><%= user.bills[i].deal_amount%></td>
+              <td class="w3-border-left"><%= user.bills[i].price_amount%></td>
+              <td class="w3-border-left"><%= user.bills[i].summ%></td>
+              <td class="w3-border-left"><%= new Date(user.bills[i].createdAt).toISOString().replace(/T/, ' ').replace(/\..+/, ''); %></td>
 
             </tr>
           <%}%>
@@ -209,7 +209,7 @@ let clors=['w3-orange','w3-cyan'];
     let minPrice = 0;
     let maxPrice = 0;
     let bs=['продажа','покупка'];
-    let clors=['w3-orange','w3-green'];
+    let clors=['w3-orange','w3-cyan'];
     const Curr = ['','PZM','USD','RUR'];
     const w3Btn = [[],['','','w3-white', 'w3-white'],['','w3-white','','w3-white'],['','w3-white','w3-white','']];
 
@@ -230,6 +230,7 @@ let clors=['w3-orange','w3-cyan'];
             dl.price_amount = <%= deal.price_amount%>
             dl.summ = <%= Math.round(deal.deal_amount*deal.price_amount*10000)/10000%>
             dl.dat = '<%= new Date(deal.createdAt).toISOString().replace(/T/, ' ').replace(/\..+/, '') %>';
+            dl.clas = <%= deal.class %>
             dl.i = i;
 
             $scope.dt1.push(dl);
