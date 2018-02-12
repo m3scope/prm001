@@ -188,15 +188,16 @@ async function cr_Bill(dealID, deal_amount, deal2Id) {
                 }
                 dealOne.bills.push({billId: savedGeneralBill._id});
                 dealOne.summ_bill = dealOne.summ_bill - savedGeneralBill.summ;
-                //dealOne.deal_amount_bill = dealOne.deal_amount_bill - savedGeneralBill.deal_amount;
                 if(dealOne.class*1){
                     updUserBalance(savedGeneralBill.dealerGeneralId, savedGeneralBill.deal_currency, savedGeneralBill.deal_amount - savedGeneralBill.commission_summ, savedGeneralBill.price_currency, savedGeneralBill.summ);
+                    if(dealOne.status == 9){
+                        updUserBalance(savedGeneralBill.dealerGeneralId, savedGeneralBill.price_currency, dealOne.summ_bill, savedGeneralBill.price_currency, dealOne.summ_bill);
+                        dealOne.summ_bill = 0;
+                    }
                 } else {
                     updUserBalance(savedGeneralBill.dealerGeneralId, savedGeneralBill.price_currency, savedGeneralBill.summ - savedGeneralBill.commission_summ, savedGeneralBill.deal_currency, savedGeneralBill.deal_amount);
+
                 }
-                // if(dealOne.deal_amount_bill <= 0) {
-                //     dealOne.status = 9;
-                // }
                 dealOne.save();
                 crTrans(savedGeneralBill);
 
@@ -207,25 +208,30 @@ async function cr_Bill(dealID, deal_amount, deal2Id) {
                         console.error(err);
                         //return cb(err, null, null);
                     }
-                    if(dealTwo.class*1){
-                        if(newTwoBill.price_amount > savedGeneralBill.price_amount){
-                            //******** зачисление разницы в цене
-                            //******** непредвиденное сальдо
-                            let newTrans = new Transaction;
-                            newTrans.sort = 9;
-                            newTrans.billId = savedGeneralBill._id;
-                            newTrans.userId = savedGeneralBill.dealerGeneralId;
-                            newTrans.currency = savedGeneralBill.deal_currency;
-                            newTrans.amount = savedGeneralBill.deal_amount * (newTwoBill.price_amount - savedGeneralBill.price_amount);
-                            newTrans.up_down = true;
-                            newTrans.save();
-                        }
-                        updUserBalance(savedTwoBill.dealerGeneralId, savedTwoBill.deal_currency, savedTwoBill.deal_amount - savedTwoBill.commission_summ, savedTwoBill.price_currency, savedTwoBill.summ);
-                    } else {
-                        updUserBalance(savedTwoBill.dealerGeneralId, savedTwoBill.price_currency, savedTwoBill.summ - savedTwoBill.commission_summ, savedTwoBill.deal_currency, savedTwoBill.deal_amount);
-                    }
                     dealTwo.bills.push({billId: savedTwoBill._id});
                     dealTwo.summ_bill = dealTwo.summ_bill - savedTwoBill.summ;
+                    if(dealTwo.class*1){
+                        // if(newTwoBill.price_amount > savedGeneralBill.price_amount){
+                        //     //******** зачисление разницы в цене
+                        //     //******** непредвиденное сальдо
+                        //     let newTrans = new Transaction;
+                        //     newTrans.sort = 9;
+                        //     newTrans.billId = savedGeneralBill._id;
+                        //     newTrans.userId = savedGeneralBill.dealerGeneralId;
+                        //     newTrans.currency = savedGeneralBill.deal_currency;
+                        //     newTrans.amount = savedGeneralBill.deal_amount * (newTwoBill.price_amount - savedGeneralBill.price_amount);
+                        //     newTrans.up_down = true;
+                        //     newTrans.save();
+                        // }
+                        updUserBalance(savedTwoBill.dealerGeneralId, savedTwoBill.deal_currency, savedTwoBill.deal_amount - savedTwoBill.commission_summ, savedTwoBill.price_currency, savedTwoBill.summ);
+                        if(dealTwo.status == 9){
+                            updUserBalance(savedGeneralBill.dealerGeneralId, savedTwoBill.price_currency, dealTwo.summ_bill, savedTwoBill.price_currency, dealTwo.summ_bill);
+                            dealTwo.summ_bill = 0;
+                        }
+                    } else {
+                        updUserBalance(savedTwoBill.dealerGeneralId, savedTwoBill.price_currency, savedTwoBill.summ - savedTwoBill.commission_summ, savedTwoBill.deal_currency, savedTwoBill.deal_amount);
+
+                    }
                     // dealTwo.deal_amount_bill = dealTwo.deal_amount_bill - savedTwoBill.deal_amount;
                     // if(dealTwo.deal_amount_bill <= 0) {
                     //     dealTwo.status = 9;
