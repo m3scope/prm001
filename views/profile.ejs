@@ -122,7 +122,7 @@ let clors=['w3-orange','w3-cyan'];
             <td class="w3-border-left {{ dt.color2 }}">
                 <div ng-switch="{{ dt.status }}">
                     <div ng-switch-when="0">
-                        <span><a href="/api/q/deal/{{dt._id}};cancel">отменить</a> </span>
+                        <span><a href="{{dt.cans}}">отменить</a> </span>
                     </div>
                   <div ng-switch-when="3">
                     <span>отменен</span>
@@ -233,7 +233,7 @@ let clors=['w3-orange','w3-cyan'];
         i=0;
           <% user.deals.forEach(function (deal) { %>
             dl={};
-            dl.id = <%= deal._id %>
+            dl.cans = '/api/q/deal/<%= deal._id %>;cancel';
             dl.deal_currency = Curr[<%= deal.deal_currency%>];
             dl.price_currency = Curr[<%= deal.price_currency%>];
             dl.typ = bs[<%= deal.class %>];

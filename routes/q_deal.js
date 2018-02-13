@@ -63,10 +63,6 @@ exports.get = function(req, res){
                 });
             }
         }
-
-
-
-        res.render('createdeal', {title: 'Создать СДЕЛКУ', user: user, LoginRegister: LoginRegister});
     });
     //res.render('profile', {title: 'USERS authLK', user: User});
 };
