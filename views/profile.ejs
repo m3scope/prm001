@@ -105,7 +105,7 @@ let clors=['w3-orange','w3-cyan'];
           <tr  class="w3-green">
             <th>Пара</th>
             <th class="w3-border-left">Тип</th>
-            <th class="w3-border-left">Кол.</th>
+            <th class="w3-border-left">Кол.(остаток)</th>
             <th class="w3-border-left">Цена</th>
             <th class="w3-border-left">Сумма</th>
             <th class="w3-border-left">Дата</th>
@@ -119,7 +119,16 @@ let clors=['w3-orange','w3-cyan'];
             <td class="w3-border-left">{{ dt.price_amount}}</td>
             <td class="w3-border-left">{{ dt.summ }}</td>
             <td class="w3-border-left">{{ dt.dat }}</td>
-            <td class="w3-border-left"><span  class="w3-tag w3-orange"><a href="">отменить</a> </span></td>
+            <td class="w3-border-left {{ dt.color2 }}">
+                <div ng-switch="{{ dt.status }}">
+                    <div ng-switch-when="0">
+                        <span><a href="#">отменить</a> </span>
+                    </div>
+                    <div ng-switch-when="9">
+                        <span>закрыт</span>
+                    </div>
+                </div>
+            </td>
           </tr>
 
         </table>
@@ -209,7 +218,7 @@ let clors=['w3-orange','w3-cyan'];
     let minPrice = 0;
     let maxPrice = 0;
     let bs=['продажа','покупка'];
-    let clors=['w3-orange','w3-cyan'];
+    let clors=['w3-orange','w3-cyan','','w3-brown','','','','','','w3-gray'];
     const Curr = ['','PZM','USD','RUR'];
     const w3Btn = [[],['','','w3-white', 'w3-white'],['','w3-white','','w3-white'],['','w3-white','w3-white','']];
 
@@ -230,7 +239,8 @@ let clors=['w3-orange','w3-cyan'];
             dl.price_amount = <%= deal.price_amount%>
             dl.summ = <%= Math.round(deal.deal_amount*deal.price_amount*10000)/10000%>
             dl.dat = '<%= new Date(deal.createdAt).toISOString().replace(/T/, ' ').replace(/\..+/, '') %>';
-            dl.clas = <%= deal.class %>
+            dl.status = <%= deal.status %>
+            dl.color2 = clors[<%= deal.status%>];
             dl.i = i;
 
             $scope.dt1.push(dl);
