@@ -263,7 +263,7 @@ async function BillsFromDeal(dealId){  // получаем объект    //(de
         //dealerId: {$ne: generalDeal.dealerId},
         class: Math.abs(generalDeal.class * 1 - 1),
         price_amount: price_amount,
-        status: 0
+        status: {$lt: 3}
     })
         .limit(100)
         .sort(sorts);
