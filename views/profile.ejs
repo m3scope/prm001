@@ -124,6 +124,9 @@ let clors=['w3-orange','w3-cyan'];
                     <div ng-switch-when="0">
                         <span><a href="#">отменить</a> </span>
                     </div>
+                  <div ng-switch-when="3">
+                    <span>отменен</span>
+                  </div>
                     <div ng-switch-when="9">
                         <span>закрыт</span>
                     </div>
@@ -230,6 +233,7 @@ let clors=['w3-orange','w3-cyan'];
         i=0;
           <% user.deals.forEach(function (deal) { %>
             dl={};
+            dl.id = <%= deal._id %>
             dl.deal_currency = Curr[<%= deal.deal_currency%>];
             dl.price_currency = Curr[<%= deal.price_currency%>];
             dl.typ = bs[<%= deal.class %>];

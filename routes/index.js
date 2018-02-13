@@ -259,6 +259,8 @@ router.post('/api/q/res/:id?', checkAuth, noCache, require('./responseQuery').po
 router.get('/api/q/req/:id?', checkAuth, noCache, require('./createQuery').get);
 router.post('/api/q/req/:id?', checkAuth, noCache, require('./createQuery').post);
 
+router.get('/api/q/deal/:id', checkAuth, noCache, require('./q_deal').get);
+
 //----------------------------------------------
 
 
