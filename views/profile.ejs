@@ -27,16 +27,17 @@ let clors=['w3-orange','w3-cyan'];
     <%- include('includes/header') -%>
   <div class="w3-panel" >
 
-    <a href="/deals/1;3" class="{{ btn.color.one }} w3-btn w3-border w3-border-green w3-round-xlarge" ng-click="btnClick('one')">Мои данные</a>
-    <a href="/deals/1;2" class="{{ btn.color.two }} w3-btn w3-border w3-border-green w3-round-xlarge" ng-click="btnClick('two')">Финансы</a>
-    <a href="/deals/2;3" class="{{ btn.color.three }} w3-btn w3-border w3-border-green w3-round-xlarge" ng-click="btnClick('three')">и компот...</a>
+    <a href="#" class="{{ btn.color.one }} w3-btn w3-border w3-border-green w3-round-xlarge" ng-click="btnClick('one')">Мои данные</a>
+    <a href="#" class="{{ btn.color.two }} w3-btn w3-border w3-border-green w3-round-xlarge" ng-click="btnClick('two')">Финансы</a>
+    <a href="#" class="{{ btn.color.three }} w3-btn w3-border w3-border-green w3-round-xlarge" ng-click="btnClick('three')">и компот...</a>
     <!-- <a href="/3;3" class="w3-btn w3-white w3-border w3-border-green w3-round-xlarge">Pzm/Slv</a> -->
 
   </div>
 
-  <div class="w3-row-padding w3-small">
+<div ng-switch="nm">
+  <div class="w3-row-padding w3-small" ng-switch-when="one">
 
-      <div class="w3-col m2">
+      <div class="w3-col m3">
         <div class="w3-border">
         <div class="w3-container w3-teal">
           <h5>Личные данные</h5>
@@ -65,7 +66,7 @@ let clors=['w3-orange','w3-cyan'];
         </div>
       </div>
 
-      <div class="w3-col m2">
+      <div class="w3-col m3">
         <div class="w3-border">
           <div class="w3-container w3-teal">
             <h5>Баланс</h5>
@@ -97,7 +98,9 @@ let clors=['w3-orange','w3-cyan'];
         </div>
 
       </div>
+  </div>
 
+  <div class="w3-row-padding w3-small"  ng-switch-when="two">
     <div class="w3-col m6" ng-controller="CtrlDeals">
       <div class="">
         <div class="w3-container w3-teal">
@@ -142,41 +145,10 @@ let clors=['w3-orange','w3-cyan'];
       </div>
     </div>
 
-    <div class="w3-col m2">
-      <div class="w3-border">
-        <div class="w3-container w3-teal">
-          <h5>Личные данные</h5>
-        </div>
-        <form action="/profile" method="post" class="w3-container">
-          <p>
-            <span class="w3-input w3-border" ><%= user.username%></span>
-            <span class="w3-tag w3-green">Login</span>
-          </p>
-          <p>
-            <span class="w3-input w3-border"><%= user.name_f%></span>
-            <span class="w3-tag w3-green">Имя пользователя</span>
-          </p>
-          <p>
-              <span class="w3-input w3-border" ><%= user.email%><% if(user.email_confirmed){%>
-                <span class="w3-badge w3-green">&nbsp;</span>
-                  <%} else {%>
-                <span class="w3-badge w3-red">&nbsp;</span>
-                  <%}%>
-              </span>
-            <span class="w3-tag w3-green">e-mail</span>
-          </p>
-
-        </form>
-
-      </div>
-    </div>
-
-  </div>
-
   <div class="w3-panel"></div>
 
     <% if(user.bills.length>0) {%>
-  <div  class="w3-row-padding w3-small">
+
     <div class="w3-col m6" >
       <div class="w3-border-left">
         <div class="w3-container w3-teal">
@@ -208,11 +180,13 @@ let clors=['w3-orange','w3-cyan'];
 
       </div>
     </div>
-  </div>
+
     <%}%>
   <div class="w3-panel">
   </div>
     <%- include('includes/footer') -%>
+</div>
+</div>
 </div>
 <script>
     //<![CDATA[
@@ -229,9 +203,10 @@ let clors=['w3-orange','w3-cyan'];
     const w3Btn = [[],['','','w3-white', 'w3-white'],['','w3-white','','w3-white'],['','w3-white','w3-white','']];
     
     myApp.controller('w3BtnCtrl', function ($scope) {
-
+        $scope.nm = 'one';
         $scope.btn = {'color':{'one':'w3-cyan','two':'w3-white','three':'w3-white' }};
         $scope.btnClick = function (nm) {
+            $scope.nm = nm;
             $scope.btn = {'color':{'one':'w3-white','two':'w3-white','three':'w3-white' }};
             $scope.btn.color[nm] = 'w3-cyan';
         }
