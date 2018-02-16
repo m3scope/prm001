@@ -120,7 +120,7 @@
                         </td>
                         <td>
                             <span class="w3-tag w3-green">Комиссия в: <%= curr[deals.curr2] %></span>
-                            <input ng-disabled="true" class="w3-input w3-text-yellow" type="number" value="{{commission_sell}}" name="commiss_sell">
+                            <input ng-disabled="true" class="w3-input w3-text-yellow" type="number" value="{{commission_sell}}" name="commiss_sell" ng-model="commiss_sell">
                         </td>
                     </tr>
                     <tr>
@@ -248,6 +248,7 @@
             if($scope.deal_amount_sell > 0){
                 $scope.price_amount_sell = $scope.summ_sell / $scope.deal_amount_sell;
                 $scope.commission_sell = Math.round($scope.deal_amount_sell*$scope.price_amount_sell*0.007*10000)/10000;
+                $scope.data.disabled_sell = !($scope.deal_amount_sell > 0 && $scope.price_amount_sell > 0);
             }
         };
         $scope.getSelectSell = function () {
