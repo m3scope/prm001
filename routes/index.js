@@ -90,17 +90,18 @@ router.post('/login', (req, res) => {
 
     User.findOne({username: username}, function(err, user){
         if(err) {
-            return res.status(500).send('Внутренняя ошибка!');
+            return res.render('info', {infoTitle: '<div class="w3-red">Внутренняя ошибка!</div>', infoText: 'Неправильный логин или пароль', url: '/login', title: 'Вход', user: null, LoginRegister: '<b><a href="/login">вход</a></b>'});
         }
         if(!user) {
-            return res.status(200).send('Пользователь не найден!');
+            return res.render('info', {infoTitle: '<div class="w3-red">Внутренняя ошибка!</div>', infoText: 'Неправильный логин или пароль', url: '/login', title: 'Вход', user: null, LoginRegister: '<b><a href="/login">вход</a></b>'});
         }
         if(user.checkPassword(password)){
             req.session.user = user._id;
             req.session.username = user.name_f;
             return res.redirect('/'); //res.status(200).send('Welcome, '+ username + '!');
         }
-        return res.status(200).send('Пользователь не найден!');
+        //return res.status(200).send('Пользователь не найден!');
+        return res.render('info', {infoTitle: '<div class="w3-red">Внутренняя ошибка!</div>', infoText: 'Неправильный логин или пароль', url: '/login', title: 'Вход', user: null, LoginRegister: '<b><a href="/login">вход</a></b>'});
     });
 });
 
