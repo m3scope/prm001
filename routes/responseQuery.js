@@ -32,7 +32,40 @@ exports.get = function (req, res, next) {
 };
 
 exports.post = function (req, res, next) {
-    Query.findById(req.params.id, function (err, qq) {
+    console.log('************** QUERY *********');
+    let UserBalance = [0,0,0,0,0];
+    let LoginRegister = '<b><a href="/profile">Профиль</a>&nbsp;&nbsp;<a href="/logout">Выход</a></b>';
+    loadUser.findID(req.session.user, function (err, user) {
+        if(err) res.status(500).send('Внутренняя ошибка!');
+        if(!user){
+            req.session.destroy();
+            res.redirect('/login');
+        } else {
+            LoginRegister = '<b><a href="/profile" class="w3-button w3-border w3-border-white w3-round">'+req.session.username+'</a>&nbsp;&nbsp;<a href="/logout" class="w3-button w3-border w3-border-white w3-round">Выход</a></b>' +
+                '<div class="w3-right-align w3-small">' +
+                '<span>PZM: </span>' +
+                '<label class="w3-border-top w3-border-bottom">'+UserBalance[1]+'</label>' +
+                '<span>&nbsp;RUR: </span>' +
+                '<label class="w3-border-top w3-border-bottom">'+UserBalance[3]+'</label>' +
+                '<span>&nbsp;USD: </span>' +
+                '<label class="w3-border-top w3-border-bottom">'+UserBalance[2]+'</label></div>';
+            if(req.params.id) {
+                Query.findOne({_id:req.params.id, userId:user._id}, function (err, qq) {
+                    if(err) console.error(err);
+                    if(qq){
+                        if(qq.status == 0){
+                            qq.status = 1;
+                            qq.save();
+                            res.render('info', {infoTitle: '<div class="w3-green">Успех!</div>', infoText: 'Операция успешно выполнена!', url: '/profile', title: 'Запрос подтвержден', user: user, LoginRegister: LoginRegister});
+                        } else {
+                            res.redirect('/logout');
+                        }
+                    } else {
+                        res.redirect('/logout');
+                    }
 
-    });
+                });
+            }
+    }
+});
 };

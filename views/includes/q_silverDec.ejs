@@ -8,6 +8,22 @@
         <h5>Вывод средств</h5>
       </div>
         <form action="/api/q/req/dec_silver" method="post" class="w3-container">
+            <div class="w3-panel w3-card-4 w3-pale-yellow">
+                <p class=" w3-large w3-serif">
+                    <i class="fa fa-quote-right w3-xxlarge w3-text-red"></i><br>
+                    <ul>
+                    <li>
+                        Минимальная сумма к выводу не менее 1000р...
+                    </li>
+                    <li>
+                        Максимальная сумма за одну транзакцию не более 50000р...
+                    </li>
+                    <li>
+                        Вывод средств в течение 72 часов
+                    </li>
+                </ul>
+                    </p>
+            </div>
             <input type="hidden" name="class" value="0">
             <p>
                 <span class="w3-tag w3-green">RUB</span>
@@ -32,6 +48,7 @@
             <p>
                 <span class="w3-tag w3-green">Номер платежной системы:</span>
                 <input class="w3-input" type="text" name="bank_number" required ng-model="bank_number" ng-change="change_bank_number()">
+                <label>Номер кошелька QIWI в формате 79ХХХХХХХХХ</label>
             </p>
 
             <p>
