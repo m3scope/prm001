@@ -2,6 +2,7 @@ const loadUser = require("../libs/loadUser");
 //const Deal = require('../models/deal');
 const db_deals = require('../libs/db_deals');
 const db_bills = require('../libs/db_bills');
+const db_querys = require('../libs/db_querys');
 
 function formatDate(dt, cb) {
     const today = new Date();
@@ -40,7 +41,12 @@ exports.get = function(req, res){
                     "use strict";
                     if(err) console.log(err);
                     user.bills = userBills;
-                    res.render('profile', {title: 'Профиль', user: user, LoginRegister: LoginRegister, UBalance: UserBalance});
+                    db_querys.getUserQuerys(user._id, function (err, userQuerys) {
+                        if(err) console.error(err);
+                        user.querys = userQuerys;
+                        res.render('profile', {title: 'Профиль', user: user, LoginRegister: LoginRegister, UBalance: UserBalance});
+                    });
+
                 });
 
             });

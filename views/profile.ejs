@@ -186,39 +186,37 @@ let clors=['w3-orange','w3-cyan'];
 </div>
 
   <div class="w3-row-padding w3-small"  ng-switch-when="three">
-    <div class="w3-col m6" ng-controller="CtrlDeals">
+    <div class="w3-col m6" ng-controller="CtrlQuerys">
       <div class="">
         <div class="w3-container w3-teal">
-          <h5>Ордера</h5>
+          <h5>Запросы</h5>
         </div>
-          <% if(user.deals.length>0) {%>
+          <% if(user.querys.length>0) {%>
         <table class="w3-table-all w3-small w3-striped w3-hoverable">
           <tr  class="w3-green">
-            <th>Пара</th>
+            <th>Валюта</th>
             <th class="w3-border-left">Тип</th>
-            <th class="w3-border-left">Кол.(остаток)</th>
-            <th class="w3-border-left">Цена</th>
-            <th class="w3-border-left">Сумма</th>
+            <th class="w3-border-left">Кол.</th>
+            <th class="w3-border-left">Зачис./Получ.</th>
             <th class="w3-border-left">Дата</th>
             <th class="w3-border-left"></th>
           </tr>
 
-          <tr ng-repeat="dt in dt1" ng-click="setSelected();">
-            <td>{{ dt.deal_currency }}/{{ dt.price_currency}}</td>
+          <tr ng-repeat="dt in qqq" ng-click="setSelected();">
+            <td>{{ dt.currency }}</td>
             <td class="{{ dt.color }}">{{ dt.typ }}</td>
-            <td class="w3-border-left">{{ dt.deal_amount }}<span class="w3-small">({{ dt.deal_amount_bill }})</span></td>
-            <td class="w3-border-left">{{ dt.price_amount}}</td>
-            <td class="w3-border-left">{{ dt.summ }}</td>
+            <td class="w3-border-left">{{ dt.amount }}</td>
+            <td class="w3-border-left">{{ dt.amount2}}</td>
             <td class="w3-border-left">{{ dt.dat }}</td>
             <td class="w3-border-left {{ dt.color2 }}">
               <div ng-switch="{{ dt.status }}">
                 <div ng-switch-when="0">
-                  <span><a href="{{dt.cans}}">отменить</a> </span>
+                  <span><a href="{{dt.confirm}}">подтвердить</a> </span>
+                </div>
+                <div ng-switch-when="1">
+                  <span>ожидание исполнения</span>
                 </div>
                 <div ng-switch-when="3">
-                  <span>отменен</span>
-                </div>
-                <div ng-switch-when="9">
                   <span>закрыт</span>
                 </div>
               </div>
@@ -229,45 +227,6 @@ let clors=['w3-orange','w3-cyan'];
           <%}%>
       </div>
     </div>
-
-
-
-
-
-    <div class="w3-col m6" >
-      <div class="w3-border-left">
-        <div class="w3-container w3-teal">
-          <h5>Счета</h5>
-        </div>
-          <% if(user.bills.length>0) {%>
-        <table class="w3-table-all w3-small w3-striped w3-hoverable">
-          <tr class="w3-green">
-            <th>Пара</th>
-            <th class="w3-border-left">Тип</th>
-            <th class="w3-border-left">Кол.</th>
-            <th class="w3-border-left">Цена</th>
-            <th class="w3-border-left">Сумма</th>
-            <th class="w3-border-left">Дата</th>
-
-          </tr>
-            <% for(var i=0, len=user.bills.length; i<len; i++){%>
-          <tr>
-            <td><%= currs[user.bills[i].deal_currency]%>/<%= currs[user.bills[i].price_currency]%></td>
-            <td class="<%= clors[user.bills[i].class]%>"><%= bs[user.bills[i].class] %></td>
-            <td class="w3-border-left"><%= user.bills[i].deal_amount%></td>
-            <td class="w3-border-left"><%= user.bills[i].price_amount%></td>
-            <td class="w3-border-left"><%= user.bills[i].summ%></td>
-            <td class="w3-border-left"><%= new Date(user.bills[i].createdAt).toISOString().replace(/T/, ' ').replace(/\..+/, ''); %></td>
-
-          </tr>
-            <%}%>
-        </table>
-          <%}%>
-      </div>
-    </div>
-
-
-
   </div>
 
 </div>
@@ -301,6 +260,24 @@ let clors=['w3-orange','w3-cyan'];
         }
     });
 
+    myApp.controller('CtrlQuerys', function ($scope) {
+        const typ = ['Вывод','Ввод'];
+        <% user.querys.forEach(function (query) {%>
+          let qq={};
+          qq.currency = Curr[<%query.currency%>];
+          qq.typ = typ[<%query.class%>];
+          qq.color = clors[<%query.class%>];
+          qq.color2 = clors[<%= query.status%>];
+          qq.amount = <%query.amount%>
+          qq.amount2 = <%query.amount - query.commission_summ%>
+              qq.status = <%query.status%>
+                  qq.confirm = '/api/q/res/<%= query._id %>;confirm';
+          qq.dat = '<%= new Date(query.createdAt).toISOString().replace(/T/, ' ').replace(/\..+/, '') %>';
+
+          $scope.qqq.push(qq);
+        <%})%>
+    });
+
     myApp.controller('CtrlDeals', function($scope) {
         $scope.dt1 = [];
         $scope.minPrice = minPrice;
@@ -308,7 +285,7 @@ let clors=['w3-orange','w3-cyan'];
         $scope.data = {disabled_buy: true};
         i=0;
           <% user.deals.forEach(function (deal) { %>
-            dl={};
+            let dl={};
             dl.cans = '/api/q/deal/<%= deal._id %>;cancel';
             dl.deal_currency = Curr[<%= deal.deal_currency%>];
             dl.price_currency = Curr[<%= deal.price_currency%>];

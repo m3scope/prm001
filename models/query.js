@@ -10,6 +10,8 @@ const  querySchema = new mongoose.Schema({
     bank_number: String,        // number
     amount: Number,
     commission_summ: Number,
+    currency: Number,
+    currency_name: String,
     action: String,     // Строка действий после поддтверждения запроса
     info: String,
     comment: String,
