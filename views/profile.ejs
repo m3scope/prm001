@@ -29,14 +29,14 @@ let clors=['w3-orange','w3-cyan'];
 
     <a href="#" class="{{ btn.color.one }} w3-btn w3-border w3-border-green w3-round-xlarge" ng-click="btnClick('one')">Мои данные</a>
     <a href="#" class="{{ btn.color.two }} w3-btn w3-border w3-border-green w3-round-xlarge" ng-click="btnClick('two')">Финансы</a>
-    <a href="#" class="{{ btn.color.three }} w3-btn w3-border w3-border-green w3-round-xlarge" ng-click="btnClick('three')">и компот...</a>
+    <a href="#" class="{{ btn.color.three }} w3-btn w3-border w3-border-green w3-round-xlarge" ng-click="btnClick('three')">Запросы</a>
     <!-- <a href="/3;3" class="w3-btn w3-white w3-border w3-border-green w3-round-xlarge">Pzm/Slv</a> -->
 
   </div>
 
 <div ng-switch="nm">
-  <div class="w3-row-padding w3-small" ng-switch-when="one">
 
+  <div class="w3-row-padding w3-small" ng-switch-when="one">
       <div class="w3-col m3">
         <div class="w3-border">
         <div class="w3-container w3-teal">
@@ -184,6 +184,92 @@ let clors=['w3-orange','w3-cyan'];
 
 
 </div>
+
+  <div class="w3-row-padding w3-small"  ng-switch-when="three">
+    <div class="w3-col m6" ng-controller="CtrlDeals">
+      <div class="">
+        <div class="w3-container w3-teal">
+          <h5>Ордера</h5>
+        </div>
+          <% if(user.deals.length>0) {%>
+        <table class="w3-table-all w3-small w3-striped w3-hoverable">
+          <tr  class="w3-green">
+            <th>Пара</th>
+            <th class="w3-border-left">Тип</th>
+            <th class="w3-border-left">Кол.(остаток)</th>
+            <th class="w3-border-left">Цена</th>
+            <th class="w3-border-left">Сумма</th>
+            <th class="w3-border-left">Дата</th>
+            <th class="w3-border-left"></th>
+          </tr>
+
+          <tr ng-repeat="dt in dt1" ng-click="setSelected();">
+            <td>{{ dt.deal_currency }}/{{ dt.price_currency}}</td>
+            <td class="{{ dt.color }}">{{ dt.typ }}</td>
+            <td class="w3-border-left">{{ dt.deal_amount }}<span class="w3-small">({{ dt.deal_amount_bill }})</span></td>
+            <td class="w3-border-left">{{ dt.price_amount}}</td>
+            <td class="w3-border-left">{{ dt.summ }}</td>
+            <td class="w3-border-left">{{ dt.dat }}</td>
+            <td class="w3-border-left {{ dt.color2 }}">
+              <div ng-switch="{{ dt.status }}">
+                <div ng-switch-when="0">
+                  <span><a href="{{dt.cans}}">отменить</a> </span>
+                </div>
+                <div ng-switch-when="3">
+                  <span>отменен</span>
+                </div>
+                <div ng-switch-when="9">
+                  <span>закрыт</span>
+                </div>
+              </div>
+            </td>
+          </tr>
+
+        </table>
+          <%}%>
+      </div>
+    </div>
+
+
+
+
+
+    <div class="w3-col m6" >
+      <div class="w3-border-left">
+        <div class="w3-container w3-teal">
+          <h5>Счета</h5>
+        </div>
+          <% if(user.bills.length>0) {%>
+        <table class="w3-table-all w3-small w3-striped w3-hoverable">
+          <tr class="w3-green">
+            <th>Пара</th>
+            <th class="w3-border-left">Тип</th>
+            <th class="w3-border-left">Кол.</th>
+            <th class="w3-border-left">Цена</th>
+            <th class="w3-border-left">Сумма</th>
+            <th class="w3-border-left">Дата</th>
+
+          </tr>
+            <% for(var i=0, len=user.bills.length; i<len; i++){%>
+          <tr>
+            <td><%= currs[user.bills[i].deal_currency]%>/<%= currs[user.bills[i].price_currency]%></td>
+            <td class="<%= clors[user.bills[i].class]%>"><%= bs[user.bills[i].class] %></td>
+            <td class="w3-border-left"><%= user.bills[i].deal_amount%></td>
+            <td class="w3-border-left"><%= user.bills[i].price_amount%></td>
+            <td class="w3-border-left"><%= user.bills[i].summ%></td>
+            <td class="w3-border-left"><%= new Date(user.bills[i].createdAt).toISOString().replace(/T/, ' ').replace(/\..+/, ''); %></td>
+
+          </tr>
+            <%}%>
+        </table>
+          <%}%>
+      </div>
+    </div>
+
+
+
+  </div>
+
 </div>
 
 

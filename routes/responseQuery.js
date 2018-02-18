@@ -20,7 +20,12 @@ exports.get = function (req, res, next) {
         }
         if(req.params.id) {
             Query.findOne({_id:req.params.id}, function (err, qq) {
-                res.render('responsequery', {qq:qq, title: 'Подтвердить ЗАПРОС', user: user, LoginRegister: LoginRegister});
+                if(qq.status == 0){
+                    res.render('responsequery', {qq:qq, title: 'Подтвердить ЗАПРОС', user: user, LoginRegister: LoginRegister});
+                } else {
+                    res.redirect('/logout');
+                }
+
             });
         }
     });

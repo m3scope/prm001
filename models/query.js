@@ -5,16 +5,17 @@ const  querySchema = new mongoose.Schema({
     userId: { type: mongoose.Schema.ObjectId, ref: 'User', required: true },     // Id пользователя создавшего Запрос
     key_Hash: {type: String},
     key_Salt: {type: String},
-    datas: {type: String},       // данные для запроса
-    bank: String,
+    datas: {type: String},      // данные для запроса
+    bank: String,               // name
+    bank_number: String,        // number
     amount: Number,
     commission_summ: Number,
     action: String,     // Строка действий после поддтверждения запроса
     info: String,
     comment: String,
     cod: String,
-    status: {type: Number, default: 0},
-    class: {type: Number, default: 0},
+    status: {type: Number, default: 0},     // 0 - создана, 1 - подтверждена (ожидание исполнения), 3 - исполнена(закрыта), 4 - отменена
+    class: {type: Number, default: 0},  // Тип(класс) сделки (1 - Ввод средств, 0 - Вывод средств)
     sort: {type: Number, default: 0},
     views: {type: Number, default: 0}
 }, {

@@ -13,7 +13,7 @@
         <div class="w3-panel w3-leftbar w3-light-grey">
           <p class="w3-xlarge w3-serif">
             <i><%= qq.info %></i></p>
-          <p><%= qq.comment %></p>
+          <p><%- qq.comment %></p>
         </div>
         <p>
           <input class="w3-btn w3-teal" type="submit" value="Подтвердить">
@@ -28,7 +28,7 @@
     //<![CDATA[
     let myApp = angular.module('myApp',[]);
     let nm = {};
-    const Curr = ['','Pzm','Usd','Rur'];
+    const Curr = ['','PZM','USD','RUR'];
     myApp.controller('MainCtrl', function($scope) {});
     //]]>
 </script>
