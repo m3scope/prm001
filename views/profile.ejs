@@ -186,6 +186,7 @@ let clors=['w3-orange','w3-cyan'];
 </div>
 
   <div class="w3-row-padding w3-small"  ng-switch-when="three">
+    
     <div class="w3-col m6" ng-controller="CtrlQuerys">
       <div class="">
         <div class="w3-container w3-teal">
@@ -206,7 +207,7 @@ let clors=['w3-orange','w3-cyan'];
             <td>{{ dt.currency }}</td>
             <td class="{{ dt.color }}">{{ dt.typ }}</td>
             <td class="w3-border-left">{{ dt.amount }}</td>
-            <td class="w3-border-left">{{ dt.amount2}}</td>
+            <td class="w3-border-left">{{ dt.amount2 }}</td>
             <td class="w3-border-left">{{ dt.dat }}</td>
             <td class="w3-border-left {{ dt.color2 }}">
               <div ng-switch="{{ dt.status }}">
@@ -238,8 +239,9 @@ let clors=['w3-orange','w3-cyan'];
 </div>
 <script>
     //<![CDATA[
-        let myApp = angular.module('myApp',[]);
+    let myApp = angular.module('myApp',[]);
     let dl = {};
+    let qq={};
     let i = 0;
     let glub_buy = 0;
     let glub_sell = 0;
@@ -249,7 +251,8 @@ let clors=['w3-orange','w3-cyan'];
     let clors=['w3-orange','w3-cyan','','w3-brown','','','','','','w3-gray'];
     const Curr = ['','PZM','USD','RUR'];
     const w3Btn = [[],['','','w3-white', 'w3-white'],['','w3-white','','w3-white'],['','w3-white','w3-white','']];
-    
+    const typ = ['Вывод','Ввод'];
+
     myApp.controller('w3BtnCtrl', function ($scope) {
         $scope.nm = 'one';
         $scope.btn = {'color':{'one':'w3-cyan','two':'w3-white','three':'w3-white' }};
@@ -261,21 +264,25 @@ let clors=['w3-orange','w3-cyan'];
     });
 
     myApp.controller('CtrlQuerys', function ($scope) {
-        const typ = ['Вывод','Ввод'];
+        $scope.qqq=[];
         <% user.querys.forEach(function (query) {%>
-          let qq={};
-          qq.currency = Curr[<%query.currency%>];
-          qq.typ = typ[<%query.class%>];
-          qq.color = clors[<%query.class%>];
+          qq={};
+          qq.currency = Curr[<%= query.currency%>];
+          qq.typ = typ[<%= query.class%>];
+          qq.color = clors[<%= query.class%>];
           qq.color2 = clors[<%= query.status%>];
-          qq.amount = <%query.amount%>
-          qq.amount2 = <%query.amount - query.commission_summ%>
-              qq.status = <%query.status%>
-                  qq.confirm = '/api/q/res/<%= query._id %>;confirm';
+          qq.amount = <%= query.amount%>;
+          qq.amount2 = <%= Math.round((query.amount - query.commission_summ)*100)/100 %>;
+          qq.status = <%= query.status%>;
+          qq.confirm = '/api/q/res/<%= query._id %>;confirm';
           qq.dat = '<%= new Date(query.createdAt).toISOString().replace(/T/, ' ').replace(/\..+/, '') %>';
 
           $scope.qqq.push(qq);
         <%})%>
+
+        $scope.setSelected = function () {
+            
+        }
     });
 
     myApp.controller('CtrlDeals', function($scope) {
@@ -285,7 +292,7 @@ let clors=['w3-orange','w3-cyan'];
         $scope.data = {disabled_buy: true};
         i=0;
           <% user.deals.forEach(function (deal) { %>
-            let dl={};
+            dl={};
             dl.cans = '/api/q/deal/<%= deal._id %>;cancel';
             dl.deal_currency = Curr[<%= deal.deal_currency%>];
             dl.price_currency = Curr[<%= deal.price_currency%>];
@@ -294,7 +301,7 @@ let clors=['w3-orange','w3-cyan'];
             dl.deal_amount = <%= deal.deal_amount%>
             dl.deal_amount_bill = <%= deal.deal_amount_bill%>
             dl.price_amount = <%= deal.price_amount%>
-            dl.summ = <%= Math.round(deal.deal_amount*deal.price_amount*10000)/10000%>
+            dl.summ = <%= Math.round(deal.deal_amount*deal.price_amount*10000)/10000 %>
             dl.dat = '<%= new Date(deal.createdAt).toISOString().replace(/T/, ' ').replace(/\..+/, '') %>';
             dl.status = <%= deal.status %>
             dl.color2 = clors[<%= deal.status%>];
