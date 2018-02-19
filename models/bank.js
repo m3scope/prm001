@@ -8,6 +8,7 @@ const bankSchema = new mongoose.Schema({
     bank_id: {type: Number, default: 0},        // числовой код (0 - PRIZM, 1 - QIWI, 2 - Yandex, 3 - PerfectMoney)
     bank_name: String,                      // Наименование "банка" ['PRIZM','QIWI','Yandex','PerfectMoney']
     bank_number: String,            // номер счета (кошелька)
+    bank_publicKey: String,         // для Призм
 
     currency: {type: Number, default: 0},  // Код (число) валюты (1 - PZM, 2 - USD, 3 - RUR)
     currency_name: String,                  // Наименование валюты ['','PZM','USD','RUR']
