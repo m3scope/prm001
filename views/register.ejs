@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="app">
 <title>PrizmEx: <%= title %></title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -7,10 +7,11 @@
 <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Roboto'>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-messages/1.5.7/angular-messages.min.js"></script>
 <style>
   html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
 </style>
-<body class="w3-light-grey">
+<body class="w3-light-grey" ng-controller="mainCtrl">
 
 <!-- Page Container -->
 <div class="w3-content w3-margin-top" style="max-width:1400px;">
@@ -23,7 +24,7 @@
           <h2>Регистрация</h2>
         </div>
 
-        <form action="/register" method="post" class="w3-container">
+        <form name="add_user_form" action="/register" method="post" class="w3-container">
           <label class="w3-text-yellow w3-small">* Все поля обязательны для заполнения!</label>
           <p>
             <label class="w3-tag w3-teal">Логин</label><span class="w3-small w3-text-gray">  (6-18зн./лат.,цифры/)</span>
@@ -37,10 +38,32 @@
             <label class="w3-tag w3-teal">E-mail</label>
             <input class="w3-input" type="email" name="email" required>
           </p>
-          <p>
-            <label class="w3-tag w3-teal">Пароль</label>
-            <input class="w3-input" type="password" name="password" required>
-          </p>
+
+            <div class="form-group" ng-class="{ 'has-error' : add_user_form.user_password.$dirty && add_user_form.user_password.$invalid }">
+              <label class="w3-tag w3-teal">Пароль</label>
+              <input class="w3-input" type="password" name="password" required ng-model="user.user_password" password-verify="{{user.confirm_password}}">
+              <div class="" ng-messages="add_user_form.user_password.$error" ng-if="add_user_form.user_password.$dirty">
+                  <p ng-message="required">This field is required</p>
+                  <p ng-message="minlength">This field is too short</p>
+                  <p ng-message="maxlength">This field is too long</p>
+                  <p ng-message="required">This field is required</p>
+                  <p ng-message="passwordVerify">No match!</p>
+                </div>
+            </div>
+
+
+            <div class="form-group" ng-class="{ 'has-error' : add_user_form.confirm_password.$dirty && add_user_form.confirm_password.$invalid }">
+              <label class="w3-tag w3-teal">повторить Пароль</label>
+              <input class="w3-input" type="password" name="password_confirm" required ng-model="user.confirm_password" password-verify="{{user.user_password}}">
+              <div class="" ng-messages="add_user_form.confirm_password.$error" ng-if="add_user_form.confirm_password.$dirty">
+                <p ng-message="required">This field is required</p>
+                <p ng-message="minlength">This field is too short</p>
+                <p ng-message="maxlength">This field is too long</p>
+                <p ng-message="required">This field is required</p>
+                <p ng-message="passwordVerify">No match!</p>
+              </div>
+            </div>
+
           <p>
             <input class="w3-btn w3-green" type="submit">
           </p>
@@ -57,6 +80,47 @@
 <footer>
 
 </footer>
+<script>
+    (function() {
+        "use strict";
+        angular
+            .module('app', ['ngMessages'])
+            .controller('mainCtrl', mainCtrl)
+            .directive('passwordVerify', passwordVerify);
 
+        function mainCtrl($scope) {
+            // Some code
+        }
+
+        function passwordVerify() {
+            return {
+                restrict: 'A', // only activate on element attribute
+                require: '?ngModel', // get a hold of NgModelController
+                link: function(scope, elem, attrs, ngModel) {
+                    if (!ngModel) return; // do nothing if no ng-model
+
+                    // watch own value and re-validate on change
+                    scope.$watch(attrs.ngModel, function() {
+                        validate();
+                    });
+
+                    // observe the other value and re-validate on change
+                    attrs.$observe('passwordVerify', function(val) {
+                        validate();
+                    });
+
+                    var validate = function() {
+                        // values
+                        var val1 = ngModel.$viewValue;
+                        var val2 = attrs.passwordVerify;
+
+                        // set validity
+                        ngModel.$setValidity('passwordVerify', val1 === val2);
+                    };
+                }
+            }
+        }
+    })();
+</script>
 </body>
 </html>
