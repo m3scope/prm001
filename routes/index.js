@@ -116,6 +116,8 @@ router.get('/register', (req, res) => {
 });
 
 router.post('/register', (req, res) => {
+    console.log('******  req.body  ********');
+    console.log(req.body);
     const username = req.body.username;
     const password = req.body.password;
     const email = req.body.email;
