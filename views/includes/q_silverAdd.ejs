@@ -24,7 +24,7 @@
         <input type="hidden" name="class" value="1">
         <p>
             <span class="w3-tag w3-green">RUB</span>
-            <input class="w3-input" type="number" value="0" step="any" name="deal_amount" required ng-model="deal_amount_buy_rub" ng-change="change_buy_rub()">
+            <input class="w3-input" type="number" value="0" step="any" min="1000" max="50000" name="deal_amount" required ng-model="deal_amount_buy_rub" ng-change="change_buy_rub()">
             <input type="hidden" name="deal_currency" value="{{ curr1 }}">
         </p>
         <p>
@@ -67,12 +67,12 @@
         $scope.dt1 = [];
         $scope.commission_buy = 0;
         $scope.change_buy_rub = function () {
-            $scope.commission_buy = Math.round(Number($scope.deal_amount_buy_rub)*0.03*100)/100;
-            $scope.deal_amount_buy_curr = Math.round((Number($scope.deal_amount_buy_rub)- Number($scope.deal_amount_buy_rub)*0.03)*100)/100;
+            $scope.commission_buy = Math.round(Number($scope.deal_amount_buy_rub)*0.05*100)/100;
+            $scope.deal_amount_buy_curr = Math.round((Number($scope.deal_amount_buy_rub)- Number($scope.deal_amount_buy_rub)*0.05)*100)/100;
         };
         $scope.change_buy_curr = function () {
-            $scope.deal_amount_buy_rub = Math.round((Number($scope.deal_amount_buy_curr)+ Number($scope.deal_amount_buy_curr)*0.03)*100)/100;
-            $scope.commission_buy = Math.round(Number($scope.deal_amount_buy_curr)*0.03*100)/100;
+            $scope.deal_amount_buy_rub = Math.round((Number($scope.deal_amount_buy_curr)+ Number($scope.deal_amount_buy_curr)*0.05)*100)/100;
+            $scope.commission_buy = Math.round(Number($scope.deal_amount_buy_curr)*0.05*100)/100;
         };
     });
     //]]>

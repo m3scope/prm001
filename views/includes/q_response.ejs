@@ -18,6 +18,9 @@
         <p>
           <input class="w3-btn w3-teal" type="submit" value="Подтвердить">
         </p>
+        <p>
+          <span >Отмена через (10 мин.) {{ counter }} сек.</span>
+        </p>
       </form>
 
     </div>
@@ -29,6 +32,15 @@
     let myApp = angular.module('myApp',[]);
     let nm = {};
     const Curr = ['','PZM','USD','RUR'];
-    myApp.controller('MainCtrl', function($scope) {});
+    myApp.controller('MainCtrl', function($scope, $timeout) {
+        $scope.counter = 0;
+        let i = 0;
+        let updateCounter = function() {
+            $scope.counter = 600 - i;
+            i++;
+            $timeout(updateCounter, 1000);
+        };
+        updateCounter();
+    });
     //]]>
 </script>

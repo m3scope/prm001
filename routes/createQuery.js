@@ -45,8 +45,8 @@ exports.post = function (req, res, next) {
             const query = new Query;
             const cod = Math.round(Math.random()*1000000);
 
-            if(Boolean(Number(req.body.class))){
-                const commiss_buy = Math.round(Number(req.body.deal_amount)*0.03*100)/100;
+            if(Boolean(Number(req.body.class))){        // (1 - пополнение)
+                const commiss_buy = Math.round(Number(req.body.deal_amount)*0.05*100)/100;
                 query.data = {bank: req.body.bank, cod: cod, deal_amount: req.body.deal_amount, deal_currency: req.body.deal_currency, price_amount: req.body.price_amount, price_currency: req.body.price_currency, commiss_buy: commiss_buy};
                 query.userId = req.session.user;
                 query.bank = req.body.bank;
@@ -65,7 +65,7 @@ exports.post = function (req, res, next) {
                     console.log(saved_Q._id.toString());
                     res.redirect('/api/q/res/'+saved_Q._id.toString());
                 });
-            } else {
+            } else {        // (0 - вывод средств)
                 const commiss_sell = Math.round(Number(req.body.deal_amount)*0.05*100)/100;
                 query.data = {bank: req.body.bank, cod: cod, deal_amount: req.body.deal_amount, deal_currency: req.body.deal_currency, price_amount: req.body.price_amount, price_currency: req.body.price_currency, commiss_buy: commiss_sell};
                 query.userId = req.session.user;

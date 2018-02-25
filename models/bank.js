@@ -19,6 +19,8 @@ const bankSchema = new mongoose.Schema({
     summ_trans_current: {type: Number, default: 0},       // сумма дневных транзакций текущая
     summ_all_current: {type:Number, default: 0},                // сумма хранения текущая
 
+    summ_rez: {type: Number, default: 0},
+
     query_in: [
         {
             query_id:{ type: mongoose.Schema.ObjectId, ref: 'Query', required: true }

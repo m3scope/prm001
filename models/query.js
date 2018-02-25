@@ -3,6 +3,7 @@ const crypto = require('crypto'); // модуль node.js для выполне�
 
 const  querySchema = new mongoose.Schema({
     userId: { type: mongoose.Schema.ObjectId, ref: 'User', required: true },     // Id пользователя создавшего Запрос
+    bankId: { type: mongoose.Schema.ObjectId, ref: 'Bank' },
     key_Hash: {type: String},
     key_Salt: {type: String},
     datas: {type: String},      // данные для запроса

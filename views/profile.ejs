@@ -212,7 +212,7 @@ let clors=['w3-orange','w3-cyan'];
             <td class="w3-border-left {{ dt.color2 }}">
               <div ng-switch="{{ dt.status }}">
                 <div ng-switch-when="0">
-                  <span><a href="{{dt.confirm}}">подтвердить</a> </span>
+                  <span><a href="{{dt.confirm}}">подтвердить</a></span><span> / </span><span> <a href="{{dt.cancel}}">отменить</a></span>
                 </div>
                 <div ng-switch-when="1">
                   <span>ожидание исполнения</span>
@@ -275,6 +275,7 @@ let clors=['w3-orange','w3-cyan'];
           qq.amount2 = <%= Math.round((query.amount - query.commission_summ)*100)/100 %>;
           qq.status = <%= query.status%>;
           qq.confirm = '/api/q/res/<%= query._id %>;confirm';
+          qq.cancel = '/api/q/res/<%= query._id %>;cancel';
           qq.dat = '<%= new Date(query.createdAt).toISOString().replace(/T/, ' ').replace(/\..+/, '') %>';
 
           $scope.qqq.push(qq);
