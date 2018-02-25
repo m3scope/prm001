@@ -27,6 +27,9 @@ exports.get = function (req, res, next) {
             }
         }
         console.log(ids);
+        // ПРОВЕРИТЬ БАЛАНС
+
+        //
         res.render('createquery', {inc: {f:i,curr:ids[1]*1}, title: 'Создать ЗАПРОС', user: user, LoginRegister: LoginRegister});
     });
 };
@@ -66,6 +69,9 @@ exports.post = function (req, res, next) {
                     res.redirect('/api/q/res/'+saved_Q._id.toString());
                 });
             } else {        // (0 - вывод средств)
+                // ПРОВЕРИТЬ БАЛАНС
+
+                //
                 const commiss_sell = Math.round(Number(req.body.deal_amount)*0.05*100)/100;
                 query.data = {bank: req.body.bank, cod: cod, deal_amount: req.body.deal_amount, deal_currency: req.body.deal_currency, price_amount: req.body.price_amount, price_currency: req.body.price_currency, commiss_buy: commiss_sell};
                 query.userId = req.session.user;

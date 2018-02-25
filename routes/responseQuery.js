@@ -24,12 +24,18 @@ exports.get = function (req, res, next) {
                 if(err) console.error(err);
                 if(qq) {
                     if (qq.status == 0) {
-                        res.render('responsequery', {
-                            qq: qq,
-                            title: 'Подтвердить ЗАПРОС',
-                            user: user,
-                            LoginRegister: LoginRegister
-                        });
+                        if(params[1] == 'confirm') {
+                            res.render('responsequery', {
+                                qq: qq,
+                                title: 'Подтвердить ЗАПРОС',
+                                user: user,
+                                LoginRegister: LoginRegister
+                            });
+                        } else {
+                            qq.status = 4;
+                            qq.save();
+                            res.render('info', {infoTitle: '<div class="w3-green">Успех!</div>', infoText: 'Операция успешно отменена!', url: '/profile', title: 'Запрос отменен', user: user, LoginRegister: LoginRegister});
+                        }
                     } else {
                         res.redirect('/logout');
                     }

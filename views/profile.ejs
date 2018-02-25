@@ -190,7 +190,7 @@ let clors=['w3-orange','w3-cyan'];
     <div class="w3-col m6" ng-controller="CtrlQuerys">
       <div class="">
         <div class="w3-container w3-teal">
-          <h5>Запросы</h5>
+          <h5>Мои запросы</h5>
         </div>
           <% if(user.querys.length>0) {%>
         <table class="w3-table-all w3-small w3-striped w3-hoverable">
@@ -228,6 +228,48 @@ let clors=['w3-orange','w3-cyan'];
           <%}%>
       </div>
     </div>
+    <div class="w3-col m6" ng-controller="CtrlQuerys2">
+      <div class="">
+        <div class="w3-container w3-teal">
+          <h5>Запросы к исполнению</h5>
+        </div>
+          <% if(user.querys.length>0) {%>
+        <table class="w3-table-all w3-small w3-striped w3-hoverable">
+          <tr  class="w3-green">
+            <th>Валюта</th>
+            <th class="w3-border-left">Тип</th>
+            <th class="w3-border-left">Кол.</th>
+            <th class="w3-border-left">Зачис./Получ.</th>
+            <th class="w3-border-left">Дата</th>
+            <th class="w3-border-left"></th>
+          </tr>
+
+          <tr ng-repeat="dt in qqq" ng-click="setSelected();">
+            <td>{{ dt.currency }}</td>
+            <td class="{{ dt.color }}">{{ dt.typ }}</td>
+            <td class="w3-border-left">{{ dt.amount }}</td>
+            <td class="w3-border-left">{{ dt.amount2 }}</td>
+            <td class="w3-border-left">{{ dt.dat }}</td>
+            <td class="w3-border-left {{ dt.color2 }}">
+              <div ng-switch="{{ dt.status }}">
+                <div ng-switch-when="0">
+                  <span><a href="{{dt.confirm}}">подтвердить</a></span><span> / </span><span> <a href="{{dt.cancel}}">отменить</a></span>
+                </div>
+                <div ng-switch-when="1">
+                  <span>ожидание исполнения</span>
+                </div>
+                <div ng-switch-when="3">
+                  <span>закрыт</span>
+                </div>
+              </div>
+            </td>
+          </tr>
+
+        </table>
+          <%}%>
+      </div>
+    </div>
+
   </div>
 
 </div>
@@ -283,6 +325,29 @@ let clors=['w3-orange','w3-cyan'];
 
         $scope.setSelected = function () {
             
+        }
+    });
+
+    myApp.controller('CtrlQuerys2', function ($scope) {
+        $scope.qqq=[];
+        <% user.querys.forEach(function (query) {%>
+        qq={};
+        qq.currency = Curr[<%= query.currency%>];
+        qq.typ = typ[<%= query.class%>];
+        qq.color = clors[<%= query.class%>];
+        qq.color2 = clors[<%= query.status%>];
+        qq.amount = <%= query.amount%>;
+        qq.amount2 = <%= Math.round((query.amount - query.commission_summ)*100)/100 %>;
+        qq.status = <%= query.status%>;
+        qq.confirm = '/api/q/res/<%= query._id %>;confirm';
+        qq.cancel = '/api/q/res/<%= query._id %>;cancel';
+        qq.dat = '<%= new Date(query.createdAt).toISOString().replace(/T/, ' ').replace(/\..+/, '') %>';
+
+        $scope.qqq.push(qq);
+        <%})%>
+
+        $scope.setSelected = function () {
+
         }
     });
 
