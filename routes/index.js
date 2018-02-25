@@ -120,38 +120,73 @@ router.post('/register', (req, res) => {
     console.log(req.body);
     const username = req.body.username;
     const password = req.body.password;
+    const confirmPassword = req.body.confirmPassword;
     const email = req.body.email;
     const prizmaddress = req.body.prizmaddress;
     const name_f = req.body.name_f;
 
-    User.findOne({username:username},function (err, u) {
-        if(err) console.error(err);
-        if(u) {
-            res.render('info', {infoTitle: '<div class="w3-red">Внутренняя ошибка!</div>', infoText: 'Имя уже существует', url: '/register', title: 'Вход', user: null, LoginRegister: '<b><a href="/login">вход</a></b>'});
-        } else {
-            User.findOne({email:email}, function (err, e_mail) {
-                if(err) console.error(err);
-                if(e_mail){
-                    res.render('info', {infoTitle: '<div class="w3-red">Внутренняя ошибка!</div>', infoText: 'E-Mail уже зарегистрирован', url: '/register', title: 'Вход', user: null, LoginRegister: '<b><a href="/login">вход</a></b>'});
-                } else {
-                    const newuser = new User();
-                    newuser.username = username;
-                    newuser.name_f = name_f;
-                    newuser.password = password;
-                    newuser.prizmaddress = prizmaddress;
-                    newuser.email = email;
-                    newuser.save(function(err, savedUser){
-                        if(err) {
-                            console.log(err);
-                            res.render('info', {infoTitle: '<div class="w3-red">Внутренняя ошибка!</div>', infoText: 'Ошибка!', url: '/register', title: 'Вход', user: null, LoginRegister: '<b><a href="/login">вход</a></b>'});
-                        }
-                        //return res.status(200).send('Успешная регистрация!');
-                        res.render('info', {infoTitle: '<div class="w3-green">Успех!</div>', infoText: 'Операция успешно выполнена!', url: '/login', title: 'Вход', user: null, LoginRegister: '<b><a href="/login">вход</a></b>'});
-                    });
-                }
-            });
-        }
-    });
+
+    if(password == confirmPassword) {
+        User.findOne({username: username}, function (err, u) {
+            if (err) console.error(err);
+            if (u) {
+                res.render('info', {
+                    infoTitle: '<div class="w3-red">Внутренняя ошибка!</div>',
+                    infoText: 'Имя уже существует',
+                    url: '/register',
+                    title: 'Вход',
+                    user: null,
+                    LoginRegister: '<b><a href="/login">вход</a></b>'
+                });
+            } else {
+                User.findOne({email: email}, function (err, e_mail) {
+                    if (err) console.error(err);
+                    if (e_mail) {
+                        res.render('info', {
+                            infoTitle: '<div class="w3-red">Внутренняя ошибка!</div>',
+                            infoText: 'E-Mail уже зарегистрирован',
+                            url: '/register',
+                            title: 'Вход',
+                            user: null,
+                            LoginRegister: '<b><a href="/login">вход</a></b>'
+                        });
+                    } else {
+                        const newuser = new User();
+                        newuser.username = username;
+                        newuser.name_f = name_f;
+                        newuser.password = password;
+                        newuser.prizmaddress = prizmaddress;
+                        newuser.email = email;
+                        newuser.save(function (err, savedUser) {
+                            if (err) {
+                                console.log(err);
+                                res.render('info', {
+                                    infoTitle: '<div class="w3-red">Внутренняя ошибка!</div>',
+                                    infoText: 'Ошибка!',
+                                    url: '/register',
+                                    title: 'Вход',
+                                    user: null,
+                                    LoginRegister: '<b><a href="/login">вход</a></b>'
+                                });
+                            }
+                            //return res.status(200).send('Успешная регистрация!');
+                            res.render('info', {
+                                infoTitle: '<div class="w3-green">Успех!</div>',
+                                infoText: 'Операция успешно выполнена!',
+                                url: '/login',
+                                title: 'Вход',
+                                user: null,
+                                LoginRegister: '<b><a href="/login">вход</a></b>'
+                            });
+                        });
+                    }
+                });
+            }
+        });
+    } else {
+        res.render('info', {infoTitle: '<div class="w3-red">Внутренняя ошибка!</div>', infoText: 'Пароли не совпадают', url: '/register', title: 'Вход', user: null, LoginRegister: '<b><a href="/login">вход</a></b>'});
+    }
+
 });
 //----------------------------------------------
 

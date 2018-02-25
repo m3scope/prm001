@@ -47,9 +47,9 @@
 
 
               <label class="w3-tag w3-teal">Пароль</label>
-              <input class="w3-input" type="password" name="password" required ng-model="registration.user.password" >
+              <input class="w3-input" type="password" name="password" required ng-model="registration.user.password">
           <div ng-messages="registrationForm.password.$error">
-            <div class="messages">
+            <div class="w3-text-red" >
               <div ng-message="required">обязательный</div>
               <div ng-message="minlength">Too short</div>
               <div ng-message="maxlength">Too long</div>
@@ -61,7 +61,7 @@
               <label class="w3-tag w3-teal">повторить Пароль</label>
               <input class="w3-input" type="password" name="confirmPassword" required ng-model="registration.user.confirmPassword" compare-to="registration.user.password">
           <div ng-messages="registrationForm.confirmPassword.$error">
-            <div class="messages">
+            <div class="w3-text-red" >
               <div ng-message="required">обязательный</div>
               <div ng-message="minlength">Too short</div>
               <div ng-message="maxlength">Too long</div>
