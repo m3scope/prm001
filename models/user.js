@@ -20,22 +20,17 @@ const userSchema = new mongoose.Schema({
     prizmaddress: {
         type: String,
     },
-    fiats: [{
-        fiatName: {type: String},
-        fiatAddress: {type: String},
-        fiatAbout: {type: String}
-    }],
     publicKey: {
         type: String,
     },
     PZM: {
-        type: Number, default: 10000
+        type: Number, default: 0
     },
     USD: {
-        type: Number, default: 10000
+        type: Number, default: 0
     },
     RUR: {
-        type: Number, default: 10000
+        type: Number, default: 0
     },
     rezPzm: {
         type: Number, default: 0
@@ -46,6 +41,8 @@ const userSchema = new mongoose.Schema({
     rezRur: {
         type: Number, default: 0
     },
+    fiats: [{bankId:{type: mongoose.Schema.ObjectId, ref: 'Bank'}}],
+    status: {type: Number, default: 1},     // (0 - заблокирован, 1 - пользователь, 3 - инвестор)
     category: String,
     name_f: String,
     tel: String,

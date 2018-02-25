@@ -30,7 +30,7 @@
           <h2>Регистрация</h2>
         </div>
         <h3>{{ registration.message }}</h3>
-        <form name="registrationForm" novalidate method="post" class="w3-container" ng-submit="registration.submit(registrationForm.$valid)"> <!-- action="/register" method="post" -->
+        <form name="registrationForm" action="/register" method="post" novalidate method="post" class="w3-container" ng-submit="registration.submit(registrationForm.$valid)"> <!-- action="/register" method="post" -->
           <label class="w3-text-yellow w3-small">* Все поля обязательны для заполнения!</label>
           <p>
             <label class="w3-tag w3-teal">Логин</label><span class="w3-small w3-text-gray">  (6-18зн./лат.,цифры/)</span>
@@ -72,7 +72,7 @@
 
 
           <p>
-            <input class="w3-btn w3-green" type="submit">
+            <input class="w3-btn w3-green" type="submit" ng-disabled="registrationForm.$invalid">
           </p>
 
         </form>
@@ -84,14 +84,6 @@
 
 </div>
 
-<p>Output Message : {{msg}}</p>
-
-<p>StatusCode: {{statusval}}</p>
-
-<p>Status: {{statustext}}</p>
-
-<p>Response Headers: {{headers}}</p>
-
 </div>
 
 </div>
@@ -102,7 +94,7 @@
 
 </footer>
 <script>
-    (function() {
+
 
         let app = angular.module("validation", ["ngMessages"]);
 
@@ -123,24 +115,7 @@
                 console.log(model.user);
                 if (isValid) {
                     model.message = "Регистрация " + model.user.username;
-                    $http.post('/register', JSON.stringify(model.user)).then(function (response) {
-
-                        if (response.data)
-
-                            $scope.msg = "Post Data Submitted Successfully!";
-
-                    }, function (response) {
-
-                        $scope.msg = "Service not Exists";
-
-                        $scope.statusval = response.status;
-
-                        $scope.statustext = response.statusText;
-
-                        $scope.headers = response.headers();
-
-                    });
-//                    window.location.href = '/login';
+                    window.location.href = '/login';
                 } else {
                     model.message = "Некорректно заполнена форма";
                 }
@@ -166,11 +141,8 @@
                 }
             };
         };
-
         app.directive("compareTo", compareTo);
         app.controller("RegistrationController", RegistrationController);
-
-    }());
 </script>
 </body>
 </html>
