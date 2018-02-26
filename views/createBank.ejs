@@ -30,7 +30,7 @@
                     <h2>Регистрация Банковского счета</h2>
                 </div>
                 <h3>{{ registration.message }}</h3>
-                <form name="registrationForm" action="/registerbank" method="post" novalidate method="post" class="w3-container" ng-submit="registration.submit(registrationForm.$valid)"> <!-- action="/register" method="post" -->
+                <form name="registrationForm" action="/amd/createbank" method="post" novalidate method="post" class="w3-container" ng-submit="registration.submit(registrationForm.$valid)"> <!-- action="/register" method="post" -->
                     <label class="w3-text-yellow w3-small">* Все поля обязательны для заполнения!</label>
                     <p>
                         <input class="w3-radio" type="radio" name="bank" value="0" >
