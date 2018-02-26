@@ -287,6 +287,12 @@ router.get('/deals/:id?', function (req, res) {
 
 });
 
+//*** BANK *****
+
+router.get('/amd/createbank', checkAuth, noCache, require('./createBank').get);
+router.post('/amd/createbank', checkAuth, noCache, require('./createBank').post);
+
+//-----------------------------
 
 //*** (API) - ЗАПРОСЫ / ОТВЕТЫ ********************
 

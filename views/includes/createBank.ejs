@@ -33,28 +33,33 @@
                 <form name="registrationForm" action="/registerbank" method="post" novalidate method="post" class="w3-container" ng-submit="registration.submit(registrationForm.$valid)"> <!-- action="/register" method="post" -->
                     <label class="w3-text-yellow w3-small">* Все поля обязательны для заполнения!</label>
                     <p>
-                        <input class="w3-radio" type="radio" name="bank" value="QIWI" checked>
+                        <input class="w3-radio" type="radio" name="bank" value="0" >
+                        <label>PRIZM</label>
+                        <input class="w3-radio" type="radio" name="bank" value="1" checked>
                         <label>QIWI</label>
-                        <input class="w3-radio" type="radio" name="bank" value="Yandex">
+                        <input class="w3-radio" type="radio" name="bank" value="2">
                         <label>Яндекс.Деньги</label>
+                        <input class="w3-radio" type="radio" name="bank" value="3">
+                        <label>PerfectMoney</label>
                     </p>
                     <p>
-                        <label class="w3-tag w3-teal">Логин</label><span class="w3-small w3-text-gray">  (6-18зн./лат.,цифры/)</span>
-                        <input class="w3-input" type="text" pattern="^[a-z0-9_-]{6,18}$" name="username" placeholder="(6-18зн./лат.,цифры/)" ng-model="registration.user.username" required>
+                        <label class="w3-tag w3-teal">Номер кошелька</label>
+                        <input class="w3-input" type="text" name="bank_number" ng-model="registration.user.bank_number" required>
                     </p>
-
-
+                    <p>
+                        <label class="w3-tag w3-teal">Public Key</label>
+                        <input class="w3-input" type="text" name="bank_publicKey" ng-model="registration.user.bank_publicKey" >
+                    </p>
+                    <p>
+                        <input class="w3-radio" type="radio" name="currency" value="1" >
+                        <label>PZM</label>
+                        <input class="w3-radio" type="radio" name="currency" value="2" >
+                        <label>USD</label>
+                        <input class="w3-radio" type="radio" name="currency" value="3" checked>
+                        <label>RUR</label>
+                    </p>
                     <label class="w3-tag w3-teal">Пароль</label>
                     <input class="w3-input" type="password" name="password" required ng-model="registration.user.password">
-                    <div ng-messages="registrationForm.password.$error">
-                        <div class="w3-text-red" >
-                            <div ng-message="required">обязательный</div>
-                            <div ng-message="minlength">Too short</div>
-                            <div ng-message="maxlength">Too long</div>
-                            <div ng-message="email">Invalid email address</div>
-                            <div ng-message="compareTo">Пароли не совпадают</div>
-                        </div>
-                    </div>
 
                     <p>
                         <input class="w3-btn w3-green" type="submit" ng-disabled="registrationForm.$invalid">
