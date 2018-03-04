@@ -80,7 +80,7 @@ exports.post = function (req, res, next) {
                 '<span>&nbsp;USD: </span>' +
                 '<label class="w3-border-top w3-border-bottom">'+UserBalance[2]+'</label></div>';
             if(params[1] == 'confirm') {
-                Query.findOne({_id:req.params.id, userId:user._id}, function (err, qq) {
+                Query.findOne({_id:params[0], userId:user._id}, function (err, qq) {
                     if(err) console.error(err);
                     if(qq){
                         //console.log(qq);
