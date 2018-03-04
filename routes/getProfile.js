@@ -44,7 +44,11 @@ exports.get = function(req, res){
                     db_querys.getUserQuerys(user._id, function (err, userQuerys) {
                         if(err) console.error(err);
                         user.querys = userQuerys;
-                        res.render('profile', {title: 'Профиль', user: user, LoginRegister: LoginRegister, UBalance: UserBalance});
+                        db_querys.getUserQExec(user._id, function (err, userQExec) {
+                            if(err) console.error(err);
+                            user.userQExec = userQExec;
+                            res.render('profile', {title: 'Профиль', user: user, LoginRegister: LoginRegister, UBalance: UserBalance});
+                        });
                     });
 
                 });

@@ -309,6 +309,7 @@ let clors=['w3-orange','w3-cyan'];
 
     myApp.controller('CtrlQuerys', function ($scope) {
         $scope.qqq=[];
+        <%if(user.querys) {%>
         <% user.querys.forEach(function (query) {%>
           qq={};
           qq.currency = Curr[<%= query.currency%>];
@@ -324,6 +325,7 @@ let clors=['w3-orange','w3-cyan'];
 
           $scope.qqq.push(qq);
         <%})%>
+        <%}%>
 
         $scope.setSelected = function () {
             
@@ -332,7 +334,8 @@ let clors=['w3-orange','w3-cyan'];
 
     myApp.controller('CtrlQuerys2', function ($scope) {
         $scope.qqq=[];
-        <% user.querys.forEach(function (query) {%>
+        <% if(user.userQExec) { %>
+        <% user.userQExec.forEach(function (query) {%>
         qq={};
         qq.currency = Curr[<%= query.currency%>];
         qq.typ = typ[<%= query.class%>];
@@ -347,6 +350,7 @@ let clors=['w3-orange','w3-cyan'];
 
         $scope.qqq.push(qq);
         <%})%>
+        <%}%>
 
         $scope.setSelected = function () {
 

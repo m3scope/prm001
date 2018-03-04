@@ -48,7 +48,7 @@ exports.post = function (req, res, next) {
             const banks = [{QIWI: '+79627948161', Yandex: '410012300589165'}];
             const query = new Query;
             const cod = Math.round(Math.random()*1000000);
-            const summ = req.body.deal_amount;
+            const summ = Number(req.body.deal_amount);
             const commiss_buy = Math.round(Number(summ)*0.05*100)/100;
             const commiss_sell = Math.round(Number(summ)*0.05*100)/100;
 
@@ -61,14 +61,11 @@ exports.post = function (req, res, next) {
                         res.redirect('/');
                     } else {
                         if(bank){
-                            //********** BANK *******
-                            bank.summ_trans_current = bank.summ_trans_current-summ;
-                            bank.summ_all_current = bank.summ_all_current+summ;
-                            bank.save();
-                            //---------------------
+
                             //********** QUERY ******
                             query.data = {bank: req.body.bank, cod: cod, deal_amount: req.body.deal_amount, deal_currency: req.body.deal_currency, price_amount: req.body.price_amount, price_currency: req.body.price_currency, commiss_buy: commiss_buy};
                             query.userId = user._id;
+                            query.dealerId = bank.dealerId;
                             query.bankId = bank._id;
                             query.bank_cod = bank.bank_cod;
                             query.bank_name = bank.bank_name;
@@ -85,7 +82,13 @@ exports.post = function (req, res, next) {
                             query.save(function (err, saved_Q) {
                                 if(err) console.error(err);
                                 console.log(saved_Q._id.toString());
-                                res.redirect('/api/q/res/'+saved_Q._id.toString());
+                                res.redirect('/api/q/res/'+saved_Q._id.toString()+';confirm');
+                                //********** BANK *******
+                                bank.summ_trans_current = bank.summ_trans_current-summ;
+                                bank.summ_all_current = bank.summ_all_current-summ;
+                                bank.rounds = bank.rounds + 20;
+                                bank.save();
+                                //---------------------
                             });
                             //-------------------------------
                         } else {

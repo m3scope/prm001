@@ -10,3 +10,10 @@ exports.getUserQuerys = function (userId, cb) {
         cb(null, querys);
     });
 };
+
+exports.getUserQExec = function (userId, cb) {
+    Query.find({dealerId: userId}).limit(100).sort({createdAt: -1}).exec(function (err, querys) {
+        console.log(querys);
+        cb(null, querys);
+    });
+};
