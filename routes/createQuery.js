@@ -127,6 +127,10 @@ exports.post = function (req, res, next) {
                             if(err) console.error(err);
                             console.log(saved_Q._id.toString());
                             res.redirect('/api/q/res/'+saved_Q._id.toString()+';confirm');
+
+                            user[currency] = Number(user[currency])-Number(summ);
+                            user.save();
+
                             //********** BANK *******
                             bank.summ_trans_current = bank.summ_trans_current+summ;
                             bank.summ_all_current = bank.summ_all_current+summ;
