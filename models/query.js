@@ -5,23 +5,31 @@ const  querySchema = new mongoose.Schema({
     userId: { type: mongoose.Schema.ObjectId, ref: 'User', required: true },     // Id пользователя создавшего Запрос
     dealerId: { type: mongoose.Schema.ObjectId, ref: 'User' },                // Id пользователя исполнителя Запрос
     bankId: { type: mongoose.Schema.ObjectId, ref: 'Bank' },
+
     key_Hash: {type: String},
     key_Salt: {type: String},
     datas: {type: String},      // данные для запроса
+
     bank_cod: Number,               // cod
     bank_name: String,
     bank_number: String,        // number
+
     amount: Number,
     commission_summ: Number,
+
     currency: Number,
     currency_name: String,
+
     action: String,     // Строка действий после поддтверждения запроса
     info: String,
     comment: String,
     cod: String,
+
     dataCancel: {type: Date, default: new Date(0)},
     status: {type: Number, default: 0},     // 0 - создана, 1 - подтверждена (ожидание исполнения), 3 - исполнена(закрыта), 4 - отменена
+
     class: {type: Number, default: 0},  // Тип(класс) сделки (1 - Ввод средств, 0 - Вывод средств)
+
     sort: {type: Number, default: 0},
     views: {type: Number, default: 0}
 }, {

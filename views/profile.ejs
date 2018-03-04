@@ -258,7 +258,7 @@ let clors=['w3-orange','w3-cyan'];
                   <span><a href="{{dt.confirm}}">подтвердить</a></span><span> / </span><span> <a href="{{dt.cancel}}">отменить</a></span>
                 </div>
                 <div ng-switch-when="1">
-                  <span>ожидание исполнения</span>
+                  <span>ожидание исполнения</span><span> / </span><span><a href="{{dt.execut}}">подтвердить</a></span><span> / </span><span> <a href="{{dt.cancel}}">отменить</a></span>
                 </div>
                 <div ng-switch-when="3">
                   <span>закрыт</span>
@@ -346,6 +346,7 @@ let clors=['w3-orange','w3-cyan'];
         qq.status = <%= query.status%>;
         qq.confirm = '/api/q/res/<%= query._id %>;confirm';
         qq.cancel = '/api/q/res/<%= query._id %>;cancel';
+        qq.execut = '/api/q/res/<%= query._id %>;execut';
         qq.dat = '<%= new Date(query.createdAt).toISOString().replace(/T/, ' ').replace(/\..+/, '') %>';
 
         $scope.qqq.push(qq);

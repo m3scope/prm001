@@ -1,4 +1,5 @@
 const loadUser = require("../libs/loadUser");
+const Userr = require('../models/user');
 
 const Query = require('../models/query');
 const Deal = require('../models/deal');
@@ -37,7 +38,19 @@ exports.get = function (req, res, next) {
                             res.render('info', {infoTitle: '<div class="w3-green">Успех!</div>', infoText: 'Операция успешно отменена!', url: '/profile', title: 'Запрос отменен', user: user, LoginRegister: LoginRegister});
                         }
                     } else {
-                        res.redirect('/logout');
+                        if(params[1] == 'execut') {
+                            res.render('executquery', {
+                                qq: qq,
+                                title: 'Подтвердить ЗАПРОС',
+                                user: user,
+                                LoginRegister: LoginRegister
+                            });
+                        } else {
+                            qq.status = 4;
+                            qq.save();
+                            res.render('info', {infoTitle: '<div class="w3-green">Успех!</div>', infoText: 'Операция успешно отменена!', url: '/profile', title: 'Запрос отменен', user: user, LoginRegister: LoginRegister});
+                        }
+                        //res.redirect('/logout');
                     }
                 } else {
                     res.redirect('/logout');
@@ -49,6 +62,7 @@ exports.get = function (req, res, next) {
 
 exports.post = function (req, res, next) {
     console.log('************** QUERY *********');
+    let params = req.params.id.split(';');
     let UserBalance = [0,0,0,0,0];
     let LoginRegister = '<b><a href="/profile">Профиль</a>&nbsp;&nbsp;<a href="/logout">Выход</a></b>';
     loadUser.findID(req.session.user, function (err, user) {
@@ -65,7 +79,7 @@ exports.post = function (req, res, next) {
                 '<label class="w3-border-top w3-border-bottom">'+UserBalance[3]+'</label>' +
                 '<span>&nbsp;USD: </span>' +
                 '<label class="w3-border-top w3-border-bottom">'+UserBalance[2]+'</label></div>';
-            if(req.params.id) {
+            if(params[1] = 'confirm') {
                 Query.findOne({_id:req.params.id, userId:user._id}, function (err, qq) {
                     if(err) console.error(err);
                     if(qq){
@@ -74,6 +88,48 @@ exports.post = function (req, res, next) {
                             qq.status = 1;
                             qq.save();
                             res.render('info', {infoTitle: '<div class="w3-green">Успех!</div>', infoText: 'Операция успешно выполнена!', url: '/profile', title: 'Запрос подтвержден', user: user, LoginRegister: LoginRegister});
+                        } else {
+                            res.redirect('/logout');
+                        }
+                    } else {
+                        res.redirect('/logout');
+                    }
+
+                });
+            } else {
+                Query.findOne({_id:req.params.id, dealerId:user._id}, function (err, qq) {
+                    if(err) console.error(err);
+                    if(qq){
+                        //console.log(qq);
+                        if(qq.status == 1){
+                            qq.status = 3;
+                            qq.save(function (err, qqsaved) {
+                                if(err) {
+                                    console.error(err);
+                                    res.redirect('/logout');
+                                } else {
+                                    Userr.findById(qqsaved.userId,function (err, userr) {
+                                        if(err) {
+                                            console.error(err);
+                                            res.render('info', {infoTitle: '<div class="w3-red">Ошибка!</div>', infoText: 'User not found! UID: '+qqsaved.UID, url: '/profile', title: 'Запрос подтвержден', user: user, LoginRegister: LoginRegister});
+                                        } else {
+                                            if(userr){
+                                                if(qqsaved.class == 1){
+                                                    userr[qqsaved.bank_name] = Number(userr[qqsaved.bank_name])+Number(qqsaved.amount)-Number(qqsaved.commission_summ);
+                                                    userr.save();
+                                                }
+                                                res.render('info', {infoTitle: '<div class="w3-green">Успех!</div>', infoText: 'Операция успешно выполнена!', url: '/profile', title: 'Запрос подтвержден', user: user, LoginRegister: LoginRegister});
+                                            } else {
+                                                console.error('User not found: '+qqsaved.UID);
+                                                res.render('info', {infoTitle: '<div class="w3-red">Ошибка!</div>', infoText: 'User not found! UID: '+qqsaved.UID, url: '/profile', title: 'Запрос подтвержден', user: user, LoginRegister: LoginRegister});
+                                            }
+                                        }
+                                    });
+                                    //res.render('info', {infoTitle: '<div class="w3-green">Успех!</div>', infoText: 'Операция успешно выполнена!', url: '/profile', title: 'Запрос подтвержден', user: user, LoginRegister: LoginRegister});
+                                }
+
+                            });
+                            //res.render('info', {infoTitle: '<div class="w3-green">Успех!</div>', infoText: 'Операция успешно выполнена!', url: '/profile', title: 'Запрос подтвержден', user: user, LoginRegister: LoginRegister});
                         } else {
                             res.redirect('/logout');
                         }

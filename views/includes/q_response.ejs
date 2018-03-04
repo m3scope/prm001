@@ -7,7 +7,7 @@
       <div class="w3-container w3-teal">
         <h5>Подтверждение запроса</h5>
       </div>
-      <% const url = '/api/q/res/'+qq._id %>
+      <% const url = '/api/q/res/'+qq._id+';confirm' %>
       <form action="<%= url %>" method="post" class="w3-container">
         <input hidden name="q_ID" value="<%= qq._id%>">
         <div class="w3-panel w3-leftbar w3-light-grey">
