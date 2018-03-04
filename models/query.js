@@ -7,7 +7,8 @@ const  querySchema = new mongoose.Schema({
     key_Hash: {type: String},
     key_Salt: {type: String},
     datas: {type: String},      // данные для запроса
-    bank: String,               // name
+    bank_cod: Number,               // cod
+    bank_name: String,
     bank_number: String,        // number
     amount: Number,
     commission_summ: Number,
@@ -17,6 +18,7 @@ const  querySchema = new mongoose.Schema({
     info: String,
     comment: String,
     cod: String,
+    dataCancel: {type: Date, default: new Date(0)},
     status: {type: Number, default: 0},     // 0 - создана, 1 - подтверждена (ожидание исполнения), 3 - исполнена(закрыта), 4 - отменена
     class: {type: Number, default: 0},  // Тип(класс) сделки (1 - Ввод средств, 0 - Вывод средств)
     sort: {type: Number, default: 0},

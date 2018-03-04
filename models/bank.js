@@ -5,7 +5,9 @@ const crypto = require('crypto'); // модуль node.js для выполне�
 const bankSchema = new mongoose.Schema({
     dealerId: { type: mongoose.Schema.ObjectId, ref: 'User'},     // Id пользователя владелец кошелька
 
-    bank_id: {type: Number, default: 0},        // числовой код (0 - PRIZM, 1 - QIWI, 2 - Yandex, 3 - PerfectMoney)
+    rounds: {type: Number, default: 0},     // позиция в очереди
+
+    bank_cod: {type: Number, default: 0},        // числовой код (0 - PRIZM, 1 - QIWI, 2 - Yandex, 3 - PerfectMoney)
     bank_name: String,                      // Наименование "банка" ['PRIZM','QIWI','Yandex','PerfectMoney']
     bank_number: String,            // номер счета (кошелька)
     bank_publicKey: {type:String, default:''},         // для Призм
@@ -16,8 +18,8 @@ const bankSchema = new mongoose.Schema({
     summ_transactions: {type: Number, default: 190000},       // сумма дневных транзакций
     summ_all: {type:Number, default: 50000},                // сумма хранения
 
-    summ_trans_current: {type: Number, default: 0},       // сумма дневных транзакций текущая
-    summ_all_current: {type:Number, default: 0},                // сумма хранения текущая
+    summ_trans_current: {type: Number, default: 190000},       // сумма дневных транзакций текущая
+    summ_all_current: {type:Number, default: 50000},                // сумма хранения текущая
 
     summ_rez: {type: Number, default: 0},
 
