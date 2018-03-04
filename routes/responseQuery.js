@@ -97,7 +97,7 @@ exports.post = function (req, res, next) {
 
                 });
             } else {
-                Query.findOne({_id:req.params.id, dealerId:user._id}, function (err, qq) {
+                Query.findOne({_id:params[0], dealerId:user._id}, function (err, qq) {
                     if(err) console.error(err);
                     if(qq){
                         //console.log(qq);
