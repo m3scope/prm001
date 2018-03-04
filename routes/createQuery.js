@@ -54,7 +54,7 @@ exports.post = function (req, res, next) {
 
             if(Boolean(Number(req.body.class))){        // (1 - пополнение)
 
-                Bank.findOne({bank_cod:req.body.bank_cod, summ_all_current:{$gte:summ}, summ_trans_current:{$gte:summ}}).sort({rounds: -1}).exec(function (err, bank) {
+                Bank.findOne({bank_cod:req.body.bank_cod, summ_all_current:{$gte:summ}, summ_trans_current:{$gte:summ}}).sort({rounds: 1}).exec(function (err, bank) {
                     "use strict";
                     if(err){
                         console.error(err);
