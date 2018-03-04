@@ -79,7 +79,7 @@ exports.post = function (req, res, next) {
                 '<label class="w3-border-top w3-border-bottom">'+UserBalance[3]+'</label>' +
                 '<span>&nbsp;USD: </span>' +
                 '<label class="w3-border-top w3-border-bottom">'+UserBalance[2]+'</label></div>';
-            if(params[1] = 'confirm') {
+            if(params[1] == 'confirm') {
                 Query.findOne({_id:req.params.id, userId:user._id}, function (err, qq) {
                     if(err) console.error(err);
                     if(qq){
