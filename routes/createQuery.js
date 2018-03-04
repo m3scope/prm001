@@ -49,6 +49,7 @@ exports.post = function (req, res, next) {
             const query = new Query;
             const cod = Math.round(Math.random()*1000000);
             const summ = Number(req.body.deal_amount);
+            const currency = req.body.deal_currency;
             const commiss_buy = Math.round(Number(summ)*0.05*100)/100;
             const commiss_sell = Math.round(Number(summ)*0.05*100)/100;
 
@@ -86,6 +87,8 @@ exports.post = function (req, res, next) {
                                 //********** BANK *******
                                 bank.summ_trans_current = bank.summ_trans_current-summ;
                                 bank.summ_all_current = bank.summ_all_current-summ;
+                                bank.summ_transactions = bank.summ_trans_current+summ;
+                                bank.summ_all = bank.summ_all_current+summ;
                                 bank.rounds = bank.rounds + 20;
                                 bank.save();
                                 //---------------------
@@ -100,31 +103,46 @@ exports.post = function (req, res, next) {
             } else {        // (0 - вывод средств)
                 // ПРОВЕРИТЬ БАЛАНС
 
-                //
+                if((Number(user[currency])-Number(commiss_sell))>=summ){
+                    //
+                    Bank.findOne({bank_cod:req.body.bank_cod, summ_all:{$gte:Number(summ)-Number(commiss_sell)}, summ_transactions:{$gte:Number(summ)-Number(commiss_sell)}}).sort({rounds: 1}).exec(function (err, bank) {
+                        "use strict";
+                        query.data = {bank: req.body.bank, cod: cod, deal_amount: req.body.deal_amount, deal_currency: req.body.deal_currency, price_amount: req.body.price_amount, price_currency: req.body.price_currency, commiss_buy: commiss_sell};
+                        query.userId = req.session.user;
+                        query.bank = req.body.bank;
+                        query.bank_number = req.body.bank_number;
+                        query.amount = req.body.deal_amount;
+                        query.commission_summ = commiss_sell;
+                        query.currency = 3;
+                        query.currency_name = 'RUR';
+                        query.action = 'function()';
+                        query.cod = cod;
+                        query.info = 'Подтвердите вывод '+req.body.deal_amount + 'р. на номер '+req.body.bank_number+ ' '+req.body.bank;
+                        query.comment = '<span class="w3-text-yellow">Средства к получению: '+(req.body.deal_amount-commiss_sell)+'</span>';
+                        query.class = req.body.class;
+                        query.save(function (err, saved_Q) {
+                            if(err) console.error(err);
+                            console.log(saved_Q._id.toString());
+                            res.redirect('/api/q/res/'+saved_Q._id.toString()+';confirm');
+                            //********** BANK *******
+                            bank.summ_trans_current = bank.summ_trans_current+summ;
+                            bank.summ_all_current = bank.summ_all_current+summ;
+                            bank.summ_transactions = bank.summ_trans_current-summ;
+                            bank.summ_all = bank.summ_all_current-summ;
+                            bank.rounds = bank.rounds + 20;
+                            bank.save();
+                            //---------------------
+                        });
+                        //res.render('responsequery', {title: 'Подтвердить ЗАПРОС', user: user, LoginRegister: LoginRegister});
 
-                query.data = {bank: req.body.bank, cod: cod, deal_amount: req.body.deal_amount, deal_currency: req.body.deal_currency, price_amount: req.body.price_amount, price_currency: req.body.price_currency, commiss_buy: commiss_sell};
-                query.userId = req.session.user;
-                query.bank = req.body.bank;
-                query.bank_number = req.body.bank_number;
-                query.amount = req.body.deal_amount;
-                query.commission_summ = commiss_sell;
-                query.currency = 3;
-                query.currency_name = 'RUR';
-                query.action = 'function()';
-                query.cod = cod;
-                query.info = 'Подтвердите вывод '+req.body.deal_amount + 'р. на номер '+req.body.bank_number+ ' '+req.body.bank;
-                query.comment = '<span class="w3-text-yellow">Средства к получению: '+(req.body.deal_amount-commiss_sell)+'</span>';
-                query.class = req.body.class;
-                query.save(function (err, saved_Q) {
-                    if(err) console.error(err);
-                    console.log(saved_Q._id.toString());
-                    res.redirect('/api/q/res/'+saved_Q._id.toString());
-                });
-                //res.render('responsequery', {title: 'Подтвердить ЗАПРОС', user: user, LoginRegister: LoginRegister});
-            }
-        } else {
-            res.redirect('/');
+
+                    });
+                } else {
+                    res.render('info', {infoTitle: '<div class="w3-red">Ошибка!</div>', infoText: 'Не достаточно средств', url: '/profile', title: 'Запрос отклонен!', user: user, LoginRegister: LoginRegister});
+                }
         }
+
+    }
 
     });
 };
