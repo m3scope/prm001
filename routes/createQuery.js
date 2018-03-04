@@ -87,8 +87,8 @@ exports.post = function (req, res, next) {
                                 //********** BANK *******
                                 bank.summ_trans_current = bank.summ_trans_current-summ;
                                 bank.summ_all_current = bank.summ_all_current-summ;
-                                bank.summ_transactions = bank.summ_trans_current+summ;
-                                bank.summ_all = bank.summ_all_current+summ;
+                                bank.summ_transactions = bank.summ_transactions+summ;
+                                bank.summ_all = bank.summ_all+summ;
                                 bank.rounds = bank.rounds + 20;
                                 bank.save();
                                 //---------------------
@@ -127,8 +127,8 @@ exports.post = function (req, res, next) {
                             //********** BANK *******
                             bank.summ_trans_current = bank.summ_trans_current+summ;
                             bank.summ_all_current = bank.summ_all_current+summ;
-                            bank.summ_transactions = bank.summ_trans_current-summ;
-                            bank.summ_all = bank.summ_all_current-summ;
+                            bank.summ_transactions = bank.summ_transactions-summ;
+                            bank.summ_all = bank.summ_all-summ;
                             bank.rounds = bank.rounds + 20;
                             bank.save();
                             //---------------------
