@@ -115,7 +115,7 @@ exports.post = function (req, res, next) {
                                         } else {
                                             if(userr){
                                                 if(qqsaved.class == 1){
-                                                    userr[qqsaved.bank_name] = Number(userr[qqsaved.bank_name])+Number(qqsaved.amount)-Number(qqsaved.commission_summ);
+                                                    userr[qqsaved.currency_name] = Number(userr[qqsaved.currency_name])+Number(qqsaved.amount)-Number(qqsaved.commission_summ);
                                                     userr.save();
                                                 }
                                                 res.render('info', {infoTitle: '<div class="w3-green">Успех!</div>', infoText: 'Операция успешно выполнена!', url: '/profile', title: 'Запрос подтвержден', user: user, LoginRegister: LoginRegister});
