@@ -21,41 +21,79 @@ exports.get = function (req, res, next) {
             res.redirect('/login');
         }
         if(req.params.id) {
-            Query.findOne({_id:params[0]}, function (err, qq) {
-                if(err) console.error(err);
-                if(qq) {
-                    if (qq.status == 0) {
-                        if(params[1] == 'confirm') {
-                            res.render('responsequery', {
-                                qq: qq,
-                                title: 'Подтвердить ЗАПРОС',
-                                user: user,
-                                LoginRegister: LoginRegister
-                            });
+            switch (params[1]){
+                case 'confirm':
+                    Query.findOne({_id:params[0], userId:user._id}, function (err, qq) {
+                        if(err) console.error(err);
+                        if(qq){
+                            //console.log(qq);
+                            if(qq.status == 0){
+                                res.render('responsequery', {
+                                    qq: qq,
+                                    title: 'Подтвердить ЗАПРОС',
+                                    user: user,
+                                    LoginRegister: LoginRegister
+                                });
+                                } else {
+                                res.redirect('/logout');
+                            }
                         } else {
-                            qq.status = 4;
-                            qq.save();
-                            res.render('info', {infoTitle: '<div class="w3-green">Успех!</div>', infoText: 'Операция успешно отменена!', url: '/profile', title: 'Запрос отменен', user: user, LoginRegister: LoginRegister});
+                            res.redirect('/logout');
                         }
-                    } else {
-                        if(params[1] == 'execut') {
-                            res.render('executquery', {
-                                qq: qq,
-                                title: 'Подтвердить ЗАПРОС',
-                                user: user,
-                                LoginRegister: LoginRegister
-                            });
+
+                    });
+                    break;
+                case 'cancel':
+                    Query.findOne({_id:params[0], userId:user._id}, function (err, qq) {
+                        if(err) console.error(err);
+                        if(qq){
+                            //console.log(qq);
+                            if(qq.status == 0){
+                                if(qq.class == 0){
+                                    qq.status = 4;
+                                    user[qq.currency_name] = Number(user[qq.currency_name])+Number(qq.amount);
+                                    user.save();
+                                } else {
+                                    qq.status = 4;
+                                }
+                                qq.save();
+                                res.render('info', {infoTitle: '<div class="w3-green">Успех!</div>', infoText: 'Операция успешно выполнена!', url: '/profile', title: 'Запрос подтвержден', user: user, LoginRegister: LoginRegister});
+                            } else {
+                                res.redirect('/logout');
+                            }
                         } else {
-                            qq.status = 4;
-                            qq.save();
-                            res.render('info', {infoTitle: '<div class="w3-green">Успех!</div>', infoText: 'Операция успешно отменена!', url: '/profile', title: 'Запрос отменен', user: user, LoginRegister: LoginRegister});
+                            res.redirect('/logout');
                         }
-                        //res.redirect('/logout');
-                    }
-                } else {
-                    res.redirect('/logout');
-                }
-            });
+                    });
+                    break;
+                case 'execut':
+                    // ********** execut   // добавление на счет
+                    Query.findOne({_id:params[0], dealerId:user._id}, function (err, qq) {
+                        if(err) console.error(err);
+                        if(qq){
+                            //console.log(qq);
+                            if(qq.status == 1){
+                                res.render('executquery', {
+                                    qq: qq,
+                                    title: 'Подтвердить ЗАПРОС',
+                                    user: user,
+                                    LoginRegister: LoginRegister
+                                });
+                            } else {
+                                res.render('info', {infoTitle: '<div class="w3-red">Ошибка!</div>', infoText: 'Операция не выполнена!', url: '/profile', title: 'Статус запроса не поддерживается!', user: user, LoginRegister: LoginRegister});
+                                //res.redirect('/logout');
+                            }
+                        } else {
+                            res.render('info', {infoTitle: '<div class="w3-red">Ошибка!</div>', infoText: 'Операция не выполнена!', url: '/profile', title: 'Запрос удален!', user: user, LoginRegister: LoginRegister});
+                            //res.redirect('/logout');
+                        }
+                    });
+                    break;
+                case 'canclexec':
+
+                    break;
+                default:
+            }
         }
     });
 };
