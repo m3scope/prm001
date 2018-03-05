@@ -241,7 +241,9 @@ let clors=['w3-orange','w3-cyan'];
             <th>Валюта</th>
             <th class="w3-border-left">Тип</th>
             <th class="w3-border-left">Кол.</th>
-            <th class="w3-border-left">Зачис./Получ.</th>
+            <th class="w3-border-left">Банк</th>
+            <th class="w3-border-left">Код</th>
+            <th class="w3-border-left">Номер счета</th>
             <th class="w3-border-left">Дата</th>
             <th class="w3-border-left"></th>
           </tr>
@@ -250,12 +252,14 @@ let clors=['w3-orange','w3-cyan'];
             <td>{{ dt.currency }}</td>
             <td class="{{ dt.color }}">{{ dt.typ }}</td>
             <td class="w3-border-left">{{ dt.amount }}</td>
-            <td class="w3-border-left">{{ dt.amount2 }}</td>
+            <td class="w3-border-left">{{ dt.bank_name }}</td>
+            <td class="w3-border-left">{{ dt.cod }}</td>
+            <td class="w3-border-left">{{ dt.bank_number }}</td>
             <td class="w3-border-left">{{ dt.dat }}</td>
             <td class="w3-border-left {{ dt.color2 }}">
               <div ng-switch="{{ dt.status }}">
                 <div ng-switch-when="0">
-                  <span><a href="{{dt.confirm}}">подтвердить</a></span><span> / </span><span> <a href="{{dt.cancel}}">отменить</a></span>
+                  <span><a href="{{dt.cancel}}">отменить</a></span>
                 </div>
                 <div ng-switch-when="1">
                   <span>ожидание исполнения</span><span> / </span><span><a href="{{dt.execut}}">подтвердить</a></span><span> / </span><span> <a href="{{dt.cancel}}">отменить</a></span>
@@ -295,7 +299,7 @@ let clors=['w3-orange','w3-cyan'];
     let clors=['w3-orange','w3-cyan','','w3-brown','','','','','','w3-gray'];
     const Curr = ['','PZM','USD','RUR'];
     const w3Btn = [[],['','','w3-white', 'w3-white'],['','w3-white','','w3-white'],['','w3-white','w3-white','']];
-    const typ = ['Вывод','Ввод'];
+    const typ = ['Вывод','Ввод','Отправить','Получить'];
 
     myApp.controller('w3BtnCtrl', function ($scope) {
         $scope.nm = 'one';
@@ -338,11 +342,14 @@ let clors=['w3-orange','w3-cyan'];
         <% user.userQExec.forEach(function (query) {%>
         qq={};
         qq.currency = Curr[<%= query.currency%>];
-        qq.typ = typ[<%= query.class%>];
+        qq.typ = typ[<%= query.class%>+2];
         qq.color = clors[<%= query.class%>];
         qq.color2 = clors[<%= query.status%>];
-        qq.amount = <%= query.amount%>;
+        qq.amount = <%= (Boolean(query.class)) ? query.amount:Math.round((query.amount - query.commission_summ)*100)/100%>;
         qq.amount2 = <%= Math.round((query.amount - query.commission_summ)*100)/100 %>;
+        qq.bank_name = '<%= query.bank_name%>';
+        qq.cod = '<%= query.cod%>';
+        qq.bank_number = <%= query.bank_number%>
         qq.status = <%= query.status%>;
         qq.confirm = '/api/q/res/<%= query._id %>;confirm';
         qq.cancel = '/api/q/res/<%= query._id %>;cancel';

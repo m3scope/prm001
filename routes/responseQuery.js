@@ -79,65 +79,97 @@ exports.post = function (req, res, next) {
                 '<label class="w3-border-top w3-border-bottom">'+UserBalance[3]+'</label>' +
                 '<span>&nbsp;USD: </span>' +
                 '<label class="w3-border-top w3-border-bottom">'+UserBalance[2]+'</label></div>';
-            if(params[1] == 'confirm') {
-                Query.findOne({_id:params[0], userId:user._id}, function (err, qq) {
-                    if(err) console.error(err);
-                    if(qq){
-                        //console.log(qq);
-                        if(qq.status == 0){
-                            qq.status = 1;
-                            qq.save();
-                            res.render('info', {infoTitle: '<div class="w3-green">Успех!</div>', infoText: 'Операция успешно выполнена!', url: '/profile', title: 'Запрос подтвержден', user: user, LoginRegister: LoginRegister});
+            switch (params[1]){
+                case 'confirm':
+                    Query.findOne({_id:params[0], userId:user._id}, function (err, qq) {
+                        if(err) console.error(err);
+                        if(qq){
+                            //console.log(qq);
+                            if(qq.status == 0){
+                                qq.status = 1;
+                                qq.save();
+                                res.render('info', {infoTitle: '<div class="w3-green">Успех!</div>', infoText: 'Операция успешно выполнена!', url: '/profile', title: 'Запрос подтвержден', user: user, LoginRegister: LoginRegister});
+                            } else {
+                                res.redirect('/logout');
+                            }
                         } else {
                             res.redirect('/logout');
                         }
-                    } else {
-                        res.redirect('/logout');
-                    }
 
-                });
-            } else {
-                Query.findOne({_id:params[0], dealerId:user._id}, function (err, qq) {
-                    if(err) console.error(err);
-                    if(qq){
-                        //console.log(qq);
-                        if(qq.status == 1){
-                            qq.status = 3;
-                            qq.save(function (err, qqsaved) {
-                                if(err) {
-                                    console.error(err);
-                                    res.redirect('/logout');
+                    });
+                    break;
+                case 'cancel':
+                    Query.findOne({_id:params[0], userId:user._id}, function (err, qq) {
+                        if(err) console.error(err);
+                        if(qq){
+                            //console.log(qq);
+                            if(qq.status == 0){
+                                if(qq.class == 0){
+                                    qq.status = 4;
+                                    user[qq.currency_name] = Number(user[qq.currency_name])+Number(qq.amount);
+                                    user.save();
                                 } else {
-                                    Userr.findById(qqsaved.userId,function (err, userr) {
-                                        if(err) {
-                                            console.error(err);
-                                            res.render('info', {infoTitle: '<div class="w3-red">Ошибка!</div>', infoText: 'User not found! UID: '+qqsaved.UID, url: '/profile', title: 'Запрос подтвержден', user: user, LoginRegister: LoginRegister});
-                                        } else {
-                                            if(userr){
-                                                if(qqsaved.class == 1){
-                                                    userr[qqsaved.currency_name] = Number(userr[qqsaved.currency_name])+Number(qqsaved.amount)-Number(qqsaved.commission_summ);
-                                                    userr.save();
-                                                }
-                                                res.render('info', {infoTitle: '<div class="w3-green">Успех!</div>', infoText: 'Операция успешно выполнена!', url: '/profile', title: 'Запрос подтвержден', user: user, LoginRegister: LoginRegister});
-                                            } else {
-                                                console.error('User not found: '+qqsaved.UID);
-                                                res.render('info', {infoTitle: '<div class="w3-red">Ошибка!</div>', infoText: 'User not found! UID: '+qqsaved.UID, url: '/profile', title: 'Запрос подтвержден', user: user, LoginRegister: LoginRegister});
-                                            }
-                                        }
-                                    });
-                                    //res.render('info', {infoTitle: '<div class="w3-green">Успех!</div>', infoText: 'Операция успешно выполнена!', url: '/profile', title: 'Запрос подтвержден', user: user, LoginRegister: LoginRegister});
+                                    qq.status = 4;
                                 }
-
-                            });
-                            //res.render('info', {infoTitle: '<div class="w3-green">Успех!</div>', infoText: 'Операция успешно выполнена!', url: '/profile', title: 'Запрос подтвержден', user: user, LoginRegister: LoginRegister});
+                                qq.save();
+                                res.render('info', {infoTitle: '<div class="w3-green">Успех!</div>', infoText: 'Операция успешно выполнена!', url: '/profile', title: 'Запрос подтвержден', user: user, LoginRegister: LoginRegister});
+                            } else {
+                                res.redirect('/logout');
+                            }
                         } else {
                             res.redirect('/logout');
                         }
-                    } else {
-                        res.redirect('/logout');
-                    }
+                    });
+                    break;
+                case 'execut':
+                    // ********** execut   // добавление на счет
+                    Query.findOne({_id:params[0], dealerId:user._id}, function (err, qq) {
+                        if(err) console.error(err);
+                        if(qq){
+                            //console.log(qq);
+                            if(qq.status == 1){
+                                qq.status = 3;
+                                qq.save(function (err, qqsaved) {
+                                    if(err) {
+                                        console.error(err);
+                                        res.redirect('/logout');
+                                    } else {
+                                        Userr.findById(qqsaved.userId,function (err, userr) {
+                                            if(err) {
+                                                console.error(err);
+                                                res.render('info', {infoTitle: '<div class="w3-red">Ошибка!</div>', infoText: 'User not found! UID: '+qqsaved.UID, url: '/profile', title: 'Запрос подтвержден', user: user, LoginRegister: LoginRegister});
+                                            } else {
+                                                if(userr){
+                                                    if(qqsaved.class == 1){
+                                                        userr[qqsaved.currency_name] = Number(userr[qqsaved.currency_name])+Number(qqsaved.amount)-Number(qqsaved.commission_summ);
+                                                        userr.save();
+                                                    }
+                                                    res.render('info', {infoTitle: '<div class="w3-green">Успех!</div>', infoText: 'Операция успешно выполнена!', url: '/profile', title: 'Запрос подтвержден', user: user, LoginRegister: LoginRegister});
+                                                } else {
+                                                    console.error('User not found: '+qqsaved.UID);
+                                                    res.render('info', {infoTitle: '<div class="w3-red">Ошибка!</div>', infoText: 'User not found! UID: '+qqsaved.UID, url: '/profile', title: 'Запрос подтвержден', user: user, LoginRegister: LoginRegister});
+                                                }
+                                            }
+                                        });
+                                        //res.render('info', {infoTitle: '<div class="w3-green">Успех!</div>', infoText: 'Операция успешно выполнена!', url: '/profile', title: 'Запрос подтвержден', user: user, LoginRegister: LoginRegister});
+                                    }
 
-                });
+                                });
+                                //res.render('info', {infoTitle: '<div class="w3-green">Успех!</div>', infoText: 'Операция успешно выполнена!', url: '/profile', title: 'Запрос подтвержден', user: user, LoginRegister: LoginRegister});
+                            } else {
+                                res.render('info', {infoTitle: '<div class="w3-red">Ошибка!</div>', infoText: 'Операция не выполнена!', url: '/profile', title: 'Статус запроса не поддерживается!', user: user, LoginRegister: LoginRegister});
+                                //res.redirect('/logout');
+                            }
+                        } else {
+                            res.render('info', {infoTitle: '<div class="w3-red">Ошибка!</div>', infoText: 'Операция не выполнена!', url: '/profile', title: 'Запрос удален!', user: user, LoginRegister: LoginRegister});
+                            //res.redirect('/logout');
+                        }
+                    });
+                    break;
+                case 'canclexec':
+
+                    break;
+                default:
             }
     }
 });

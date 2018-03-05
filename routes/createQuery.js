@@ -64,7 +64,7 @@ exports.post = function (req, res, next) {
                         if(bank){
 
                             //********** QUERY ******
-                            query.data = {bank: req.body.bank, cod: cod, deal_amount: req.body.deal_amount, deal_currency: req.body.deal_currency, price_amount: req.body.price_amount, price_currency: req.body.price_currency, commiss_buy: commiss_buy};
+                            query.data = {bank_cod: bank.bank_cod, cod: cod, deal_amount: summ, deal_currency: bank.currency, price_amount: req.body.price_amount, price_currency: req.body.price_currency, commiss_buy: commiss_buy};
                             query.userId = user._id;
                             query.dealerId = bank.dealerId;
                             query.bankId = bank._id;
@@ -113,15 +113,15 @@ exports.post = function (req, res, next) {
                         query.bankId = bank._id;
                         query.bank_cod = bank.bank_cod;
                         query.bank_name = bank.bank_name;
-                        query.bank_number = bank.bank_number;
+                        query.bank_number = req.body.bank_number;
                         query.amount = summ;
                         query.commission_summ = commiss_buy;
                         query.currency = bank.currency;
                         query.currency_name = bank.currency_name;
                         query.action = 'function()';
                         query.cod = cod;
-                        query.info = 'Подтвердите вывод '+req.body.deal_amount + 'р. на номер '+req.body.bank_number+ ' '+req.body.bank;
-                        query.comment = '<span class="w3-text-yellow">Средства к получению: '+(req.body.deal_amount-commiss_sell)+'</span>';
+                        query.info = 'Подтвердите вывод '+req.body.deal_amount + 'р. на номер '+bank.bank_number+ ' '+bank.bank_name;
+                        query.comment = '<span class="w3-text-yellow">Средства к получению: '+(summ - Number(commiss_sell))+'</span>';
                         query.class = req.body.class;
                         query.save(function (err, saved_Q) {
                             if(err) console.error(err);
