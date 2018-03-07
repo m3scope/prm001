@@ -13,89 +13,130 @@ const Curr = {
 
 exports.get = function (req, res, next) {
     console.log('************** QUERY *********');
-    let params = req.params.id.split(';');
-    loadUser.findID(req.session.user, function (err, user) {
-        let LoginRegister = '<b><a href="/profile">Профиль</a>&nbsp;&nbsp;<a href="/logout">Выход</a></b>';
-        if(!req.session.user){
-            LoginRegister = '<b><a href="/login">вход</a></b>';
-            res.redirect('/login');
-        }
+    if(!req.session.user){
+        res.redirect('/login');
+    } else {
         if(req.params.id) {
-            switch (params[1]){
-                case 'confirm':
-                    Query.findOne({_id:params[0], userId:user._id}, function (err, qq) {
-                        if(err) console.error(err);
-                        if(qq){
-                            //console.log(qq);
-                            if(qq.status == 0){
-                                res.render('responsequery', {
-                                    qq: qq,
-                                    title: 'Подтвердить ЗАПРОС',
-                                    user: user,
-                                    LoginRegister: LoginRegister
-                                });
-                                } else {
-                                res.redirect('/logout');
-                            }
-                        } else {
-                            res.redirect('/logout');
-                        }
+            let params = req.params.id.split(';');
+            let UserBalance = [0,0,0,0,0];
+            let LoginRegister = '<b><a href="/profile">Профиль</a>&nbsp;&nbsp;<a href="/logout">Выход</a></b>';
+            loadUser.findID(req.session.user, function (err, user) {
+                if(err) res.status(500).send('Внутренняя ошибка!');
+                if(!user){
+                    req.session.destroy();
+                    res.redirect('/login');
+                } else {
+                    UserBalance = [0,Math.round(user.PZM*100)/100,Math.round(user.USD*100)/100,Math.round(user.RUR*100)/100];
+                    //console.log(user.prizmaddress);
+                    LoginRegister = '<b><a href="/profile" class="w3-button w3-border w3-border-white w3-round">' + req.session.username + '</a>&nbsp;&nbsp;<a href="/logout" class="w3-button w3-border w3-border-white w3-round">Выход</a></b>' +
+                        '<div class="w3-right-align w3-small">' +
+                        '<span>PZM: </span>' +
+                        '<label class="w3-border-top w3-border-bottom">' + UserBalance[1] + '</label>' +
+                        '<span>&nbsp;RUR: </span>' +
+                        '<label class="w3-border-top w3-border-bottom">' + UserBalance[3] + '</label>' +
+                        '<span>&nbsp;USD: </span>' +
+                        '<label class="w3-border-top w3-border-bottom">' + UserBalance[2] + '</label></div>';
 
-                    });
-                    break;
-                case 'cancel':
-                    Query.findOne({_id:params[0], userId:user._id}, function (err, qq) {
-                        if(err) console.error(err);
-                        if(qq){
-                            //console.log(qq);
-                            if(qq.status == 0){
-                                if(qq.class == 0){
-                                    qq.status = 4;
-                                    user[qq.currency_name] = Number(user[qq.currency_name])+Number(qq.amount);
-                                    user.save();
+                    switch (params[1]) {
+                        case 'confirm':
+                            Query.findOne({_id: params[0], userId: user._id}, function (err, qq) {
+                                if (err) console.error(err);
+                                if (qq) {
+                                    //console.log(qq);
+                                    if (qq.status == 0) {
+                                        res.render('responsequery', {
+                                            qq: qq,
+                                            title: 'Подтвердить ЗАПРОС',
+                                            user: user,
+                                            LoginRegister: LoginRegister
+                                        });
+                                    } else {
+                                        res.redirect('/logout');
+                                    }
                                 } else {
-                                    qq.status = 4;
+                                    res.redirect('/logout');
                                 }
-                                qq.save();
-                                res.render('info', {infoTitle: '<div class="w3-green">Успех!</div>', infoText: 'Операция успешно выполнена!', url: '/profile', title: 'Запрос подтвержден', user: user, LoginRegister: LoginRegister});
-                            } else {
-                                res.redirect('/logout');
-                            }
-                        } else {
-                            res.redirect('/logout');
-                        }
-                    });
-                    break;
-                case 'execut':
-                    // ********** execut   // добавление на счет
-                    Query.findOne({_id:params[0], dealerId:user._id}, function (err, qq) {
-                        if(err) console.error(err);
-                        if(qq){
-                            //console.log(qq);
-                            if(qq.status == 1){
-                                res.render('executquery', {
-                                    qq: qq,
-                                    title: 'Подтвердить ЗАПРОС',
-                                    user: user,
-                                    LoginRegister: LoginRegister
-                                });
-                            } else {
-                                res.render('info', {infoTitle: '<div class="w3-red">Ошибка!</div>', infoText: 'Операция не выполнена!', url: '/profile', title: 'Статус запроса не поддерживается!', user: user, LoginRegister: LoginRegister});
-                                //res.redirect('/logout');
-                            }
-                        } else {
-                            res.render('info', {infoTitle: '<div class="w3-red">Ошибка!</div>', infoText: 'Операция не выполнена!', url: '/profile', title: 'Запрос удален!', user: user, LoginRegister: LoginRegister});
-                            //res.redirect('/logout');
-                        }
-                    });
-                    break;
-                case 'canclexec':
 
-                    break;
-                default:
-            }
+                            });
+                            break;
+                        case 'cancel':
+                            Query.findOne({_id: params[0], userId: user._id}, function (err, qq) {
+                                if (err) console.error(err);
+                                if (qq) {
+                                    //console.log(qq);
+                                    if (qq.status == 0) {
+                                        if (qq.class == 0) {
+                                            qq.status = 4;
+                                            user[qq.currency_name] = Number(user[qq.currency_name]) + Number(qq.amount);
+                                            user.save();
+                                        } else {
+                                            qq.status = 4;
+                                        }
+                                        qq.save();
+                                        res.render('info', {
+                                            infoTitle: '<div class="w3-green">Успех!</div>',
+                                            infoText: 'Операция успешно выполнена!',
+                                            url: '/profile',
+                                            title: 'Запрос подтвержден',
+                                            user: user,
+                                            LoginRegister: LoginRegister
+                                        });
+                                    } else {
+                                        res.redirect('/logout');
+                                    }
+                                } else {
+                                    res.redirect('/logout');
+                                }
+                            });
+                            break;
+                        case 'execut':
+                            // ********** execut   // добавление на счет
+                            Query.findOne({_id: params[0], dealerId: user._id}, function (err, qq) {
+                                if (err) console.error(err);
+                                if (qq) {
+                                    //console.log(qq);
+                                    if (qq.status == 1) {
+                                        res.render('executquery', {
+                                            qq: qq,
+                                            title: 'Подтвердить ЗАПРОС',
+                                            user: user,
+                                            LoginRegister: LoginRegister
+                                        });
+                                    } else {
+                                        res.render('info', {
+                                            infoTitle: '<div class="w3-red">Ошибка!</div>',
+                                            infoText: 'Операция не выполнена!',
+                                            url: '/profile',
+                                            title: 'Статус запроса не поддерживается!',
+                                            user: user,
+                                            LoginRegister: LoginRegister
+                                        });
+                                        //res.redirect('/logout');
+                                    }
+                                } else {
+                                    res.render('info', {
+                                        infoTitle: '<div class="w3-red">Ошибка!</div>',
+                                        infoText: 'Операция не выполнена!',
+                                        url: '/profile',
+                                        title: 'Запрос удален!',
+                                        user: user,
+                                        LoginRegister: LoginRegister
+                                    });
+                                    //res.redirect('/logout');
+                                }
+                            });
+                            break;
+                        case 'cancelexec':
+
+                            break;
+                        default:
+                    }
+                }
+            });
+        } else {
+            res.redirect('/');
         }
-    });
+    }
 };
 
 exports.post = function (req, res, next) {

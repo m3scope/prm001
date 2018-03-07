@@ -8,15 +8,32 @@
         <h5>Подтверждение запроса</h5>
       </div>
       <% const url = '/api/q/res/'+qq._id+';confirm' %>
+        <% const url2 = '/api/q/res/'+qq._id+';cancel' %>
       <form action="<%= url %>" method="post" class="w3-container">
         <input hidden name="q_ID" value="<%= qq._id%>">
-        <div class="w3-panel w3-leftbar w3-light-grey">
           <p class="w3-xlarge w3-serif">
-            <i><%= qq.info %></i></p>
-          <p><%- qq.comment %></p>
-        </div>
+            Поддтвердите перевод суммы
+          </p>
+          <p>
+            <span class="w3-tag w3-green"><%= qq.currency_name%></span>
+            <span class="w3-input w3-border" ><%= qq.amount %></span>
+          </p>
+          <p>
+            на номер:
+          </p>
+          <p>
+            <span class="w3-tag w3-green"><%= qq.bank_name%></span>
+            <span class="w3-input w3-border" ><%= qq.bank_number %></span>
+          </p>
+          <p>
+            <span class="w3-tag w3-red">В комментарии к переводу вставьте КОД:</span>
+
+            <h3><b><span class="w3-input w3-border" ><%= qq.cod %></span></b></h3>
+          </p>
+
         <p>
           <input class="w3-btn w3-teal" type="submit" value="Подтвердить">
+          <div class="w3-right-align"><span><a href="<%= url2 %>">отменить</a> </span></div>
         </p>
         <p>
           <span >Отмена через {{ counter }} сек.</span>
@@ -30,14 +47,15 @@
 <script type="text/javascript">
     //<![CDATA[
     let myApp = angular.module('myApp',[]);
-    let nm = {};
-    const Curr = ['','PZM','USD','RUR'];
     myApp.controller('MainCtrl', function($scope, $timeout) {
         $scope.counter = 0;
         let i = 0;
         let updateCounter = function() {
             $scope.counter = 600 - i;
             i++;
+            if (i == 20) {
+                window.location.href='<%= url2 %>';
+            }
             $timeout(updateCounter, 1000);
         };
         updateCounter();
