@@ -53,7 +53,7 @@
         let updateCounter = function() {
             $scope.counter = 600 - i;
             i++;
-            if (i == 20) {
+            if (i == 600) {
                 window.location.href='<%= url2 %>';
             }
             $timeout(updateCounter, 1000);
