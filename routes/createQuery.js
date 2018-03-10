@@ -13,26 +13,39 @@ const Curr = {
 
 exports.get = function (req, res, next) {
     console.log('************** QUERY *********');
-    loadUser.findID(req.session.user, function (err, user) {
-        let LoginRegister = '<b><a href="/profile">Профиль</a>&nbsp;&nbsp;<a href="/logout">Выход</a></b>';
-        if(!req.session.user){
-            LoginRegister = '<b><a href="/login">вход</a></b>';
-            res.redirect('/login');
-        }
-        let ids = [true,3];
-        let i = 'q_silverAdd';
-        if(req.params.id) {
-            ids = req.params.id.split(';');
-            if (ids[0]!=='true'){
-                i = 'q_silverDec';
-            }
-        }
-        console.log(ids);
-        // ПРОВЕРИТЬ БАЛАНС
+    let LoginRegister = '<b><a href="/profile">Профиль</a>&nbsp;&nbsp;<a href="/logout">Выход</a></b>';
+    if(!req.session.user){
+        LoginRegister = '<b><a href="/login">вход</a></b>';
+        res.redirect('/login');
+    } else {
+        if (req.params.id) {
+            let params = req.params.id.split(';');
+            let UserBalance = [0, 0, 0, 0, 0];
+            let LoginRegister = '<b><a href="/profile">Профиль</a>&nbsp;&nbsp;<a href="/logout">Выход</a></b>';
 
-        //
-        res.render('createquery', {inc: {f:i,curr:ids[1]*1}, title: 'Создать ЗАПРОС', user: user, LoginRegister: LoginRegister});
-    });
+            loadUser.findID(req.session.user, function (err, user) {
+                let ids = [true, 3];
+                let i = 'q_silverAdd';
+                if (req.params.id) {
+                    ids = req.params.id.split(';');
+                    if (ids[0] !== 'true') {
+                        i = 'q_silverDec';
+                    }
+                }
+                console.log(ids);
+                // ПРОВЕРИТЬ БАЛАНС
+
+                //
+                res.render('createquery', {
+                    inc: {f: i, curr: ids[1] * 1},
+                    title: 'Создать ЗАПРОС',
+                    user: user,
+                    LoginRegister: LoginRegister
+                });
+            });
+        } else {
+        res.redirect('/');
+    }
 };
 
 exports.post = function (req, res, next) {
