@@ -2,7 +2,7 @@
 
 <div class="w3-row-padding" ng-app="myApp">
   <!-- Left Column -->
-  <div class="w3-col s6" ng-controller="MainCtrl">
+  <div class="w3-col s12" ng-controller="MainCtrl">
     <div class="w3-card-4">
       <div class="w3-container w3-teal">
         <h5>Подтверждение запроса</h5>
@@ -14,9 +14,11 @@
         <input hidden name="q_ID" value="<%= qq._id%>">
         <h3>
           <p>
-            Переведите <%= qq.amount %> <%= curr[qq.currency] %> на номер <%= qq.bank_name%> <%= qq.bank_number %>
+            Переведите <%= qq.amount %> <%= curr[qq.currency] %> на номер <%= qq.bank_name%> :
+            <br> <%= qq.bank_number %>
             <% if(qq.bank_cod == 0){%>
-            <br><span>Public key: </span><span><%= qq.bank_publicKey%></span>
+            <br><span>Public key: </span>
+            <br><span><%= qq.bank_publicKey%></span>
             <%}%>
           </p>
           <p>
