@@ -15,6 +15,9 @@
         <h3>
           <p>
             Переведите <%= qq.amount %> <%= curr[qq.currency] %> на номер <%= qq.bank_name%> <%= qq.bank_number %>
+            <% if(qq.bank_cod == 0){%>
+            <br><span>Public key: </span><span><%= qq.bank_publicKey%></span>
+            <%}%>
           </p>
           <p>
             <b>Внимание:</b><br>

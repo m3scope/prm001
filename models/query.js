@@ -13,6 +13,7 @@ const  querySchema = new mongoose.Schema({
     bank_cod: Number,               // cod
     bank_name: String,
     bank_number: String,        // number
+    bank_publicKey: {type: String, default:'0'},
 
     amount: Number,
     commission_summ: Number,

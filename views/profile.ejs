@@ -103,6 +103,7 @@ let clors=['w3-orange','w3-cyan'];
   </div>
 
   <div class="w3-row-padding w3-small"  ng-switch-when="two">
+
     <div class="w3-col m6" ng-controller="CtrlDeals">
       <div class="">
         <div class="w3-container w3-teal">
@@ -146,10 +147,6 @@ let clors=['w3-orange','w3-cyan'];
           <%}%>
       </div>
     </div>
-
-
-
-
 
     <div class="w3-col m6" >
       <div class="w3-border-left">
@@ -355,7 +352,7 @@ let clors=['w3-orange','w3-cyan'];
         qq.amount2 = <%= Math.round((query.amount - query.commission_summ)*100)/100 %>;
         qq.bank_name = '<%= query.bank_name%>';
         qq.cod = '<%= query.cod%>';
-        qq.bank_number = <%= query.bank_number%>
+        qq.bank_number = '<%= query.bank_number%>';
         qq.status = <%= query.status%>;
         qq.confirm = '/api/q/res/<%= query._id %>;confirm';
         qq.cancel = '/api/q/res/<%= query._id %>;cancel';
@@ -397,22 +394,7 @@ let clors=['w3-orange','w3-cyan'];
             i++;
           <%})%>
         $scope.setSelected = function() {
-            $scope.selected = this.dt;
-            $scope.deal_amount_buy = this.dt.glub_buy;
-            $scope.price_amount_buy = this.dt.name;
-            $scope.commission_buy = Math.round(this.dt.glub_buy*0.007*10000)/10000;
-            $scope.data.disabled_buy = !($scope.deal_amount_buy > 0 && $scope.price_amount_buy > 0);
-        };
-        $scope.change_buy = function () {
-            $scope.commission_buy = Math.round($scope.deal_amount_buy*0.007*10000)/10000;
-            $scope.data.disabled_buy = !($scope.deal_amount_buy > 0 && $scope.price_amount_buy > 0);
-        };
-        $scope.getSelectBuy = function () {
-            let price_buy = ($scope.price_amount_buy !== undefined ? $scope.price_amount_buy : minPrice);
-            $scope.deal_amount_buy = Math.round(this.UBalance_buy / price_buy * 100) / 100;
-            $scope.price_amount_buy = price_buy;
-            $scope.commission_buy = Math.round($scope.deal_amount_buy*0.007*10000)/10000;
-            $scope.data.disabled_buy = !($scope.deal_amount_buy > 0 && $scope.price_amount_buy > 0);
+
         }
     });
     //]]>
