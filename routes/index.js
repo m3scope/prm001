@@ -61,20 +61,6 @@ router.post('/users', checkAuth, noCache, require('./users_post'), function (req
     res.render('users', {title: 'Ceate new User', user: user});
 });
 
-router.get('/sess', function(req, res) {
-    let sess = req.session;
-    if (sess.views) {
-        sess.views++;
-        res.setHeader('Content-Type', 'text/html');
-        res.write('<p>views: ' + sess.views + '</p>');
-        res.write('<p>expires in: ' + (sess.cookie.maxAge / 1000) + 's</p>');
-        res.end()
-    } else {
-        sess.views = 1;
-        res.end('welcome to the session demo. refresh!');
-    }
-});
-
 //-----------------------------------------------
 
 //***********************************************
@@ -194,31 +180,31 @@ router.post('/register', (req, res) => {
 //**********************************************
  // структура
 
-router.get('/getrec/:id', (req, res) => {
-    //const request = require("request");
-    let rnd = Math.random();
-    const pzm = req.params.id;
-    const http = require('http');
-    const url = "http://blockchain.prizm.space/prizm?requestType=getAccount&account="+pzm+"&random="+rnd;
-    console.log(url);
-
-    http.get(url, function(ress){
-        let body = '';
-
-        ress.on('data', function(chunk){
-            body += chunk;
-        });
-
-        ress.on('end', function(){
-            let fbResponse = JSON.parse(body);
-            console.log("Got a response: ", fbResponse.transactions[0]);
-            return res.status(200).send(fbResponse.transactions[0]);
-        });
-    }).on('error', function(e){
-        console.log("Got an error: ", e);
-        return res.status(500).send('Внутренняя ошибка!');
-    });
-});
+// router.get('/getrec/:id', (req, res) => {
+//     //const request = require("request");
+//     let rnd = Math.random();
+//     const pzm = req.params.id;
+//     const http = require('http');
+//     const url = "http://blockchain.prizm.space/prizm?requestType=getAccount&account="+pzm+"&random="+rnd;
+//     console.log(url);
+//
+//     http.get(url, function(ress){
+//         let body = '';
+//
+//         ress.on('data', function(chunk){
+//             body += chunk;
+//         });
+//
+//         ress.on('end', function(){
+//             let fbResponse = JSON.parse(body);
+//             console.log("Got a response: ", fbResponse.transactions[0]);
+//             return res.status(200).send(fbResponse.transactions[0]);
+//         });
+//     }).on('error', function(e){
+//         console.log("Got an error: ", e);
+//         return res.status(500).send('Внутренняя ошибка!');
+//     });
+// });
 
 router.get('/gettrans/:id', (req, res) => {
     //const request = require("request");

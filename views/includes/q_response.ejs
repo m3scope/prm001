@@ -9,28 +9,19 @@
       </div>
       <% const url = '/api/q/res/'+qq._id+';confirm' %>
         <% const url2 = '/api/q/res/'+qq._id+';cancel' %>
+      <% const curr = ['','призм','долларов','руб.']; %>
       <form action="<%= url %>" method="post" class="w3-container">
         <input hidden name="q_ID" value="<%= qq._id%>">
-          <p class="w3-xlarge w3-serif">
-            Поддтвердите перевод суммы
+        <h3>
+          <p>
+            Переведите <%= qq.amount %> <%= curr[qq.currency] %> на номер <%= qq.bank_name%> <%= qq.bank_number %>
           </p>
           <p>
-            <span class="w3-tag w3-green"><%= qq.currency_name%></span>
-            <span class="w3-input w3-border" ><%= qq.amount %></span>
+            <b>Внимание:</b><br>
+            В комментарии к переводу вставьте номер:<br>
+            <h2><b><%= qq.cod %></b></h2>
           </p>
-          <p>
-            на номер:
-          </p>
-          <p>
-            <span class="w3-tag w3-green"><%= qq.bank_name%></span>
-            <span class="w3-input w3-border" ><%= qq.bank_number %></span>
-          </p>
-          <p>
-            <span class="w3-tag w3-red">В комментарии к переводу вставьте КОД:</span>
-
-            <h3><b><span class="w3-input w3-border" ><%= qq.cod %></span></b></h3>
-          </p>
-
+        </h3>
         <p>
           <input class="w3-btn w3-teal" type="submit" value="Подтвердить">
           <div class="w3-right-align"><span><a href="<%= url2 %>">отменить</a> </span></div>

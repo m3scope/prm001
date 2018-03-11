@@ -15,36 +15,57 @@ exports.get = function (req, res, next) {
     console.log('************** QUERY *********');
     let LoginRegister = '<b><a href="/profile">Профиль</a>&nbsp;&nbsp;<a href="/logout">Выход</a></b>';
     if(!req.session.user){
-        LoginRegister = '<b><a href="/login">вход</a></b>';
         res.redirect('/login');
     } else {
         if (req.params.id) {
             let params = req.params.id.split(';');
             let UserBalance = [0, 0, 0, 0, 0];
-            let LoginRegister = '<b><a href="/profile">Профиль</a>&nbsp;&nbsp;<a href="/logout">Выход</a></b>';
-
             loadUser.findID(req.session.user, function (err, user) {
-                let ids = [true, 3];
-                let i = 'q_silverAdd';
-                if (req.params.id) {
-                    ids = req.params.id.split(';');
-                    if (ids[0] !== 'true') {
+                if(err) res.status(500).send('Внутренняя ошибка!');
+                if(!user){
+                    req.session.destroy();
+                    res.redirect('/login');
+                } else {
+                    //console.log(params);
+                    UserBalance = [0,Math.round(user.PZM*100)/100,Math.round(user.USD*100)/100,Math.round(user.RUR*100)/100];
+                    LoginRegister = '<b><a href="/profile" class="w3-button w3-border w3-border-white w3-round">'+req.session.username+'</a>&nbsp;&nbsp;<a href="/logout" class="w3-button w3-border w3-border-white w3-round">Выход</a></b>' +
+                        '<div class="w3-right-align w3-small">' +
+                        '<span>PZM: </span>' +
+                        '<label class="w3-border-top w3-border-bottom">'+UserBalance[1]+'</label>' +
+                        '<span>&nbsp;RUR: </span>' +
+                        '<label class="w3-border-top w3-border-bottom">'+UserBalance[3]+'</label>' +
+                        '<span>&nbsp;USD: </span>' +
+                        '<label class="w3-border-top w3-border-bottom">'+UserBalance[2]+'</label></div>';
+
+                    let i = 'q_silverAdd';
+                    //console.log(Boolean(params[0]));
+                    if (params[0] !== 'true') {
                         i = 'q_silverDec';
+
+                        if(UserBalance[3] < 1000){
+                            res.render('info', {infoTitle: '<div class="w3-red">Ошибка!</div>', infoText: 'Не достаточно средств', url: '/profile', title: 'Запрос отклонен!', user: user, LoginRegister: LoginRegister});
+                        } else {
+                            console.log('************ fgdjdjdjdjdjdjdjd');
+                            res.render('createquery', {
+                                inc: {f: i, curr: params[1] * 1},
+                                title: 'Создать ЗАПРОС',
+                                user: user,
+                                LoginRegister: LoginRegister
+                            });
+                        }
+                    } else {
+                        res.render('createquery', {
+                            inc: {f: i, curr: params[1] * 1},
+                            title: 'Создать ЗАПРОС',
+                            user: user,
+                            LoginRegister: LoginRegister
+                        });
                     }
                 }
-                console.log(ids);
-                // ПРОВЕРИТЬ БАЛАНС
-
-                //
-                res.render('createquery', {
-                    inc: {f: i, curr: ids[1] * 1},
-                    title: 'Создать ЗАПРОС',
-                    user: user,
-                    LoginRegister: LoginRegister
-                });
             });
         } else {
         res.redirect('/');
+        }
     }
 };
 
