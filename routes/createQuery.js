@@ -36,30 +36,38 @@ exports.get = function (req, res, next) {
                         '<label class="w3-border-top w3-border-bottom">'+UserBalance[3]+'</label>' +
                         '<span>&nbsp;USD: </span>' +
                         '<label class="w3-border-top w3-border-bottom">'+UserBalance[2]+'</label></div>';
-
-                    let i = 'q_silverAdd';
-                    //console.log(Boolean(params[0]));
-                    if (params[0] !== 'true') {
-                        i = 'q_silverDec';
-
-                        if(UserBalance[3] < 1000){
-                            res.render('info', {infoTitle: '<div class="w3-red">Ошибка!</div>', infoText: 'Не достаточно средств', url: '/profile', title: 'Запрос отклонен!', user: user, LoginRegister: LoginRegister});
-                        } else {
-                            console.log('************ fgdjdjdjdjdjdjdjd');
+                    let i = 'q_true_3';
+                    switch (params[0]){
+                        case 'true':
+                            i = 'q_true_'+ params[1];
                             res.render('createquery', {
                                 inc: {f: i, curr: params[1] * 1},
                                 title: 'Создать ЗАПРОС',
                                 user: user,
                                 LoginRegister: LoginRegister
                             });
-                        }
-                    } else {
-                        res.render('createquery', {
-                            inc: {f: i, curr: params[1] * 1},
-                            title: 'Создать ЗАПРОС',
-                            user: user,
-                            LoginRegister: LoginRegister
-                        });
+                            break;
+                        case 'false':
+                            i = 'q_false_'+params[1];
+                            if(UserBalance[params[1]] < 1000){
+                                res.render('info', {infoTitle: '<div class="w3-red">Ошибка!</div>', infoText: 'Не достаточно средств', url: '/profile', title: 'Запрос отклонен!', user: user, LoginRegister: LoginRegister});
+                            } else {
+                                //console.log('************ fgdjdjdjdjdjdjdjd');
+                                res.render('createquery', {
+                                    inc: {f: i, curr: params[1] * 1},
+                                    title: 'Создать ЗАПРОС',
+                                    user: user,
+                                    LoginRegister: LoginRegister
+                                });
+                            }
+                            break;
+                        default:
+                            res.render('createquery', {
+                                inc: {f: i, curr: params[1] * 1},
+                                title: 'Создать ЗАПРОС',
+                                user: user,
+                                LoginRegister: LoginRegister
+                            });
                     }
                 }
             });
