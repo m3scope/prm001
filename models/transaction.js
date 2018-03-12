@@ -21,6 +21,7 @@ const crypto = require('crypto'); // модуль node.js для выполне�
 //const User = require('./user');
 
 const transactionSchema = new mongoose.Schema({
+    UID: {type: String, default: Date.now().toString()},
     billId: { type: mongoose.Schema.ObjectId, ref: 'Bill', required: true },       // ID счета (bill), основание для транзакции
     userId: { type: mongoose.Schema.ObjectId, ref: 'User', required: true },     // Id пользователя создавшего транзакцию
     //accountId: { type: mongoose.Schema.ObjectId, ref: 'Account', required: true },      // Id покупателя

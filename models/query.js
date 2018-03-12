@@ -2,6 +2,7 @@ const mongoose = require('../libs/mongoose');
 const crypto = require('crypto'); // модуль node.js для выполнения различных шифровальных операций, в т.ч. для создания хэшей.
 
 const  querySchema = new mongoose.Schema({
+    UID: {type: String, default: Date.now().toString()},
     userId: { type: mongoose.Schema.ObjectId, ref: 'User', required: true },     // Id пользователя создавшего Запрос
     dealerId: { type: mongoose.Schema.ObjectId, ref: 'User' },                // Id пользователя исполнителя Запрос
     bankId: { type: mongoose.Schema.ObjectId, ref: 'Bank' },

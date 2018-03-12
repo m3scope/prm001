@@ -21,6 +21,7 @@ const crypto = require('crypto'); // модуль node.js для выполне�
 //const User = require('./user');
 
 const billSchema = new mongoose.Schema({
+    UID: {type: String, default: Date.now().toString()},
     dealGeneralId: { type: mongoose.Schema.ObjectId, ref: 'Deal', required: false },       // ID сделки (deal), используется в работе биржи
     dealTwoId: { type: mongoose.Schema.ObjectId, ref: 'Deal', required: false },       // ID сделки (deal), используется в работе биржи
 

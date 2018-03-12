@@ -222,6 +222,9 @@ let clors=['w3-orange','w3-cyan'];
                 <div ng-switch-when="4">
                   <span>отменен</span>
                 </div>
+                <div ng-switch-when="5">
+                  <span>отменен Адм.</span>
+                </div>
               </div>
             </td>
           </tr>
@@ -269,6 +272,9 @@ let clors=['w3-orange','w3-cyan'];
                 </div>
                 <div ng-switch-when="4">
                   <span>отменен</span>
+                </div>
+                <div ng-switch-when="5">
+                  <span>отменен Адм.</span>
                 </div>
               </div>
             </td>
@@ -355,7 +361,7 @@ let clors=['w3-orange','w3-cyan'];
         qq.bank_number = '<%= query.bank_number%>';
         qq.status = <%= query.status%>;
         qq.confirm = '/api/q/res/<%= query._id %>;confirm';
-        qq.cancel = '/api/q/res/<%= query._id %>;cancel';
+        qq.cancel = '/api/q/res/<%= query._id %>;cancelamd';
         qq.execut = '/api/q/res/<%= query._id %>;execut';
         qq.dat = '<%= new Date(query.createdAt).toISOString().replace(/T/, ' ').replace(/\..+/, '') %>';
 
