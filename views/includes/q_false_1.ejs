@@ -1,0 +1,82 @@
+<% const curr = ['','PZM','USD','RUR']; %>
+<div class="w3-panel"></div>
+<div class="w3-row-padding" ng-app="myApp">
+    <!-- Left Column -->
+    <div class="w3-col s6" ng-controller="MainCtrl">
+        <div class="w3-card-4">
+            <div class="w3-container w3-teal">
+                <h5>Вывод средств</h5>
+            </div>
+            <form action="/api/q/req/dec_prizm" method="post" class="w3-container">
+                <div class="w3-panel w3-card-4 w3-pale-yellow">
+                    <p class=" w3-large w3-serif">
+                        <i class="fa fa-quote-right w3-xxlarge w3-text-red"></i><br>
+                    <ul>
+                        <li>
+                            Минимальная сумма к выводу не менее 10pzm.
+                        </li>
+                    </ul>
+                    </p>
+                </div>
+                <input type="hidden" name="class" value="0">
+                <p>
+                    <span class="w3-tag w3-green">PZM</span>
+                    <input class="w3-input" type="number" value="0" step="any" min="10" name="deal_amount" required ng-model="deal_amount_sell_rub" ng-change="change_sell_rub()">
+                    <input type="hidden" name="deal_currency" value="{{ curr1 }}">
+                </p>
+                <p>
+                    <span class="w3-tag w3-green">К получению: <%= curr[inc.curr] %></span>
+                    <input ng-disabled="true" class="w3-input" type="number" value="0" step="any" name="price_amount" required ng-model="deal_amount_sell_curr" ng-change="change_sell_curr()">
+                    <input type="hidden" name="price_currency" value="{{ curr2 }}">
+                </p>
+                <p>
+                    <label class="w3-tag w3-green">Комиcсия</label>
+                    <input class="w3-input w3-text-yellow" ng-disabled="true" type="text" name="commiss_sell" value="{{commission_sell | number:2}}">
+                </p>
+                <p>
+                    <input class="w3-radio" type="radio" name="bank_cod" value="0" checked>
+                    <label>PRIZM</label>
+                </p>
+                <p>
+                    <span class="w3-tag w3-green">Номер платежной системы:</span>
+                    <input class="w3-input" type="text" name="bank_number" required ng-model="bank_number">
+                    <label>Номер кошелька в формате PRIZM-ХХХХ-ХХХХ-XXXХ</label>
+                </p>
+                <p>
+                    <span class="w3-tag w3-green">Публичный ключ (Public key):</span>
+                    <input class="w3-input" type="text" name="bank_publicKey" required >
+                </p>
+
+                <p>
+                    <input type="checkbox" name="check_TermsOfService" ng-model="data.disabled">
+                    <label class="w3-text-yellow" >* Согласен с условиями работы сервиса</label>
+                </p>
+                <p>
+                    <input class="w3-btn w3-teal" type="submit" value="Создать" ng-disabled="!data.disabled">
+                </p>
+            </form>
+        </div>
+
+    </div>
+</div>
+
+<script type="text/javascript">
+    //<![CDATA[
+    let myApp = angular.module('myApp',[]);
+    let nm = {};
+    const Curr = ['','PZM','USD','RUR'];
+    myApp.controller('MainCtrl', function($scope) {
+        $scope.curr1 = Curr[<%= inc.curr %>];
+        $scope.dt1 = [];
+        $scope.commission_sell = 0;
+        $scope.change_sell_rub = function () {
+            $scope.commission_sell = Math.round(Number($scope.deal_amount_sell_rub)*0.05*100)/100;
+            $scope.deal_amount_sell_curr = Math.round((Number($scope.deal_amount_sell_rub)- Number($scope.deal_amount_sell_rub)*0.05)*100)/100;
+        };
+        $scope.change_sell_curr = function () {
+            $scope.deal_amount_sell_rub = Math.round((Number($scope.deal_amount_sell_curr)+ Number($scope.deal_amount_sell_curr)*0.05)*100)/100;
+            $scope.commission_sell = Math.round(Number($scope.deal_amount_sell_curr)*0.05*100)/100;
+        };
+    });
+    //]]>
+</script>

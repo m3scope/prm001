@@ -146,44 +146,61 @@ exports.post = function (req, res, next) {
             } else {        // (0 - вывод средств)
                 // ПРОВЕРИТЬ БАЛАНС
 
-                if((Number(user[currency])-Number(commiss_sell))>=summ){
+                if((Number(user[currency]))>=summ){
                     //
-                    Bank.findOne({bank_cod:req.body.bank_cod, summ_all:{$gte:Number(summ)-Number(commiss_sell)}, summ_transactions:{$gte:Number(summ)-Number(commiss_sell)}}).sort({rounds: 1}).exec(function (err, bank) {
+                    Bank.findOne({bank_cod:req.body.bank_cod, summ_all:{$gte:Number(summ)}, summ_transactions:{$gte:Number(summ)}}).sort({rounds: 1}).exec(function (err, bank) {
                         "use strict";
-                        query.data = {bank: req.body.bank, cod: cod, deal_amount: req.body.deal_amount, deal_currency: req.body.deal_currency, price_amount: req.body.price_amount, price_currency: req.body.price_currency, commiss_buy: commiss_sell};
-                        query.userId = req.session.user;
-                        query.dealerId = bank.dealerId;
-                        query.bankId = bank._id;
-                        query.bank_cod = bank.bank_cod;
-                        query.bank_name = bank.bank_name;
-                        query.bank_number = req.body.bank_number;
-                        query.bank_publicKey = bank.bank_publicKey;
-                        query.amount = summ;
-                        query.commission_summ = commiss_buy;
-                        query.currency = bank.currency;
-                        query.currency_name = bank.currency_name;
-                        query.action = 'function()';
-                        query.cod = cod;
-                        query.info = 'Подтвердите вывод '+req.body.deal_amount + 'р. на номер '+bank.bank_number+ ' '+bank.bank_name;
-                        query.comment = '<span class="w3-text-yellow">Средства к получению: '+(summ - Number(commiss_sell))+'</span>';
-                        query.class = req.body.class;
-                        query.save(function (err, saved_Q) {
-                            if(err) console.error(err);
-                            console.log(saved_Q._id.toString());
-                            res.redirect('/api/q/res/'+saved_Q._id.toString()+';confirm');
+                        if(err) {
+                            console.error(err);
+                            res.render('info', {infoTitle: '<div class="w3-red">Внутренняя ошибка!</div>', infoText: 'Внутренняя ошибка!', url: '/profile', title: 'Запрос отклонен!', user: user, LoginRegister: LoginRegister});
+                        } else {
+                            if(bank){
+                                query.data = {
+                                    bank: req.body.bank,
+                                    cod: cod,
+                                    deal_amount: req.body.deal_amount,
+                                    deal_currency: req.body.deal_currency,
+                                    price_amount: req.body.price_amount,
+                                    price_currency: req.body.price_currency,
+                                    commiss_buy: commiss_sell
+                                };
+                                query.userId = req.session.user;
+                                query.dealerId = bank.dealerId;
+                                query.bankId = bank._id;
+                                query.bank_cod = bank.bank_cod;
+                                query.bank_name = bank.bank_name;
+                                query.bank_number = req.body.bank_number;
+                                query.bank_publicKey = req.body.bank_publicKey;
+                                query.amount = summ;
+                                query.commission_summ = commiss_buy;
+                                query.currency = bank.currency;
+                                query.currency_name = bank.currency_name;
+                                query.action = 'function()';
+                                query.cod = cod;
+                                query.info = 'Подтвердите вывод ' + req.body.deal_amount + 'р. на номер ' + bank.bank_number + ' ' + bank.bank_name;
+                                query.comment = '<span class="w3-text-yellow">Средства к получению: ' + (summ - Number(commiss_sell)) + '</span>';
+                                query.class = req.body.class;
+                                query.save(function (err, saved_Q) {
+                                    if (err) console.error(err);
+                                    console.log(saved_Q._id.toString());
+                                    res.redirect('/api/q/res/' + saved_Q._id.toString() + ';confirm');
 
-                            user[currency] = Number(user[currency])-Number(summ);
-                            user.save();
+                                    user[currency] = Number(user[currency]) - Number(summ);
+                                    user.save();
 
-                            //********** BANK *******
-                            bank.summ_trans_current = Number(bank.summ_trans_current)+Number(summ);
-                            bank.summ_all_current = Number(bank.summ_all_current)+Number(summ);
-                            bank.summ_transactions = Number(bank.summ_transactions)-Number(summ);
-                            bank.summ_all = Number(bank.summ_all)-Number(summ);
-                            bank.rounds = Number(bank.rounds) + 20;
-                            bank.save();
-                            //---------------------
-                        });
+                                    //********** BANK *******
+                                    bank.summ_trans_current = Number(bank.summ_trans_current) + Number(summ);
+                                    bank.summ_all_current = Number(bank.summ_all_current) + Number(summ);
+                                    bank.summ_transactions = Number(bank.summ_transactions) - Number(summ);
+                                    bank.summ_all = Number(bank.summ_all) - Number(summ);
+                                    bank.rounds = Number(bank.rounds) + 20;
+                                    bank.save();
+                                    //---------------------
+                                });
+                            } else {
+                                res.render('info', {infoTitle: '<div class="w3-red">Внутренняя ошибка!</div>', infoText: 'Внутренняя ошибка!', url: '/profile', title: 'Запрос отклонен!', user: user, LoginRegister: LoginRegister});
+                            }
+                        }
                         //res.render('responsequery', {title: 'Подтвердить ЗАПРОС', user: user, LoginRegister: LoginRegister});
 
 

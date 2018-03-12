@@ -10,6 +10,7 @@
       <% const url = '/api/q/res/'+qq._id+';confirm' %>
         <% const url2 = '/api/q/res/'+qq._id+';cancel' %>
       <% const curr = ['','призм','долларов','руб.']; %>
+      <% if(qq.class == 1){%>
       <form action="<%= url %>" method="post" class="w3-container">
         <input hidden name="q_ID" value="<%= qq._id%>">
         <h3>
@@ -35,7 +36,34 @@
           <span >Отмена через {{ counter }} сек.</span>
         </p>
       </form>
+      <%} else {%>
+      <form action="<%= url %>" method="post" class="w3-container">
+        <input hidden name="q_ID" value="<%= qq._id%>">
+        <h3>
+          <p>
+            Подтвердите вывод средств <%= qq.amount %> <%= curr[qq.currency] %> на номер <%= qq.bank_name%> :
+            <br> <%= qq.bank_number %>
+              <% if(qq.bank_cod == 0){%>
+            <br><span>Public key: </span>
+            <br><span><%= qq.bank_publicKey%></span>
+              <%}%>
+          </p>
+          <p>
+            <b>Внимание:</b><br>
+            В комментарии к переводу должен быть номер:<br>
+          <h2><b><%= qq.cod %></b></h2>
+          </p>
+        </h3>
+        <p>
+          <input class="w3-btn w3-teal" type="submit" value="Подтвердить">
+        <div class="w3-right-align"><span><a href="<%= url2 %>">отменить</a> </span></div>
+        </p>
+        <p>
+          <span >Отмена через {{ counter }} сек.</span>
+        </p>
+      </form>
 
+      <%}%>
     </div>
   </div>
 </div>

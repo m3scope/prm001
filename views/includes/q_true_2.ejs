@@ -1,0 +1,40 @@
+<% const curr = ['','PZM','USD','RUR']; %>
+<div class="w3-panel"></div>
+<div class="w3-row-padding" ng-app="myApp">
+    <!-- Left Column -->
+    <div class="w3-col s6" ng-controller="MainCtrl">
+        <div class="w3-card-4">
+            <div class="w3-container w3-teal">
+                <h5>Вывод средств</h5>
+            </div>
+            <form class="w3-container">
+                <p>
+                    В настоящее время данный вид запроса не доступен!
+                </p>
+                <p>
+                    <span class="w3-tiny">{{ counter }}</span>
+                </p>
+            </form>
+        </div>
+
+    </div>
+</div>
+
+<script type="text/javascript">
+    //<![CDATA[
+    let myApp = angular.module('myApp',[]);
+    myApp.controller('MainCtrl', function($scope, $timeout) {
+        $scope.counter = 0;
+        let i = 0;
+        let updateCounter = function() {
+            $scope.counter = 10 - i;
+            i++;
+            if (i == 10) {
+                window.location.href='/profile';
+            }
+            $timeout(updateCounter, 1000);
+        };
+        updateCounter();
+    });
+    //]]>
+</script>
