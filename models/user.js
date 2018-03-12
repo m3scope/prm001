@@ -24,6 +24,28 @@ const userSchema = new mongoose.Schema({
     publicKey: {
         type: String,
     },
+    tax_in:{
+        PZM: {
+            type: Number, default: 0
+        },
+        USD: {
+            type: Number, default: 3
+        },
+        RUR: {
+            type: Number, default: 3
+        }
+    },
+    tax_out:{
+        PZM: {
+            type: Number, default: 0.5
+        },
+        USD: {
+            type: Number, default: 5
+        },
+        RUR: {
+            type: Number, default: 5
+        }
+    },
     PZM: {
         type: Number, default: 0
     },

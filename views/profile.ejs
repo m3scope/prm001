@@ -77,21 +77,21 @@ let clors=['w3-orange','w3-cyan'];
             <p>
               <span class="w3-input w3-border" ><%= user.PZM%></span>
               <span class="w3-tag w3-green">PZM</span>
-              <span class="w3-tag w3-orange"><a href="/api/q/req/true;1" >добав.</a></span>
-              <span class="w3-tag w3-teal"><a href="/api/q/req/false;1" >вывод</a></span>
+              <span class="w3-tag w3-orange"><a href="/api/q/req/true;1" >пополнить</a></span>
+              <span class="w3-tag w3-teal"><a href="/api/q/req/false;1" >вывод средств</a></span>
             </p>
             <p>
               <span class="w3-input w3-border" ><%= user.USD%></span>
               <span class="w3-tag w3-green">USD&nbsp;</span>
-              <span class="w3-tag w3-orange"><a href="/api/q/req/true;2" >добав.</a></span>
-              <span class="w3-tag w3-teal"><a href="/api/q/req/false;2" >вывод</a></span>
+              <span class="w3-tag w3-orange"><a href="/api/q/req/true;2" >пополнить</a></span>
+              <span class="w3-tag w3-teal"><a href="/api/q/req/false;2" >вывод средств</a></span>
 
             </p>
             <p>
               <span class="w3-input w3-border" ><%= user.RUR%></span>
               <span class="w3-tag w3-green">RUR&nbsp;</span>
-              <span class="w3-tag w3-orange"><a href="/api/q/req/true;3" >добав.</a></span>
-              <span class="w3-tag w3-teal"><a href="/api/q/req/false;3" >вывод</a></span>
+              <span class="w3-tag w3-orange"><a href="/api/q/req/true;3" >пополнить</a></span>
+              <span class="w3-tag w3-teal"><a href="/api/q/req/false;3" >вывод средств</a></span>
               </p>
             <p>
 
@@ -197,7 +197,7 @@ let clors=['w3-orange','w3-cyan'];
             <th>Валюта</th>
             <th class="w3-border-left">Тип</th>
             <th class="w3-border-left">Кол.</th>
-            <th class="w3-border-left">Зачис./Получ.</th>
+            <th class="w3-border-left">Зачислено/Получено</th>
             <th class="w3-border-left">Дата</th>
             <th class="w3-border-left"></th>
           </tr>
@@ -214,7 +214,7 @@ let clors=['w3-orange','w3-cyan'];
                   <span><a href="{{dt.confirm}}">подтвердить</a></span><span> / </span><span> <a href="{{dt.cancel}}">отменить</a></span>
                 </div>
                 <div ng-switch-when="1">
-                  <span>ожидание исполнения</span>
+                  <span>в обработке</span>
                 </div>
                 <div ng-switch-when="3">
                   <span>закрыт</span>
@@ -262,7 +262,7 @@ let clors=['w3-orange','w3-cyan'];
                   <span><a href="{{dt.cancel}}">отменить</a></span>
                 </div>
                 <div ng-switch-when="1">
-                  <span>ожидание исполнения</span><span> / </span><span><a href="{{dt.execut}}">подтвердить</a></span><span> / </span><span> <a href="{{dt.cancel}}">отменить</a></span>
+                  <span>в обработке</span><span> / </span><span><a href="{{dt.execut}}">подтвердить</a></span><span> / </span><span> <a href="{{dt.cancel}}">отменить</a></span>
                 </div>
                 <div ng-switch-when="3">
                   <span>закрыт</span>
