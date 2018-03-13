@@ -5,6 +5,9 @@ const Deal = require('../models/deal');
 const Bill = require('../models/bill');
 const db_bills = require('../libs/db_bills');
 const Bank = require('../models/bank');
+const config = require('config');
+
+const tax = config.get('tax');
 const Curr = {
     'RUR' : [3,'/deals/1;3','/deals/2;3'],
     'USD' : [2,'/deals/1;2','','/deals/2;3'],
@@ -89,11 +92,12 @@ exports.post = function (req, res, next) {
             console.log(req.body);
             const banks = [{QIWI: '+79627948161', Yandex: '410012300589165'}];
             const query = new Query;
+
             const cod = Math.round(Math.random()*1000000);
             const summ = Number(req.body.deal_amount);
             const currency = req.body.deal_currency;
-            const commiss_buy = Math.round(Number(summ)*0.05*100)/100;
-            const commiss_sell = Math.round(Number(summ)*0.05*100)/100;
+            const commiss_buy = Math.round(Number(summ)*Number(tax.tax_in[currency])*100)/100;
+            const commiss_sell = Math.round(Number(summ)*Number(tax.tax_in[currency])*100)/100;
 
             if(Boolean(Number(req.body.class))){        // (1 - пополнение)
 
