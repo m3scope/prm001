@@ -96,8 +96,8 @@ exports.post = function (req, res, next) {
             const cod = Math.round(Math.random()*1000000);
             const summ = Number(req.body.deal_amount);
             const currency = req.body.deal_currency;
-            const commiss_buy = Math.round(Number(summ)*Number(tax.tax_in[currency])*100)/100;
-            const commiss_sell = Math.round(Number(summ)*Number(tax.tax_out[currency])*100)/100;
+            const commiss_buy = Math.round(Number(summ)*Number(tax.tax_in[currency])/100);
+            const commiss_sell = Math.round(Number(summ)*Number(tax.tax_out[currency])/100);
 
             if(Boolean(Number(req.body.class))){        // (1 - пополнение)
 
