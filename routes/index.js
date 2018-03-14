@@ -293,5 +293,8 @@ router.get('/api/q/deal/:id', checkAuth, noCache, require('./q_deal').get);
 
 //----------------------------------------------
 
+router.get('/:id', function (req, res) {
 
+    res.render('info', {infoTitle: '<div class="w3-red">Ошибка!</div>', infoText: 'Страница не найдена!', url: '/', title: 'Запрос отклонен!', user: {}, LoginRegister: '<b></b>'});
+});
 module.exports = router;
