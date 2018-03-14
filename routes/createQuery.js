@@ -8,11 +8,7 @@ const Bank = require('../models/bank');
 const config = require('config');
 
 const tax = config.get('tax');
-const Curr = {
-    'RUR' : [3,'/deals/1;3','/deals/2;3'],
-    'USD' : [2,'/deals/1;2','','/deals/2;3'],
-    'PZM' : [1,'','/deals/1;2','/deals/1;3']
-};
+const Curr = ['','PZM','USD','RUR'];
 
 exports.get = function (req, res, next) {
     console.log('************** QUERY *********');
@@ -44,7 +40,7 @@ exports.get = function (req, res, next) {
                         case 'true':
                             i = 'q_true_'+ params[1];
                             res.render('createquery', {
-                                inc: {f: i, curr: params[1] * 1},
+                                inc: {f: i, curr: params[1] * 1, tax:Number(tax.tax_in[Curr[params[1]]])},
                                 title: 'Создать ЗАПРОС',
                                 user: user,
                                 LoginRegister: LoginRegister
@@ -57,7 +53,7 @@ exports.get = function (req, res, next) {
                             } else {
                                 //console.log('************ fgdjdjdjdjdjdjdjd');
                                 res.render('createquery', {
-                                    inc: {f: i, curr: params[1] * 1},
+                                    inc: {f: i, curr: params[1] * 1, tax:Number(tax.tax_out[Curr[params[1]]])},
                                     title: 'Создать ЗАПРОС',
                                     user: user,
                                     LoginRegister: LoginRegister
@@ -66,7 +62,7 @@ exports.get = function (req, res, next) {
                             break;
                         default:
                             res.render('createquery', {
-                                inc: {f: i, curr: params[1] * 1},
+                                inc: {f: i, curr: params[1] * 1, tax:Number(tax.tax_in[Curr[params[1]]])},
                                 title: 'Создать ЗАПРОС',
                                 user: user,
                                 LoginRegister: LoginRegister

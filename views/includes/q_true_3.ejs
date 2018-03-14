@@ -89,6 +89,7 @@
     //<![CDATA[
     let myApp = angular.module('myApp',[]);
     let nm = {};
+    let tax = <%= inc.tax %>
     const Curr = ['','PZM','USD','RUR'];
     myApp.controller('MainCtrl', function($scope) {
         $scope.data = {};
@@ -97,12 +98,12 @@
         $scope.dt1 = [];
         $scope.commission_buy = 0;
         $scope.change_buy_rub = function () {
-            $scope.commission_buy = Math.round(Number($scope.deal_amount_buy_rub)*0.05*100)/100;
-            $scope.deal_amount_buy_curr = Math.round((Number($scope.deal_amount_buy_rub)- Number($scope.deal_amount_buy_rub)*0.05)*100)/100;
+            $scope.commission_buy = Math.round(Number($scope.deal_amount_buy_rub)*tax/100);
+            $scope.deal_amount_buy_curr = Math.round((Number($scope.deal_amount_buy_rub)- Number($scope.deal_amount_buy_rub)*tax/100));
         };
         $scope.change_buy_curr = function () {
-            $scope.deal_amount_buy_rub = Math.round((Number($scope.deal_amount_buy_curr)+ Number($scope.deal_amount_buy_curr)*0.05)*100)/100;
-            $scope.commission_buy = Math.round(Number($scope.deal_amount_buy_curr)*0.05*100)/100;
+            $scope.deal_amount_buy_rub = Math.round((Number($scope.deal_amount_buy_curr)+ Number($scope.deal_amount_buy_curr)*tax/100));
+            $scope.commission_buy = Math.round(Number($scope.deal_amount_buy_curr)**tax/100);
         };
     });
     //]]>
