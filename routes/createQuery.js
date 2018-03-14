@@ -97,7 +97,7 @@ exports.post = function (req, res, next) {
             const summ = Number(req.body.deal_amount);
             const currency = req.body.deal_currency;
             const commiss_buy = Math.round(Number(summ)*Number(tax.tax_in[currency])*100)/100;
-            const commiss_sell = Math.round(Number(summ)*Number(tax.tax_in[currency])*100)/100;
+            const commiss_sell = Math.round(Number(summ)*Number(tax.tax_out[currency])*100)/100;
 
             if(Boolean(Number(req.body.class))){        // (1 - пополнение)
 
@@ -178,7 +178,7 @@ exports.post = function (req, res, next) {
                                 query.bank_publicKey = req.body.bank_publicKey;
                                 query.amount = summ;
                                 query.commission_tax = Number(tax.tax_out[currency]);
-                                query.commission_summ = commiss_buy;
+                                query.commission_summ = commiss_sell;
                                 query.currency = bank.currency;
                                 query.currency_name = bank.currency_name;
                                 query.action = 'function()';
