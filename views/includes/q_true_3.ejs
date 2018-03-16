@@ -33,13 +33,13 @@
             <input type="hidden" name="price_currency" value="{{ curr2 }}">
         </p>
           <p>
-              <input class="w3-radio" type="radio" name="bank_cod" value="1" checked>
+              <input class="w3-radio" type="radio" name="bank_cod" ng-model="bank_cod" ng-change='newValue(bank_cod)' value="1" ng-checked="true">
               <label>QIWI</label>
-              <input class="w3-radio" type="radio" name="bank_cod" value="2">
+              <input class="w3-radio" type="radio" name="bank_cod" ng-model="bank_cod" ng-change='newValue(bank_cod)' value="2">
               <label>Яндекс.Деньги</label>
           </p>
         <p>
-            <label class="w3-tag w3-green">Комиcсия</label>
+            <label class="w3-tag w3-green">{{ tax_text }}</label>
             <input class="w3-input w3-text-yellow" ng-disabled="true" type="text" name="commiss_buy" value="{{commission_buy | number:2}}">
         </p>
           <p>
@@ -97,14 +97,23 @@
         $scope.curr1 = Curr[<%= inc.curr %>];
         $scope.dt1 = [];
         $scope.commission_buy = 0;
+        $scope.tax_text='Комиссия '+tax+'%:';
+        $scope.newValue = function(value) {
+            if(value==1){
+                $scope.tax_text='Комиссия '+tax+'%:';
+            } else {
+                $scope.tax_text='Комиссия '+tax+'% (без учета комиссии Yandex):';
+            }
+        };
         $scope.change_buy_rub = function () {
             $scope.commission_buy = Math.round(Number($scope.deal_amount_buy_rub)*tax/100);
             $scope.deal_amount_buy_curr = Math.round((Number($scope.deal_amount_buy_rub)- Number($scope.deal_amount_buy_rub)*tax/100));
         };
         $scope.change_buy_curr = function () {
             $scope.deal_amount_buy_rub = Math.round((Number($scope.deal_amount_buy_curr)+ Number($scope.deal_amount_buy_curr)*tax/100));
-            $scope.commission_buy = Math.round(Number($scope.deal_amount_buy_curr)**tax/100);
+            $scope.commission_buy = Math.round(Number($scope.deal_amount_buy_curr)*tax/100);
         };
+
     });
     //]]>
 </script>
