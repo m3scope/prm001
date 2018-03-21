@@ -35,7 +35,7 @@ exports.post = function (req, res, next) {
                 //res.render('info', {infoTitle: '<div class="w3-green">Успех!</div>', infoText: 'Операция успешно отменена!', url: '/profile', title: 'Запрос отменен', user: user, LoginRegister: LoginRegister});
             } else {
                 LoginRegister = '<b><a href="/profile">Профиль</a>&nbsp;&nbsp;<a href="/logout">Выход</a></b>';
-                //res.render('createbank', {title: 'Создать Банковский счет', user: user, LoginRegister: LoginRegister});
+                //res.render('createBank', {title: 'Создать Банковский счет', user: user, LoginRegister: LoginRegister});
 
                 const bank = new Bank;
                 bank.dealerId = user._id;
