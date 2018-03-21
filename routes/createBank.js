@@ -16,7 +16,7 @@ exports.get = function (req, res, next) {
         loadUser.findID(req.session.user, function (err, user) {
             LoginRegister = '<b><a href="/profile">Профиль</a>&nbsp;&nbsp;<a href="/logout">Выход</a></b>';
 
-            res.render('createbank', {title: 'Создать Банковский счет', user: user, LoginRegister: LoginRegister});
+            res.render('createBank', {title: 'Создать Банковский счет', user: user, LoginRegister: LoginRegister});
         });
     }
 
