@@ -247,6 +247,9 @@ router.get('/deals/:id?', function (req, res) {
     let UserBalance = [0,0,0,0,0];
     let infoText = {txt:'<i>Внимание! Сервис работает в тестовом режиме. Об ошибках сообщать в <a href="mailto:support@prizmex.ru">Тех.поддержка</a></i><p>Для полноценного участия в обмене - необходимо зарегистрироваться</p>', sign:'Администрация'};
     if(req.session.user){
+        req.session.reload(function(err) {
+            // session updated
+        });
         User.findById(req.session.user, function (err, user) {
             infoText.txt = 'Внимание! Сервис работает в тестовом режиме. Об ошибках сообщать в <a href="mailto:support@prizmex.ru">Тех.поддержка</a>';
             UserBalance = [0,Math.round(user.PZM*100)/100,Math.round(user.USD*100)/100,Math.round(user.RUR*100)/100];
