@@ -17,8 +17,8 @@ const bankSchema = new mongoose.Schema({
     currency: {type: Number, default: 0},  // Код (число) валюты (1 - PZM, 2 - USD, 3 - RUR)
     currency_name: String,                  // Наименование валюты ['','PZM','USD','RUR']
 
-    summ_transactions: {type: Number, default: 190000},       // сумма дневных транзакций
-    summ_all: {type:Number, default: 50000},                // сумма хранения
+    summ_transactions: {type: Number, default: 0},       // сумма дневных транзакций
+    summ_all: {type:Number, default: 0},                // сумма хранения
 
     summ_trans_current: {type: Number, default: 190000},       // сумма дневных транзакций текущая
     summ_all_current: {type:Number, default: 50000},                // сумма хранения текущая
