@@ -25,13 +25,13 @@ router.get('/', function(req, res, next) {
 
     let LoginRegister = '<b><a href="/login">Вход</a> </b>';
     let UserBalance = [0,0,0,0,0];
-    let infoText = {txt:'<i>Внимание! Сервис работает в тестовом режиме. Об ошибках сообщать в <a href="mailto:support@prizmex.ru">Тех.поддержка</a></i><p>Для полноценного участия в обмене - необходимо зарегистрироваться</p>', sign:'Администрация'};
+    let infoText = {txt:'<i>Внимание! Об ошибках сообщать в support@prizmex.ru</i><p>Для полноценного участия в обмене - необходимо зарегистрироваться</p>', sign:'Администрация'};
     if(req.session.user){
         req.session.reload(function(err) {
             // session updated
         });
         User.findById(req.session.user, function (err, user) {
-            infoText.txt = 'Внимание! Сервис работает в тестовом режиме. Об ошибках сообщать в <a href="mailto:support@prizmex.ru">Тех.поддержка</a>';
+            infoText.txt = 'Внимание! Об ошибках сообщать в support@prizmex.ru';
             UserBalance = [0,Math.round(user.PZM*100)/100,Math.round(user.USD*100)/100,Math.round(user.RUR*100)/100];
             LoginRegister = '<b><a href="/profile" class="w3-button w3-border w3-border-white w3-round">'+req.session.username+'</a>&nbsp;&nbsp;<a href="/logout" class="w3-button w3-border w3-border-white w3-round">Выход</a></b>' +
                 '<div class="w3-right-align w3-small">' +
@@ -248,13 +248,13 @@ router.get('/deals/:id?', function (req, res) {
 
     let LoginRegister = '<b><a href="/login">Вход</a> </b>';
     let UserBalance = [0,0,0,0,0];
-    let infoText = {txt:'<i>Внимание! Сервис работает в тестовом режиме. Об ошибках сообщать в <a href="mailto:support@prizmex.ru">Тех.поддержка</a></i><p>Для полноценного участия в обмене - необходимо зарегистрироваться</p>', sign:'Администрация'};
+    let infoText = {txt:'<i>Внимание! Об ошибках сообщать в support@prizmex.ru</i><p>Для полноценного участия в обмене - необходимо зарегистрироваться</p>', sign:'Администрация'};
     if(req.session.user){
         req.session.reload(function(err) {
             // session updated
         });
         User.findById(req.session.user, function (err, user) {
-            infoText.txt = 'Внимание! Сервис работает в тестовом режиме. Об ошибках сообщать в <a href="mailto:support@prizmex.ru">Тех.поддержка</a>';
+            infoText.txt = 'Внимание! Об ошибках сообщать в support@prizmex.ru';
             UserBalance = [0,Math.round(user.PZM*100)/100,Math.round(user.USD*100)/100,Math.round(user.RUR*100)/100];
             LoginRegister = '<b><a href="/profile" class="w3-button w3-border w3-border-white w3-round">'+req.session.username+'</a>&nbsp;&nbsp;<a href="/logout" class="w3-button w3-border w3-border-white w3-round">Выход</a></b>' +
                 '<div class="w3-right-align w3-small">' +
