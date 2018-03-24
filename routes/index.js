@@ -31,7 +31,7 @@ router.get('/', function(req, res, next) {
             // session updated
         });
         User.findById(req.session.user, function (err, user) {
-            infoText.txt = 'Внимание! Об ошибках сообщать в support@prizmex.ru';
+            infoText.txt = 'Внимание! Об ошибках сообщать на support@prizmex.ru';
             UserBalance = [0,Math.round(user.PZM*100)/100,Math.round(user.USD*100)/100,Math.round(user.RUR*100)/100];
             LoginRegister = '<b><a href="/profile" class="w3-button w3-border w3-border-white w3-round">'+req.session.username+'</a>&nbsp;&nbsp;<a href="/logout" class="w3-button w3-border w3-border-white w3-round">Выход</a></b>' +
                 '<div class="w3-right-align w3-small">' +
@@ -254,7 +254,7 @@ router.get('/deals/:id?', function (req, res) {
             // session updated
         });
         User.findById(req.session.user, function (err, user) {
-            infoText.txt = 'Внимание! Об ошибках сообщать в support@prizmex.ru';
+            infoText.txt = 'Внимание! Об ошибках сообщать на support@prizmex.ru';
             UserBalance = [0,Math.round(user.PZM*100)/100,Math.round(user.USD*100)/100,Math.round(user.RUR*100)/100];
             LoginRegister = '<b><a href="/profile" class="w3-button w3-border w3-border-white w3-round">'+req.session.username+'</a>&nbsp;&nbsp;<a href="/logout" class="w3-button w3-border w3-border-white w3-round">Выход</a></b>' +
                 '<div class="w3-right-align w3-small">' +
