@@ -98,7 +98,7 @@ exports.post = function (req, res, next) {
             if(Number(req.body.bank_cod) < 1){ //вывод призм, расчет комиссии системы на вывод
                 commiss_sell = 0.05;
                 if(summ > 10){
-                    commiss_sell = Math.round(Number(summ)*0.5/100);
+                    commiss_sell = Math.round(Number(summ)*0.5)/100;
                     if(commiss_sell>10){
                         commiss_sell = 10;
                     }

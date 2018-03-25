@@ -73,13 +73,13 @@
         $scope.commission_sell = 0;
         $scope.change_sell_rub = function () {
             if(Number($scope.deal_amount_sell_rub) > 10){
-                tax_summ = Math.round(Number($scope.deal_amount_sell_rub)*0.5/100);
+                tax_summ = Math.round(Number($scope.deal_amount_sell_rub)*0.5)/100;
                 if(tax_summ>10){
                     tax_summ = 10;
                 }
             }
             $scope.commission_sell = tax_summ;
-            $scope.deal_amount_sell_curr = Math.round((Number($scope.deal_amount_sell_rub)- tax_summ));
+            $scope.deal_amount_sell_curr = Math.round((Number($scope.deal_amount_sell_rub)- tax_summ)*100)/100;
         };
         $scope.change_sell_curr = function () {
             $scope.deal_amount_sell_rub = Math.round((Number($scope.deal_amount_sell_curr)+ Number($scope.deal_amount_sell_curr)*tax/100));
