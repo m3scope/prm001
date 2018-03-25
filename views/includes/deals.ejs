@@ -176,7 +176,7 @@
         $scope.curr1 = Curr[<%= deals.curr1 %>];
         $scope.curr2 = Curr[<%= deals.curr2 %>];
         $scope.dt1 = [];
-        $scope.minPrice = minPrice;
+        $scope.minPrice = Math.round(minPrice*100)/100;
         $scope.commission_buy = 0;
         $scope.summ_buy = 0;
         $scope.data = {disabled_buy: true};
@@ -219,7 +219,7 @@
         $scope.curr1 = Curr[<%= deals.curr1 %>];
         $scope.curr2 = Curr[<%= deals.curr2 %>];
         $scope.dt2 = [];
-        $scope.maxPrice = maxPrice;
+        $scope.maxPrice = Math.round(maxPrice*100)/100;
         $scope.commission_sell = 0;
         $scope.summ_sell = 0;
         $scope.data = {disabled_sell:true};
