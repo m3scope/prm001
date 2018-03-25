@@ -116,7 +116,7 @@ exports.post = function (req, res, next) {
                         if(bank){
 
                             //********** QUERY ******
-                            query.data = {bank_cod: bank.bank_cod, cod: cod, deal_amount: summ, deal_currency: bank.currency, price_amount: req.body.price_amount, price_currency: req.body.price_currency, commiss_buy: commiss_buy};
+                            query.data = {bank_cod: bank.bank_cod, cod: cod, deal_amount: summ, deal_currency: bank.currency, price_amount: req.body.price_amount, price_currency: req.body.price_currency, commission_summ: commiss_buy};
                             query.userId = user._id;
                             query.dealerId = bank.dealerId;
                             query.bankId = bank._id;
