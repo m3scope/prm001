@@ -5,6 +5,7 @@ const Query = require('../models/query');
 const Deal = require('../models/deal');
 const Bill = require('../models/bill');
 const db_bills = require('../libs/db_bills');
+const Bank = require('../models/bank');
 const Curr = {
     'RUR' : [3,'/deals/1;3','/deals/2;3'],
     'USD' : [2,'/deals/1;2','','/deals/2;3'],
@@ -73,11 +74,27 @@ exports.get = function (req, res, next) {
                                             qq.status = 4;
                                         }
                                         qq.save();
+                                        Bank.findById(qq.bankId, function (err, bank) {
+                                            if(err) {
+                                                console.error(err);
+                                            } else {
+                                                if(bank) {
+                                                    //********** BANK *******
+                                                    // bank.summ_trans_current = Number(bank.summ_trans_current)-summ;
+                                                    // bank.summ_all_current = Number(bank.summ_all_current)-summ;
+                                                    bank.summ_transactions =Number( bank.summ_transactions)-summ;
+                                                    bank.summ_all = Number(bank.summ_all)-summ;
+                                                    //bank.rounds = Number(bank.rounds) + 20;
+                                                    bank.save();
+                                                    //---------------------
+                                                }
+                                            }
+                                        });
                                         res.render('info', {
                                             infoTitle: '<div class="w3-green">Успех!</div>',
                                             infoText: 'Операция успешно выполнена!',
                                             url: '/profile',
-                                            title: 'Запрос подтвержден',
+                                            title: 'Запрос отменен...',
                                             user: user,
                                             LoginRegister: LoginRegister
                                         });
@@ -107,7 +124,7 @@ exports.get = function (req, res, next) {
                                             infoTitle: '<div class="w3-green">Успех!</div>',
                                             infoText: 'Операция успешно выполнена!',
                                             url: '/profile',
-                                            title: 'Запрос подтвержден',
+                                            title: 'Запрос отменен...',
                                             user: user,
                                             LoginRegister: LoginRegister
                                         });
