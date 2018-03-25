@@ -131,7 +131,7 @@ exports.post = function (req, res, next) {
                             query.currency_name = bank.currency_name;
                             query.action = 'function()';
                             query.cod = cod;
-                            query.info = 'Переведите '+summ + 'р. на номер '+bank.bank_number+ ' '+bank.bank_name;
+                            query.info = 'Переведите '+summ +' '+bank.currency_name+ ' на номер '+bank.bank_number+ ' '+bank.bank_name;
                             query.comment = '<h3><span class="w3-text-red">В комментарии к переводу вставьте код: </span></h3><h1><b>'+cod+'</b></h1>';
                             query.class = req.body.class;
                             query.save(function (err, saved_Q) {
@@ -189,7 +189,7 @@ exports.post = function (req, res, next) {
                                 query.currency_name = bank.currency_name;
                                 query.action = 'function()';
                                 query.cod = cod;
-                                query.info = 'Подтвердите вывод ' + req.body.deal_amount + 'р. на номер ' + bank.bank_number + ' ' + bank.bank_name;
+                                query.info = 'Подтвердите вывод ' + req.body.deal_amount +' '+bank.currency_name+ ' на номер ' + bank.bank_number + ' ' + bank.bank_name;
                                 query.comment = '<span class="w3-text-yellow">Средства к получению: ' + (summ - Number(commiss_sell)) + '</span>';
                                 query.class = req.body.class;
                                 query.save(function (err, saved_Q) {
