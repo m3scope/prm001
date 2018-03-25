@@ -30,7 +30,7 @@
                     <input type="hidden" name="price_currency" value="{{ curr2 }}">
                 </p>
                 <p>
-                    <label class="w3-tag w3-green">Комиcсия</label>
+                    <label class="w3-tag w3-green">Комиcсия системы PRIZM</label>
                     <input class="w3-input w3-text-yellow" ng-disabled="true" type="text" name="commiss_sell" value="{{commission_sell | number:2}}">
                 </p>
                 <p>
@@ -64,15 +64,22 @@
     //<![CDATA[
     let myApp = angular.module('myApp',[]);
     let nm = {};
-    let tax = <%= inc.tax %>
+    let tax = <%= inc.tax %>;
+    let tax_summ = 0.05;
     const Curr = ['','PZM','USD','RUR'];
     myApp.controller('MainCtrl', function($scope) {
         $scope.curr1 = Curr[<%= inc.curr %>];
         $scope.dt1 = [];
         $scope.commission_sell = 0;
         $scope.change_sell_rub = function () {
-            $scope.commission_sell = Math.round(Number($scope.deal_amount_sell_rub)*tax/100);
-            $scope.deal_amount_sell_curr = Math.round((Number($scope.deal_amount_sell_rub)- Number($scope.deal_amount_sell_rub)*tax/100));
+            if(Number($scope.deal_amount_sell_rub) > 10){
+                tax_summ = Math.round(Number($scope.deal_amount_sell_rub)*0.5/100);
+                if(tax_summ>10){
+                    tax_summ = 10;
+                }
+            }
+            $scope.commission_sell = tax_summ;
+            $scope.deal_amount_sell_curr = Math.round((Number($scope.deal_amount_sell_rub)- tax_summ));
         };
         $scope.change_sell_curr = function () {
             $scope.deal_amount_sell_rub = Math.round((Number($scope.deal_amount_sell_curr)+ Number($scope.deal_amount_sell_curr)*tax/100));

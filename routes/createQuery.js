@@ -93,7 +93,17 @@ exports.post = function (req, res, next) {
             const summ = Number(req.body.deal_amount);
             const currency = req.body.deal_currency;
             const commiss_buy = Math.round(Number(summ)*Number(tax.tax_in[currency])/100);
-            const commiss_sell = Math.round(Number(summ)*Number(tax.tax_out[currency])/100);
+            let commiss_sell = Math.round(Number(summ)*Number(tax.tax_out[currency])/100);
+
+            if(Number(req.body.bank_cod) < 1){ //вывод призм, расчет комиссии системы на вывод
+                commiss_sell = 0.05;
+                if(summ > 10){
+                    commiss_sell = Math.round(Number(summ)*0.5/100);
+                    if(commiss_sell>10){
+                        commiss_sell = 10;
+                    }
+                }
+            }
 
             if(Boolean(Number(req.body.class))){        // (1 - пополнение)
 
@@ -163,7 +173,7 @@ exports.post = function (req, res, next) {
                                     deal_currency: req.body.deal_currency,
                                     price_amount: req.body.price_amount,
                                     price_currency: req.body.price_currency,
-                                    commiss_buy: commiss_sell
+                                    commission_summ: commiss_sell
                                 };
                                 query.userId = req.session.user;
                                 query.dealerId = bank.dealerId;
