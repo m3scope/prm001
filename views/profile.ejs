@@ -244,10 +244,11 @@ let clors=['w3-orange','w3-cyan'];
     </div>
     <div class="w3-col " ng-controller="CtrlQuerys2">
       <div class="">
+          <% if(user.userQExec.length>0) {%>
         <div class="w3-container w3-teal">
           <h5>Запросы к исполнению</h5>
         </div>
-          <% if(user.userQExec.length>0) {%>
+
         <table class="w3-table-all w3-small w3-striped w3-hoverable">
           <tr  class="w3-green">
             <th>Валюта</th>
