@@ -58,7 +58,7 @@ exports.get = function (req, res, next) {
                                 console.log(text);
                                 sndMail(user.email, 0, text);
                                 //res.send({});
-                                res.render('info', {infoTitle: '<div class="w3-green">Успех!</div>', infoText: 'Проверьте свою почту и перейдите по ссылке!', url: '/', title: 'Подтверждение e-mail!', user: {}, LoginRegister: '<b></b>'});
+                                res.render('info', {infoTitle: '<div class="w3-green">Успех!</div>', infoText: 'Проверьте свою почту и перейдите по ссылке! (ПРОВЕРЬТЕ ПАПКУ СПАМ!!!)', url: '/', title: 'Подтверждение e-mail!', user: {}, LoginRegister: '<b></b>'});
                             }
                         }
 
@@ -67,8 +67,21 @@ exports.get = function (req, res, next) {
                 }
                 break;
 
-            case '':
+            case 'email':
+                db_email.findOne({token: params[1]}, function (err, eml) {
+                    if(err){
+                        console.error(err);
+                    }
+                    if(eml){
+                        User.findByIdAndUpdate(eml.user_id,{email_confirmed: true}, function (err,user) {
+                            res.render('info', {infoTitle: '<div class="w3-green">Успех!</div>', infoText: 'Ваш e-mail подтвержден!', url: '/', title: 'e-mail подтвержден!', user: {}, LoginRegister: '<b></b>'});
 
+                        });
+                    } else {
+                        res.render('info', {infoTitle: '<div class="w3-red">Ошибка!</div>', infoText: 'E-mail не найден!', url: '/', title: 'Запрос отклонен!', user: {}, LoginRegister: '<b></b>'});
+
+                    }
+                });
                 break;
 
             default:
