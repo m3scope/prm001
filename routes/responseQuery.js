@@ -285,9 +285,20 @@ exports.post = function (req, res, next) {
                                                 res.render('info', {infoTitle: '<div class="w3-red">Ошибка!</div>', infoText: 'User not found! UID: '+qqsaved.UID, url: '/profile', title: 'Запрос подтвержден', user: user, LoginRegister: LoginRegister});
                                             } else {
                                                 if(userr){
-                                                    if(qqsaved.class == 1){
+                                                    if(qqsaved.class == 1){     // пополнение баланса
                                                         userr[qqsaved.currency_name] = Number(userr[qqsaved.currency_name])+Number(qqsaved.amount)-Number(qqsaved.commission_summ);
                                                         userr.save();
+                                                        //******** СПИСАНИЕ КОМИССИИ
+                                                        let newTrans3 = new TransactionQuery;
+                                                        newTrans3.sort = 3;
+                                                        newTrans3.sortName = 'списание комиссии';
+                                                        newTrans3.queryId = qqsaved._id;
+                                                        newTrans3.userId = qqsaved.userId;
+                                                        newTrans3.currency = qqsaved.currency;
+                                                        newTrans3.amount = qqsaved.commission_summ;
+                                                        newTrans3.up_down = true;
+                                                        newTrans3.save();
+                                                    } else {
                                                         //******** СПИСАНИЕ КОМИССИИ
                                                         let newTrans3 = new TransactionQuery;
                                                         newTrans3.sort = 3;
