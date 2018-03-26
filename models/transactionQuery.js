@@ -20,7 +20,7 @@ const mongoose = require('../libs/mongoose');
 const crypto = require('crypto'); // модуль node.js для выполнения различных шифровальных операций, в т.ч. для создания хэшей.
 //const User = require('./user');
 
-const transactionSchema = new mongoose.Schema({
+const TransactionQuerySchema = new mongoose.Schema({
     UID: {type: String, default: Date.now().toString()},
     queryId: { type: mongoose.Schema.ObjectId, ref: 'Query', required: true },       // ID счета (bill), основание для транзакции
     userId: { type: mongoose.Schema.ObjectId, ref: 'User', required: true },     // Id пользователя создавшего транзакцию
@@ -34,6 +34,6 @@ const transactionSchema = new mongoose.Schema({
     timestamps: true
 });
 
-const Transaction = mongoose.model('Transaction', transactionSchema);
+const TransactionQuery = mongoose.model('TransactionQuery', TransactionQuerySchema);
 
-module.exports = Transaction;
+module.exports = TransactionQuery;

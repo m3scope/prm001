@@ -30,7 +30,7 @@ exports.get = function(req, res){
                                     console.error(err);
                                     res.render('info', {infoTitle: '<div class="w3-red">Ошибка!</div>', infoText: 'Внутренняя ошибка!', url: '/', title: 'Отмена ордера', user: user, LoginRegister: LoginRegister});
                                 } else {
-                                    if(Boolean(deal.class)){        // покупка
+                                    if(deal.class == 1){        // покупка
                                         //const amount = deal.summ_bill
                                         user[Curr[deal.price_currency][0]] = user[Curr[deal.price_currency][0]] + deal.summ_bill;
                                         user[Curr[deal.price_currency][1]] = user[Curr[deal.price_currency][1]] - deal.summ_bill;

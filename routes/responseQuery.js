@@ -6,7 +6,7 @@ const Deal = require('../models/deal');
 const Bill = require('../models/bill');
 const db_bills = require('../libs/db_bills');
 const Bank = require('../models/bank');
-const Transaction = require('../models/transaction');
+const TransactionQuery = require('../models/transactionQuery');
 const Curr = {
     'RUR' : [3,'/deals/1;3','/deals/2;3'],
     'USD' : [2,'/deals/1;2','','/deals/2;3'],
@@ -83,8 +83,8 @@ exports.get = function (req, res, next) {
                                                     //********** BANK *******
                                                     // bank.summ_trans_current = Number(bank.summ_trans_current)-summ;
                                                     // bank.summ_all_current = Number(bank.summ_all_current)-summ;
-                                                    bank.summ_transactions =Number( bank.summ_transactions)-summ;
-                                                    bank.summ_all = Number(bank.summ_all)-summ;
+                                                    bank.summ_transactions =Number( bank.summ_transactions)-Number(qq.amount);
+                                                    bank.summ_all = Number(bank.summ_all)-Number(qq.amount);
                                                     //bank.rounds = Number(bank.rounds) + 20;
                                                     bank.save();
                                                     //---------------------
@@ -271,6 +271,16 @@ exports.post = function (req, res, next) {
                                                     if(qqsaved.class == 1){
                                                         userr[qqsaved.currency_name] = Number(userr[qqsaved.currency_name])+Number(qqsaved.amount)-Number(qqsaved.commission_summ);
                                                         userr.save();
+                                                        //******** СПИСАНИЕ КОМИССИИ
+                                                        let newTrans3 = new TransactionQuery;
+                                                        newTrans3.sort = 3;
+                                                        newTrans3.sortName = 'списание комиссии';
+                                                        newTrans3.queryId = qqsaved._id;
+                                                        newTrans3.userId = qqsaved.userId;
+                                                        newTrans3.currency = qqsaved.currency;
+                                                        newTrans3.amount = qqsaved.commission_summ;
+                                                        newTrans3.up_down = false;
+                                                        newTrans3.save();
                                                     }
                                                     res.render('info', {infoTitle: '<div class="w3-green">Успех!</div>', infoText: 'Операция успешно выполнена!', url: '/profile', title: 'Запрос подтвержден', user: user, LoginRegister: LoginRegister});
                                                 } else {
