@@ -11,12 +11,17 @@
                 <div class="w3-panel w3-card-4 w3-pale-yellow">
                     <p class=" w3-large w3-serif">
                         <i class="fa fa-quote-right w3-xxlarge w3-text-red"></i><br>
+                    <ul>
+                        <li>
+                            Минимальная сумма к пополнению не менее 5 PZM.
+                        </li>
+                    </ul>
                     </p>
                 </div>
                 <input type="hidden" name="class" value="1">
                 <p>
                     <span class="w3-tag w3-green">PZM</span>
-                    <input class="w3-input" type="number" value="0" step="any" name="deal_amount" required ng-model="deal_amount_buy_rub" >
+                    <input class="w3-input" type="number" min="5" value="0" step="any" name="deal_amount" required ng-model="deal_amount_buy_rub" >
                     <input type="hidden" name="deal_currency" value="{{ curr1 }}">
                 </p>
 

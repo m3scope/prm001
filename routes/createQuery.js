@@ -95,6 +95,10 @@ exports.post = function (req, res, next) {
             const commiss_buy = Math.round(Number(summ)*Number(tax.tax_in[currency])/100);
             let commiss_sell = Math.round(Number(summ)*Number(tax.tax_out[currency])/100);
 
+            const bank_cod = Number(req.body.bank_cod);
+
+
+
             if(Number(req.body.bank_cod) < 1){ //вывод призм, расчет комиссии системы на вывод
                 commiss_sell = 0.05;
                 if(summ > 10){
