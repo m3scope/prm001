@@ -297,6 +297,8 @@ router.post('/api/q/req/:id?', checkAuth, noCache, require('./createQuery').post
 
 router.get('/api/q/deal/:id', checkAuth, noCache, require('./q_deal').get);
 
+router.get('/confirmed/:id', noCache, require('./confirmed').get);
+
 //----------------------------------------------
 
 router.get('/:id', function (req, res) {

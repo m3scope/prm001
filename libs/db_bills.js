@@ -21,7 +21,7 @@ function updUserBalance(userId, addCurr, addSum, deductCurr, deductSumm) {
             console.log(new Error('User not found!!!'))
         } else {
             user[Curr[addCurr]] = user[Curr[addCurr]] + addSum;
-            user[rezCurr[deductCurr]] = user[rezCurr[deductCurr]] - deductSumm;
+            //user[rezCurr[deductCurr]] = user[rezCurr[deductCurr]] - deductSumm;
             user.save();
         }
 
@@ -194,6 +194,7 @@ async function cr_Bill(dealID, deal_amount, deal2Id) {
                 dealOne.bills.push({billId: savedGeneralBill._id});
                 dealOne.summ_bill = dealOne.summ_bill - savedGeneralBill.summ;
                 if(Boolean(dealOne.class)){
+                    //User.findByIdAndUpdate()
                     updUserBalance(savedGeneralBill.dealerGeneralId, savedGeneralBill.deal_currency, savedGeneralBill.deal_amount - savedGeneralBill.commission_summ, savedGeneralBill.price_currency, savedGeneralBill.summ);
                     if(dealOne.status == 9 && dealOne.summ_bill > 0){
                         updUserBalance(dealOne.dealerId, dealOne.price_currency, dealOne.summ_bill, dealOne.price_currency, dealOne.summ_bill);

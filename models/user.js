@@ -78,6 +78,7 @@ const userSchema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
+    email_token: {type: String, default: null},
     passwordHash: String,
     salt: String
 }, {

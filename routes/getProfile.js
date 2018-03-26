@@ -1,8 +1,10 @@
 const loadUser = require("../libs/loadUser");
 //const Deal = require('../models/deal');
+const sndMail = require('../libs/sndMail').sndMail;
 const db_deals = require('../libs/db_deals');
 const db_bills = require('../libs/db_bills');
 const db_querys = require('../libs/db_querys');
+const email = require('../models/email').Email;
 
 function formatDate(dt, cb) {
     const today = new Date();

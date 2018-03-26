@@ -46,6 +46,10 @@ let clors=['w3-orange','w3-cyan'];
         </div>
           <form action="/profile" method="post" class="w3-container">
             <p>
+              <span class="w3-input w3-border" ><%= user.UID%></span>
+              <span class="w3-tag w3-green">UID</span>
+            </p>
+            <p>
               <span class="w3-input w3-border" ><%= user.username%></span>
               <span class="w3-tag w3-green">Login</span>
             </p>
@@ -54,13 +58,15 @@ let clors=['w3-orange','w3-cyan'];
               <span class="w3-tag w3-green">Имя пользователя</span>
             </p>
             <p>
-              <span class="w3-input w3-border" ><%= user.email%><% if(user.email_confirmed){%>
-                <span class="w3-badge w3-green">&nbsp;</span>
-                  <%} else {%>
-                <span class="w3-badge w3-red">&nbsp;</span>
-                  <%}%>
+              <span class="w3-input w3-border" ><%= user.email%>
               </span>
+                <% if(user.email_confirmed){%>
               <span class="w3-tag w3-green">e-mail</span>
+                <%} else {%>
+                  <span class="w3-tag w3-red">e-mail</span>
+                <% if(user.email_token){%><span class="w3-tag">Подтвердите e-mail из письма</span><%} else {%><span class="w3-tag"><a href="/confirmed/sendconfirmedemail">подтвердить</a></span> <%}%>
+                <%}%>
+
             </p>
 
           </form>
