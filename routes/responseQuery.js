@@ -6,6 +6,7 @@ const Deal = require('../models/deal');
 const Bill = require('../models/bill');
 const db_bills = require('../libs/db_bills');
 const Bank = require('../models/bank');
+const Transaction = require('../models/transaction');
 const Curr = {
     'RUR' : [3,'/deals/1;3','/deals/2;3'],
     'USD' : [2,'/deals/1;2','','/deals/2;3'],
