@@ -67,30 +67,47 @@ exports.get = function (req, res, next) {
                                 if (qq) {
                                     //console.log(qq);
                                     if (qq.status == 0) {
-                                        if (qq.class == 0) {
+                                        if (qq.class == 0) {    //Вывод средств
                                             qq.status = 4;
                                             user[qq.currency_name] = Number(user[qq.currency_name]) + Number(qq.amount);
                                             user.save();
-                                        } else {
+                                            Bank.findById(qq.bankId, function (err, bank) {
+                                                if(err) {
+                                                    console.error(err);
+                                                } else {
+                                                    if(bank) {
+                                                        //********** BANK *******
+                                                         bank.summ_trans_current = Number(bank.summ_trans_current)-Number(qq.amount);
+                                                         bank.summ_all_current = Number(bank.summ_all_current)-Number(qq.amount);
+                                                        bank.summ_transactions =Number( bank.summ_transactions)+Number(qq.amount);
+                                                        bank.summ_all = Number(bank.summ_all)+Number(qq.amount);
+                                                        //bank.rounds = Number(bank.rounds) + 20;
+                                                        bank.save();
+                                                        //---------------------
+                                                    }
+                                                }
+                                            });
+                                        } else {    // отмена пополнения
                                             qq.status = 4;
+                                            Bank.findById(qq.bankId, function (err, bank) {
+                                                if(err) {
+                                                    console.error(err);
+                                                } else {
+                                                    if(bank) {
+                                                        //********** BANK *******
+                                                        bank.summ_trans_current = Number(bank.summ_trans_current)-Number(qq.amount);
+                                                        bank.summ_all_current = Number(bank.summ_all_current)-Number(qq.amount);
+                                                        bank.summ_transactions =Number( bank.summ_transactions)-Number(qq.amount);
+                                                        bank.summ_all = Number(bank.summ_all)-Number(qq.amount);
+                                                        //bank.rounds = Number(bank.rounds) + 20;
+                                                        bank.save();
+                                                        //---------------------
+                                                    }
+                                                }
+                                            });
                                         }
                                         qq.save();
-                                        Bank.findById(qq.bankId, function (err, bank) {
-                                            if(err) {
-                                                console.error(err);
-                                            } else {
-                                                if(bank) {
-                                                    //********** BANK *******
-                                                    // bank.summ_trans_current = Number(bank.summ_trans_current)-summ;
-                                                    // bank.summ_all_current = Number(bank.summ_all_current)-summ;
-                                                    bank.summ_transactions =Number( bank.summ_transactions)-Number(qq.amount);
-                                                    bank.summ_all = Number(bank.summ_all)-Number(qq.amount);
-                                                    //bank.rounds = Number(bank.rounds) + 20;
-                                                    bank.save();
-                                                    //---------------------
-                                                }
-                                            }
-                                        });
+
                                         res.render('info', {
                                             infoTitle: '<div class="w3-green">Успех!</div>',
                                             infoText: 'Операция успешно выполнена!',
