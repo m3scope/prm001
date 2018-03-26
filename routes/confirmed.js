@@ -52,7 +52,7 @@ exports.get = function (req, res, next) {
                                 user.email_token = SL;
                                 //user.email.address = req.body.email;
                                 user.save();
-                                let text = 'http://prizmex.ru//confirmed/email;'+SL;
+                                let text = 'http://prizmex.ru/confirmed/email;'+SL;
                                 let new_email_token = db_email({user_id: user._id, email_address: user.email, text: text, token: SL});
                                 new_email_token.save();
                                 console.log(text);
