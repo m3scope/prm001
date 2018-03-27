@@ -13,11 +13,11 @@ const poolConfig = {
         pass: 'vfrcbvx4'
     }
 };
-const sendMailConfig = {
-    sendmail: true,
-    newline: 'unix',
-    path: '/usr/sbin/sendmail'
-};
+// const sendMailConfig = {
+//     sendmail: true,
+//     newline: 'unix',
+//     path: '/usr/sbin/sendmail'
+// };
 
 const smtpTransport = nodemailer.createTransport(poolConfig);
 
