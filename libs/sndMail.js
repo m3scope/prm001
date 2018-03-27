@@ -3,26 +3,23 @@
  */
 
 const nodemailer = require('nodemailer');
-// const poolConfig = {
-//     pool: true,
-//     host: 'smtp.yandex.ru',
-//     port: 465,
-//     secure: true, // use TLS
-//     auth: {
-//         user: 'support@prizmex.ru',
-//         pass: 'vfrcbvx4'
-//     }
-// };
+const poolConfig = {
+    pool: true,
+    host: 'smtp.yandex.ru',
+    port: 465,
+    secure: true, // use TLS
+    auth: {
+        user: 'support@prizmex.ru',
+        pass: 'vfrcbvx4'
+    }
+};
 const sendMailConfig = {
     sendmail: true,
     newline: 'unix',
     path: '/usr/sbin/sendmail'
 };
 
-const smtpTransport = nodemailer.createTransport("SMTP",
-    {
-        host: "localhost"
-    });
+const smtpTransport = nodemailer.createTransport(poolConfig);
 
 let mailOptions = {
     from: 'Тех.поддержка <support@prizmex.ru>' // sender address
