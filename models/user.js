@@ -79,6 +79,7 @@ const userSchema = new mongoose.Schema({
         default: false
     },
     email_token: {type: String, default: null},
+    ban: {type: Boolean, default: false},
     passwordHash: String,
     salt: String
 }, {
