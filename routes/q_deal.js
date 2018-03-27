@@ -24,7 +24,7 @@ exports.get = function(req, res){
                         res.render('info', {infoTitle: '<div class="w3-red">Ошибка!</div>', infoText: 'Внутренняя ошибка!', url: '/', title: 'Отмена ордера', user: user, LoginRegister: LoginRegister});
                     } else {
                         if(deal){
-                            if(deal.status == 1) {
+                            if(deal.status < 2) {
                                 deal.status = 3;
                                 deal.save(function (err, sdeal) {
                                     if (err) {
