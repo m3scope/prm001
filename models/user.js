@@ -17,7 +17,7 @@ const userSchema = new mongoose.Schema({
         // Мой любимй формат! ЗАПРЕТИТЬ НИЖНЕЕ ТИРЕ!
         unique:true // Оно должно быть уникальным
     },
-    UID: {type: String, default: Date.now().toString()},
+    UID: {type: String, default: ''},
     prizmaddress: {
         type: String,
     },

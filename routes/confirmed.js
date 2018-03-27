@@ -50,6 +50,7 @@ exports.get = function (req, res, next) {
                             } else {
                                 const SL = secretLine();
                                 user.email_token = SL;
+                                user.UID = new Date().now().toString();
                                 //user.email.address = req.body.email;
                                 user.save();
                                 let text = 'http://prizmex.ru/confirmed/email;'+SL;
