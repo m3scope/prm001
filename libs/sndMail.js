@@ -19,7 +19,10 @@ const sendMailConfig = {
     path: '/usr/sbin/sendmail'
 };
 
-const smtpTransport = nodemailer.createTransport(sendMailConfig);
+const smtpTransport = nodemailer.createTransport("SMTP",
+    {
+        host: "localhost"
+    });
 
 let mailOptions = {
     from: 'Тех.поддержка <support@prizmex.ru>' // sender address
