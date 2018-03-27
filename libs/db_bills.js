@@ -192,7 +192,7 @@ async function cr_Bill(dealID, deal_amount, deal2Id) {
                     //return cb(err, null, null);
                 }
                 dealOne.bills.push({billId: savedGeneralBill._id});
-                dealOne.summ_bill = dealOne.summ_bill - savedGeneralBill.summ;
+                //dealOne.summ_bill = dealOne.summ_bill - savedGeneralBill.summ;
                 if(Boolean(dealOne.class)){
                     //User.findByIdAndUpdate()
                     updUserBalance(savedGeneralBill.dealerGeneralId, savedGeneralBill.deal_currency, savedGeneralBill.deal_amount - savedGeneralBill.commission_summ, savedGeneralBill.price_currency, savedGeneralBill.summ);
@@ -215,7 +215,7 @@ async function cr_Bill(dealID, deal_amount, deal2Id) {
                         //return cb(err, null, null);
                     }
                     dealTwo.bills.push({billId: savedTwoBill._id});
-                    dealTwo.summ_bill = dealTwo.summ_bill - savedTwoBill.summ;
+                    //dealTwo.summ_bill = dealTwo.summ_bill - savedTwoBill.summ;
                     if(Boolean(dealTwo.class)){
 
                         updUserBalance(savedTwoBill.dealerGeneralId, savedTwoBill.deal_currency, savedTwoBill.deal_amount - savedTwoBill.commission_summ, savedTwoBill.price_currency, savedTwoBill.summ);
@@ -250,17 +250,17 @@ async function BillsFromDeal(dealId){  // получаем объект    //(de
     let rez = 0;
     let price_amount = {};
     let sorts = {};
-    let generalDeal = await Deal.findOne({_id: dealId});
+    let generalDeal = await Deal.findOne({_id: dealId}); // находим сделку
 
     if(Math.abs(generalDeal.class*1)) {     // 1 - покупка
         price_amount = {$lte: generalDeal.price_amount};
         sorts = {price_amount: 1, createdAt: 1};
-    } else {
+    } else {                                // ПРОДАЖА
         price_amount = {$gte: generalDeal.price_amount};
         sorts = {price_amount: -1, createdAt: 1};
     }
 
-    let deals = await Deal.find({
+    let deals = await Deal.find({           // Нашли встречные предложения
         //dealerId: {$ne: generalDeal.dealerId},
         class: Math.abs(generalDeal.class * 1 - 1),
         price_amount: price_amount,
@@ -268,10 +268,11 @@ async function BillsFromDeal(dealId){  // получаем объект    //(de
     })
         .limit(100)
         .sort(sorts);
+
     let saldo = generalDeal.deal_amount_bill;
     let num = 0;
     let deal_amount_bill = 0;
-    for (let dealTwo of deals) {
+    for (let dealTwo of deals) {        // ПЕРЕБЕРАЕМ встречные предложения
         console.log('--------- SALDO --------------');
         console.log(''+saldo+' / '+ num);
         console.log(dealTwo);
@@ -285,20 +286,22 @@ async function BillsFromDeal(dealId){  // получаем объект    //(de
         }
 
         generalDeal.deal_amount_bill = generalDeal.deal_amount_bill - deal_amount_bill;
+        generalDeal.summ_bill = generalDeal.summ_bill - deal_amount_bill*dealTwo.price_amount;
         if(generalDeal.deal_amount_bill <= 0) {
             generalDeal.status = 9;
         }
         let savedGD = await generalDeal.save();
-        console.log('********** SAVEDS savedGD **************');
-        console.log(savedGD);
+        console.log('********** SAVEDS savedGD ONE **************');
+        //console.log(savedGD);
 
         dealTwo.deal_amount_bill = dealTwo.deal_amount_bill - deal_amount_bill;
+        dealTwo.summ_bill = dealTwo.summ_bill - deal_amount_bill*dealTwo.price_amount;
         if(dealTwo.deal_amount_bill <= 0) {
             dealTwo.status = 9;
         }
         let savedTD = await dealTwo.save();
-        console.log('********** SAVEDS savedTD **************');
-        console.log({GD: savedGD, TD: savedTD});
+        console.log('********** SAVEDS savedTD TWO**************');
+        //console.log({GD: savedGD, TD: savedTD});
 
         let crBils = await cr_Bill(generalDeal._id, deal_amount_bill, dealTwo._id);
         console.log('************ crBils');
