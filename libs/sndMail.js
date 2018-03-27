@@ -36,19 +36,22 @@ function sndMail(email, subj, text) {
             mailOptions.to = email;
             mailOptions.subject = subjs[subj];
             mailOptions.text = 'Уважаемый, пользователь сервиса PrizmEx.ru! \r\nДля подтверждения Вашего адреса электронной почты, необходимо перейти по следующей ссылке:\r\n'+text+'\r\n----------------------------------------\r\nСообщение отправлено автоматически. Пожалуйста, не отвечайте на него!\r\nЕсли Вы не являетесь пользователем сервиса PrizmEx.ru или письмо пришло Вам ошибочно, просто проигнорируйте его.';
-            if(subj === 0)
+            if(true)
             {
                 mailOptions.html = html_text;
 //                    mailOptions.text = "";
             }
-            smtpTransport.sendMail(mailOptions, function(error, response) {
+            smtpTransport.sendMail(mailOptions, function(error, info) {
                 if (error)
                 {
                     console.log(error);
                 }
                 else
                 {
-                    console.log('Message sent: ('+email+')' + response.message);
+                    //console.log('Message sent: ('+email+')' + response.message);
+                    console.log('Message sent: %s', info);
+                    // Preview only available when sending through an Ethereal account
+                    console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
                 }
                 // if you don't want to use this transport object anymore, uncomment following line
                 smtpTransport.close(); // shut down the connection pool, no more messages
