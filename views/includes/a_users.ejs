@@ -1,0 +1,53 @@
+
+<div class="w3-panel"></div>
+<div class="w3-row-padding" ng-app="myApp">
+  <!-- Left Column -->
+  <div class="w3-col s6" ng-controller="MainCtrl">
+    <div class="w3-card-4">
+      <div class="w3-container w3-teal">
+        <h5>Списое пользователей</h5>
+      </div>
+
+      <table class="w3-table-all w3-hoverable w3-card-4" >
+        <tr class="w3-green">
+          <th>UID</th>
+          <th class="w3-border-left">Имя</th>
+          <th class="w3-border-left">PZM</th>
+          <th class="w3-border-left">USD</th>
+          <th class="w3-border-left">RUR</th>
+        </tr>
+        <tr ng-repeat="dt in dt1" ng-click="setSelected();">
+          <td>{{ dt.UID }}</td>
+          <td class="w3-border-left">{{ dt.name_f }}</td>
+          <td class="w3-border-left">{{ dt.PZM }}</td>
+          <td class="w3-border-left">{{ dt.USD }}</td>
+          <td class="w3-border-left">{{ dt.RUR }}</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="w3-small w3-col s6">
+    <span>8.  Предупреждение о рисках</span>
+  </div>
+
+</div>
+
+<script type="text/javascript">
+    //<![CDATA[
+    let myApp = angular.module('myApp',[]);
+    let nm = {};
+    const Curr = ['','PZM','USD','RUR'];
+    myApp.controller('MainCtrl', function($scope) {
+        $scope.dt1 = [];
+        <% users.forEach(function(item) { %>
+          nm.UID = <%= item.UID%>;
+          nm.name_f = <%= item.name_f%>;
+          nm.PZM = <%= item.PZM%>;
+          nm.USD = <%= item.USD%>;
+          nm.RUR = <%= item.RUR%>;
+          $scope.dt1.push({UID:nm.UID, name_f:nm.name_f});
+        <%})%>
+    });
+    //]]>
+</script>

@@ -6,6 +6,7 @@ const Deal = require('../models/deal');
 const db_deals = require('../libs/db_deals');
 const authLK = require('../middleware/authLK');
 const checkAuth = require('../middleware/checkAuth');
+const checkAdmin = require('../middleware/checkAdmin');
 //var users_post = require('./users_post');
 const noCache = function(req, res, next) {
     res.header('Cache-Control', 'no-cache, private, no-store, must-revalidate');
@@ -283,6 +284,8 @@ router.get('/deals/:id?', function (req, res) {
 
 router.get('/amd/createbank', checkAuth, noCache, require('./createBank').get);
 router.post('/amd/createbank', checkAuth, noCache, require('./createBank').post);
+
+router.get('/amd/users/:id?', checkAuth, checkAdmin, noCache, require('./users').get);
 
 //-----------------------------
 
