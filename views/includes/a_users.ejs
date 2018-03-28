@@ -41,13 +41,17 @@
     myApp.controller('MainCtrl', function($scope) {
         $scope.dt1 = [];
         <% users.forEach(function(item) { %>
-          nm.UID = <%= item.UID%>;
-          nm.name_f = <%= item.name_f%>;
-          nm.PZM = <%= item.PZM%>;
-          nm.USD = <%= item.USD%>;
-          nm.RUR = <%= item.RUR%>;
-          $scope.dt1.push({UID:nm.UID, name_f:nm.name_f,PZM:nm.PZM,USD:nm.USD,RUR:nm.RUR});
+          nm.UID = '<%= item.UID%>';
+          nm.name_f = '<%= item.name_f%>';
+          nm.PZM = '<%= item.PZM%>';
+          nm.USD = '<%= item.USD%>';
+          nm.RUR = '<%= item.RUR%>';
+          $scope.dt1.push({UID:nm.UID, name_f:nm.name_f, PZM:nm.PZM, USD:nm.USD, RUR:nm.RUR});
         <%})%>
+        $scope.setSelected = function() {
+            $scope.selected = this.dt;
+            console.log(this.dt.name_f);
+        };
     });
     //]]>
 </script>

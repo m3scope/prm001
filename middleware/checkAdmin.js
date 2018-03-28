@@ -3,7 +3,9 @@
  */
 //const HttpError = require('error').HttpError;
 
-const AMD = ['5ab27c8d52423c1607f65037','5ab27ac752423c1607f65036','5a9cdade19c85918143ea6a6'];
+//const AMD = ['5ab27c8d52423c1607f65037','5ab27ac752423c1607f65036','5a9cdade19c85918143ea6a6'];
+const config = require('config');
+const AMD = config.get('amd');
 
 module.exports = function(req, res, next){
     if(!req.session.user){
