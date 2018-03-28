@@ -1,0 +1,97 @@
+
+<div class="w3-panel"></div>
+<div class="w3-row-padding" ng-app="myApp">
+    <!-- Left Column -->
+    <div class="w3-col s6" ng-controller="MainCtrl">
+        <div class="w3-card-4">
+            <div class="w3-container w3-teal">
+                <h5>Списое пользователей</h5>
+            </div>
+
+            <table class="w3-table-all w3-hoverable w3-card-4" >
+                <tr class="w3-green">
+                    <th>UID</th>
+                    <th class="w3-border-left">Имя</th>
+                    <th class="w3-border-left">PZM</th>
+                    <th class="w3-border-left">USD</th>
+                    <th class="w3-border-left">RUR</th>
+                </tr>
+                <tr ng-repeat="dt in dt1" ng-click="setSelected();">
+                    <td>{{ dt.UID }}</td>
+                    <td class="w3-border-left">{{ dt.name_f }}</td>
+                    <td class="w3-border-left">{{ dt.PZM }}</td>
+                    <td class="w3-border-left">{{ dt.USD }}</td>
+                    <td class="w3-border-left">{{ dt.RUR }}</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="w3-panel"></div>
+
+        <div class="w3-card-4">
+            <div class="w3-container w3-teal">
+                <h5>Движения средств</h5>
+            </div>
+
+            <table class="w3-table-all w3-hoverable w3-card-4" >
+                <tr class="w3-green">
+                    <th>Дата</th>
+                    <th class="w3-border-left">Операция</th>
+                    <th class="w3-border-left">Вид</th>
+                    <th class="w3-border-left">Пара</th>
+                    <th class="w3-border-left">Кол.</th>
+                    <th class="w3-border-left">Сумма</th>
+                    <th class="w3-border-left">Статус</th>
+                </tr>
+                <tr ng-repeat="info in dt2" ng-click="setSelected();">
+                    <td>{{ info.createdAt }}</td>
+                    <td class="w3-border-left">{{ info.operation }}</td>
+                    <td class="w3-border-left">{{ info.class }}</td>
+                    <td class="w3-border-left">{{ info.par }}</td>
+                    <td class="w3-border-left">{{ info.amount }}</td>
+                    <td class="w3-border-left">{{ info.summ }}</td>
+                    <td class="w3-border-left">{{ info.status }}</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <div class="w3-small w3-col s6">
+        <span>8.  Предупреждение о рисках</span>
+    </div>
+
+</div>
+
+<script type="text/javascript">
+    //<![CDATA[
+    let myApp = angular.module('myApp',[]);
+    let nm = {};
+    const Curr = ['','PZM','USD','RUR'];
+    myApp.controller('MainCtrl', function($scope) {
+        $scope.dt1 = [];
+        $scope.dt2 = [];
+
+        nm.UID = '<%= users.user.UID%>';
+        nm.name_f = '<%= users.user.name_f%>';
+        nm.PZM = '<%= users.user.PZM%>';
+        nm.USD = '<%= users.user.USD%>';
+        nm.RUR = '<%= users.user.RUR%>';
+        $scope.dt1.push({UID:nm.UID, name_f:nm.name_f, PZM:nm.PZM, USD:nm.USD, RUR:nm.RUR});
+
+        $scope.setSelected = function() {
+            $scope.selected = this.dt;
+            console.log(this.dt.name_f);
+        };
+        <% users.userInfo.forEach(function(item) { %>
+            nm.createdAt = "<%= new Date(item.createdAt).toISOString().replace(/T/, ' ').replace(/\..+/, ''); %>";
+            nm.operation = '<%= item.operation%>';
+            nm.class = '<%= item.class%>';
+            nm.par = '<%= item.currency%>/<%= item.currency2 %>';
+            nm.amount = '<%= item.amount%>';
+            nm.summ = '<%= item.summ%>';
+            nm.status = '<%= item.status%>';
+            $scope.dt2.push({createdAt:nm.createdAt, operation:nm.operation, class:nm.class, par:nm.par, amount:nm.amount, summ:nm.summ, status:nm.status});
+        <%})%>
+    });
+    //]]>
+</script>
