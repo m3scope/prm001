@@ -18,47 +18,48 @@ exports.get = function(req, res) {
                 case 'cod':
                     let userInfo = [];
                     Query.findOne({cod:params[0], class: 0}).exec(function (err,query) {
-                        Query.find({userId: query.userId}).exec(function (err, query_items) {
-                            query_items.forEach(function (item) {
-                                userInfo.push({
-                                    createdAt:item.createdAt,
-                                    operation: 'Запрос',
-                                    class: item.class==0 ? 'Вывод':'Пополнение',
-                                    currency: Curr[item.currency],
-                                    amount: item.amount,
-                                    currency2: '',
-                                    summ: '',
-                                    status: item.status
-                                });
-                            });
-
-                            Deal.find({dealerId: query.userId}).exec(function (err, deal_items) {
-                                deal_items.forEach(function (item) {
+                        if(query){
+                            Query.find({userId: query.userId}).exec(function (err, query_items) {
+                                query_items.forEach(function (item) {
                                     userInfo.push({
                                         createdAt:item.createdAt,
-                                        operation: 'Сделка',
-                                        class: item.class==0 ? 'Продажа':'Покупка',
-                                        currency: Curr[item.deal_currency],
-                                        amount: item.deal_amount - item.deal_amount_bill,
-                                        currency2: Curr[item.price_currency],
-                                        summ: item.summ - item.summ_bill,
+                                        operation: 'Запрос',
+                                        class: item.class==0 ? 'Вывод':'Пополнение',
+                                        currency: Curr[item.currency],
+                                        amount: item.amount,
+                                        currency2: '',
+                                        summ: '',
                                         status: item.status
                                     });
                                 });
 
-                                // Bill.find({dealerGeneralId:query.userId}).exec(function (err, bill_items) {
-                                //     bill_items.forEach(function (item) {
-                                //         userInfo.push({
-                                //             createdAt:item.createdAt,
-                                //             operation: 'Bill',
-                                //             class: item.class,
-                                //             currency: item.deal_currency,
-                                //             amount: item.deal_amount,
-                                //             currency2: item.price_currency,
-                                //             summ: item.summ,
-                                //             status: item.status
-                                //         });
-                                //     });
+                                Deal.find({dealerId: query.userId}).exec(function (err, deal_items) {
+                                    deal_items.forEach(function (item) {
+                                        userInfo.push({
+                                            createdAt:item.createdAt,
+                                            operation: 'Сделка',
+                                            class: item.class==0 ? 'Продажа':'Покупка',
+                                            currency: Curr[item.deal_currency],
+                                            amount: item.deal_amount - item.deal_amount_bill,
+                                            currency2: Curr[item.price_currency],
+                                            summ: item.summ - item.summ_bill,
+                                            status: item.status
+                                        });
+                                    });
+
+                                    // Bill.find({dealerGeneralId:query.userId}).exec(function (err, bill_items) {
+                                    //     bill_items.forEach(function (item) {
+                                    //         userInfo.push({
+                                    //             createdAt:item.createdAt,
+                                    //             operation: 'Bill',
+                                    //             class: item.class,
+                                    //             currency: item.deal_currency,
+                                    //             amount: item.deal_amount,
+                                    //             currency2: item.price_currency,
+                                    //             summ: item.summ,
+                                    //             status: item.status
+                                    //         });
+                                    //     });
                                     User.findById(query.userId).exec(function (err, user) {
                                         userInfo.sort(compareAge);
                                         //res.send(userInfo);
@@ -71,9 +72,13 @@ exports.get = function(req, res) {
                                         });
                                     });
 
-                                //});
+                                    //});
+                                });
                             });
-                        });
+                        } else {
+                            res.redirect('/amd/users');
+                        }
+
                     });
 
                     break;
@@ -98,6 +103,14 @@ exports.get = function(req, res) {
                 });
             });
         }
+    }
+};
+
+exports.post = function (req, res) {
+    if(req.body.cod){
+        res.redirect('/amd/users/'+req.body.cod+';cod');
+    } else {
+        res.redirect('/amd/users/');
     }
 };
 

@@ -286,6 +286,7 @@ router.get('/amd/createbank', checkAuth, noCache, require('./createBank').get);
 router.post('/amd/createbank', checkAuth, noCache, require('./createBank').post);
 
 router.get('/amd/users/:id?', checkAuth, checkAdmin, noCache, require('./users').get);
+router.post('/amd/users/', checkAuth, checkAdmin, noCache, require('./users').post);
 
 //-----------------------------
 
@@ -301,6 +302,7 @@ router.post('/api/q/req/:id?', checkAuth, noCache, require('./createQuery').post
 router.get('/api/q/deal/:id', checkAuth, noCache, require('./q_deal').get);
 
 router.get('/confirmed/:id', noCache, require('./confirmed').get);
+//router.get('/confirmed/:id', noCache, require('./confirmed').get);
 
 //----------------------------------------------
 
