@@ -269,35 +269,43 @@ async function BillsFromDeal(dealId){  // получаем объект    //(de
         .limit(100)
         .sort(sorts);
 
-    let saldo = generalDeal.deal_amount_bill;
+    let saldo = generalDeal.deal_amount_bill;   //остаток количества
     let num = 0;
-    let deal_amount_bill = 0;
+    let deal_amount_bill = 0;           // текущее на этапе количество сделки
+    let genDeal_amount = 0;
+    let twoDeal_amount = 0;
     for (let dealTwo of deals) {        // ПЕРЕБЕРАЕМ встречные предложения
         console.log('--------- SALDO --------------');
         console.log(''+saldo+' / '+ num);
         console.log(dealTwo);
 
-        if(saldo <= dealTwo.deal_amount_bill) {
-            deal_amount_bill = saldo;
+        if(saldo <= dealTwo.deal_amount_bill) { // остаток меньше или равен встречному
+            deal_amount_bill = saldo;           //
             saldo = 0;
         } else {
             deal_amount_bill = dealTwo.deal_amount_bill;
             saldo = saldo - deal_amount_bill;
         }
 
-        generalDeal.deal_amount_bill = generalDeal.deal_amount_bill - deal_amount_bill;
+        genDeal_amount = generalDeal.deal_amount_bill - deal_amount_bill;
+        generalDeal.deal_amount_bill = genDeal_amount;
         generalDeal.summ_bill = generalDeal.summ_bill - deal_amount_bill*dealTwo.price_amount;
-        if(generalDeal.deal_amount_bill <= 0) {
+        if(genDeal_amount <= 0) {
             generalDeal.status = 9;
+        } else {
+            generalDeal.status = 1;
         }
         let savedGD = await generalDeal.save();
         console.log('********** SAVEDS savedGD ONE **************');
         //console.log(savedGD);
 
-        dealTwo.deal_amount_bill = dealTwo.deal_amount_bill - deal_amount_bill;
+        twoDeal_amount = dealTwo.deal_amount_bill - deal_amount_bill;
+        dealTwo.deal_amount_bill = twoDeal_amount;
         dealTwo.summ_bill = dealTwo.summ_bill - deal_amount_bill*dealTwo.price_amount;
-        if(dealTwo.deal_amount_bill <= 0) {
+        if(twoDeal_amount <= 0) {
             dealTwo.status = 9;
+        } else {
+            dealTwo.status = 1;
         }
         let savedTD = await dealTwo.save();
         console.log('********** SAVEDS savedTD TWO**************');
