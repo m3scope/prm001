@@ -92,7 +92,7 @@ exports.get = function(req, res) {
             }
 
         } else {
-            User.find({status: 1}).limit(50).sort({createdAt: -1}).exec(function (err, users) {
+            User.find({status: 1}).limit(50).sort({PZM: -1,USD:-1,RUR: -1}).exec(function (err, users) {
 
                 res.render('amd_index', {
                     inc: {f: 'a_users'},
