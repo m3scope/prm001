@@ -14,7 +14,7 @@ exports.get = function(req, res) {
             let params = req.params.id.split(';');
             const Curr = ['', 'PZM','USD','RUR'];
             const queryStatus = ['создана', 'подтверждена', '', 'исполнена(закрыта)', 'отменена'];
-            const dealStatus = ['создана', 'активный', 'отменен', '', '', '', '', '', '', 'закрыт'];
+            const dealStatus = ['создана', 'активный', 'отменен', '', '', '', '', '', '', 'исполнена(закрыт)'];
 
             switch (params[1]){
                 case 'cod':
