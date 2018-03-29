@@ -13,6 +13,8 @@ exports.get = function(req, res) {
         if(req.params.id){
             let params = req.params.id.split(';');
             const Curr = ['', 'PZM','USD','RUR'];
+            const queryStatus = ['создана', 'подтверждена', '', 'исполнена(закрыта)', 'отменена'];
+            const dealStatus = ['создана', 'активный', 'отменен', '', '', '', '', '', '', 'закрыт'];
 
             switch (params[1]){
                 case 'cod':
@@ -29,7 +31,7 @@ exports.get = function(req, res) {
                                         amount: item.amount,
                                         currency2: '',
                                         summ: '',
-                                        status: item.status
+                                        status: queryStatus[item.status]
                                     });
                                 });
 
@@ -43,7 +45,7 @@ exports.get = function(req, res) {
                                             amount: item.deal_amount - item.deal_amount_bill,
                                             currency2: Curr[item.price_currency],
                                             summ: item.summ - item.summ_bill,
-                                            status: item.status
+                                            status: dealStatus[item.status]
                                         });
                                     });
 
