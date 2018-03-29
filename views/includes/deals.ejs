@@ -32,7 +32,7 @@
                         <td>
                             <input type="hidden" name="class" value="1">
                             <span class="w3-tag w3-green">Количество: <%= curr[deals.curr1] %></span>
-                            <input class="w3-input" type="number" value="0" step="any" name="deal_amount" required ng-model="deal_amount_buy" ng-change="change_buy()">
+                            <input class="w3-input" type="number" value="0" min="1" step="any" name="deal_amount" required ng-model="deal_amount_buy" ng-change="change_buy()">
                             <input type="hidden" name="deal_currency" value="{{ curr1 }}">
                         </td>
                         <td>
@@ -104,7 +104,7 @@
                         <td>
                             <input type="hidden" name="class" value="0">
                             <span class="w3-tag w3-green">Количество: <%= curr[deals.curr1] %></span>
-                            <input class="w3-input" type="number" value="0" step="any" name="deal_amount" required ng-model="deal_amount_sell" ng-change="change_sell()">
+                            <input class="w3-input" type="number" value="0" min="1" step="any" name="deal_amount" required ng-model="deal_amount_sell" ng-change="change_sell()">
                             <input type="hidden" name="deal_currency" value="{{ curr1 }}">
                         </td>
                         <td>
