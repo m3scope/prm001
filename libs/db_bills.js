@@ -274,6 +274,7 @@ async function BillsFromDeal(dealId){  // получаем объект    //(de
     let deal_amount_bill = 0;           // текущее на этапе количество сделки
     let genDeal_amount = 0;
     let twoDeal_amount = 0;
+
     for (let dealTwo of deals) {        // ПЕРЕБЕРАЕМ встречные предложения
         console.log('--------- SALDO --------------');
         console.log(''+saldo+' / '+ num);
