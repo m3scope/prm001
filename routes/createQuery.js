@@ -27,14 +27,14 @@ exports.get = function (req, res, next) {
                 } else {
                     //console.log(params);
                     UserBalance = [0,Math.round(user.PZM*100)/100,Math.round(user.USD*100)/100,Math.round(user.RUR*100)/100];
-                    LoginRegister = '<b><a href="/profile" class="w3-button w3-border w3-border-white w3-round">'+req.session.username+'</a>&nbsp;&nbsp;<a href="/logout" class="w3-button w3-border w3-border-white w3-round">Выход</a></b>' +
+                    LoginRegister = '<div class="w3-right-align w3-small"><span class="w3-border-top">'+req.session.username+'</span></div><a href="/profile" class="w3-button w3-border w3-border-white w3-round">Профиль</a>&nbsp;&nbsp;<a href="/logout" class="w3-button w3-border w3-border-white w3-round">Выход</a>' +
                         '<div class="w3-right-align w3-small">' +
                         '<span>PZM: </span>' +
-                        '<label class="w3-border-top w3-border-bottom">'+UserBalance[1]+'</label>' +
-                        '<span>&nbsp;RUR: </span>' +
-                        '<label class="w3-border-top w3-border-bottom">'+UserBalance[3]+'</label>' +
-                        '<span>&nbsp;USD: </span>' +
-                        '<label class="w3-border-top w3-border-bottom">'+UserBalance[2]+'</label></div>';
+                        '<label class="w3-border-bottom"> '+UserBalance[1]+' </label>' +
+                        '<span>&nbsp; RUR: </span>' +
+                        '<label class="w3-border-bottom"> '+UserBalance[3]+' </label>' +
+                        '<span>&nbsp; USD: </span>' +
+                        '<label class="w3-border-bottom"> '+UserBalance[2]+' </label></div>';
                     let i = 'q_true_3';
                     switch (params[0]){
                         case 'true':
