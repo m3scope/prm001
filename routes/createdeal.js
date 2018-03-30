@@ -178,9 +178,11 @@ exports.post = function(req, res) {
                                         let newDeal = new Deal();
 
                                         newDeal.dealerId = userSaved.id;   //: { type: mongoose.Schema.ObjectId, ref: 'User', required: true },     // Id пользователя создавшего сделку
+
                                         newDeal.deal_amount = Math.round((req.body.deal_amount)*100)/100;   //: {type: Number, default: 0},      // количество продаваемой валюты
                                         newDeal.deal_amount_bill = Math.round((req.body.deal_amount)*100)/100;   //: {type: Number, default: 0},      // количество продаваемой валюты
                                         newDeal.deal_currency = Curr[req.body.deal_currency][0];   //: {type: Number, default: 0},  // Код (число) валюты продажи
+
                                         newDeal.price_amount = Math.round((req.body.price_amount)*100)/100;   //: {type: Number, default: 0},       // цена без комиссии
                                         newDeal.price_currency = Curr[req.body.price_currency][0];   //: {type: Number, default: 0},   // Код (число) валюты покупки
 
