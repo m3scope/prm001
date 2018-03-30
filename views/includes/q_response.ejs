@@ -3,14 +3,17 @@
 <div class="w3-row-padding" ng-app="myApp">
   <!-- Left Column -->
   <div class="w3-col s12" ng-controller="MainCtrl">
+
+      <% const url = '/api/q/res/'+qq._id+';confirm' %>
+        <% const url2 = '/api/q/res/'+qq._id+';cancel' %>
+      <% const curr = ['','призм','долларов','руб.']; %>
+
+      <% if(qq.class == 1){%>
+
     <div class="w3-card-4">
       <div class="w3-container w3-teal">
         <h5>Подтверждение запроса</h5>
       </div>
-      <% const url = '/api/q/res/'+qq._id+';confirm' %>
-        <% const url2 = '/api/q/res/'+qq._id+';cancel' %>
-      <% const curr = ['','призм','долларов','руб.']; %>
-      <% if(qq.class == 1){%>
       <form action="<%= url %>" method="post" class="w3-container">
         <input hidden name="q_ID" value="<%= qq._id%>">
         <h3>
@@ -36,7 +39,37 @@
           <span >Отмена через {{ counter }} сек.</span>
         </p>
       </form>
+    </div>
+    <div class="w3-card-4">
+      <div class="w3-container w3-teal">
+        <h5>Подтверждение запроса</h5>
+      </div>
+      <span>Инструкция</span>
+      <ul>
+        <li>
+          Зайдите в ваш кабинет PRIZM.
+        </li>
+        <li>
+          Отправьте указанное количество монет до копеек на указанный кошелек, обязательно добавьте комментарий.
+        </li>
+        <li>
+          После прохождения операции в кошельке - монеты с вашего кошелька спишутся и вам начислиться парамайнинг - это занимает около 2 минут - нажмите кнопку "ДА, Я ВЫПОЛНИЛ ПЕРЕВОД"
+        </li>
+        <li>
+          Если вы передумали делать перевод: нажмите кнопку ОТМЕНИТЬ (внизу справа)
+        </li>
+        <li>
+          Если вы случайно закрыли окно или более 5 минут совершали перевод, то операция отменится автоматический - создайте новую операцию.
+        </li>
+      </ul>
+    </div>
+
       <%} else {%>
+
+      <div class="w3-card-4">
+        <div class="w3-container w3-teal">
+          <h5>Подтверждение запроса</h5>
+        </div>
       <form action="<%= url %>" method="post" class="w3-container">
         <input hidden name="q_ID" value="<%= qq._id%>">
         <h3>
@@ -57,9 +90,9 @@
           <span >Отмена через {{ counter }} сек.</span>
         </p>
       </form>
-
+      </div>
       <%}%>
-    </div>
+
   </div>
 </div>
 

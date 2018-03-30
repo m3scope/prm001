@@ -41,20 +41,20 @@ exports.get = function (req, res, next) {
 
                     switch (params[1]) {
                         case 'confirm':
-                            Query.findOne({_id: params[0], userId: user._id}, function (err, qq) {
+                            Query.findOne({_id: params[0], userId: user._id, status:0}, function (err, qq) {
                                 if (err) console.error(err);
                                 if (qq) {
                                     //console.log(qq);
-                                    if (qq.status == 0) {
+                                    //if (qq.status == 0) {
                                         res.render('responsequery', {
                                             qq: qq,
                                             title: 'Подтвердить ЗАПРОС',
                                             user: user,
                                             LoginRegister: LoginRegister
                                         });
-                                    } else {
-                                        res.redirect('/logout');
-                                    }
+                                    // } else {
+                                    //     res.redirect('/logout');
+                                    // }
                                 } else {
                                     res.redirect('/logout');
                                 }
