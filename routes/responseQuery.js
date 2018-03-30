@@ -79,9 +79,9 @@ exports.get = function (req, res, next) {
                                                     if(bank) {
                                                         //********** BANK *******
                                                          bank.summ_trans_current = Number(bank.summ_trans_current)-Number(qq.amount);
-                                                         bank.summ_all_current = Number(bank.summ_all_current)-Number(qq.amount);
-                                                        bank.summ_transactions =Number( bank.summ_transactions)+Number(qq.amount);
-                                                        bank.summ_all = Number(bank.summ_all)+Number(qq.amount);
+                                                         bank.summ_all_current = Number(bank.summ_all_current)+Number(qq.amount);
+                                                        // bank.summ_transactions =Number( bank.summ_transactions)+Number(qq.amount);
+                                                        // bank.summ_all = Number(bank.summ_all)+Number(qq.amount);
                                                         //bank.rounds = Number(bank.rounds) + 20;
                                                         bank.save();
                                                         //---------------------
@@ -98,8 +98,8 @@ exports.get = function (req, res, next) {
                                                         //********** BANK *******
                                                         bank.summ_trans_current = Number(bank.summ_trans_current)-Number(qq.amount);
                                                         bank.summ_all_current = Number(bank.summ_all_current)-Number(qq.amount);
-                                                        bank.summ_transactions =Number( bank.summ_transactions)-Number(qq.amount);
-                                                        bank.summ_all = Number(bank.summ_all)-Number(qq.amount);
+                                                        // bank.summ_transactions =Number( bank.summ_transactions)-Number(qq.amount);
+                                                        // bank.summ_all = Number(bank.summ_all)-Number(qq.amount);
                                                         //bank.rounds = Number(bank.rounds) + 20;
                                                         bank.save();
                                                         //---------------------

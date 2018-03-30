@@ -143,10 +143,10 @@ exports.post = function (req, res, next) {
                                 console.log(saved_Q._id.toString());
                                 res.redirect('/api/q/res/'+saved_Q._id.toString()+';confirm');
                                 //********** BANK *******
-                                bank.summ_trans_current = Number(bank.summ_trans_current)-summ;
-                                bank.summ_all_current = Number(bank.summ_all_current)-summ;
-                                bank.summ_transactions =Number( bank.summ_transactions)+summ;
-                                bank.summ_all = Number(bank.summ_all)+summ;
+                                bank.summ_trans_current = Number(bank.summ_trans_current)+summ;
+                                bank.summ_all_current = Number(bank.summ_all_current)+summ;
+                                // bank.summ_transactions =Number( bank.summ_transactions)+summ;
+                                // bank.summ_all = Number(bank.summ_all)+summ;
                                 bank.rounds = Number(bank.rounds) + 20;
                                 bank.save();
                                 //---------------------
@@ -206,9 +206,9 @@ exports.post = function (req, res, next) {
 
                                     //********** BANK *******
                                     bank.summ_trans_current = Number(bank.summ_trans_current) + Number(summ);
-                                    bank.summ_all_current = Number(bank.summ_all_current) + Number(summ);
-                                    bank.summ_transactions = Number(bank.summ_transactions) - Number(summ);
-                                    bank.summ_all = Number(bank.summ_all) - Number(summ);
+                                    bank.summ_all_current = Number(bank.summ_all_current) - Number(summ);
+                                    // bank.summ_transactions = Number(bank.summ_transactions) - Number(summ);
+                                    // bank.summ_all = Number(bank.summ_all) - Number(summ);
                                     bank.rounds = Number(bank.rounds) + 20;
                                     bank.save();
                                     //---------------------
