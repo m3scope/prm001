@@ -202,8 +202,8 @@
             $scope.summ_buy = Math.round($scope.deal_amount_buy * $scope.price_amount_buy*100)/100;
         };
         $scope.change_buy_summ = function () {
-                if($scope.deal_amount_buy > 0){
-                    $scope.price_amount_buy = Math.round($scope.summ_buy / $scope.deal_amount_buy*100)/100;
+                if($scope.price_amount_buy > 0){
+                    $scope.deal_amount_buy = Math.round($scope.summ_buy / $scope.price_amount_buy*100)/100;
                 }
         };
         $scope.getSelectBuy = function () {
@@ -245,8 +245,8 @@
             $scope.summ_sell = Math.round($scope.deal_amount_sell * $scope.price_amount_sell*100)/100;
         };
         $scope.change_buy_sell = function () {
-            if($scope.deal_amount_sell > 0){
-                $scope.price_amount_sell = $scope.summ_sell / $scope.deal_amount_sell;
+            if($scope.price_amount_sell > 0){
+                $scope.deal_amount_sell = Math.round(($scope.summ_sell / $scope.price_amount_sell)*100)/100;
                 $scope.commission_sell = Math.round($scope.deal_amount_sell*$scope.price_amount_sell*0.007*100)/100;
                 $scope.data.disabled_sell = !($scope.deal_amount_sell > 0 && $scope.price_amount_sell > 0);
             }

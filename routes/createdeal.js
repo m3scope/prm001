@@ -67,7 +67,7 @@ exports.post = function(req, res) {
                 } else {
                     if (req.body.class * 1) {   // *************   ПОКУПКА  ****************
                         if (user[req.body.price_currency] >= req.body.deal_amount * req.body.price_amount) {
-                            user[req.body.price_currency] = Number(user[req.body.price_currency]) - Math.round(req.body.deal_amount * req.body.price_amount * 100) / 100;
+                            user[req.body.price_currency] = Math.round((Number(user[req.body.price_currency]) - Math.round(req.body.deal_amount * req.body.price_amount * 100) / 100)*100)/100;
                             user.save(function (err, userSaved) {
                                 if (err) {
                                     console.error(err);
@@ -91,20 +91,20 @@ exports.post = function(req, res) {
                                         let cl = req.body.class * 1;
 
                                         newDeal.dealerId = userSaved.id;   //: { type: mongoose.Schema.ObjectId, ref: 'User', required: true },     // Id пользователя создавшего сделку
-                                        newDeal.deal_amount = req.body.deal_amount;   //: {type: Number, default: 0},      // количество продаваемой валюты
-                                        newDeal.deal_amount_bill = req.body.deal_amount;   //: {type: Number, default: 0},      // количество продаваемой валюты
+                                        newDeal.deal_amount = Math.round((req.body.deal_amount)*100)/100;   //: {type: Number, default: 0},      // количество продаваемой валюты
+                                        newDeal.deal_amount_bill = Math.round((req.body.deal_amount)*100)/100;   //: {type: Number, default: 0},      // количество продаваемой валюты
                                         newDeal.deal_currency = Curr[req.body.deal_currency][0];   //: {type: Number, default: 0},  // Код (число) валюты продажи
-                                        newDeal.price_amount = req.body.price_amount;   //: {type: Number, default: 0},       // цена без комиссии
+                                        newDeal.price_amount = Math.round((req.body.price_amount)*100)/100;   //: {type: Number, default: 0},       // цена без комиссии
                                         newDeal.price_currency = Curr[req.body.price_currency][0];   //: {type: Number, default: 0},   // Код (число) валюты покупки
 
-                                        newDeal.summ = req.body.deal_amount * req.body.price_amount;
-                                        newDeal.summ_bill = req.body.deal_amount * req.body.price_amount;
+                                        newDeal.summ = Math.round((req.body.deal_amount * req.body.price_amount)*100)/100;
+                                        newDeal.summ_bill = Math.round((req.body.deal_amount * req.body.price_amount)*100)/100;
 
                                         newDeal.class = cl;
 
                                         newDeal.commission_tax = commission_tax;
                                         //newDeal.commission = ((Boolean(cl)) ? Math.round() : Math.round(req.body.price_amount * commission_tax * 10000000)/10000000);   //: {type: Number, default: 0},     // Сумма комиссии (~5-7%)
-                                        newDeal.commission_summ = ((Boolean(cl)) ? Math.round((newDeal.deal_amount * commission_tax * 100) / 100) : (Math.round(req.body.price_amount * commission_tax * 100) / 100) * newDeal.deal_amount);   // сумма коммисии
+                                        newDeal.commission_summ = ((Boolean(cl)) ? Math.round((newDeal.deal_amount * commission_tax * 100) / 100) : Math.round((req.body.price_amount * commission_tax * newDeal.deal_amount) * 100) / 100);   // сумма коммисии
 
                                         newDeal.price = req.body.price_amount * 1;
                                         newDeal.price1 = 1 / req.body.price_amount;
@@ -178,20 +178,20 @@ exports.post = function(req, res) {
                                         let newDeal = new Deal();
 
                                         newDeal.dealerId = userSaved.id;   //: { type: mongoose.Schema.ObjectId, ref: 'User', required: true },     // Id пользователя создавшего сделку
-                                        newDeal.deal_amount = req.body.deal_amount;   //: {type: Number, default: 0},      // количество продаваемой валюты
-                                        newDeal.deal_amount_bill = req.body.deal_amount;   //: {type: Number, default: 0},      // количество продаваемой валюты
+                                        newDeal.deal_amount = Math.round((req.body.deal_amount)*100)/100;   //: {type: Number, default: 0},      // количество продаваемой валюты
+                                        newDeal.deal_amount_bill = Math.round((req.body.deal_amount)*100)/100;   //: {type: Number, default: 0},      // количество продаваемой валюты
                                         newDeal.deal_currency = Curr[req.body.deal_currency][0];   //: {type: Number, default: 0},  // Код (число) валюты продажи
-                                        newDeal.price_amount = req.body.price_amount;   //: {type: Number, default: 0},       // цена без комиссии
+                                        newDeal.price_amount = Math.round((req.body.price_amount)*100)/100;   //: {type: Number, default: 0},       // цена без комиссии
                                         newDeal.price_currency = Curr[req.body.price_currency][0];   //: {type: Number, default: 0},   // Код (число) валюты покупки
 
-                                        newDeal.summ = req.body.deal_amount * req.body.price_amount;
-                                        newDeal.summ_bill = req.body.deal_amount * req.body.price_amount;
+                                        newDeal.summ = Math.round((req.body.deal_amount * req.body.price_amount)*100)/100;
+                                        newDeal.summ_bill = Math.round((req.body.deal_amount * req.body.price_amount)*100)/100;
 
                                         newDeal.class = req.body.class * 1;
 
                                         newDeal.commission_tax = commission_tax;
                                         newDeal.commission = Math.round(req.body.price_amount * commission_tax * 100) / 100;   //: {type: Number, default: 0},     // Сумма комиссии (~5-7%)
-                                        newDeal.commission_summ = (Math.round(req.body.price_amount * commission_tax * 100) / 100) * newDeal.deal_amount;   // сумма коммисии
+                                        newDeal.commission_summ = Math.round((req.body.price_amount * commission_tax * newDeal.deal_amount) * 100) / 100;   // сумма коммисии
 
                                         newDeal.price = req.body.price_amount * 1;
                                         newDeal.price1 = 1 / req.body.price_amount;
