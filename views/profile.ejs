@@ -7,7 +7,30 @@
 <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Roboto'>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
-
+<script language = 'javascript'>
+    function TimeMsk(dt) {
+        let dat = new Date(dt);
+        let dtMosk = dat.getTime();
+        let date = new Date(dtMosk + (3600000*3));
+        let Y = date.getUTCFullYear();
+        let M = checkZero(date.getUTCMonth()+1);
+        let D = checkZero(date.getUTCDate());
+        let hours = checkZero(date.getUTCHours());
+        let minutes = checkZero(date.getUTCMinutes());
+        let seconds = checkZero(date.getUTCSeconds());
+        let rez = Y+"."+M+"."+D+" "+hours + ":" + minutes + ":" + seconds + " MSK";
+        //console.log(rez);
+        return rez;
+    }
+    function startTime() {
+        let dt = new Date();
+        document.getElementById("time").innerHTML = TimeMsk(dt);
+        setTimeout(startTime, 1000);
+    }
+    function checkZero(t) {
+        return t<10 ? '0'+t : t;
+    }
+</script>
 <style>
   html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
   input[type=number]::-webkit-inner-spin-button,
@@ -16,7 +39,7 @@
     margin: 0;
   }
 </style>
-<body class="w3-light-grey ng-scope" ng-app="myApp">
+<body onload="startTime()" class="w3-light-grey ng-scope" ng-app="myApp">
 
 <% let currs=['','PZM','USD','RUR'];
 let bs=['продажа','покупка'];
@@ -137,20 +160,20 @@ let clors=['w3-orange','w3-cyan'];
             <td class="w3-border-left">{{ dt.summ }}</td>
             <td class="w3-border-left">{{ dt.dat }}</td>
             <td class="w3-border-left {{ dt.color2 }}">
-                <div ng-switch="{{ dt.status }}">
-                    <div ng-switch-when="0">
-                        <span><a href="{{dt.cans}}">отменить</a> </span>
-                    </div>
-                  <div ng-switch-when="1">
-                    <span> Активный </span><span><a href="{{dt.cans}}">отменить</a> </span>
-                  </div>
-                  <div ng-switch-when="3">
-                    <span>отменен</span>
-                  </div>
-                    <div ng-switch-when="9">
-                        <span>исполнен</span>
-                    </div>
+              <div ng-switch="{{ dt.status }}">
+                <div ng-switch-when="0">
+                  <span><a href="{{dt.cans}}">отменить</a> </span>
                 </div>
+                <div ng-switch-when="1">
+                  <span> Активный </span><span><a href="{{dt.cans}}">отменить</a> </span>
+                </div>
+                <div ng-switch-when="3">
+                  <span>отменен</span>
+                </div>
+                <div ng-switch-when="9">
+                  <span>исполнен</span>
+                </div>
+              </div>
             </td>
           </tr>
 
@@ -160,7 +183,7 @@ let clors=['w3-orange','w3-cyan'];
       </div>
     </div>
 
-    <div class="w3-col m6" >
+    <div class="w3-col m6" ng-controller="CtrlBills">
       <div class="w3-border">
         <div class="w3-container w3-teal">
           <h5>Счета</h5>
@@ -174,19 +197,36 @@ let clors=['w3-orange','w3-cyan'];
             <th class="w3-border-left">Цена</th>
             <th class="w3-border-left">Сумма</th>
             <th class="w3-border-left">Дата</th>
+            <th class="w3-border-left"></th>
 
           </tr>
-          <% for(var i=0, len=user.bills.length; i<len; i++){%>
-            <tr>
-              <td><%= currs[user.bills[i].deal_currency]%>/<%= currs[user.bills[i].price_currency]%></td>
-              <td class="<%= clors[user.bills[i].class]%>"><%= bs[user.bills[i].class] %></td>
-              <td class="w3-border-left"><%= user.bills[i].deal_amount%></td>
-              <td class="w3-border-left"><%= user.bills[i].price_amount%></td>
-              <td class="w3-border-left"><%= user.bills[i].summ%></td>
-              <td class="w3-border-left"><%= new Date(user.bills[i].createdAt).toISOString().replace(/T/, ' ').replace(/\..+/, ''); %></td>
+          <tr ng-repeat="dt in dt3" ng-click="setSelected();">
+            <td>{{ dt.deal_currency }}/{{ dt.price_currency}}</td>
+            <td class="{{ dt.color }}">{{ dt.typ }}</td>
+            <td class="w3-border-left">{{ dt.deal_amount }}</td>
+            <td class="w3-border-left">{{ dt.price_amount}}</td>
+            <td class="w3-border-left">{{ dt.summ }}</td>
+            <td class="w3-border-left">{{ dt.dat }}</td>
+            <td class="w3-border-left {{ dt.color2 }}">
+              <div ng-switch="{{ dt.status }}">
+                <div ng-switch-when="0">
+                  <span>создан</span>
+                </div>
+                <div ng-switch-when="1">
+                  <span> Активный </span>
+                </div>
+                <div ng-switch-when="2">
+                  <span>исполнен</span>
+                </div>
+                <div ng-switch-when="3">
+                  <span>отменен</span>
+                </div>
 
-            </tr>
-          <%}%>
+              </div>
+            </td>
+
+          </tr>
+
         </table>
           <%}%>
       </div>
@@ -320,6 +360,7 @@ let clors=['w3-orange','w3-cyan'];
     //<![CDATA[
     let myApp = angular.module('myApp',[]);
     let dl = {};
+    let bl = {};
     let qq={};
     let i = 0;
     let glub_buy = 0;
@@ -327,7 +368,7 @@ let clors=['w3-orange','w3-cyan'];
     let minPrice = 0;
     let maxPrice = 0;
     let bs=['продажа','покупка'];
-    let clors=['w3-orange','w3-cyan','','w3-brown','w3-gray','','','','','w3-gray'];
+    let clors=['w3-orange','w3-cyan','w3-gray','w3-brown','w3-gray','','','','','w3-gray'];
     const Curr = ['','PZM','USD','RUR'];
     const w3Btn = [[],['','','w3-white', 'w3-white'],['','w3-white','','w3-white'],['','w3-white','w3-white','']];
     const typ = ['Вывод','Ввод','Отправить','Получить'];
@@ -359,7 +400,7 @@ let clors=['w3-orange','w3-cyan'];
           qq.status = <%= query.status%>;
           qq.confirm = '/api/q/res/<%= query._id %>;confirm';
           qq.cancel = '/api/q/res/<%= query._id %>;cancel';
-          qq.dat = '<%= new Date(query.createdAt).toISOString().replace(/T/, ' ').replace(/\..+/, '') %>';
+          qq.dat = TimeMsk('<%= query.createdAt %>');
 
           $scope.qqq.push(qq);
         <%})%>
@@ -389,7 +430,7 @@ let clors=['w3-orange','w3-cyan'];
         qq.confirm = '/api/q/res/<%= query._id %>;confirm';
         qq.cancel = '/api/q/res/<%= query._id %>;cancelamd';
         qq.execut = '/api/q/res/<%= query._id %>;execut';
-        qq.dat = '<%= new Date(query.createdAt).toISOString().replace(/T/, ' ').replace(/\..+/, '') %>';
+        qq.dat = TimeMsk('<%= query.createdAt %>');
 
         $scope.qqq.push(qq);
         <%})%>
@@ -413,22 +454,54 @@ let clors=['w3-orange','w3-cyan'];
             dl.price_currency = Curr[<%= deal.price_currency%>];
             dl.typ = bs[<%= deal.class %>];
             dl.color = clors[<%= deal.class%>];
-            dl.deal_amount = <%= deal.deal_amount%>
-            dl.deal_amount_bill = <%= deal.deal_amount_bill%>
-            dl.price_amount = <%= deal.price_amount%>
-            dl.summ = <%= Math.round(deal.deal_amount*deal.price_amount*10000)/10000 %>
-            dl.dat = '<%= new Date(deal.createdAt).toISOString().replace(/T/, ' ').replace(/\..+/, '') %>';
-            dl.status = <%= deal.status %>
+            dl.deal_amount = <%= deal.deal_amount%>;
+            dl.deal_amount_bill = <%= deal.deal_amount_bill%>;
+            dl.price_amount = <%= deal.price_amount%>;
+            dl.summ = <%= Math.round(deal.deal_amount*deal.price_amount*100)/100 %>;
+
+                dl.dat = TimeMsk('<%= deal.createdAt%>');
+                //console.log(dl.dat);
+            dl.status = <%= deal.status %>;
             dl.color2 = clors[<%= deal.status%>];
             dl.i = i;
 
             $scope.dt1.push(dl);
             i++;
           <%})%>
+
         $scope.setSelected = function() {
 
         }
     });
+
+    myApp.controller('CtrlBills', function ($scope) {
+        $scope.dt3 = [];
+        i=0;
+        <% user.bills.forEach(function (bill) { %>
+          bl={};
+          bl.deal_currency = Curr[<%= bill.deal_currency%>];
+          bl.price_currency = Curr[<%= bill.price_currency%>];
+          bl.typ = bs[<%= bill.class %>];
+          bl.color = clors[<%= bill.class%>];
+          bl.deal_amount = <%= bill.deal_amount%>;
+          bl.price_amount = <%= bill.price_amount%>;
+          bl.summ = <%= Math.round(bill.deal_amount*bill.price_amount*100)/100 %>;
+
+          bl.dat = TimeMsk('<%= bill.createdAt%>');
+          bl.status = <%= bill.status %>;
+          bl.color2 = clors[<%= bill.status%>];
+          bl.i = i;
+
+          $scope.dt3.push(bl);
+          i++;
+
+        <% })%>
+        $scope.setSelected = function() {
+
+        }
+
+    });
+
     //]]>
 </script>
 </body>
