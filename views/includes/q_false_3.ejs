@@ -84,31 +84,31 @@
                 tax_current = tax[value];
                 $scope.tax_text='Комиссия '+tax_current+'%:';
                 $scope.num_text = 'Номер кошелька в формате 79ХХХХХХХХХ';
-                $scope.commission_sell = Math.round(Number($scope.deal_amount_sell_rub)*tax_current/100);
-                $scope.deal_amount_sell_curr = Math.round((Number($scope.deal_amount_sell_rub)- Number($scope.deal_amount_sell_rub)*tax_current/100));
+                $scope.commission_sell = Math.round((Number($scope.deal_amount_sell_rub)*tax_current/100)*100)/100;
+                $scope.deal_amount_sell_curr = Math.round((Number($scope.deal_amount_sell_rub)- Number($scope.deal_amount_sell_rub)*tax_current/100)*100)/100;
             }
             if(value==2) {
                 tax_current = tax[value];
                 $scope.tax_text='Комиссия '+tax_current+'%: (с учетом комиссии Yandex 0,5%):';
                 $scope.num_text = 'Номер в формате XXXXXXXXXXXXXX';
-                $scope.commission_sell = Math.round(Number($scope.deal_amount_sell_rub)*tax_current/100);
-                $scope.deal_amount_sell_curr = Math.round((Number($scope.deal_amount_sell_rub)- Number($scope.deal_amount_sell_rub)*tax_current/100));
+                $scope.commission_sell = Math.round((Number($scope.deal_amount_sell_rub)*tax_current/100)*100)/100;
+                $scope.deal_amount_sell_curr = Math.round((Number($scope.deal_amount_sell_rub)- Number($scope.deal_amount_sell_rub)*tax_current/100)*100)/100;
             }
             if(value==3) {
                 tax_current = tax[value];
                 $scope.tax_text='Комиссия '+tax_current+'%: (с учетом комиссии Сбербанка 1%):';
                 $scope.num_text = 'Номер в формате XXXXXXXXXXXXXXXX';
-                $scope.commission_sell = Math.round(Number($scope.deal_amount_sell_rub)*tax_current/100);
-                $scope.deal_amount_sell_curr = Math.round((Number($scope.deal_amount_sell_rub)- Number($scope.deal_amount_sell_rub)*tax_current/100));
+                $scope.commission_sell = Math.round((Number($scope.deal_amount_sell_rub)*tax_current/100)*100)/100;
+                $scope.deal_amount_sell_curr = Math.round((Number($scope.deal_amount_sell_rub)- Number($scope.deal_amount_sell_rub)*tax_current/100)*100)/100;
             }
         };
         $scope.change_sell_rub = function () {
-            $scope.commission_sell = Math.round(Number($scope.deal_amount_sell_rub)*tax_current/100);
-            $scope.deal_amount_sell_curr = Math.round((Number($scope.deal_amount_sell_rub)- Number($scope.deal_amount_sell_rub)*tax_current/100));
+            $scope.commission_sell = Math.round((Number($scope.deal_amount_sell_rub)*tax_current/100)*100)/100;
+            $scope.deal_amount_sell_curr = Math.round((Number($scope.deal_amount_sell_rub)- Number($scope.deal_amount_sell_rub)*tax_current/100)*100)/100;
         };
         $scope.change_sell_curr = function () {
-            $scope.deal_amount_sell_rub = Math.round((Number($scope.deal_amount_sell_curr)+ Number($scope.deal_amount_sell_curr)*tax_current/100));
-            $scope.commission_sell = Math.round(Number($scope.deal_amount_sell_curr)*tax_current/100);
+            $scope.deal_amount_sell_rub = Math.round((Number($scope.deal_amount_sell_curr)+ Number($scope.deal_amount_sell_curr)*tax_current/100)*100)/100;
+            $scope.commission_sell = Math.round((Number($scope.deal_amount_sell_curr)*tax_current/100)*100)/100;
         };
     });
     //]]>
