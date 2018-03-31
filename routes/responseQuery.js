@@ -81,12 +81,12 @@ exports.get = function (req, res, next) {
                                                          bank.summ_trans_current = Number(bank.summ_trans_current)-Number(qq.amount);
                                                          bank.summ_all_current = Number(bank.summ_all_current)+Number(qq.amount);
 
-                                                        bank.summ_trans_day = Number(bank.summ_trans_day)-summ;
-                                                        bank.summ_all_day = Number(bank.summ_all_day)+summ;
+                                                        bank.summ_trans_day = Number(bank.summ_trans_day)-Number(qq.amount);
+                                                        bank.summ_all_day = Number(bank.summ_all_day)+Number(qq.amount);
 
 
-                                                        bank.summ_trans_month = Number(bank.summ_trans_month)-summ;
-                                                        bank.summ_all_month = Number(bank.summ_all_month)+summ;
+                                                        bank.summ_trans_month = Number(bank.summ_trans_month)-Number(qq.amount);
+                                                        bank.summ_all_month = Number(bank.summ_all_month)+Number(qq.amount);
 
                                                         // bank.summ_transactions =Number( bank.summ_transactions)+Number(qq.amount);
                                                         // bank.summ_all = Number(bank.summ_all)+Number(qq.amount);
@@ -107,12 +107,12 @@ exports.get = function (req, res, next) {
                                                         bank.summ_trans_current = Number(bank.summ_trans_current)-Number(qq.amount);
                                                         bank.summ_all_current = Number(bank.summ_all_current)-Number(qq.amount);
 
-                                                        bank.summ_trans_day = Number(bank.summ_trans_day)-summ;
-                                                        bank.summ_all_day = Number(bank.summ_all_day)-summ;
+                                                        bank.summ_trans_day = Number(bank.summ_trans_day)-Number(qq.amount);
+                                                        bank.summ_all_day = Number(bank.summ_all_day)-Number(qq.amount);
 
 
-                                                        bank.summ_trans_month = Number(bank.summ_trans_month)-summ;
-                                                        bank.summ_all_month = Number(bank.summ_all_month)-summ;
+                                                        bank.summ_trans_month = Number(bank.summ_trans_month)-Number(qq.amount);
+                                                        bank.summ_all_month = Number(bank.summ_all_month)-Number(qq.amount);
 
                                                         // bank.summ_transactions =Number( bank.summ_transactions)-Number(qq.amount);
 
