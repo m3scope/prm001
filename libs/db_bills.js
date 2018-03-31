@@ -13,21 +13,18 @@ const sort_Name = [
     ['','']
 ];
 
-function updUserBalance(userId, addCurr, addSum, deductCurr, deductSumm) {
-    console.log('*** updUserBalance ***');
-    User.findById(userId, function (err, user) {
-        if(err) console.error(err);
-        if(!user) {
-            console.log(new Error('User not found!!!'))
-        } else {
-            user[Curr[addCurr]] = Math.round((user[Curr[addCurr]] + addSum)*100)/100;
-            //user[rezCurr[deductCurr]] = user[rezCurr[deductCurr]] - deductSumm;
-            user.save();
-        }
-
-
-    })
-}
+// function updUserBalance(userId, addCurr, addSum) {
+//     console.log('*** updUserBalance ***');
+//     User.findById(userId, function (err, user) {
+//         if(err) console.error(err);
+//         if(!user) {
+//             console.log(new Error('User not found!!!'))
+//         } else {
+//             user[Curr[addCurr]] = Math.round((user[Curr[addCurr]] + addSum)*100)/100;
+//             user.save();
+//         }
+//     })
+// }
 
 function crTrans(bill) {
     if(bill.class){     // покупка
@@ -121,6 +118,8 @@ async function cr_Bill(dealID, deal_amount, deal2Id) {
 
     const dealOne = await Deal.findById(dealID);
     const dealTwo = await Deal.findById(deal2Id);
+    const dealerOne = await User.findById(dealOne.dealerId);
+    const dealerTwo = await User.findById(dealTwo.dealerId);
 
 
 
@@ -137,8 +136,8 @@ async function cr_Bill(dealID, deal_amount, deal2Id) {
             newTwoBill.dealGeneralId = dealTwo._id;
             newTwoBill.dealTwoId = dealOne._id;
 
-            newTwoBill.dealerGeneralId = dealTwo.dealerId;
-            newTwoBill.dealerTwoId = dealOne.dealerId;
+            newTwoBill.dealerGeneralId = dealerTwo._id; //dealTwo.dealerId;
+            newTwoBill.dealerTwoId = dealerOne._id;   //dealOne.dealerId;
 
             newTwoBill.deal_amount = deal_amount;
             newTwoBill.deal_currency = dealTwo.deal_currency;
@@ -163,8 +162,8 @@ async function cr_Bill(dealID, deal_amount, deal2Id) {
             newGeneralBill.dealGeneralId = dealOne._id;
             newGeneralBill.dealTwoId = dealTwo._id;
 
-            newGeneralBill.dealerGeneralId = dealOne.dealerId;
-            newGeneralBill.dealerTwoId = dealTwo.dealerId;
+            newGeneralBill.dealerGeneralId = dealerOne._id;   //dealOne.dealerId;
+            newGeneralBill.dealerTwoId = dealerTwo._id;   //dealTwo.dealerId;
 
             newGeneralBill.deal_amount = deal_amount;
             newGeneralBill.deal_currency = dealOne.deal_currency;
@@ -185,63 +184,65 @@ async function cr_Bill(dealID, deal_amount, deal2Id) {
             // newGeneralBill.saldo_summ = deal_amount * (Math.abs(dealOne.price_amount - dealTwo.price_amount));
 
 //**********************
-            const savedGeneralBill = await newGeneralBill.save(); //(err, savedGeneralBill)=>{
+    const savedGeneralBill = await newGeneralBill.save(); //(err, savedGeneralBill)=>{
+    const savedTwoBill = await newTwoBill.save();   //(err, savedTwoBill)=>{
 
-                if(savedGeneralBill.err) {
-                    console.error(savedGeneralBill.err);
-                    //return cb(err, null, null);
-                }
-                dealOne.bills.push({billId: savedGeneralBill._id});
-                //dealOne.summ_bill = dealOne.summ_bill - savedGeneralBill.summ;
-                if(Boolean(dealOne.class)){
+    //let saveGB_deal_amount = Math.round((savedGeneralBill.deal_amount - savedGeneralBill.commission_summ)*100)/100;
+    //let savedGB_summ = savedGeneralBill.summ;
+
+                if(Boolean(dealOne.class)){     //Покупка
                     //User.findByIdAndUpdate()
-                    updUserBalance(savedGeneralBill.dealerGeneralId, savedGeneralBill.deal_currency, Math.round((savedGeneralBill.deal_amount - savedGeneralBill.commission_summ)*100)/100, savedGeneralBill.price_currency, savedGeneralBill.summ);
+                    //updUserBalance(dealerOne._id, savedGeneralBill.deal_currency, Math.round((savedGeneralBill.deal_amount - savedGeneralBill.commission_summ)*100)/100);
+                    let addSumm = Math.round((savedGeneralBill.deal_amount - savedGeneralBill.commission_summ)*100)/100;
+                    dealerOne[Curr[savedGeneralBill.deal_currency]] = Math.round((dealerOne[Curr[dealOne.price_currency]] + addSumm)*100)/100;
+                    //updUserBalance(dealerTwo._id, savedTwoBill.price_currency, Math.round((savedTwoBill.summ - savedTwoBill.commission_summ)*100)/100);
+                    let addSumm4 = Math.round((savedTwoBill.summ - savedTwoBill.commission_summ)*100)/100;
+                    dealerTwo[Curr[savedTwoBill.price_currency]] = Math.round((dealerTwo[Curr[savedTwoBill.price_currency]] + addSumm4)*100)/100;
                     if(dealOne.status == 9 && dealOne.summ_bill > 0){
-                        updUserBalance(dealOne.dealerId, dealOne.price_currency, dealOne.summ_bill, dealOne.price_currency, dealOne.summ_bill);
+                        //updUserBalance(dealerOne._id, dealOne.price_currency, dealOne.summ_bill);
+                        dealerOne[Curr[dealOne.price_currency]] = Math.round((dealerOne[Curr[dealOne.price_currency]] + dealOne.summ_bill)*100)/100;
                         dealOne.summ_bill = 0;
                     }
+                    dealerOne.save();
+                    dealerTwo.save();
                 } else {
-                    updUserBalance(savedGeneralBill.dealerGeneralId, savedGeneralBill.price_currency, Math.round((savedGeneralBill.summ - savedGeneralBill.commission_summ)*100)/100, savedGeneralBill.deal_currency, savedGeneralBill.deal_amount);
-
-                }
-                dealOne.save();
-                crTrans(savedGeneralBill);
-
-//*************************
-                const savedTwoBill = await newTwoBill.save();   //(err, savedTwoBill)=>{
-
-                    if(savedTwoBill.err) {
-                        console.error(savedTwoBill.err);
-                        //return cb(err, null, null);
-                    }
-                    dealTwo.bills.push({billId: savedTwoBill._id});
-                    //dealTwo.summ_bill = dealTwo.summ_bill - savedTwoBill.summ;
-                    if(Boolean(dealTwo.class)){
-
-                        updUserBalance(savedTwoBill.dealerGeneralId, savedTwoBill.deal_currency, Math.round((savedTwoBill.deal_amount - savedTwoBill.commission_summ)*100)/100, savedTwoBill.price_currency, savedTwoBill.summ);
-                        if(dealTwo.status == 9 && dealTwo.summ_bill > 0){
-                            updUserBalance(dealTwo.dealerId, dealTwo.price_currency, dealTwo.summ_bill, dealTwo.price_currency, dealTwo.summ_bill);
+                    //updUserBalance(dealerOne._id, savedGeneralBill.price_currency, Math.round((savedGeneralBill.summ - savedGeneralBill.commission_summ)*100)/100);
+                    let addSumm3 = Math.round((savedGeneralBill.summ - savedGeneralBill.commission_summ)*100)/100;
+                    dealerOne[Curr[savedGeneralBill.price_currency]] = Math.round((dealerOne[Curr[savedGeneralBill.price_currency]] + addSumm3)*100)/100;
+                    //updUserBalance(dealerTwo._id, savedTwoBill.deal_currency, Math.round((savedTwoBill.deal_amount - savedTwoBill.commission_summ)*100)/100);
+                    let addSumm2 = Math.round((savedTwoBill.deal_amount - savedTwoBill.commission_summ)*100)/100;
+                    dealerTwo[Curr[savedTwoBill.deal_currency]] = Math.round((dealerTwo[Curr[savedTwoBill.deal_currency]] + addSumm2)*100)/100;
+                    if(dealTwo.status == 9 && dealTwo.summ_bill > 0){
+                        //updUserBalance(dealerTwo._id, dealTwo.price_currency, dealTwo.summ_bill);
+                        dealerTwo[Curr[dealTwo.price_currency]] = Math.round((dealerTwo[Curr[dealTwo.price_currency]] + dealTwo.summ_bill)*100)/100;
                             dealTwo.summ_bill = 0;
-                        }
-                    } else {
-                        updUserBalance(savedTwoBill.dealerGeneralId, savedTwoBill.price_currency, Math.round((savedTwoBill.summ - savedTwoBill.commission_summ)*100)/100, savedTwoBill.deal_currency, savedTwoBill.deal_amount);
-
                     }
-                    // dealTwo.deal_amount_bill = dealTwo.deal_amount_bill - savedTwoBill.deal_amount;
-                    // if(dealTwo.deal_amount_bill <= 0) {
-                    //     dealTwo.status = 9;
-                    // }
-                    dealTwo.save();
-                    crTrans(savedTwoBill);
+                    dealerTwo.save();
+                    dealerOne.save();
+                }
+
+    if(savedGeneralBill.err) {
+        console.error(savedGeneralBill.err);
+        //return cb(err, null, null);
+    }
+    dealOne.bills.push({billId: savedGeneralBill._id});
+    //dealOne.summ_bill = dealOne.summ_bill - savedGeneralBill.summ;
+    dealOne.save();
+    crTrans(savedGeneralBill);
+
+    if(savedTwoBill.err) {
+        console.error(savedTwoBill.err);
+        //return cb(err, null, null);
+    }
+    dealTwo.bills.push({billId: savedTwoBill._id});
+    //dealTwo.summ_bill = dealTwo.summ_bill - savedTwoBill.summ;
+
+    dealTwo.save();
+    crTrans(savedTwoBill);
+
 
                     return {err:null, genBill:savedGeneralBill, twoBill:savedTwoBill};
-                //});
 
-            //});
-
-    //     });
-    // });
-    //return {dealOne: dealOne, dealTwo: dealTwo};
 }
 
 //const dealId = Deal.ObjectId("5a532408b1dc980da81bfcc1");
