@@ -37,7 +37,7 @@
               <label>QIWI</label>
               <input class="w3-radio" type="radio" name="bank_cod" ng-model="bank_cod" ng-change='newValue(bank_cod)' value="2">
               <label>Яндекс.Деньги</label>
-              <input class="w3-radio" type="radio" ng-desabled="true" name="bank_cod" ng-model="bank_cod" ng-change='newValue(bank_cod)' value="3">
+              <input class="w3-radio" type="radio" ng-disabled="true" name="bank_cod" ng-model="bank_cod" ng-change='newValue(bank_cod)' value="3">
               <label>СберБанк</label>
           </p>
         <p>
@@ -109,14 +109,14 @@
                 $scope.deal_amount_buy_curr = Math.round((Number($scope.deal_amount_buy_rub)- Number($scope.deal_amount_buy_rub)*tax_current/100));
             }
             if(value==2) {
-                tax_current = tax+0.5;
-                $scope.tax_text='Комиссия '+tax_current+'% (с учетом комиссии Yandex 0.5%):';
+                tax_current = tax;
+                $scope.tax_text='Комиссия '+tax_current+'%:';
                 $scope.commission_buy = Math.round(Number($scope.deal_amount_buy_rub)*tax_current/100);
                 $scope.deal_amount_buy_curr = Math.round((Number($scope.deal_amount_buy_rub)- Number($scope.deal_amount_buy_rub)*tax_current/100));
             }
             if(value==3) {
                 tax_current = tax+1;
-                $scope.tax_text='Комиссия '+tax_current+'% (c учетом комиссии СберБанк 1%):';
+                $scope.tax_text='Комиссия '+tax_current+'%:';
                 $scope.commission_buy = Math.round(Number($scope.deal_amount_buy_rub)*tax_current/100);
                 $scope.deal_amount_buy_curr = Math.round((Number($scope.deal_amount_buy_rub)- Number($scope.deal_amount_buy_rub)*tax_current/100));
             }
