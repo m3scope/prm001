@@ -23,10 +23,10 @@ const bankSchema = new mongoose.Schema({
     summ_trans_current: {type: Number, default: 190000},       // сумма дневных транзакций текущая
     summ_all_current: {type:Number, default: 0},                // сумма хранения текущая
 
-    summ_trans_day: {type: Number, default: 190000},       // сумма дневных транзакций текущая
+    summ_trans_day: {type: Number, default: 0},       // сумма дневных транзакций текущая
     summ_all_day: {type:Number, default: 0},
 
-    summ_trans_month: {type: Number, default: 190000},       // сумма дневных транзакций текущая
+    summ_trans_month: {type: Number, default: 0},       // сумма дневных транзакций текущая
     summ_all_month: {type:Number, default: 0},
 
     summ_rez: {type: Number, default: 0},
