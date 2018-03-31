@@ -105,29 +105,29 @@
             if(value==1){
                 tax_current = tax[value];
                 $scope.tax_text='Комиссия '+tax_current+'%:';
-                $scope.commission_buy = Math.round(Number($scope.deal_amount_buy_rub)*tax_current/100);
+                $scope.commission_buy = Math.round((Number($scope.deal_amount_buy_rub)*tax_current/100)*100)/100;
                 $scope.deal_amount_buy_curr = Math.round((Number($scope.deal_amount_buy_rub)- Number($scope.deal_amount_buy_rub)*tax_current/100)*100)/100;
             }
             if(value==2) {
                 tax_current = tax[value];
                 $scope.tax_text='Комиссия '+tax_current+'%:';
-                $scope.commission_buy = Math.round(Number($scope.deal_amount_buy_rub)*tax_current/100);
+                $scope.commission_buy = Math.round((Number($scope.deal_amount_buy_rub)*tax_current/100)*100)/100;
                 $scope.deal_amount_buy_curr = Math.round((Number($scope.deal_amount_buy_rub)- Number($scope.deal_amount_buy_rub)*tax_current/100)*100)/100;
             }
             if(value==3) {
                 tax_current = tax[value];
                 $scope.tax_text='Комиссия '+tax_current+'%:';
-                $scope.commission_buy = Math.round(Number($scope.deal_amount_buy_rub)*tax_current/100);
+                $scope.commission_buy = Math.round((Number($scope.deal_amount_buy_rub)*tax_current/100)*100)/100;
                 $scope.deal_amount_buy_curr = Math.round((Number($scope.deal_amount_buy_rub)- Number($scope.deal_amount_buy_rub)*tax_current/100)*100)/100;
             }
         };
         $scope.change_buy_rub = function () {
-            $scope.commission_buy = Math.round(Number($scope.deal_amount_buy_rub)*tax_current/100);
+            $scope.commission_buy = Math.round((Number($scope.deal_amount_buy_rub)*tax_current/100)*100)/100;
             $scope.deal_amount_buy_curr = Math.round((Number($scope.deal_amount_buy_rub)- Number($scope.deal_amount_buy_rub)*tax_current/100)*100)/100;
         };
         $scope.change_buy_curr = function () {
             $scope.deal_amount_buy_rub = Math.round((Number($scope.deal_amount_buy_curr)+ Number($scope.deal_amount_buy_curr)*tax_current/100)*100)/100;
-            $scope.commission_buy = Math.round(Number($scope.deal_amount_buy_curr)*tax_current/100);
+            $scope.commission_buy = Math.round((Number($scope.deal_amount_buy_curr)*tax_current/100)*100)/100;
         };
 
     });
