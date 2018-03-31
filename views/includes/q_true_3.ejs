@@ -37,7 +37,7 @@
               <label>QIWI</label>
               <input class="w3-radio" type="radio" name="bank_cod" ng-model="bank_cod" ng-change='newValue(bank_cod)' value="2">
               <label>Яндекс.Деньги</label>
-              <input class="w3-radio" type="radio" ng-disabled="true" name="bank_cod" ng-model="bank_cod" ng-change='newValue(bank_cod)' value="3">
+              <input class="w3-radio" type="radio" name="bank_cod" ng-model="bank_cod" ng-change='newValue(bank_cod)' value="3">
               <label>СберБанк</label>
           </p>
         <p>
@@ -91,8 +91,8 @@
     //<![CDATA[
     let myApp = angular.module('myApp',[]);
     let nm = {};
-    let tax = <%= inc.tax %>
-    let tax_current = tax;
+    let tax = [<%= inc.tax %>];
+    let tax_current = tax[1];
     const Curr = ['','PZM','USD','RUR'];
     myApp.controller('MainCtrl', function($scope) {
         $scope.data = {};
@@ -103,19 +103,19 @@
         $scope.tax_text='Комиссия '+tax_current+'%:';
         $scope.newValue = function(value) {
             if(value==1){
-                tax_current = tax;
+                tax_current = tax[value];
                 $scope.tax_text='Комиссия '+tax_current+'%:';
                 $scope.commission_buy = Math.round(Number($scope.deal_amount_buy_rub)*tax_current/100);
                 $scope.deal_amount_buy_curr = Math.round((Number($scope.deal_amount_buy_rub)- Number($scope.deal_amount_buy_rub)*tax_current/100));
             }
             if(value==2) {
-                tax_current = tax;
+                tax_current = tax[value];
                 $scope.tax_text='Комиссия '+tax_current+'%:';
                 $scope.commission_buy = Math.round(Number($scope.deal_amount_buy_rub)*tax_current/100);
                 $scope.deal_amount_buy_curr = Math.round((Number($scope.deal_amount_buy_rub)- Number($scope.deal_amount_buy_rub)*tax_current/100));
             }
             if(value==3) {
-                tax_current = tax+1;
+                tax_current = tax[value];
                 $scope.tax_text='Комиссия '+tax_current+'%:';
                 $scope.commission_buy = Math.round(Number($scope.deal_amount_buy_rub)*tax_current/100);
                 $scope.deal_amount_buy_curr = Math.round((Number($scope.deal_amount_buy_rub)- Number($scope.deal_amount_buy_rub)*tax_current/100));

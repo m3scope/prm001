@@ -64,7 +64,8 @@
     //<![CDATA[
     let myApp = angular.module('myApp',[]);
     let nm = {};
-    let tax = <%= inc.tax %>;
+    let tax = [<%= inc.tax %>];
+    let tax_current = tax[0];
     let tax_summ = 0.05;
     const Curr = ['','PZM','USD','RUR'];
     myApp.controller('MainCtrl', function($scope) {
@@ -82,8 +83,8 @@
             $scope.deal_amount_sell_curr = Math.round((Number($scope.deal_amount_sell_rub)- tax_summ)*100)/100;
         };
         $scope.change_sell_curr = function () {
-            $scope.deal_amount_sell_rub = Math.round((Number($scope.deal_amount_sell_curr)+ Number($scope.deal_amount_sell_curr)*tax/100));
-            $scope.commission_sell = Math.round(Number($scope.deal_amount_sell_curr)*tax/100);
+            $scope.deal_amount_sell_rub = Math.round((Number($scope.deal_amount_sell_curr)+ Number($scope.deal_amount_sell_curr)*tax_current/100));
+            $scope.commission_sell = Math.round(Number($scope.deal_amount_sell_curr)*tax_current/100);
         };
     });
     //]]>

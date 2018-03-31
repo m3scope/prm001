@@ -40,7 +40,7 @@ exports.get = function (req, res, next) {
                         case 'true':
                             i = 'q_true_'+ params[1];
                             res.render('createquery', {
-                                inc: {f: i, curr: params[1] * 1, tax:Number(tax.tax_in[Curr[params[1]]])},
+                                inc: {f: i, curr: params[1] * 1, tax:tax.tax_in[Curr[params[1]]]},
                                 title: 'Создать ЗАПРОС',
                                 user: user,
                                 LoginRegister: LoginRegister
@@ -53,7 +53,7 @@ exports.get = function (req, res, next) {
                             } else {
                                 //console.log('************ fgdjdjdjdjdjdjdjd');
                                 res.render('createquery', {
-                                    inc: {f: i, curr: params[1] * 1, tax:Number(tax.tax_out[Curr[params[1]]])},
+                                    inc: {f: i, curr: params[1] * 1, tax:tax.tax_out[Curr[params[1]]]},
                                     title: 'Создать ЗАПРОС',
                                     user: user,
                                     LoginRegister: LoginRegister
@@ -62,7 +62,7 @@ exports.get = function (req, res, next) {
                             break;
                         default:
                             res.render('createquery', {
-                                inc: {f: i, curr: params[1] * 1, tax:Number(tax.tax_in[Curr[params[1]]])},
+                                inc: {f: i, curr: params[1] * 1, tax:tax.tax_in[Curr[params[1]]]},
                                 title: 'Создать ЗАПРОС',
                                 user: user,
                                 LoginRegister: LoginRegister
@@ -90,14 +90,11 @@ exports.post = function (req, res, next) {
             const query = new Query;
 
             const cod = Math.round(Math.random()*1000000);
+            const bank_cod = Number(req.body.bank_cod);
             const summ = Number(req.body.deal_amount);
             const currency = req.body.deal_currency;
-            const commiss_buy = Math.round((Number(summ)*Number(tax.tax_in[currency])*100)/100);
-            let commiss_sell = Math.round((Number(summ)*Number(tax.tax_out[currency])*100)/100);
-
-            const bank_cod = Number(req.body.bank_cod);
-
-
+            const commiss_buy = Math.round((Number(summ)*Number(tax.tax_in[currency][bank_cod])*100)/100);
+            let commiss_sell = Math.round((Number(summ)*Number(tax.tax_out[currency][bank_cod])*100)/100);
 
             if(Number(req.body.bank_cod) < 1){ //вывод призм, расчет комиссии системы на вывод
                 commiss_sell = 0.05;
@@ -129,7 +126,7 @@ exports.post = function (req, res, next) {
                             query.bank_number = bank.bank_number;
                             query.bank_publicKey = bank.bank_publicKey;
                             query.amount = summ;
-                            query.commission_tax = Number(tax.tax_in[currency]);
+                            query.commission_tax = Number(tax.tax_in[currency][bank.bank_cod]);
                             query.commission_summ = commiss_buy;
                             query.currency = bank.currency;
                             query.currency_name = bank.currency_name;
@@ -196,7 +193,7 @@ exports.post = function (req, res, next) {
                                 query.bank_number = req.body.bank_number;
                                 query.bank_publicKey = req.body.bank_publicKey;
                                 query.amount = summ;
-                                query.commission_tax = Number(tax.tax_out[currency]);
+                                query.commission_tax = Number(tax.tax_out[currency][bank.bank_cod]);
                                 query.commission_summ = commiss_sell;
                                 query.currency = bank.currency;
                                 query.currency_name = bank.currency_name;
