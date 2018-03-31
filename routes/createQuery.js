@@ -93,8 +93,8 @@ exports.post = function (req, res, next) {
             const bank_cod = Number(req.body.bank_cod);
             const summ = Number(req.body.deal_amount);
             const currency = req.body.deal_currency;
-            const commiss_buy = Math.round((Number(summ)*Number(tax.tax_in[currency][bank_cod])*100)/100);
-            let commiss_sell = Math.round((Number(summ)*Number(tax.tax_out[currency][bank_cod])*100)/100);
+            const commiss_buy = Math.round(Number(summ)*Number(tax.tax_in[currency][bank_cod])/100);
+            let commiss_sell = Math.round(Number(summ)*Number(tax.tax_out[currency][bank_cod])/100);
 
             if(Number(req.body.bank_cod) < 1){ //вывод призм, расчет комиссии системы на вывод
                 commiss_sell = 0.05;
