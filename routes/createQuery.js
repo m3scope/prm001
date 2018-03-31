@@ -92,8 +92,8 @@ exports.post = function (req, res, next) {
             const cod = Math.round(Math.random()*1000000);
             const summ = Number(req.body.deal_amount);
             const currency = req.body.deal_currency;
-            const commiss_buy = Math.round(Number(summ)*Number(tax.tax_in[currency])/100);
-            let commiss_sell = Math.round(Number(summ)*Number(tax.tax_out[currency])/100);
+            const commiss_buy = Math.round((Number(summ)*Number(tax.tax_in[currency])*100)/100);
+            let commiss_sell = Math.round((Number(summ)*Number(tax.tax_out[currency])*100)/100);
 
             const bank_cod = Number(req.body.bank_cod);
 
@@ -102,7 +102,7 @@ exports.post = function (req, res, next) {
             if(Number(req.body.bank_cod) < 1){ //вывод призм, расчет комиссии системы на вывод
                 commiss_sell = 0.05;
                 if(summ > 10){
-                    commiss_sell = Math.round(Number(summ)*0.5+0.005)/100;
+                    commiss_sell = Math.round((Number(summ)*0.5+0.005)*100)/100;
                     if(commiss_sell>10){
                         commiss_sell = 10;
                     }
@@ -111,7 +111,7 @@ exports.post = function (req, res, next) {
 
             if(Boolean(Number(req.body.class))){        // (1 - пополнение)
 
-                Bank.findOne({bank_cod:req.body.bank_cod, summ_all_current:{$gte:summ}, summ_trans_current:{$gte:summ}}).sort({rounds: 1}).exec(function (err, bank) {
+                Bank.findOne({bank_cod:req.body.bank_cod, summ_all:{$gte:summ}, summ_trans_current:{$gte:summ}}).sort({rounds: 1}).exec(function (err, bank) {
                     "use strict";
                     if(err){
                         console.error(err);
@@ -143,8 +143,17 @@ exports.post = function (req, res, next) {
                                 console.log(saved_Q._id.toString());
                                 res.redirect('/api/q/res/'+saved_Q._id.toString()+';confirm');
                                 //********** BANK *******
-                                bank.summ_trans_current = Number(bank.summ_trans_current)+summ;
+                                bank.summ_trans_current = Number(bank.summ_trans_current)-summ;
                                 bank.summ_all_current = Number(bank.summ_all_current)+summ;
+
+                                bank.summ_trans_day = Number(bank.summ_trans_day)+summ;
+                                bank.summ_all_day = Number(bank.summ_all_day)+summ;
+
+
+                                bank.summ_trans_month = Number(bank.summ_trans_month)+summ;
+                                bank.summ_all_month = Number(bank.summ_all_month)+summ;
+
+
                                 // bank.summ_transactions =Number( bank.summ_transactions)+summ;
                                 // bank.summ_all = Number(bank.summ_all)+summ;
                                 bank.rounds = Number(bank.rounds) + 20;
@@ -163,7 +172,7 @@ exports.post = function (req, res, next) {
 
                 if((Number(user[currency]))>=summ){
                     //
-                    Bank.findOne({bank_cod:req.body.bank_cod, summ_all:{$gte:Number(summ)}, summ_transactions:{$gte:Number(summ)}}).sort({rounds: 1}).exec(function (err, bank) {
+                    Bank.findOne({bank_cod:req.body.bank_cod, summ_all_current:{$gte:Number(summ)}, summ_trans_current:{$gte:Number(summ)}}).sort({rounds: 1}).exec(function (err, bank) {
                         "use strict";
                         if(err) {
                             console.error(err);
@@ -205,8 +214,16 @@ exports.post = function (req, res, next) {
                                     user.save();
 
                                     //********** BANK *******
-                                    bank.summ_trans_current = Number(bank.summ_trans_current) + Number(summ);
+                                    bank.summ_trans_current = Number(bank.summ_trans_current) - Number(summ);
                                     bank.summ_all_current = Number(bank.summ_all_current) - Number(summ);
+
+                                    bank.summ_trans_day = Number(bank.summ_trans_day)+summ;
+                                    bank.summ_all_day = Number(bank.summ_all_day)-summ;
+
+
+                                    bank.summ_trans_month = Number(bank.summ_trans_month)+summ;
+                                    bank.summ_all_month = Number(bank.summ_all_month)-summ;
+
                                     // bank.summ_transactions = Number(bank.summ_transactions) - Number(summ);
                                     // bank.summ_all = Number(bank.summ_all) - Number(summ);
                                     bank.rounds = Number(bank.rounds) + 20;
