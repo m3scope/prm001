@@ -8,6 +8,30 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+<script language = 'javascript'>
+    function TimeMsk(dt) {
+        let dat = new Date(dt);
+        let dtMosk = dat.getTime();
+        let date = new Date(dtMosk + (3600000*3));
+        let Y = date.getUTCFullYear();
+        let M = checkZero(date.getUTCMonth()+1);
+        let D = checkZero(date.getUTCDate());
+        let hours = checkZero(date.getUTCHours());
+        let minutes = checkZero(date.getUTCMinutes());
+        let seconds = checkZero(date.getUTCSeconds());
+        let rez = Y+"."+M+"."+D+" "+hours + ":" + minutes + ":" + seconds + " MSK";
+        //console.log(rez);
+        return rez;
+    }
+    function startTime() {
+        let dt = new Date();
+        document.getElementById("time").innerHTML = TimeMsk(dt);
+        setTimeout(startTime, 1000);
+    }
+    function checkZero(t) {
+        return t<10 ? '0'+t : t;
+    }
+</script>
 <style>
   html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
   input[type=number]::-webkit-inner-spin-button,
@@ -16,7 +40,7 @@
     margin: 0;
   }
 </style>
-<body class="w3-light-grey ng-scope" >
+<body onload="startTime()" class="w3-light-grey ng-scope" >
 <!-- Page Container -->
 <div class="w3-content w3-margin-top" style="max-width:1400px;">
   <!-- Header -->

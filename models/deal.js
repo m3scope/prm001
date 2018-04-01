@@ -12,7 +12,9 @@ const crypto = require('crypto'); // модуль node.js для выполне�
 //const User = require('./user');
 
 const dealSchema = new mongoose.Schema({
-    UID: {type: String, default: Date.now().toString()},
+    UID: {type: String, default: ''},
+    operation_cod: {type: Number, default: 2},
+    operation_name: {type: String, default: 'Deal'},
     dealerId: { type: mongoose.Schema.ObjectId, ref: 'User', required: true },     // Id пользователя создавшего сделку
 
     deal_amount: {type: Number, default: 0},      // количество продаваемой/покупаемой валюты

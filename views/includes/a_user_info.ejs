@@ -2,7 +2,7 @@
 <div class="w3-panel"></div>
 <div class="w3-row-padding" ng-app="myApp">
     <!-- Left Column -->
-    <div class="w3-col s6" ng-controller="MainCtrl">
+    <div class="w3-col s12" ng-controller="MainCtrl">
         <div class="w3-card-4">
             <div class="w3-container w3-teal">
                 <h5>Списое пользователей</h5>
@@ -40,24 +40,24 @@
                     <th class="w3-border-left">Вид</th>
                     <th class="w3-border-left">Пара</th>
                     <th class="w3-border-left">Кол.</th>
+                    <th class="w3-border-left">Цена</th>
                     <th class="w3-border-left">Сумма</th>
+                    <th class="w3-border-left">Итог</th>
                     <th class="w3-border-left">Статус</th>
                 </tr>
                 <tr ng-repeat="info in dt2" ng-click="setSelected();">
                     <td>{{ info.createdAt }}</td>
-                    <td class="w3-border-left">{{ info.operation }}</td>
+                    <td class="w3-border-left">{{ info.operation_name }}</td>
                     <td class="w3-border-left">{{ info.class }}</td>
                     <td class="w3-border-left">{{ info.par }}</td>
-                    <td class="w3-border-left">{{ info.amount }}</td>
+                    <td class="w3-border-left">{{ info.deal_amount }}</td>
+                    <td class="w3-border-left">{{ info.price_amount }}</td>
                     <td class="w3-border-left">{{ info.summ }}</td>
+                    <td class="w3-border-left">{{ info.sm }}</td>
                     <td class="w3-border-left">{{ info.status }}</td>
                 </tr>
             </table>
         </div>
-    </div>
-
-    <div class="w3-small w3-col s6">
-        <span>8.  Предупреждение о рисках</span>
     </div>
 
 </div>
@@ -67,6 +67,12 @@
     let myApp = angular.module('myApp',[]);
     let nm = {};
     const Curr = ['','PZM','USD','RUR'];
+    const Oper = ['','Запрос','Ордер','Счет'];
+    const Class = ['Продажа','Покупка'];
+    const Class_q = ['Вывод средств','Пополнение'];
+    const Status = ['активный','отменен','закрыт'];
+    const Status_q = ['создана','подтверждена','исполнена','отменена'];
+    let sm = 0;
     myApp.controller('MainCtrl', function($scope) {
         $scope.dt1 = [];
         $scope.dt2 = [];
@@ -83,14 +89,28 @@
             console.log(this.dt.name_f);
         };
         <% users.userInfo.forEach(function(item) { %>
-            nm.createdAt = "<%= new Date(item.createdAt).toISOString().replace(/T/, ' ').replace(/\..+/, ''); %>";
-            nm.operation = '<%= item.operation%>';
-            nm.class = '<%= item.class%>';
-            nm.par = '<%= item.currency%>/<%= item.currency2 %>';
-            nm.amount = '<%= item.amount%>';
-            nm.summ = '<%= item.summ%>';
-            nm.status = '<%= item.status%>';
-            $scope.dt2.push({createdAt:nm.createdAt, operation:nm.operation, class:nm.class, par:nm.par, amount:nm.amount, summ:nm.summ, status:nm.status});
+            nm={};
+
+            nm.createdAt = TimeMsk("<%= item.createdAt %>");
+            nm.operation_name = Oper[<%= item.operation_cod%>];
+            nm.class = (<%= item.operation_cod%> == 1) ? Class_q[<%= item.class%>] : Class[<%= item.class%>];
+            nm.par = (<%= item.operation_cod%> == 1) ? '<%= item.currency_name%>':Curr[Number(<%= item.deal_currency%>)]+'/'+Curr[Number(<%= item.price_currency %>)];
+            nm.deal_amount = (<%= item.operation_cod%> == 1) ? '--':'<%= item.deal_amount%>';
+            nm.price_amount = (<%= item.operation_cod%> == 1) ? '--':'<%= item.price_amount%>';
+            nm.summ = (<%= item.operation_cod%> == 1) ? '<%= item.amount%>':'<%= item.summ%>';
+            if(<%= item.operation_cod%> == 1){
+                if(<%= item.class%> == 1){
+                    sm = sm + Number('<%= item.amount%>');
+                } else {sm = sm - Number('<%= item.amount%>');}
+            } else {
+                if(<%= item.class%> == 0){
+                    sm = sm + Number('<%= item.summ%>');
+                } else {sm = sm - Number('<%= item.summ%>');}
+            }
+            sm = Math.round(sm*100)/100;
+            nm.status = (<%= item.operation_cod%> == 1) ? Status_q[Number(<%= item.status%>)]:Status[Number(<%= item.status%>)];
+            nm.sm = sm;
+            $scope.dt2.push(nm);
         <%})%>
     });
     //]]>

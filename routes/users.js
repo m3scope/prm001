@@ -23,34 +23,37 @@ exports.get = function(req, res) {
                         if(query){
                             Query.find({userId: query.userId}).exec(function (err, query_items) {
                                 query_items.forEach(function (item) {
-                                    userInfo.push({
-                                        createdAt:item.createdAt,
-                                        operation: 'Запрос',
-                                        class: item.class==0 ? 'Вывод':'Пополнение',
-                                        currency: Curr[item.currency],
-                                        amount: item.amount,
-                                        currency2: '',
-                                        summ: '',
-                                        status: queryStatus[item.status]
-                                    });
+                                    userInfo.push(item);
+                                    // userInfo.push({
+                                    //     createdAt:item.createdAt,
+                                    //     operation: 'Запрос',
+                                    //     class: item.class==0 ? 'Вывод':'Пополнение',
+                                    //     currency: Curr[item.currency],
+                                    //     amount: item.amount,
+                                    //     currency2: '',
+                                    //     summ: '',
+                                    //     status: queryStatus[item.status]
+                                    // });
                                 });
 
-                                Deal.find({dealerId: query.userId}).exec(function (err, deal_items) {
-                                    deal_items.forEach(function (item) {
-                                        userInfo.push({
-                                            createdAt:item.createdAt,
-                                            operation: 'Сделка',
-                                            class: item.class==0 ? 'Продажа':'Покупка',
-                                            currency: Curr[item.deal_currency],
-                                            amount: item.deal_amount - item.deal_amount_bill,
-                                            currency2: Curr[item.price_currency],
-                                            summ: item.summ - item.summ_bill,
-                                            status: dealStatus[item.status]
-                                        });
-                                    });
+                                // Deal.find({dealerId: query.userId}).exec(function (err, deal_items) {
+                                //     deal_items.forEach(function (item) {
+                                //         userInfo.push(item);
+                                //         // userInfo.push({
+                                //         //     createdAt:item.createdAt,
+                                //         //     operation: 'Сделка',
+                                //         //     class: item.class==0 ? 'Продажа':'Покупка',
+                                //         //     currency: Curr[item.deal_currency],
+                                //         //     amount: item.deal_amount - item.deal_amount_bill,
+                                //         //     currency2: Curr[item.price_currency],
+                                //         //     summ: item.summ - item.summ_bill,
+                                //         //     status: dealStatus[item.status]
+                                //         // });
+                                //     });
 
-                                    // Bill.find({dealerGeneralId:query.userId}).exec(function (err, bill_items) {
-                                    //     bill_items.forEach(function (item) {
+                                    Bill.find({dealerGeneralId:query.userId}).exec(function (err, bill_items) {
+                                        bill_items.forEach(function (item) {
+                                            userInfo.push(item);
                                     //         userInfo.push({
                                     //             createdAt:item.createdAt,
                                     //             operation: 'Bill',
@@ -61,7 +64,7 @@ exports.get = function(req, res) {
                                     //             summ: item.summ,
                                     //             status: item.status
                                     //         });
-                                    //     });
+                                         });
                                     User.findById(query.userId).exec(function (err, user) {
                                         userInfo.sort(compareAge);
                                         //res.send(userInfo);
