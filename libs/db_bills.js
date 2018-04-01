@@ -275,6 +275,7 @@ async function BillsFromDeal(dealId){  // получаем объект    //(de
     let deal_amount_bill = 0;           // текущее на этапе количество сделки
     let genDeal_amount = 0;
     let twoDeal_amount = 0;
+    let price_amount_current = 0;
 
     for (let dealTwo of deals) {        // ПЕРЕБЕРАЕМ встречные предложения
         console.log('--------- SALDO --------------');
@@ -289,9 +290,15 @@ async function BillsFromDeal(dealId){  // получаем объект    //(de
             saldo = saldo - deal_amount_bill;
         }
 
+        // if(Math.abs(generalDeal.class*1)) {     // 1 - покупка
+        //     price_amount_current = generalDeal.price_amount>dealTwo.price_amount ? generalDeal.price_amount : dealTwo.price_amount;
+        // } else {                                // ПРОДАЖА
+            price_amount_current = generalDeal.price_amount<dealTwo.price_amount ? generalDeal.price_amount : dealTwo.price_amount;
+        // }
+
         genDeal_amount = Math.round((generalDeal.deal_amount_bill - deal_amount_bill)*100)/100;
         generalDeal.deal_amount_bill = genDeal_amount;
-        generalDeal.summ_bill = Math.round((generalDeal.summ_bill - deal_amount_bill*dealTwo.price_amount)*100)/100;
+        generalDeal.summ_bill = Math.round((generalDeal.summ_bill - deal_amount_bill*price_amount_current)*100)/100;
         if(genDeal_amount <= 0) {
             generalDeal.status = 9;
         } else {
@@ -303,7 +310,7 @@ async function BillsFromDeal(dealId){  // получаем объект    //(de
 
         twoDeal_amount = Math.round((dealTwo.deal_amount_bill - deal_amount_bill)*100)/100;
         dealTwo.deal_amount_bill = twoDeal_amount;
-        dealTwo.summ_bill = Math.round((dealTwo.summ_bill - deal_amount_bill*dealTwo.price_amount)*100)/100;
+        dealTwo.summ_bill = Math.round((dealTwo.summ_bill - deal_amount_bill*price_amount_current)*100)/100;
         if(twoDeal_amount <= 0) {
             dealTwo.status = 9;
         } else {
