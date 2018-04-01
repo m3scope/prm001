@@ -194,7 +194,7 @@ async function cr_Bill(dealID, deal_amount, deal2Id) {
                     //User.findByIdAndUpdate()
                     //updUserBalance(dealerOne._id, savedGeneralBill.deal_currency, Math.round((savedGeneralBill.deal_amount - savedGeneralBill.commission_summ)*100)/100);
                     let addSumm = Math.round((savedGeneralBill.deal_amount - savedGeneralBill.commission_summ)*100)/100;
-                    dealerOne[Curr[savedGeneralBill.deal_currency]] = Math.round((dealerOne[Curr[dealOne.price_currency]] + addSumm)*100)/100;
+                    dealerOne[Curr[savedGeneralBill.deal_currency]] = Math.round((dealerOne[Curr[savedGeneralBill.deal_currency]] + addSumm)*100)/100;
                     //updUserBalance(dealerTwo._id, savedTwoBill.price_currency, Math.round((savedTwoBill.summ - savedTwoBill.commission_summ)*100)/100);
                     let addSumm4 = Math.round((savedTwoBill.summ - savedTwoBill.commission_summ)*100)/100;
                     dealerTwo[Curr[savedTwoBill.price_currency]] = Math.round((dealerTwo[Curr[savedTwoBill.price_currency]] + addSumm4)*100)/100;

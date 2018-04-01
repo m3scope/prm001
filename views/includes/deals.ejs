@@ -208,11 +208,13 @@
         };
         $scope.getSelectBuy = function () {
             let price_buy = ($scope.price_amount_buy !== undefined ? $scope.price_amount_buy : minPrice);
-            $scope.deal_amount_buy = Math.round(this.UBalance_buy / price_buy * 100) / 100;
+
+            $scope.deal_amount_buy = Math.round((this.UBalance_buy-0.3) / price_buy * 100) / 100;
             $scope.price_amount_buy = price_buy;
             $scope.commission_buy = Math.round($scope.deal_amount_buy*0.007*100)/100;
             $scope.data.disabled_buy = !($scope.deal_amount_buy > 0 && $scope.price_amount_buy > 0);
-            $scope.summ_buy = Math.round($scope.deal_amount_buy * $scope.price_amount_buy*100)/100;
+            $scope.summ_buy = Math.round($scope.deal_amount_buy*$scope.price_amount_buy*100)/100;
+
         }
     });
     myApp.controller('Main2Ctrl', function($scope) {
