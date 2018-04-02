@@ -22,6 +22,14 @@
               </p>
           </div>
         <input type="hidden" name="class" value="1">
+          <p>
+              <input class="w3-radio" type="radio" name="bank_cod" ng-model="bank_cod" ng-change='newValue(bank_cod)' value="1" ng-checked="true">
+              <label>QIWI</label>
+              <input class="w3-radio" type="radio" name="bank_cod" ng-model="bank_cod" ng-change='newValue(bank_cod)' value="2">
+              <label>Яндекс.Деньги</label>
+              <input class="w3-radio" type="radio" name="bank_cod" ng-model="bank_cod" ng-change='newValue(bank_cod)' value="3">
+              <label>СберБанк</label>
+          </p>
         <p>
             <span class="w3-tag w3-green">RUB</span>
             <input class="w3-input" type="number" value="0" step="any" min="500" max="50000" name="deal_amount" required ng-model="deal_amount_buy_rub" ng-change="change_buy_rub()">
@@ -32,14 +40,7 @@
             <input ng-disabled="true" class="w3-input" type="number" value="0" step="any" name="price_amount" required ng-model="deal_amount_buy_curr" ng-change="change_buy_curr()">
             <input type="hidden" name="price_currency" value="{{ curr2 }}">
         </p>
-          <p>
-              <input class="w3-radio" type="radio" name="bank_cod" ng-model="bank_cod" ng-change='newValue(bank_cod)' value="1" ng-checked="true">
-              <label>QIWI</label>
-              <input class="w3-radio" type="radio" name="bank_cod" ng-model="bank_cod" ng-change='newValue(bank_cod)' value="2">
-              <label>Яндекс.Деньги</label>
-              <input class="w3-radio" type="radio" name="bank_cod" ng-model="bank_cod" ng-change='newValue(bank_cod)' value="3">
-              <label>СберБанк</label>
-          </p>
+
         <p>
             <label class="w3-tag w3-green">{{ tax_text }}</label>
             <input class="w3-input w3-text-yellow" ng-disabled="true" type="text" name="commiss_buy" value="{{commission_buy | number:2}}">

@@ -26,6 +26,14 @@
             </div>
             <input type="hidden" name="class" value="0">
             <p>
+                <input class="w3-radio" type="radio" name="bank_cod" ng-model="bank_cod" ng-change='newValue(bank_cod)' value="1" ng-checked="true">
+                <label>QIWI</label>
+                <input class="w3-radio" type="radio" name="bank_cod" ng-model="bank_cod" ng-change='newValue(bank_cod)' value="2">
+                <label>Яндекс.Деньги</label>
+                <input class="w3-radio" type="radio" name="bank_cod" ng-model="bank_cod" ng-change='newValue(bank_cod)' value="3">
+                <label>СберБанк</label>
+            </p>
+            <p>
                 <span class="w3-tag w3-green">RUB</span>
                 <input class="w3-input" type="number" value="0" step="any" min="500" max="50000" name="deal_amount" required ng-model="deal_amount_sell_rub" ng-change="change_sell_rub()">
                 <input type="hidden" name="deal_currency" value="{{ curr1 }}">
@@ -39,14 +47,7 @@
                 <label class="w3-tag w3-green">{{tax_text}}</label>
                 <input class="w3-input w3-text-yellow" ng-disabled="true" type="text" name="commiss_sell" value="{{commission_sell | number:2}}">
             </p>
-            <p>
-                <input class="w3-radio" type="radio" name="bank_cod" ng-model="bank_cod" ng-change='newValue(bank_cod)' value="1" ng-checked="true">
-                <label>QIWI</label>
-                <input class="w3-radio" type="radio" name="bank_cod" ng-model="bank_cod" ng-change='newValue(bank_cod)' value="2">
-                <label>Яндекс.Деньги</label>
-                <input class="w3-radio" type="radio" name="bank_cod" ng-model="bank_cod" ng-change='newValue(bank_cod)' value="3">
-                <label>СберБанк</label>
-            </p>
+
             <p>
                 <span class="w3-tag w3-green">Номер платежной системы:</span>
                 <input class="w3-input" type="text" name="bank_number" required ng-model="bank_number" ng-change="change_bank_number()">
