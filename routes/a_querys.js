@@ -24,7 +24,7 @@ exports.get = function(req, res) {
 
         } else {
 
-            Query.find({}).limit(50).sort({createdAt: -1}).exec(function (err, querys) {
+            Query.find({dealerId:req.session.user}).limit(20).sort({createdAt: -1}).exec(function (err, querys) {
                 if(err){
                     console.error(err);
                     res.redirect('/amd/users');
@@ -48,7 +48,7 @@ exports.post = function(req, res) {
         return res.render('login', {title: 'Авторизация'});
     } else {
         const filtr = [{},{dealerId:req.session.user},{status:{$lt:2}}];
-        const lm = (!req.body.limit ||Number(req.body.limit) < 0) ? 50:Number(req.body.limit);
+        const lm = (!req.body.limit ||Number(req.body.limit) < 0) ? 20:Number(req.body.limit);
 
 
         Query.find(filtr[Number(req.body.filter)]).limit(lm).sort({createdAt: -1}).exec(function (err, querys) {
