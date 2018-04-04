@@ -20,9 +20,10 @@
                 </div>
                 <input type="hidden" name="class" value="1">
                 <p>
-                    <span class="w3-tag w3-green">PZM</span>
+                    <span class="w3-tag w3-green"><%= curr[inc.curr] %></span>
                     <input class="w3-input" type="number" min="5" value="0" step="any" name="deal_amount" required ng-model="deal_amount_buy_rub" >
                     <input type="hidden" name="deal_currency" value="{{ curr1 }}">
+                    <input type="hidden" name="curr_cod" value="{{ curr_cod }}">
                 </p>
 
                 <p>
@@ -82,6 +83,7 @@
         $scope.data = {};
         $scope.data.disabled = false;
         $scope.curr1 = Curr[<%= inc.curr %>];
+        $scope.curr_cod = <%= inc.curr %>;
         $scope.dt1 = [];
         $scope.commission_buy = 0;
     });

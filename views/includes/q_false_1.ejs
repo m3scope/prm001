@@ -20,14 +20,14 @@
                 </div>
                 <input type="hidden" name="class" value="0">
                 <p>
-                    <span class="w3-tag w3-green">PZM</span>
+                    <span class="w3-tag w3-green"><%= curr[inc.curr] %></span>
                     <input class="w3-input" type="number" value="0" step="any" min="5" name="deal_amount" required ng-model="deal_amount_sell_rub" ng-change="change_sell_rub()">
                     <input type="hidden" name="deal_currency" value="{{ curr1 }}">
                 </p>
                 <p>
                     <span class="w3-tag w3-green">К получению: <%= curr[inc.curr] %></span>
                     <input ng-disabled="true" class="w3-input" type="number" value="0" step="any" name="price_amount" required ng-model="deal_amount_sell_curr" ng-change="change_sell_curr()">
-                    <input type="hidden" name="price_currency" value="{{ curr2 }}">
+                    <<input type="hidden" name="curr_cod" value="{{ curr_cod }}">
                 </p>
                 <p>
                     <label class="w3-tag w3-green">Комиcсия системы PRIZM</label>
@@ -70,6 +70,7 @@
     const Curr = ['','PZM','USD','RUR'];
     myApp.controller('MainCtrl', function($scope) {
         $scope.curr1 = Curr[<%= inc.curr %>];
+        $scope.curr_cod = <%= inc.curr %>;
         $scope.dt1 = [];
         $scope.commission_sell = 0;
         $scope.change_sell_rub = function () {

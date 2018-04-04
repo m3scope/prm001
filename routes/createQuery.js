@@ -93,6 +93,7 @@ exports.post = function (req, res, next) {
             const bank_cod = Number(req.body.bank_cod);
             const summ = Number(req.body.deal_amount);
             const currency = req.body.deal_currency;
+            const curr_cod = req.body.curr_cod;
             const commiss_buy = Math.round((Number(summ)*Number(tax.tax_in[currency][bank_cod])/100)*100)/100;
             let commiss_sell = Math.round((Number(summ)*Number(tax.tax_out[currency][bank_cod])/100)*100)/100;
 
@@ -108,7 +109,7 @@ exports.post = function (req, res, next) {
 
             if(Boolean(Number(req.body.class))){        // (1 - пополнение)
 
-                Bank.findOne({bank_cod:req.body.bank_cod, summ_all:{$gte:summ}, summ_trans_current:{$gte:summ}}).sort({rounds: 1}).exec(function (err, bank) {
+                Bank.findOne({bank_cod:req.body.bank_cod, summ_all:{$gte:summ}, summ_trans_current:{$gte:summ}, currency: curr_cod}).sort({rounds: 1}).exec(function (err, bank) {
                     "use strict";
                     if(err){
                         console.error(err);
@@ -159,7 +160,9 @@ exports.post = function (req, res, next) {
                             });
                             //-------------------------------
                         } else {
-                            res.redirect('/');
+
+                            res.render('info', {infoTitle: '<div class="w3-red">Внутренняя ошибка!</div>', infoText: 'Внутренняя ошибка!', url: '/profile', title: 'Запрос отклонен!', user: user, LoginRegister: LoginRegister});
+
                         }
                     }
                 });
@@ -169,7 +172,7 @@ exports.post = function (req, res, next) {
 
                 if((Number(user[currency]))>=summ){
                     //
-                    Bank.findOne({bank_cod:req.body.bank_cod, summ_all_current:{$gte:Number(summ)}, summ_trans_current:{$gte:Number(summ)}}).sort({rounds: 1}).exec(function (err, bank) {
+                    Bank.findOne({bank_cod:req.body.bank_cod, summ_all_current:{$gte:Number(summ)}, summ_trans_current:{$gte:Number(summ)}, currency: curr_cod}).sort({rounds: 1}).exec(function (err, bank) {
                         "use strict";
                         if(err) {
                             console.error(err);

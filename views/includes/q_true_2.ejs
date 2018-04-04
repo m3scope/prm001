@@ -7,34 +7,135 @@
             <div class="w3-container w3-teal">
                 <h5>ВВОД СРЕДСТВ НА ДЕПОЗИТ</h5>
             </div>
-            <form class="w3-container">
+            <form action="/api/q/req/add_silver" method="post" class="w3-container">
+                <div class="w3-panel w3-card-4 w3-pale-yellow">
+                    <p class=" w3-large w3-serif">
+                        <i class="fa fa-quote-right w3-xxlarge w3-text-red"></i><br>
+                    <ul>
+                        <li>
+                            Минимальная сумма к пополнению не менее 10 USD.
+                        </li>
+                        <li>
+                            Максимальная сумма за одну транзакцию не более 3 000 USD.
+                        </li>
+                    </ul>
+                    </p>
+                </div>
+                <input type="hidden" name="class" value="1">
                 <p>
-                    В настоящее время данный вид запроса не доступен!
+                    <input class="w3-radio" type="radio" name="bank_cod" ng-model="bank_cod" ng-change='newValue(bank_cod)' value="4" ng-checked="true">
+                    <label>AdvCash</label>
+                    <input class="w3-radio" type="radio" disabled="true" name="bank_cod" ng-model="bank_cod" ng-change='newValue(bank_cod)' value="5">
+                    <label>PerfectMoney</label>
+                    <input class="w3-radio" type="radio" disabled="true" name="bank_cod" ng-model="bank_cod" ng-change='newValue(bank_cod)' value="6">
+                    <label>NixMoney</label>
                 </p>
                 <p>
-                    <span class="w3-tiny">{{ counter }}</span>
+                    <span class="w3-tag w3-green"><%= curr[inc.curr] %></span>
+                    <input class="w3-input" type="number" value="0" step="any" min="{{in_min}}" max="3000" name="deal_amount" required ng-model="deal_amount_buy_rub" ng-change="change_buy_rub()">
+                    <input type="hidden" name="deal_currency" value="{{ curr1 }}">
+                </p>
+                <p>
+                    <span class="w3-tag w3-green">К зачислению: <%= curr[inc.curr] %></span>
+                    <input ng-disabled="true" class="w3-input" type="number" value="0" step="any" name="price_amount" required ng-model="deal_amount_buy_curr" ng-change="change_buy_curr()">
+                    <input type="hidden" name="curr_cod" value="{{ curr_cod }}">
+                </p>
+
+                <p>
+                    <label class="w3-tag w3-green">{{ tax_text }}</label>
+                    <input class="w3-input w3-text-yellow" ng-disabled="true" type="text" name="commiss_buy" value="{{commission_buy | number:2}}">
+                </p>
+                <p>
+                    <input type="checkbox" name="check_TermsOfService" ng-model="data.disabled">
+                    <label class="w3-text-yellow" >* Согласен с условиями работы сервиса</label>
+                </p>
+                <p>
+                    <input class="w3-btn w3-teal" type="submit" value="Создать" ng-disabled="!data.disabled">
                 </p>
             </form>
         </div>
 
     </div>
+
+    <div class="w3-small w3-col s6">
+        <span>8.  Предупреждение о рисках</span>
+        <ul>
+            <li>
+                <span>
+                8.1. Пользователь гарантирует, что ему известны основные принципы работы Криптовалют, а также характеристики Криптовалют, влияющие на ее стоимость. Пользователь гарантирует, что у него есть возможность совершать транзакции с Критовалютами, а также что Пользователь является полностью дееспособным в соответствии с личным законом.
+                </span>
+            </li>
+            <li>
+                <span>
+                    8.2. Пользователь понимает, что Сервис отражает на Сайте Курс, на основании которого совершаются Сделки, и что такой Курс устанавливается самими Пользователями. Сервис никак не влияет на Курс, выбираемый Пользователями, Сервис не дает рекомендаций по определению Курса, и не осуществляет прогнозирование такого Курса. Пользователь несет все экономические риски, связанные с выбором того или иного Курса. Сервис не гарантирует Пользователю того, что Сделка будет совершена и что условия такой Сделки будут выгодны для Пользователя.
+                </span>
+            </li>
+            <li>
+                <span>
+                    8.3. Пользователь понимает, что Сервис не имеет отношения к совершению операций и/или транзакций с Криптовалютами, поэтому Сервис не принимает на себя никаких гарантий относительно сроков и/или возможности совершения операций и/или транзакций с Криптовалютами, необходимых для совершения Сделок.
+                </span>
+            </li>
+            <li>
+                <span>
+                    8.4. Пользователь понимает, что любые операции с Криптовалютами носят необратимый характер и что возврат полученного по Сделке возможен только на основе дополнительного соглашения с другим Пользователем.
+                </span>
+            </li>
+        </ul>
+
+    </div>
+
 </div>
+
+
 
 <script type="text/javascript">
     //<![CDATA[
     let myApp = angular.module('myApp',[]);
-    myApp.controller('MainCtrl', function($scope, $timeout) {
-        $scope.counter = 0;
-        let i = 0;
-        let updateCounter = function() {
-            $scope.counter = 10 - i;
-            i++;
-            if (i == 10) {
-                window.location.href='/profile';
+    let nm = {};
+    let tax = [<%= inc.tax %>];
+    let tax_current = tax[1];
+    const Curr = ['','PZM','USD','RUR'];
+    myApp.controller('MainCtrl', function($scope) {
+        $scope.in_min = 10;
+        $scope.data = {};
+        $scope.data.disabled = false;
+        $scope.curr1 = Curr[<%= inc.curr %>];
+        $scope.curr_cod = <%= inc.curr %>;
+        $scope.dt1 = [];
+        $scope.commission_buy = 0;
+        $scope.tax_text='Комиссия '+tax_current+'%:';
+        $scope.newValue = function(value) {
+            if(value==4){
+                tax_current = tax[value];
+                $scope.in_min = 10;
+                $scope.tax_text='Комиссия '+tax_current+'%:';
+                $scope.commission_buy = Math.round((Number($scope.deal_amount_buy_rub)*tax_current/100)*100)/100;
+                $scope.deal_amount_buy_curr = Math.round((Number($scope.deal_amount_buy_rub)- Number($scope.deal_amount_buy_rub)*tax_current/100)*100)/100;
             }
-            $timeout(updateCounter, 1000);
+            if(value==5) {
+                tax_current = tax[value];
+                $scope.in_min = 10;
+                $scope.tax_text='Комиссия '+tax_current+'%:';
+                $scope.commission_buy = Math.round((Number($scope.deal_amount_buy_rub)*tax_current/100)*100)/100;
+                $scope.deal_amount_buy_curr = Math.round((Number($scope.deal_amount_buy_rub)- Number($scope.deal_amount_buy_rub)*tax_current/100)*100)/100;
+            }
+            if(value==6) {
+                tax_current = tax[value];
+                $scope.in_min = 10;
+                $scope.tax_text='Комиссия '+tax_current+'%:';
+                $scope.commission_buy = Math.round((Number($scope.deal_amount_buy_rub)*tax_current/100)*100)/100;
+                $scope.deal_amount_buy_curr = Math.round((Number($scope.deal_amount_buy_rub)- Number($scope.deal_amount_buy_rub)*tax_current/100)*100)/100;
+            }
         };
-        updateCounter();
+        $scope.change_buy_rub = function () {
+            $scope.commission_buy = Math.round((Number($scope.deal_amount_buy_rub)*tax_current/100)*100)/100;
+            $scope.deal_amount_buy_curr = Math.round((Number($scope.deal_amount_buy_rub)- Number($scope.deal_amount_buy_rub)*tax_current/100)*100)/100;
+        };
+        $scope.change_buy_curr = function () {
+            $scope.deal_amount_buy_rub = Math.round((Number($scope.deal_amount_buy_curr)+ Number($scope.deal_amount_buy_curr)*tax_current/100)*100)/100;
+            $scope.commission_buy = Math.round((Number($scope.deal_amount_buy_curr)*tax_current/100)*100)/100;
+        };
+
     });
     //]]>
 </script>

@@ -7,12 +7,59 @@
             <div class="w3-container w3-teal">
                 <h5>Вывод средств</h5>
             </div>
-            <form class="w3-container">
+            <form action="/api/q/req/dec_silver" method="post" class="w3-container">
+                <div class="w3-panel w3-card-4 w3-pale-yellow">
+                    <p class=" w3-large w3-serif">
+                        <i class="fa fa-quote-right w3-xxlarge w3-text-red"></i><br>
+                    <ul>
+                        <li>
+                            Минимальная сумма к выводу не менее   10 USD.
+                        </li>
+                        <li>
+                            Максимальная сумма за одну транзакцию не более 1 000 USD.
+                        </li>
+                        <li>
+                            Вывод средств в течение 72 часов
+                        </li>
+                    </ul>
+                    </p>
+                </div>
+                <input type="hidden" name="class" value="0">
                 <p>
-                    В настоящее время данный вид запроса не доступен!
+                    <input class="w3-radio" type="radio" name="bank_cod" ng-model="bank_cod" ng-change='newValue(bank_cod)' value="4" ng-checked="true">
+                    <label>AdvCash</label>
+                    <input class="w3-radio" type="radio" disabled="true" name="bank_cod" ng-model="bank_cod" ng-change='newValue(bank_cod)' value="5">
+                    <label>PerfectMoney</label>
+                    <input class="w3-radio" type="radio" disabled="true" name="bank_cod" ng-model="bank_cod" ng-change='newValue(bank_cod)' value="6">
+                    <label>NixMoney</label>
                 </p>
                 <p>
-                    <span class="w3-tiny">{{ counter }}</span>
+                    <span class="w3-tag w3-green"><%= curr[inc.curr] %></span>
+                    <input class="w3-input" type="number" value="0" step="any" min="10" max="1000" name="deal_amount" required ng-model="deal_amount_sell_rub" ng-change="change_sell_rub()">
+                    <input type="hidden" name="deal_currency" value="{{ curr1 }}">
+                </p>
+                <p>
+                    <span class="w3-tag w3-green">К получению: <%= curr[inc.curr] %></span>
+                    <input ng-disabled="true" class="w3-input" type="number" value="0" step="any" name="price_amount" required ng-model="deal_amount_sell_curr" ng-change="change_sell_curr()">
+                    <input type="hidden" name="curr_cod" value="{{ curr_cod }}">
+                </p>
+                <p>
+                    <label class="w3-tag w3-green">{{tax_text}}</label>
+                    <input class="w3-input w3-text-yellow" ng-disabled="true" type="text" name="commiss_sell" value="{{commission_sell | number:2}}">
+                </p>
+
+                <p>
+                    <span class="w3-tag w3-green">Номер платежной системы:</span>
+                    <input class="w3-input" type="text" name="bank_number" required ng-model="bank_number" ng-change="change_bank_number()">
+                    <label>{{ num_text }}</label>
+                </p>
+
+                <p>
+                    <input type="checkbox" name="check_TermsOfService" ng-model="data.disabled">
+                    <label class="w3-text-yellow" >* Согласен с условиями работы сервиса</label>
+                </p>
+                <p>
+                    <input class="w3-btn w3-teal" type="submit" value="Создать" ng-disabled="!data.disabled">
                 </p>
             </form>
         </div>
@@ -23,18 +70,48 @@
 <script type="text/javascript">
     //<![CDATA[
     let myApp = angular.module('myApp',[]);
-    myApp.controller('MainCtrl', function($scope, $timeout) {
-        $scope.counter = 0;
-        let i = 0;
-        let updateCounter = function() {
-            $scope.counter = 10 - i;
-            i++;
-            if (i == 10) {
-                window.location.href='/profile';
+    let nm = {};
+    let tax = [<%= inc.tax %>];
+    let tax_current = tax[1];
+    const Curr = ['','PZM','USD','RUR'];
+    myApp.controller('MainCtrl', function($scope) {
+        $scope.curr1 = Curr[<%= inc.curr %>];
+        $scope.curr_cod = <%= inc.curr %>;
+        $scope.dt1 = [];
+        $scope.commission_sell = 0;
+        $scope.tax_text='Комиссия '+tax_current+'%:';
+        $scope.num_text = 'Номер кошелька в формате U ХХХ ХХХ ХХХ';
+        $scope.newValue = function(value) {
+            if(value==1){
+                tax_current = tax[value];
+                $scope.tax_text='Комиссия '+tax_current+'%:';
+                $scope.num_text = 'Номер кошелька в формате U ХХХ ХХХ ХХХ';
+                $scope.commission_sell = Math.round((Number($scope.deal_amount_sell_rub)*tax_current/100)*100)/100;
+                $scope.deal_amount_sell_curr = Math.round((Number($scope.deal_amount_sell_rub)- Number($scope.deal_amount_sell_rub)*tax_current/100)*100)/100;
             }
-            $timeout(updateCounter, 1000);
+            if(value==2) {
+                tax_current = tax[value];
+                $scope.tax_text='Комиссия '+tax_current+'%: (с учетом комиссии Yandex 0,5%):';
+                $scope.num_text = 'Номер в формате XXXXXXXXXXXXXX';
+                $scope.commission_sell = Math.round((Number($scope.deal_amount_sell_rub)*tax_current/100)*100)/100;
+                $scope.deal_amount_sell_curr = Math.round((Number($scope.deal_amount_sell_rub)- Number($scope.deal_amount_sell_rub)*tax_current/100)*100)/100;
+            }
+            if(value==3) {
+                tax_current = tax[value];
+                $scope.tax_text='Комиссия '+tax_current+'%: (с учетом комиссии Сбербанка 1%):';
+                $scope.num_text = 'Номер в формате XXXXXXXXXXXXXXXX';
+                $scope.commission_sell = Math.round((Number($scope.deal_amount_sell_rub)*tax_current/100)*100)/100;
+                $scope.deal_amount_sell_curr = Math.round((Number($scope.deal_amount_sell_rub)- Number($scope.deal_amount_sell_rub)*tax_current/100)*100)/100;
+            }
         };
-        updateCounter();
+        $scope.change_sell_rub = function () {
+            $scope.commission_sell = Math.round((Number($scope.deal_amount_sell_rub)*tax_current/100)*100)/100;
+            $scope.deal_amount_sell_curr = Math.round((Number($scope.deal_amount_sell_rub)- Number($scope.deal_amount_sell_rub)*tax_current/100)*100)/100;
+        };
+        $scope.change_sell_curr = function () {
+            $scope.deal_amount_sell_rub = Math.round((Number($scope.deal_amount_sell_curr)+ Number($scope.deal_amount_sell_curr)*tax_current/100)*100)/100;
+            $scope.commission_sell = Math.round((Number($scope.deal_amount_sell_curr)*tax_current/100)*100)/100;
+        };
     });
     //]]>
 </script>
