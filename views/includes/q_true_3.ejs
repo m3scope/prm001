@@ -13,7 +13,7 @@
                   <i class="fa fa-quote-right w3-xxlarge w3-text-red"></i><br>
               <ul>
                   <li>
-                      Минимальная сумма к пополнению не менее 500р.
+                      Минимальная сумма к пополнению не менее 500р. Сбербанк не менее 3000р.
                   </li>
                   <li>
                       Максимальная сумма за одну транзакцию не более 50 000р.
@@ -32,7 +32,7 @@
           </p>
         <p>
             <span class="w3-tag w3-green">RUB</span>
-            <input class="w3-input" type="number" value="0" step="any" min="500" max="50000" name="deal_amount" required ng-model="deal_amount_buy_rub" ng-change="change_buy_rub()">
+            <input class="w3-input" type="number" value="0" step="any" min="{{in_min}}" max="50000" name="deal_amount" required ng-model="deal_amount_buy_rub" ng-change="change_buy_rub()">
             <input type="hidden" name="deal_currency" value="{{ curr1 }}">
         </p>
         <p>
@@ -96,6 +96,7 @@
     let tax_current = tax[1];
     const Curr = ['','PZM','USD','RUR'];
     myApp.controller('MainCtrl', function($scope) {
+        $scope.in_min = 500;
         $scope.data = {};
         $scope.data.disabled = false;
         $scope.curr1 = Curr[<%= inc.curr %>];
@@ -105,18 +106,21 @@
         $scope.newValue = function(value) {
             if(value==1){
                 tax_current = tax[value];
+                $scope.in_min = 500;
                 $scope.tax_text='Комиссия '+tax_current+'%:';
                 $scope.commission_buy = Math.round((Number($scope.deal_amount_buy_rub)*tax_current/100)*100)/100;
                 $scope.deal_amount_buy_curr = Math.round((Number($scope.deal_amount_buy_rub)- Number($scope.deal_amount_buy_rub)*tax_current/100)*100)/100;
             }
             if(value==2) {
                 tax_current = tax[value];
+                $scope.in_min = 500;
                 $scope.tax_text='Комиссия '+tax_current+'%:';
                 $scope.commission_buy = Math.round((Number($scope.deal_amount_buy_rub)*tax_current/100)*100)/100;
                 $scope.deal_amount_buy_curr = Math.round((Number($scope.deal_amount_buy_rub)- Number($scope.deal_amount_buy_rub)*tax_current/100)*100)/100;
             }
             if(value==3) {
                 tax_current = tax[value];
+                $scope.in_min = 3000;
                 $scope.tax_text='Комиссия '+tax_current+'%:';
                 $scope.commission_buy = Math.round((Number($scope.deal_amount_buy_rub)*tax_current/100)*100)/100;
                 $scope.deal_amount_buy_curr = Math.round((Number($scope.deal_amount_buy_rub)- Number($scope.deal_amount_buy_rub)*tax_current/100)*100)/100;

@@ -9,8 +9,8 @@ const bankSchema = new mongoose.Schema({
 
     rounds: {type: Number, default: 0},     // позиция в очереди
 
-    bank_cod: {type: Number, default: 99},        // числовой код (0 - PRIZM, 1 - QIWI, 2 - Yandex, 3 - SberBank, 4 - PerfectMoney)
-    bank_name: String,                      // Наименование "банка" ['PRIZM','QIWI','Yandex','SberBank','PerfectMoney']
+    bank_cod: {type: Number, default: 99},        // числовой код (0 - PRIZM, 1 - QIWI, 2 - Yandex, 3 - SberBank, 4 - ADVcash, 5 - PerfectMoney)
+    bank_name: String,                      // Наименование "банка" ['PRIZM','QIWI','Yandex','SberBank','ADVcash','PerfectMoney']
     bank_number: String,            // номер счета (кошелька)
     bank_publicKey: {type:String, default:''},         // для Призм
 
