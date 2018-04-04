@@ -33,7 +33,7 @@
         <form name="registrationForm" action="/register" method="post" novalidate method="post" class="w3-container" ng-submit="registration.submit(registrationForm.$valid)"> <!-- action="/register" method="post" -->
           <label class="w3-text-yellow w3-small">* Все поля обязательны для заполнения!</label>
           <p>
-            <label class="w3-tag w3-teal">Логин</label><span class="w3-small w3-text-gray">  (6-18зн./лат.,цифры/)</span>
+            <label class="w3-tag w3-teal">Логин</label><span class="w3-small w3-text-gray">  (-имя от 6 до 18 знаков маленькими латинскими буквами и + можно цифры)</span>
             <input class="w3-input" type="text" pattern="^[a-z0-9_-]{6,18}$" name="username" placeholder="(6-18зн.строчные/лат.,цифры/)" ng-model="registration.user.username" required>
           </p>
           <p>
