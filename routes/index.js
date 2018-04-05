@@ -34,7 +34,7 @@ router.get('/', function(req, res, next) {
         User.findById(req.session.user, function (err, user) {
             infoText.txt = 'Внимание! Об ошибках сообщать на support@prizmex.ru<p>Внимание: ЗАПРОСЫ обрабатываются с 7.00 до 21.00 МСК</p>';
             UserBalance = [0,Math.round(user.PZM*100)/100,Math.round(user.USD*100)/100,Math.round(user.RUR*100)/100];
-            LoginRegister = '<div class="w3-right-align w3-small"><span class="w3-border-top">'+req.session.username+'</span></div><a href="/profile" class="w3-button w3-border w3-border-white w3-round">Профиль</a>&nbsp;&nbsp;<a href="/logout" class="w3-button w3-border w3-border-white w3-round">Выход</a>' +
+            LoginRegister = '<div class="w3-right-align w3-small"><span class="w3-border-top">'+req.session.username+'</span></div><a href="/profile" class="w3-button w3-border w3-border-white w3-round"><label>Профиль</label><span class="w3-tiny"> / </span><label class="w3-tiny">БАЛАНС</label></a>&nbsp;&nbsp;<a href="/logout" class="w3-button w3-border w3-border-white w3-round">Выход</a>' +
                 '<div class="w3-right-align w3-small">' +
                 '<span>PZM: </span>' +
                 '<label class="w3-border-bottom"> '+UserBalance[1]+' </label>' +
@@ -257,7 +257,7 @@ router.get('/deals/:id?', function (req, res) {
         User.findById(req.session.user, function (err, user) {
             infoText.txt = 'Внимание! Об ошибках сообщать на support@prizmex.ru<p>Внимание: ЗАПРОСЫ обрабатываются с 7.00 до 21.00 МСК</p>';
             UserBalance = [0,Math.round(user.PZM*100)/100,Math.round(user.USD*100)/100,Math.round(user.RUR*100)/100];
-            LoginRegister = '<div class="w3-right-align w3-small"><span class="w3-border-top">'+req.session.username+'</span></div><a href="/profile" class="w3-button w3-border w3-border-white w3-round">Профиль</a>&nbsp;&nbsp;<a href="/logout" class="w3-button w3-border w3-border-white w3-round">Выход</a>' +
+            LoginRegister = '<div class="w3-right-align w3-small"><span class="w3-border-top">'+req.session.username+'</span></div><a href="/profile" class="w3-button w3-border w3-border-white w3-round"><label>Профиль</label><span class="w3-tiny"> / </span><label class="w3-tiny">БАЛАНС</label></a>&nbsp;&nbsp;<a href="/logout" class="w3-button w3-border w3-border-white w3-round">Выход</a>' +
                 '<div class="w3-right-align w3-small">' +
                 '<span>PZM: </span>' +
                 '<label class="w3-border-bottom"> '+UserBalance[1]+' </label>' +
