@@ -47,7 +47,7 @@ const billSchema = new mongoose.Schema({
     class: {type: Number, default: 0},          // Тип(класс) сделки (0 - продажа, 1 - покупка)
 
     viewStatus: {type: Number, default: 0},     // статус просмотра
-    status: {type: Number, default: 2}          // Статус счета ['активный(ожидает подтверждения)','отменен','закрыт(исполнен)']
+    status: {type: Number, default: 2}          // Статус счета ['активный(ожидает подтверждения)','отменен','закрыт(исполнен)','отменен']
 },  {
     timestamps: true
 });
