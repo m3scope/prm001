@@ -221,24 +221,19 @@ async function cr_Bill(dealID, deal_amount, deal2Id) {
                     dealerOne.save();
                 }
 
-    if(savedGeneralBill.err) {
-        console.error(savedGeneralBill.err);
-        //return cb(err, null, null);
-    }
-    dealOne.bills.push({billId: savedGeneralBill._id});
-    //dealOne.summ_bill = dealOne.summ_bill - savedGeneralBill.summ;
-    dealOne.save();
-    crTrans(savedGeneralBill);
 
-    if(savedTwoBill.err) {
-        console.error(savedTwoBill.err);
-        //return cb(err, null, null);
-    }
-    dealTwo.bills.push({billId: savedTwoBill._id});
-    //dealTwo.summ_bill = dealTwo.summ_bill - savedTwoBill.summ;
+                                dealOne.bills.push({billId: savedGeneralBill._id});
+                                //dealOne.summ_bill = dealOne.summ_bill - savedGeneralBill.summ;
+    console.log('******** dealOne.bills.push({billId: savedGeneralBill._id}); ');
+                                dealOne.save();
+                                crTrans(savedGeneralBill);
 
-    dealTwo.save();
-    crTrans(savedTwoBill);
+
+                                dealTwo.bills.push({billId: savedTwoBill._id});
+                                //dealTwo.summ_bill = dealTwo.summ_bill - savedTwoBill.summ;
+console.log('*************dealTwo.bills.push({billId: savedTwoBill._id});');
+                                dealTwo.save();
+                                crTrans(savedTwoBill);
 
 
                     return {err:null, genBill:savedGeneralBill, twoBill:savedTwoBill};
