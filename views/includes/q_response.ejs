@@ -67,7 +67,7 @@
         </div>
         </div>
         <%}%>
-      <% if(qq.bank_cod == 4){%>
+      <% if(qq.bank_cod == 4 || qq.bank_cod == 5 || qq.bank_cod == 6){%>
     <div class="w3-col s6 w3-container">
       <div class="w3-card-4">
         <div class="w3-container w3-teal">
@@ -75,7 +75,7 @@
         </div>
         <ul>
           <li>
-            Зайдите в ваш кабинет AdvCash.
+            Зайдите в Ваш кабинет <%= qq.bank_name %>.
           </li>
           <li>
             Отправьте указанное количество долларов до центов на указанный адрес.
