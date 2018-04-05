@@ -1,6 +1,6 @@
 const Deal = require('../models/deal');
 
-exports.getdeals = function (curr1, curr2, cb) {
+exports.getdeals = function (curr1, curr2, cb) {        // 1;2
     let dt1 = null;
     let dt2 = null;
     if (curr1>3) curr1=1;

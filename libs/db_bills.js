@@ -250,6 +250,7 @@ async function cr_Bill(dealID, deal_amount, deal2Id) {
 async function BillsFromDeal(dealId){  // получаем объект    //(dealId) {
     let rez = 0;
     let price_amount = {};
+
     let sorts = {};
     let generalDeal = await Deal.findOne({_id: dealId}); // находим сделку
 
@@ -264,6 +265,8 @@ async function BillsFromDeal(dealId){  // получаем объект    //(de
     let deals = await Deal.find({           // Нашли встречные предложения
         //dealerId: {$ne: generalDeal.dealerId},
         class: Math.abs(generalDeal.class * 1 - 1),
+        deal_currency:generalDeal.deal_currency,
+        price_currency:generalDeal.price_currency,
         price_amount: price_amount,
         status: {$lt: 3}
     })
