@@ -16,8 +16,8 @@ exports.get = function(req, res) {
 
 
             res.render('amd_index', {
-                inc: {f: 'a_querys'},
-                title: 'Пользователи',
+                inc: {f: 'a_transactions'},
+                title: 'Транзакции',
                 querys: querys,
                 LoginRegister: 'LoginRegister'
 
@@ -28,11 +28,11 @@ exports.get = function(req, res) {
             Query.find({dealerId:req.session.user,status:{$lt:2}}).limit(20).sort({createdAt: -1}).exec(function (err, querys) {
                 if(err){
                     console.error(err);
-                    res.redirect('/amd/users');
+                    res.redirect('/amd/transactions');
                 } else {
                     res.render('amd_index', {
-                        inc: {f: 'a_querys'},
-                        title: 'Пользователи',
+                        inc: {f: 'a_transactions'},
+                        title: 'Транзакции',
                         querys: querys,
                         LoginRegister: 'LoginRegister'
 
@@ -55,11 +55,11 @@ exports.post = function(req, res) {
         Query.find(filtr[Number(req.body.filter)]).limit(lm).sort({createdAt: -1}).exec(function (err, querys) {
             if(err){
                 console.error(err);
-                res.redirect('/amd/users');
+                res.redirect('/amd/transactions');
             } else {
                 res.render('amd_index', {
-                    inc: {f: 'a_querys'},
-                    title: 'Пользователи',
+                    inc: {f: 'a_transactions'},
+                    title: 'Транзакции',
                     querys: querys,
                     LoginRegister: 'LoginRegister'
 
