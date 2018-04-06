@@ -3,7 +3,7 @@ const Deal = require('../models/deal');
 exports.getdeals = function (curr1, curr2, cb) {        // 1;2
     let dt1 = null;
     let dt2 = null;
-    if (curr1>3 || isNaN(Number(curr1))) curr1=1;
+    if (curr1>2 || curr2<1 || isNaN(Number(curr1))) curr1=1;
     if(curr2>3 || curr2<2 || isNaN(Number(curr2))) curr2=3;
     Deal.aggregate([
         {
