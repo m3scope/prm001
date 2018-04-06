@@ -19,3 +19,12 @@
 <div class="w3-small" id="info">
 
 </div>
+
+<script>
+    let socket = io.connect('');
+    socket.on('message', function (data) {
+        console.log(data.greeting);
+
+        socket.emit('greeting', {response:'data received!'});
+    });
+</script>

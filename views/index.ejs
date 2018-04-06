@@ -6,8 +6,8 @@
 <link rel="stylesheet" href="/stylesheets/w3.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
 <link rel="stylesheet" href="/stylesheets/fontawesome.min.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+<script src="/socket.io/socket.io.js"></script>
 <script language = 'javascript'>
     function startTime() {
         let dat = new Date();
@@ -55,10 +55,6 @@
       <!-- Footer -->
     <%- include('includes/footer') -%>
 </div>
-<script>
-      let socket = io.connect('', {
-          reconnect: false
-      })
-</script>
+
 </body>
 </html>
