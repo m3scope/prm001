@@ -26,7 +26,7 @@ router.get('/', function(req, res, next) {
 
     let LoginRegister = '<b><a href="/login">Вход</a> </b>';
     let UserBalance = [0,0,0,0,0];
-    let infoText = {txt:'<i>Внимание! Об ошибках сообщать на support@prizmex.ru</i><p>Для полноценного участия в обмене необходимо зарегистрироваться</p><p>ВНИМАНИЕ! СНИЖЕНА МИНИМАЛЬНАЯ СУММА внесения на депозит со СБЕРБАНКА - с 3 000 до 1 000 руб.</p>', sign:'Администрация'};
+    let infoText = {txt:'<i>Внимание! Об ошибках сообщать на support@prizmex.ru</i><p>Для полноценного участия в обмене необходимо зарегистрироваться</p><p>ВНИМАНИЕ! <br>СНИЖЕНА МИНИМАЛЬНАЯ СУММА внесения на депозит со СБЕРБАНКА - с 3 000 до 1 000 руб.</p>', sign:'Администрация'};
     if(req.session.user){
         req.session.reload(function(err) {
             // session updated
@@ -250,7 +250,7 @@ router.get('/deals/:id?', function (req, res) {
 
     let LoginRegister = '<b><a href="/login">Вход</a> </b>';
     let UserBalance = [0,0,0,0,0];
-    let infoText = {txt:'<i>Внимание! Об ошибках сообщать на support@prizmex.ru</i><p>Для полноценного участия в обмене необходимо зарегистрироваться</p><p>ВНИМАНИЕ! СНИЖЕНА МИНИМАЛЬНАЯ СУММА внесения на депозит со СБЕРБАНКА - с 3 000 до 1 000 руб.</p>', sign:'Администрация'};
+    let infoText = {txt:'<i>Внимание! Об ошибках сообщать на support@prizmex.ru</i><p>Для полноценного участия в обмене необходимо зарегистрироваться</p><p>ВНИМАНИЕ! <br>СНИЖЕНА МИНИМАЛЬНАЯ СУММА внесения на депозит со СБЕРБАНКА - с 3 000 до 1 000 руб.</p>', sign:'Администрация'};
     if(req.session.user){
         req.session.reload(function(err) {
             // session updated
