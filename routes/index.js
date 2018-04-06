@@ -250,13 +250,14 @@ router.get('/deals/:id?', function (req, res) {
 
     let LoginRegister = '<b><a href="/login">Вход</a> </b>';
     let UserBalance = [0,0,0,0,0];
-    let infoText = {txt:'<i>Внимание! Об ошибках сообщать на support@prizmex.ru</i><p>Для полноценного участия в обмене необходимо зарегистрироваться</p>', sign:'Администрация'};
+    let infoText = {txt:'<i>Внимание! Об ошибках сообщать на support@prizmex.ru</i><p>Для полноценного участия в обмене необходимо зарегистрироваться</p><p>ВНИМАНИЕ! СНИЖЕНА МИНИМАЛЬНАЯ СУММА внесения на депозит со СБЕРБАНКА - с 3 000 до 1 000 руб.</p>', sign:'Администрация'};
     if(req.session.user){
         req.session.reload(function(err) {
             // session updated
         });
         User.findById(req.session.user, function (err, user) {
-            infoText.txt = 'Внимание! Об ошибках сообщать на support@prizmex.ru<p>Внимание: ЗАПРОСЫ обрабатываются с 7.00 до 21.00 МСК</p>';
+            infoText.txt = 'Внимание! Об ошибках сообщать на support@prizmex.ru<p>Внимание: ЗАПРОСЫ обрабатываются с 7.00 до 21.00 МСК</p><p>ВНИМАНИЕ! <br>' +
+                'СНИЖЕНА МИНИМАЛЬНАЯ СУММА внесения на депозит со СБЕРБАНКА - с 3 000 до 1 000 руб.</p>';
             UserBalance = [0,Math.round(user.PZM*100)/100,Math.round(user.USD*100)/100,Math.round(user.RUR*100)/100];
             LoginRegister = '<div class="w3-right-align w3-small"><span class="w3-border-top">'+req.session.username+'</span></div><a href="/profile" class="w3-button w3-border w3-border-white w3-round"><label>ВВОД / ВЫВОД</label></a>&nbsp;&nbsp;<a href="/profile" class="w3-button w3-border w3-border-white w3-round"><label>ПРОФИЛЬ</label></a>&nbsp;&nbsp;<a href="/logout" class="w3-button w3-border w3-border-white w3-round">ВЫХОД</a>' +
                 '<div class="w3-right-align w3-small">' +
