@@ -3,8 +3,8 @@ const Deal = require('../models/deal');
 exports.getdeals = function (curr1, curr2, cb) {        // 1;2
     let dt1 = null;
     let dt2 = null;
-    if (curr1>3 || curr1 == NaN) curr1=1;
-    if(curr2>3 || curr2 == NaN) curr2=3;
+    if (curr1>3 || isNaN(Number(curr1))) curr1=1;
+    if(curr2>3 || isNaN(Number(curr2))) curr2=3;
     Deal.aggregate([
         {
             $match:{deal_currency: curr1, price_currency: curr2, status: {$lt:2}, class: 0}
