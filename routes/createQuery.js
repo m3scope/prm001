@@ -231,7 +231,7 @@ exports.post = function (req, res, next) {
                                     //---------------------
                                 });
                             } else {
-                                res.render('info', {infoTitle: '<div class="w3-red">Внутренняя ошибка!</div>', infoText: 'Внутренняя ошибка!', url: '/profile', title: 'Запрос отклонен!', user: user, LoginRegister: LoginRegister});
+                                res.render('info', {infoTitle: '<div class="w3-yellow">Превышение очереди!</div>', infoText: 'Большая очередь запросов. Попробуйте запросить позже.', url: '/profile', title: 'Запрос отклонен!', user: user, LoginRegister: LoginRegister});
                             }
                         }
                         //res.render('responsequery', {title: 'Подтвердить ЗАПРОС', user: user, LoginRegister: LoginRegister});
