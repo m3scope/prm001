@@ -48,7 +48,7 @@ exports.get = function (req, res, next) {
                             break;
                         case 'false':
                             i = 'q_false_'+params[1];
-                            if(UserBalance[params[1]] < 5){
+                            if(UserBalance[params[1]] < 1){
                                 res.render('info', {infoTitle: '<div class="w3-red">Ошибка!</div>', infoText: 'Не достаточно средств', url: '/profile', title: 'Запрос отклонен!', user: user, LoginRegister: LoginRegister});
                             } else {
                                 //console.log('************ fgdjdjdjdjdjdjdjd');
