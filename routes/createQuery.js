@@ -12,7 +12,7 @@ const Curr = ['','PZM','USD','RUR'];
 
 exports.get = function (req, res, next) {
     console.log('************** QUERY *********');
-    let LoginRegister = '<b><a href="/profile" class="w3-button w3-border w3-border-white w3-round"><label>ВВОД / ВЫВОД</label></a>&nbsp;&nbsp;<a href="/profile" class="w3-button w3-border w3-border-white w3-round"><label>Профиль</label></a>&nbsp;&nbsp;<a href="/logout">Выход</a></b>';
+    let LoginRegister = '<b><a href="/profile" class="w3-button w3-border w3-border-white w3-round"><label>ВВОД / ВЫВОД</label></a>&nbsp;&nbsp;<a href="/profile" class="w3-button w3-border w3-border-white w3-round"><label>ПРОФИЛЬ</label></a>&nbsp;&nbsp;<a href="/logout">ВЫХОД</a></b>';
     if(!req.session.user){
         res.redirect('/login');
     } else {
@@ -27,7 +27,7 @@ exports.get = function (req, res, next) {
                 } else {
                     //console.log(params);
                     UserBalance = [0,Math.round(user.PZM*100)/100,Math.round(user.USD*100)/100,Math.round(user.RUR*100)/100];
-                    LoginRegister = '<div class="w3-right-align w3-small"><span class="w3-border-top">'+req.session.username+'</span></div><a href="/profile" class="w3-button w3-border w3-border-white w3-round"><label>ВВОД / ВЫВОД</label></a>&nbsp;&nbsp;<a href="/profile" class="w3-button w3-border w3-border-white w3-round"><label>Профиль</label></a>&nbsp;&nbsp;<a href="/logout" class="w3-button w3-border w3-border-white w3-round">Выход</a>' +
+                    LoginRegister = '<div class="w3-right-align w3-small"><span class="w3-border-top">'+req.session.username+'</span></div><a href="/profile" class="w3-button w3-border w3-border-white w3-round"><label>ВВОД / ВЫВОД</label></a>&nbsp;&nbsp;<a href="/profile" class="w3-button w3-border w3-border-white w3-round"><label>ПРОФИЛЬ</label></a>&nbsp;&nbsp;<a href="/logout" class="w3-button w3-border w3-border-white w3-round">ВЫХОД</a>' +
                         '<div class="w3-right-align w3-small">' +
                         '<span>PZM: </span>' +
                         '<label class="w3-border-bottom"> '+UserBalance[1]+' </label>' +
@@ -79,7 +79,7 @@ exports.get = function (req, res, next) {
 exports.post = function (req, res, next) {
     console.log('************** QUERY *********');
     loadUser.findID(req.session.user, function (err, user) {
-        let LoginRegister = '<b><a href="/profile" class="w3-button w3-border w3-border-white w3-round"><label>ВВОД / ВЫВОД</label></a>&nbsp;&nbsp;<a href="/profile" class="w3-button w3-border w3-border-white w3-round"><label>Профиль</label></a>&nbsp;&nbsp;<a href="/logout">Выход</a></b>';
+        let LoginRegister = '<b><a href="/profile" class="w3-button w3-border w3-border-white w3-round"><label>ВВОД / ВЫВОД</label></a>&nbsp;&nbsp;<a href="/profile" class="w3-button w3-border w3-border-white w3-round"><label>ПРОФИЛЬ</label></a>&nbsp;&nbsp;<a href="/logout">ВЫХОД</a></b>';
         if(!req.session.user){
             LoginRegister = '<b><a href="/login">вход</a></b>';
             res.redirect('/login');

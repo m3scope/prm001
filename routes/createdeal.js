@@ -32,7 +32,7 @@ exports.get = function(req, res){
     console.log('***********REQ*****************');
     console.log(req.url);
     loadUser.findID(req.session.user, function (err, user) {
-        let LoginRegister = '<b><a href="/profile">Профиль</a>&nbsp;&nbsp;<a href="/logout">Выход</a></b>';
+        let LoginRegister = '<b><a href="/profile">ПРОФИЛЬ</a>&nbsp;&nbsp;<a href="/logout">ВЫХОД</a></b>';
         if(!req.session.user){
             LoginRegister = '<b><a href="/login">вход</a></b>';
             res.redirect('/login');
@@ -51,7 +51,7 @@ exports.post = function(req, res) {
     const commission_tax = 0.007;
     //let tdeal_amount, tdeal_currency, tprice_amount, tprice_currency;
     let UserBalance = [0, 0, 0, 0, 0];
-    let LoginRegister = '<b><a href="/profile">Профиль</a>&nbsp;&nbsp;<a href="/logout">Выход</a></b>';
+    let LoginRegister = '<b><a href="/profile">ПРОФИЛЬ</a>&nbsp;&nbsp;<a href="/logout">ВЫХОД</a></b>';
 
     if (!req.session.user) {
         res.redirect('/login');
@@ -76,7 +76,7 @@ exports.post = function(req, res) {
                                 } else {
                                     UserBalance = [0, Math.round(userSaved.PZM * 100) / 100, Math.round(userSaved.USD * 100) / 100, Math.round(userSaved.RUR * 100) / 100];
                                     //console.log(user.prizmaddress);
-                                    LoginRegister = '<div class="w3-right-align w3-small"><span class="w3-border-top">'+req.session.username+'</span></div><a href="/profile" class="w3-button w3-border w3-border-white w3-round">Профиль</a>&nbsp;&nbsp;<a href="/logout" class="w3-button w3-border w3-border-white w3-round">Выход</a>' +
+                                    LoginRegister = '<div class="w3-right-align w3-small"><span class="w3-border-top">'+req.session.username+'</span></div><a href="/profile" class="w3-button w3-border w3-border-white w3-round">ПРОФИЛЬ</a>&nbsp;&nbsp;<a href="/logout" class="w3-button w3-border w3-border-white w3-round">ВЫХОД</a>' +
                                         '<div class="w3-right-align w3-small">' +
                                         '<span>PZM: </span>' +
                                         '<label class="w3-border-bottom"> '+UserBalance[1]+' </label>' +
@@ -164,7 +164,7 @@ exports.post = function(req, res) {
                                     res.redirect('/login');
                                 } else {
                                     UserBalance = [0, Math.round(userSaved.PZM * 100) / 100, Math.round(userSaved.USD * 100) / 100, Math.round(userSaved.RUR * 100) / 100];
-                                    LoginRegister = '<div class="w3-right-align w3-small"><span class="w3-border-top">'+req.session.username+'</span></div><a href="/profile" class="w3-button w3-border w3-border-white w3-round">Профиль</a>&nbsp;&nbsp;<a href="/logout" class="w3-button w3-border w3-border-white w3-round">Выход</a>' +
+                                    LoginRegister = '<div class="w3-right-align w3-small"><span class="w3-border-top">'+req.session.username+'</span></div><a href="/profile" class="w3-button w3-border w3-border-white w3-round">ПРОФИЛЬ</a>&nbsp;&nbsp;<a href="/logout" class="w3-button w3-border w3-border-white w3-round">ВЫХОД</a>' +
                                         '<div class="w3-right-align w3-small">' +
                                         '<span>PZM: </span>' +
                                         '<label class="w3-border-bottom"> '+UserBalance[1]+' </label>' +
