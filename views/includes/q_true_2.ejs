@@ -29,6 +29,8 @@
                     <label>PerfectMoney</label>
                     <input class="w3-radio" type="radio" name="bank_cod" ng-model="bank_cod" ng-change='newValue(bank_cod)' value="6">
                     <label>NixMoney</label>
+                    <input class="w3-radio" type="radio" name="bank_cod" ng-model="bank_cod" ng-change='newValue(bank_cod)' value="7">
+                    <label>PayPal</label>
                 </p>
                 <p>
                     <span class="w3-tag w3-green"><%= curr[inc.curr] %></span>
@@ -120,6 +122,13 @@
                 $scope.deal_amount_buy_curr = Math.round((Number($scope.deal_amount_buy_rub)- Number($scope.deal_amount_buy_rub)*tax_current/100)*100)/100;
             }
             if(value==6) {
+                tax_current = tax[value];
+                $scope.in_min = 10;
+                $scope.tax_text='Комиссия '+tax_current+'%:';
+                $scope.commission_buy = Math.round((Number($scope.deal_amount_buy_rub)*tax_current/100)*100)/100;
+                $scope.deal_amount_buy_curr = Math.round((Number($scope.deal_amount_buy_rub)- Number($scope.deal_amount_buy_rub)*tax_current/100)*100)/100;
+            }
+            if(value==7) {
                 tax_current = tax[value];
                 $scope.in_min = 10;
                 $scope.tax_text='Комиссия '+tax_current+'%:';
