@@ -36,7 +36,7 @@ exports.getdeals = function (curr1, curr2, cb) {        // 1;2
 };
 
 exports.getUserDeals = function (userId, cb) {
-    Deal.find({dealerId: userId}).limit(100).sort({createdAt: -1}).exec(function (err, deals) {
+    Deal.find({dealerId: userId}).limit(300).sort({createdAt: -1}).exec(function (err, deals) {
         console.log(deals);
         cb(null, deals);
     });
