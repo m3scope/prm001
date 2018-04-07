@@ -340,7 +340,7 @@ exports.createBillsFromDeal = async function(dealId){    // получаем о�
 };
 
 exports.getUserBills = function (userId, cb) {
-    Bill.find({dealerGeneralId: userId}).limit(100).sort({createdAt: -1}).exec(function (err, deals) {
+    Bill.find({dealerGeneralId: userId}).limit(300).sort({createdAt: -1}).exec(function (err, deals) {
         console.log(deals);
         cb(null, deals);
     });
