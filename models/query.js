@@ -2,7 +2,7 @@ const mongoose = require('../libs/mongoose');
 const crypto = require('crypto'); // модуль node.js для выполнения различных шифровальных операций, в т.ч. для создания хэшей.
 
 const  querySchema = new mongoose.Schema({
-    UID: {type: String, default: ''},
+    UID: {type: String, default: null},
     operation_cod: {type: Number, default: 1},
     operation_name: {type: String, default: 'Query'},
     userId: { type: mongoose.Schema.ObjectId, ref: 'User', required: true },     // Id пользователя создавшего Запрос
@@ -30,8 +30,9 @@ const  querySchema = new mongoose.Schema({
     comment: String,
     cod: String,
 
-    dataCancel: {type: Date, default: new Date(0)},
-    status: {type: Number, default: 0},     // ['создана','подтверждена (ожидание исполнения)','исполнена(закрыта)','отменена']
+    dataCancel: {type: Date, default: null},
+    comments: {type:String, default:''},
+    status: {type: Number, default: 0},     // ['создана','подтверждена (ожидание исполнения)','исполнена(закрыта)','отменена','отмена АДМ']
 
     class: {type: Number, default: 0},  // Тип(класс) сделки (1 - Ввод средств, 0 - Вывод средств)
 
@@ -41,9 +42,11 @@ const  querySchema = new mongoose.Schema({
     timestamps: true
 });
 
+
 querySchema.methods.encryptKey = function (data) {
     return crypto.pbkdf2Sync(data, this.key_Salt, 1, 128, 'sha1');
 };
+
 querySchema.methods.checkData = function(data){
     //if (!password) return false;
     //if (!this.passwordHash) return false;
