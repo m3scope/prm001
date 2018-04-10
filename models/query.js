@@ -26,11 +26,12 @@ const  querySchema = new mongoose.Schema({
     currency_name: String,
 
     action: String,     // Строка действий после поддтверждения запроса
-    info: String,
-    comment: String,
+    info: String,       // Информация, хз какая...
+    comment: String,    // Комментарий
     cod: String,
 
-    dataCancel: {type: Date, default: null},
+    dataCancel: {type: Date}, // _Удалить...
+    dateCancel: {type: Date, default: null},    // Дата отмены запроса
     comments: {type:String, default:''},
     status: {type: Number, default: 0},     // ['создана','подтверждена (ожидание исполнения)','исполнена(закрыта)','отменена','отмена АДМ']
 

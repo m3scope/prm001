@@ -1,5 +1,7 @@
 const loadUser = require("../libs/loadUser");
 const Userr = require('../models/user');
+const config = require('config');
+const amd = config.get('amd');
 
 const Query = require('../models/query');
 const Deal = require('../models/deal');
@@ -67,110 +69,121 @@ exports.get = function (req, res, next) {
                                 if (err) console.error(err);
                                 if (qq) {
                                     //console.log(qq);
-                                    if (qq.status == 0) {
+
                                         if (qq.class == 0) {    //Вывод средств
-                                            qq.status = 4;
-                                            user[qq.currency_name] = Number(user[qq.currency_name]) + Number(qq.amount);
-                                            user.save();
-                                            Bank.findById(qq.bankId, function (err, bank) {
-                                                if(err) {
-                                                    console.error(err);
-                                                } else {
-                                                    if(bank) {
-                                                        //********** BANK *******
-                                                         bank.summ_trans_current = Number(bank.summ_trans_current)-Number(qq.amount);
-                                                         bank.summ_all_current = Number(bank.summ_all_current)+Number(qq.amount);
+                                            if (qq.status == 0) {
+                                                qq.status = 4;
+                                                qq.dataCancel
+                                                user[qq.currency_name] = Number(user[qq.currency_name]) + Number(qq.amount);
+                                                user.save();
+                                                Bank.findById(qq.bankId, function (err, bank) {
+                                                    if (err) {
+                                                        console.error(err);
+                                                    } else {
+                                                        if (bank) {
+                                                            //********** BANK *******
+                                                            bank.summ_trans_current = Number(bank.summ_trans_current) - Number(qq.amount);
+                                                            bank.summ_all_current = Number(bank.summ_all_current) + Number(qq.amount);
 
-                                                        bank.summ_trans_day = Number(bank.summ_trans_day)-Number(qq.amount);
-                                                        bank.summ_all_day = Number(bank.summ_all_day)+Number(qq.amount);
+                                                            bank.summ_trans_day = Number(bank.summ_trans_day) - Number(qq.amount);
+                                                            bank.summ_all_day = Number(bank.summ_all_day) + Number(qq.amount);
 
 
-                                                        bank.summ_trans_month = Number(bank.summ_trans_month)-Number(qq.amount);
-                                                        bank.summ_all_month = Number(bank.summ_all_month)+Number(qq.amount);
+                                                            bank.summ_trans_month = Number(bank.summ_trans_month) - Number(qq.amount);
+                                                            bank.summ_all_month = Number(bank.summ_all_month) + Number(qq.amount);
 
-                                                        // bank.summ_transactions =Number( bank.summ_transactions)+Number(qq.amount);
-                                                        // bank.summ_all = Number(bank.summ_all)+Number(qq.amount);
-                                                        //bank.rounds = Number(bank.rounds) + 20;
-                                                        bank.save();
-                                                        //---------------------
+                                                            // bank.summ_transactions =Number( bank.summ_transactions)+Number(qq.amount);
+                                                            // bank.summ_all = Number(bank.summ_all)+Number(qq.amount);
+                                                            //bank.rounds = Number(bank.rounds) + 20;
+                                                            bank.save();
+                                                            //---------------------
+                                                        }
                                                     }
-                                                }
-                                            });
+                                                });
+                                            } else {
+                                                res.redirect('/logout');
+                                            }
                                         } else {    // отмена пополнения
-                                            qq.status = 4;
-                                            Bank.findById(qq.bankId, function (err, bank) {
-                                                if(err) {
-                                                    console.error(err);
-                                                } else {
-                                                    if(bank) {
-                                                        //********** BANK *******
-                                                        bank.summ_trans_current = Number(bank.summ_trans_current)-Number(qq.amount);
-                                                        bank.summ_all_current = Number(bank.summ_all_current)-Number(qq.amount);
+                                            if (qq.status < 3) {
+                                                qq.status = 4;
+                                                Bank.findById(qq.bankId, function (err, bank) {
+                                                    if (err) {
+                                                        console.error(err);
+                                                    } else {
+                                                        if (bank) {
+                                                            //********** BANK *******
+                                                            bank.summ_trans_current = Number(bank.summ_trans_current) - Number(qq.amount);
+                                                            bank.summ_all_current = Number(bank.summ_all_current) - Number(qq.amount);
 
-                                                        bank.summ_trans_day = Number(bank.summ_trans_day)-Number(qq.amount);
-                                                        bank.summ_all_day = Number(bank.summ_all_day)-Number(qq.amount);
+                                                            bank.summ_trans_day = Number(bank.summ_trans_day) - Number(qq.amount);
+                                                            bank.summ_all_day = Number(bank.summ_all_day) - Number(qq.amount);
 
 
-                                                        bank.summ_trans_month = Number(bank.summ_trans_month)-Number(qq.amount);
-                                                        bank.summ_all_month = Number(bank.summ_all_month)-Number(qq.amount);
+                                                            bank.summ_trans_month = Number(bank.summ_trans_month) - Number(qq.amount);
+                                                            bank.summ_all_month = Number(bank.summ_all_month) - Number(qq.amount);
 
-                                                        // bank.summ_transactions =Number( bank.summ_transactions)-Number(qq.amount);
+                                                            // bank.summ_transactions =Number( bank.summ_transactions)-Number(qq.amount);
 
-                                                        // bank.summ_all = Number(bank.summ_all)-Number(qq.amount);
-                                                        //bank.rounds = Number(bank.rounds) + 20;
-                                                        bank.save();
-                                                        //---------------------
+                                                            // bank.summ_all = Number(bank.summ_all)-Number(qq.amount);
+                                                            //bank.rounds = Number(bank.rounds) + 20;
+                                                            bank.save();
+                                                            //---------------------
+                                                        }
                                                     }
-                                                }
-                                            });
-                                        }
-                                        qq.save();
+                                                });
+                                                qq.save();
 
-                                        res.render('info', {
-                                            infoTitle: '<div class="w3-green">Успех!</div>',
-                                            infoText: 'Операция успешно выполнена!',
-                                            url: '/profile',
-                                            title: 'Запрос отменен...',
-                                            user: user,
-                                            LoginRegister: LoginRegister
-                                        });
-                                    } else {
-                                        res.redirect('/logout');
-                                    }
+                                                res.render('info', {
+                                                    infoTitle: '<div class="w3-green">Успех!</div>',
+                                                    infoText: 'Операция успешно выполнена!',
+                                                    url: '/profile',
+                                                    title: 'Запрос отменен...',
+                                                    user: user,
+                                                    LoginRegister: LoginRegister
+                                                });
+                                            } else {
+                                                res.redirect('/logout');
+                                            }
+                                        }
+
                                 } else {
                                     res.redirect('/logout');
                                 }
                             });
                             break;
                         case 'cancelamd':
-                            Query.findOne({_id: params[0], dealerId: user._id}, function (err, qq) {
-                                if (err) console.error(err);
-                                if (qq) {
-                                    //console.log(qq);
-                                    if (qq.status == 0) {
-                                        if (qq.class == 0) {
-                                            qq.status = 5;
-                                            user[qq.currency_name] = Number(user[qq.currency_name]) + Number(qq.amount);
-                                            user.save();
+                            if(amd.indexOf(user._id) > -1) {
+                                Query.findById({_id: params[0]}, function (err, qq) {
+                                    if (err) console.error(err);
+                                    if (qq) {
+                                        //console.log(qq);
+                                        if (qq.status == 0) {
+                                            if (qq.class == 0) {
+                                                qq.status = 5;
+                                                user[qq.currency_name] = Number(user[qq.currency_name]) + Number(qq.amount);
+                                                user.save();
+                                            } else {
+                                                qq.status = 5;
+                                            }
+                                            qq.save();
+                                            res.render('info', {
+                                                infoTitle: '<div class="w3-green">Успех!</div>',
+                                                infoText: 'Операция успешно выполнена!',
+                                                url: '/profile',
+                                                title: 'Запрос отменен...',
+                                                user: user,
+                                                LoginRegister: LoginRegister
+                                            });
                                         } else {
-                                            qq.status = 5;
+                                            res.redirect('/logout');
                                         }
-                                        qq.save();
-                                        res.render('info', {
-                                            infoTitle: '<div class="w3-green">Успех!</div>',
-                                            infoText: 'Операция успешно выполнена!',
-                                            url: '/profile',
-                                            title: 'Запрос отменен...',
-                                            user: user,
-                                            LoginRegister: LoginRegister
-                                        });
                                     } else {
                                         res.redirect('/logout');
                                     }
-                                } else {
-                                    res.redirect('/logout');
-                                }
-                            });
+                                });
+                            } else {
+                                res.redirect('/logout');
+                            }
                             break;
                         case 'execut':
                             // ********** execut   // добавление на счет
@@ -283,6 +296,34 @@ exports.post = function (req, res, next) {
                             res.redirect('/logout');
                         }
                     });
+                    break;
+                case 'cancelamd':
+                    if(amd.indexOf(user._id) > -1){
+                        Query.findById({_id:params[0]}, function (err, qq) {
+                            if(err) console.error(err);
+                            if(qq){
+                                //console.log(qq);
+                                if(qq.status == 0){
+                                    if(qq.class == 0){
+                                        qq.status = 4;
+                                        user[qq.currency_name] = Number(user[qq.currency_name])+Number(qq.amount);
+                                        user.save();
+                                    } else {
+                                        qq.status = 4;
+                                    }
+                                    qq.save();
+                                    res.render('info', {infoTitle: '<div class="w3-green">Успех!</div>', infoText: 'Операция успешно выполнена!', url: '/profile', title: 'Запрос подтвержден', user: user, LoginRegister: LoginRegister});
+                                } else {
+                                    res.redirect('/logout');
+                                }
+                            } else {
+                                res.redirect('/logout');
+                            }
+                        });
+                    } else {
+                        res.redirect('/logout');
+                    }
+
                     break;
                 case 'execut':
                     // ********** execut   // добавление на счет

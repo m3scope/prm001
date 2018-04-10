@@ -120,6 +120,7 @@ exports.post = function (req, res, next) {
                             //********** QUERY ******
                             query.data = {bank_cod: bank.bank_cod, cod: cod, deal_amount: summ, deal_currency: bank.currency, price_amount: req.body.price_amount, price_currency: req.body.price_currency, commission_summ: commiss_buy};
                             query.userId = user._id;
+                            query.UID = Date.now().toString();
                             query.dealerId = bank.dealerId;
                             query.bankId = bank._id;
                             query.bank_cod = bank.bank_cod;
@@ -189,6 +190,7 @@ exports.post = function (req, res, next) {
                                     commission_summ: commiss_sell
                                 };
                                 query.userId = req.session.user;
+                                query.UID = Date.now().toString();
                                 query.dealerId = bank.dealerId;
                                 query.bankId = bank._id;
                                 query.bank_cod = bank.bank_cod;
