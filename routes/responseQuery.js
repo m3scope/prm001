@@ -69,7 +69,6 @@ exports.get = function (req, res, next) {
                                 if (err) console.error(err);
                                 if (qq) {
                                     //console.log(qq);
-
                                         if (qq.class == 0) {    //Вывод средств
                                             if (qq.status == 0) {
                                                 qq.status = 4;

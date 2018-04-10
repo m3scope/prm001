@@ -1,5 +1,10 @@
 
-<div class="w3-panel"></div>
+<div class="w3-panel">
+    <form action="/amd/users" method="post">
+        <input name="cod"><span>Код запроса</span>
+        <button type="submit">Проверить</button>
+    </form>
+</div>
 <div class="w3-row-padding" ng-app="myApp">
     <!-- Left Column -->
     <div class="w3-col s12" ng-controller="MainCtrl">
@@ -24,6 +29,58 @@
                     <td class="w3-border-left">{{ dt.RUR }}</td>
                 </tr>
             </table>
+        </div>
+
+        <div class="w3-panel"></div>
+
+        <div class="w3-card-4">
+            <div class="w3-container w3-teal">
+                <h5>Список открытых ордеров пользователя</h5>
+            </div>
+
+
+                <% if(users.userDeals.length>0) {%>
+
+                <table class="w3-table-all w3-small w3-striped w3-hoverable">
+                    <tr  class="w3-green">
+                        <th>Пара</th>
+                        <th class="w3-border-left">Тип</th>
+                        <th class="w3-border-left">Кол.(остаток)</th>
+                        <th class="w3-border-left">Цена</th>
+                        <th class="w3-border-left">Сумма</th>
+                        <th class="w3-border-left">Дата</th>
+                        <th class="w3-border-left"></th>
+                    </tr>
+
+                    <tr ng-repeat="dt in dtD" ng-click="setSelected();">
+                        <td>{{ dt.deal_currency }}/{{ dt.price_currency}}</td>
+                        <td class="{{ dt.color }}">{{ dt.typ }}</td>
+                        <td class="w3-border-left">{{ dt.deal_amount }}<span class="w3-small">({{ dt.deal_amount_bill }})</span></td>
+                        <td class="w3-border-left">{{ dt.price_amount}}</td>
+                        <td class="w3-border-left">{{ dt.summ }}</td>
+                        <td class="w3-border-left">{{ dt.dat }}</td>
+                        <td class="w3-border-left {{ dt.color2 }}">
+                            <div ng-switch="{{ dt.status }}">
+                                <div ng-switch-when="0">
+                                    <span><a href="{{dt.cans}}">отменить</a> </span>
+                                </div>
+                                <div ng-switch-when="1">
+                                    <span> Активный </span><span><a href="{{dt.cans}}">отменить</a> </span>
+                                </div>
+                                <div ng-switch-when="3">
+                                    <span>отменен</span>
+                                </div>
+                                <div ng-switch-when="9">
+                                    <span>исполнен</span>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+
+                </table>
+
+                <%}%>
+
         </div>
 
         <div class="w3-panel"></div>
@@ -76,9 +133,12 @@
     const Status_q = ['создана','подтверждена','','исполнена','отменена'];
     let sm = 0;
     let smp = 0;
+    let dl={};
     myApp.controller('MainCtrl', function($scope) {
         $scope.dt1 = [];
         $scope.dt2 = [];
+        $scope.dtD = [];
+
 
         nm.UID = '<%= users.user.UID%>';
         nm.name_f = '<%= users.user.name_f%>';
@@ -87,10 +147,33 @@
         nm.RUR = '<%= users.user.RUR%>';
         $scope.dt1.push({UID:nm.UID, name_f:nm.name_f, PZM:nm.PZM, USD:nm.USD, RUR:nm.RUR});
 
+        <% users.userDeals.forEach(function (deal) { %>
+            dl={};
+            dl.cans = '/api/q/deal/<%= deal._id %>;cancel';
+            dl.deal_currency = Curr[<%= deal.deal_currency%>];
+            dl.price_currency = Curr[<%= deal.price_currency%>];
+            dl.typ = bs[<%= deal.class %>];
+            dl.color = clors[<%= deal.class%>];
+            dl.deal_amount = <%= deal.deal_amount%>;
+            dl.deal_amount_bill = <%= deal.deal_amount_bill%>;
+            dl.price_amount = <%= deal.price_amount%>;
+            dl.summ = <%= Math.round(deal.deal_amount*deal.price_amount*100)/100 %>;
+
+            dl.dat = TimeMsk('<%= deal.createdAt%>');
+            //console.log(dl.dat);
+            dl.status = <%= deal.status %>;
+            dl.color2 = clors[<%= deal.status%>];
+            dl.i = i;
+
+            $scope.dtD.push(dl);
+            i++;
+        <%})%>
+
         $scope.setSelected = function() {
             $scope.selected = this.dt;
             console.log(this.dt.name_f);
         };
+
         <% users.userInfo.forEach(function(item) { %>
             nm={};
 
