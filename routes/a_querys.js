@@ -19,6 +19,7 @@ exports.get = function(req, res) {
                 inc: {f: 'a_querys'},
                 title: 'Пользователи',
                 querys: querys,
+                dealerId:req.session.user,
                 LoginRegister: 'LoginRegister'
 
             });
@@ -34,6 +35,7 @@ exports.get = function(req, res) {
                         inc: {f: 'a_querys'},
                         title: 'Пользователи',
                         querys: querys,
+                        dealerId:req.session.user,
                         LoginRegister: 'LoginRegister'
 
                     });
@@ -48,7 +50,7 @@ exports.post = function(req, res) {
     if(!req.session.user){
         return res.render('login', {title: 'Авторизация'});
     } else {
-        const filtr = [{status:{$lt:2}},{dealerId:req.session.user},{dealerId:req.session.user,status:{$lt:2}}];
+        const filtr = [{},{status:{$lt:2}},{dealerId:req.session.user},{dealerId:req.session.user,status:{$lt:2}}];
         const lm = (!req.body.limit || Number(req.body.limit) <= 0) ? 20:Number(req.body.limit);
 
 
@@ -61,6 +63,7 @@ exports.post = function(req, res) {
                     inc: {f: 'a_querys'},
                     title: 'Пользователи',
                     querys: querys,
+                    dealerId:req.session.user,
                     LoginRegister: 'LoginRegister'
 
                 });

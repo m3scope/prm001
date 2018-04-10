@@ -32,6 +32,9 @@ const  querySchema = new mongoose.Schema({
 
     dataCancel: {type: Date}, // _Удалить...
     dateCancel: {type: Date, default: null},    // Дата отмены запроса
+
+    dateExec: {type: Date, default: null},    // Дата подтверждения/исполнения запроса
+
     comments: {type:String, default:''},
     status: {type: Number, default: 0},     // ['создана','подтверждена (ожидание исполнения)','исполнена(закрыта)','отменена','отмена АДМ']
 
