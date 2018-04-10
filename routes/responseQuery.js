@@ -237,7 +237,7 @@ exports.get = function (req, res, next) {
                             break;
                         case 'execut':
                             // ********** execut   // добавление на счет
-                            if(amd.indexOf(user._id) > -1) {
+                            if(amd.indexOf(req.session.user) > -1) {
                                 Query.findOne({_id: params[0]}, function (err, qq) {
                                     if (err) console.error(err);
                                     if (qq) {
@@ -352,7 +352,7 @@ exports.post = function (req, res, next) {
                     });
                     break;
                 case 'cancelamd':
-                    if(amd.indexOf(user._id) > -1){
+                    if(amd.indexOf(req.session.user) > -1){
                         Query.findOne({_id:params[0]}, function (err, qq) {
                             if(err) console.error(err);
                             if(qq){
@@ -381,7 +381,7 @@ exports.post = function (req, res, next) {
                     break;
                 case 'execut':
                     // ********** execut   // добавление на счет
-                    if(amd.indexOf(user._id) > -1) {
+                    if(amd.indexOf(req.session.user) > -1) {
                         Query.findOne({_id: params[0]}, function (err, qq) {
                             if (err) console.error(err);
                             if (qq) {
