@@ -84,6 +84,9 @@ exports.get = function (req, res, next) {
                                                             bank.summ_trans_current = Number(bank.summ_trans_current) - Number(qq.amount);
                                                             bank.summ_all_current = Number(bank.summ_all_current) + Number(qq.amount);
 
+                                                            bank.summ_transactions = Number(bank.summ_trans_current)-Number(qq.amount);
+                                                            bank.summ_all = Number(bank.summ_all)+Number(qq.amount);
+
                                                             bank.summ_trans_day = Number(bank.summ_trans_day) - Number(qq.amount);
                                                             bank.summ_all_day = Number(bank.summ_all_day) + Number(qq.amount);
 
@@ -114,6 +117,9 @@ exports.get = function (req, res, next) {
                                                             //********** BANK *******
                                                             bank.summ_trans_current = Number(bank.summ_trans_current) - Number(qq.amount);
                                                             bank.summ_all_current = Number(bank.summ_all_current) - Number(qq.amount);
+
+                                                            //bank.summ_transactions = Number(bank.summ_trans_current)-Number(qq.amount);
+                                                            bank.summ_all = Number(bank.summ_all)-Number(qq.amount);
 
                                                             bank.summ_trans_day = Number(bank.summ_trans_day) - Number(qq.amount);
                                                             bank.summ_all_day = Number(bank.summ_all_day) - Number(qq.amount);
@@ -176,6 +182,9 @@ exports.get = function (req, res, next) {
                                                             bank.summ_trans_current = Number(bank.summ_trans_current) - Number(qq.amount);
                                                             bank.summ_all_current = Number(bank.summ_all_current) + Number(qq.amount);
 
+                                                            bank.summ_transactions = Number(bank.summ_trans_current)-Number(qq.amount);
+                                                            bank.summ_all = Number(bank.summ_all)+Number(qq.amount);
+
                                                             bank.summ_trans_day = Number(bank.summ_trans_day) - Number(qq.amount);
                                                             bank.summ_all_day = Number(bank.summ_all_day) + Number(qq.amount);
 
@@ -202,6 +211,9 @@ exports.get = function (req, res, next) {
                                                             //********** BANK *******
                                                             bank.summ_trans_current = Number(bank.summ_trans_current) - Number(qq.amount);
                                                             bank.summ_all_current = Number(bank.summ_all_current) - Number(qq.amount);
+
+                                                            //bank.summ_transactions = Number(bank.summ_trans_current)-Number(qq.amount);
+                                                            bank.summ_all = Number(bank.summ_all)-Number(qq.amount);
 
                                                             bank.summ_trans_day = Number(bank.summ_trans_day) - Number(qq.amount);
                                                             bank.summ_all_day = Number(bank.summ_all_day) - Number(qq.amount);
@@ -370,8 +382,62 @@ exports.post = function (req, res, next) {
                                                 usrr.save();
                                             }
                                         });
+                                        Bank.findById(qq.bankId, function (err, bank) {
+                                            if (err) {
+                                                console.error(err);
+                                            } else {
+                                                if (bank) {
+                                                    //********** BANK *******
+                                                    bank.summ_trans_current = Number(bank.summ_trans_current) - Number(qq.amount);
+                                                    bank.summ_all_current = Number(bank.summ_all_current) + Number(qq.amount);
+
+                                                    bank.summ_transactions = Number(bank.summ_trans_current)-Number(qq.amount);
+                                                    bank.summ_all = Number(bank.summ_all)+Number(qq.amount);
+
+                                                    bank.summ_trans_day = Number(bank.summ_trans_day) - Number(qq.amount);
+                                                    bank.summ_all_day = Number(bank.summ_all_day) + Number(qq.amount);
+
+
+                                                    bank.summ_trans_month = Number(bank.summ_trans_month) - Number(qq.amount);
+                                                    bank.summ_all_month = Number(bank.summ_all_month) + Number(qq.amount);
+
+                                                    // bank.summ_transactions =Number( bank.summ_transactions)+Number(qq.amount);
+                                                    // bank.summ_all = Number(bank.summ_all)+Number(qq.amount);
+                                                    //bank.rounds = Number(bank.rounds) + 20;
+                                                    bank.save();
+                                                    //---------------------
+                                                }
+                                            }
+                                        });
                                     } else {
                                         qq.status = 5;
+                                        Bank.findById(qq.bankId, function (err, bank) {
+                                            if (err) {
+                                                console.error(err);
+                                            } else {
+                                                if (bank) {
+                                                    //********** BANK *******
+                                                    //bank.summ_trans_current = Number(bank.summ_trans_current) - Number(qq.amount);
+                                                    bank.summ_all_current = Number(bank.summ_all_current) - Number(qq.amount);
+
+                                                    //bank.summ_transactions = Number(bank.summ_trans_current)-Number(qq.amount);
+                                                    bank.summ_all = Number(bank.summ_all)-Number(qq.amount);
+
+                                                    //bank.summ_trans_day = Number(bank.summ_trans_day) - Number(qq.amount);
+                                                    bank.summ_all_day = Number(bank.summ_all_day) - Number(qq.amount);
+
+
+                                                    //bank.summ_trans_month = Number(bank.summ_trans_month) - Number(qq.amount);
+                                                    bank.summ_all_month = Number(bank.summ_all_month) - Number(qq.amount);
+
+                                                    // bank.summ_transactions =Number( bank.summ_transactions)+Number(qq.amount);
+                                                    // bank.summ_all = Number(bank.summ_all)+Number(qq.amount);
+                                                    //bank.rounds = Number(bank.rounds) + 20;
+                                                    bank.save();
+                                                    //---------------------
+                                                }
+                                            }
+                                        });
                                     }
                                     qq.save();
                                     res.render('info', {infoTitle: '<div class="w3-green">Успех!</div>', infoText: 'Операция успешно выполнена!', url: '/profile', title: 'Запрос подтвержден', user: user, LoginRegister: LoginRegister});
