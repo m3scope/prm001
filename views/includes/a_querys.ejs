@@ -51,14 +51,20 @@
                                     </form></td>
                         <td class="w3-border-left">{{ dt.bank_number }}</td>
                         <td class="w3-border-left">{{ dt.bank_publicKey }}</td>
-                        <td class="w3-border-left">{{ dt.dat }}</td>
+                        <td class="w3-border-left">{{ dt.dat }}
+                            <div ng-switch="{{ dt.status }}">
+                                <div ng-switch-when="1">
+                                    <a class="w3-block w3-btn w3-black" href="{{dt.execut}}">подтвердить</a>
+                                </div>
+                            </div>
+                        </td>
                         <td class="w3-border-left {{ dt.color2 }}">
                             <div ng-switch="{{ dt.status }}">
                                 <div ng-switch-when="0">
                                     <span><a href="{{dt.cancel}}">отменить</a></span>
                                 </div>
                                 <div ng-switch-when="1">
-                                    <span>в обработке</span><span> / </span><span><a href="{{dt.execut}}">подтвердить</a></span><span> / </span><span> <a href="{{dt.cancel}}">отменить</a></span>
+                                    <span>в обработке</span><span> / </span><span> <a href="{{dt.cancel}}">отменить</a></span>
                                 </div>
                                 <div ng-switch-when="3">
                                     <span>исполнен</span>
