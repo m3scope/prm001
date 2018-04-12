@@ -161,8 +161,12 @@ exports.get = function (req, res, next) {
                                             if (qq.class == 0) {    // отмена вывод средств
                                                 qq.status = 5;
                                                 qq.dateCancel = Date.now();
-                                                user[qq.currency_name] = Number(user[qq.currency_name]) + Number(qq.amount);
-                                                user.save();
+                                                Userr.findOne({_id:qq.userId}).exec(function (err, usrr) {
+                                                    if(usrr){
+                                                        usrr[qq.currency_name] = Number(usrr[qq.currency_name]) + Number(qq.amount);
+                                                        usrr.save();
+                                                    }
+                                                });
                                                 Bank.findById(qq.bankId, function (err, bank) {
                                                     if (err) {
                                                         console.error(err);
@@ -360,8 +364,12 @@ exports.post = function (req, res, next) {
                                 if(qq.status == 0){
                                     if(qq.class == 0){
                                         qq.status = 4;
-                                        user[qq.currency_name] = Number(user[qq.currency_name])+Number(qq.amount);
-                                        user.save();
+                                        Userr.findOne({_id:qq.userId}).exec(function (err, usrr) {
+                                            if(usrr){
+                                                usrr[qq.currency_name] = Number(usrr[qq.currency_name]) + Number(qq.amount);
+                                                usrr.save();
+                                            }
+                                        });
                                     } else {
                                         qq.status = 4;
                                     }
