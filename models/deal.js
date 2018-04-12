@@ -35,7 +35,7 @@ const dealSchema = new mongoose.Schema({
     commission_summ: {type: Number, default: 0},     // Сумма комиссии (~5-7%)
 
     class: {type: Number, default: 0},          // Тип(класс) сделки (0 - продажа, 1 - покупка)
-    status: {type: Number, default: 0},          // Статус сделки (0 - создан, 1 - активный, 3 - отменен, 9 - закрыт)
+    status: {type: Number, default: 0},          // Статус сделки (0 - создан, 1 - активный, 3 - отменен, 9 - закрыт (исполнен))
     bills: [
         {
             billId: { type: mongoose.Schema.ObjectId, ref: 'Bill', required: true }       // ID счета (bill), основание для транзакции

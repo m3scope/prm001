@@ -159,7 +159,7 @@ exports.get = function (req, res, next) {
                                         //console.log(qq);
                                         // if (qq.status == 0) {
                                             if (qq.class == 0) {    // отмена вывод средств
-                                                qq.status = 5;
+                                                qq.status = 4;
                                                 qq.dateCancel = Date.now();
                                                 Userr.findOne({_id:qq.userId}).exec(function (err, usrr) {
                                                     if(usrr){
@@ -192,7 +192,7 @@ exports.get = function (req, res, next) {
                                                     }
                                                 });
                                             } else {            // Отмена Пополнение баланса
-                                                qq.status = 5;
+                                                qq.status = 4;
                                                 qq.dateCancel = Date.now();
                                                 Bank.findById(qq.bankId, function (err, bank) {
                                                     if (err) {
@@ -363,7 +363,7 @@ exports.post = function (req, res, next) {
                                 //console.log(qq);
                                 if(qq.status == 0){
                                     if(qq.class == 0){
-                                        qq.status = 4;
+                                        qq.status = 5;
                                         Userr.findOne({_id:qq.userId}).exec(function (err, usrr) {
                                             if(usrr){
                                                 usrr[qq.currency_name] = Number(usrr[qq.currency_name]) + Number(qq.amount);
