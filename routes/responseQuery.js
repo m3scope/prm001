@@ -157,9 +157,9 @@ exports.get = function (req, res, next) {
                                     if (err) console.error(err);
                                     if (qq) {
                                         //console.log(qq);
-                                        // if (qq.status == 0) {
+                                         if (Number(qq.status) < 3) {
                                             if (qq.class == 0) {    // отмена вывод средств
-                                                qq.status = 4;
+                                                qq.status = 5;
                                                 qq.dateCancel = Date.now();
                                                 Userr.findOne({_id:qq.userId}).exec(function (err, usrr) {
                                                     if(usrr){
@@ -192,7 +192,7 @@ exports.get = function (req, res, next) {
                                                     }
                                                 });
                                             } else {            // Отмена Пополнение баланса
-                                                qq.status = 4;
+                                                qq.status = 5;
                                                 qq.dateCancel = Date.now();
                                                 Bank.findById(qq.bankId, function (err, bank) {
                                                     if (err) {
@@ -228,9 +228,9 @@ exports.get = function (req, res, next) {
                                                 user: user,
                                                 LoginRegister: LoginRegister
                                             });
-                                        // } else {
-                                        //     res.redirect('/logout');
-                                        // }
+                                        } else {
+                                            res.redirect('/logout');
+                                        }
                                     } else {
                                         res.redirect('/logout');
                                     }
@@ -361,8 +361,8 @@ exports.post = function (req, res, next) {
                             if(err) console.error(err);
                             if(qq){
                                 //console.log(qq);
-                                if(qq.status == 0){
-                                    if(qq.class == 0){
+                                if(qq.status < 3){
+                                    if(Number(qq.class) < 1){
                                         qq.status = 5;
                                         Userr.findOne({_id:qq.userId}).exec(function (err, usrr) {
                                             if(usrr){
@@ -371,7 +371,7 @@ exports.post = function (req, res, next) {
                                             }
                                         });
                                     } else {
-                                        qq.status = 4;
+                                        qq.status = 5;
                                     }
                                     qq.save();
                                     res.render('info', {infoTitle: '<div class="w3-green">Успех!</div>', infoText: 'Операция успешно выполнена!', url: '/profile', title: 'Запрос подтвержден', user: user, LoginRegister: LoginRegister});
