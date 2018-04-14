@@ -10,10 +10,10 @@
             <form action="/api/q/req/dec_silver" method="post" class="w3-container">
                 <div class="w3-panel w3-card-4 w3-pale-yellow">
                     <p class=" w3-large w3-serif">
-                        <i class="fa fa-quote-right w3-xxlarge w3-text-red"></i><br>
+
                     <ul>
                         <li>
-                            Минимальная сумма к выводу не менее 500р. Сбербанк 1 000р.
+                            Минимальная сумма к выводу не менее 500р.
                         </li>
                         <li>
                             Максимальная сумма за одну транзакцию не более 50 000р.
@@ -89,7 +89,7 @@
                 $scope.num_text = 'Номер кошелька в формате 79ХХХХХХХХХ';
                 $scope.commission_sell = Math.round((Number($scope.deal_amount_sell_rub)*tax_current/100)*100)/100;
                 $scope.deal_amount_sell_curr = Math.round((Number($scope.deal_amount_sell_rub)- Number($scope.deal_amount_sell_rub)*tax_current/100)*100)/100;
-                $scope.numSys_txt = 'Номер телефона кошелька QIWI';
+                $scope.numSys_txt = 'Номер телефона кошелька QIWI:';
             }
             if(value==2) {
                 tax_current = tax[value];
@@ -97,7 +97,7 @@
                 $scope.num_text = 'Номер в формате XXXXXXXXXXXXXX';
                 $scope.commission_sell = Math.round((Number($scope.deal_amount_sell_rub)*tax_current/100)*100)/100;
                 $scope.deal_amount_sell_curr = Math.round((Number($scope.deal_amount_sell_rub)- Number($scope.deal_amount_sell_rub)*tax_current/100)*100)/100;
-                $scope.numSys_txt = 'Номер кошелька Яндекс.Деньги';
+                $scope.numSys_txt = 'Номер кошелька Яндекс.Деньги:';
             }
             if(value==3) {
                 tax_current = tax[value];
@@ -105,7 +105,7 @@
                 $scope.num_text = 'Номер в формате XXXXXXXXXXXXXXXX';
                 $scope.commission_sell = Math.round((Number($scope.deal_amount_sell_rub)*tax_current/100)*100)/100;
                 $scope.deal_amount_sell_curr = Math.round((Number($scope.deal_amount_sell_rub)- Number($scope.deal_amount_sell_rub)*tax_current/100)*100)/100;
-                $scope.numSys_txt = 'Номер КАРТЫ Сбербанка';
+                $scope.numSys_txt = 'Номер КАРТЫ Сбербанка:';
             }
         };
         $scope.change_sell_rub = function () {
