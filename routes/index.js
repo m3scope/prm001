@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const User = require('../models/user');
 const Deal = require('../models/deal');
+const config = require('config');
+const amd = config.get('amd');
 
 const db_deals = require('../libs/db_deals');
 const authLK = require('../middleware/authLK');
@@ -43,7 +45,9 @@ router.get('/', function(req, res, next) {
                 '<label class="w3-border-bottom"> '+UserBalance[3]+' </label>' +
                 '<span>&nbsp; USD: </span>' +
                 '<label class="w3-border-bottom"> '+UserBalance[2]+' </label></div>';
-
+            if(amd.indexOf(req.session.user) > -1) {
+                LoginRegister = '<div class="w3-right-align w3-small"><span class="w3-border-top">'+req.session.username+'</span></div><a href="/amd/querys" class=" w3-btn w3-border w3-border-green w3-round" >А</a>&nbsp;&nbsp;<a href="/profile" class="w3-button w3-border w3-border-white w3-round"><label>ВВОД / ВЫВОД</label></a>&nbsp;&nbsp;<a href="/profile" class="w3-button w3-border w3-border-white w3-round"><label>ПРОФИЛЬ</label></a>&nbsp;&nbsp;<a href="/logout" class="w3-button w3-border w3-border-white w3-round">ВЫХОД</a>';
+            }
             db_deals.getdeals(curr1,curr2, function (err, data) {
                 if(err) res.status(500).send('Внутренняя ошибка!');
                 res.render('index', { title: 'PRIZM Stock Exchange', LoginRegister: LoginRegister, deals: data, UBalance: UserBalance, infoText: infoText});
@@ -267,7 +271,9 @@ router.get('/deals/:id?', function (req, res) {
                 '<label class="w3-border-bottom"> '+UserBalance[3]+' </label>' +
                 '<span>&nbsp; USD: </span>' +
                 '<label class="w3-border-bottom"> '+UserBalance[2]+' </label></div>';
-
+            if(amd.indexOf(req.session.user) > -1) {
+                LoginRegister = '<div class="w3-right-align w3-small"><span class="w3-border-top">'+req.session.username+'</span></div><a href="/amd/querys" class=" w3-btn w3-border w3-border-green w3-round" >А</a>&nbsp;&nbsp;<a href="/profile" class="w3-button w3-border w3-border-white w3-round"><label>ВВОД / ВЫВОД</label></a>&nbsp;&nbsp;<a href="/profile" class="w3-button w3-border w3-border-white w3-round"><label>ПРОФИЛЬ</label></a>&nbsp;&nbsp;<a href="/logout" class="w3-button w3-border w3-border-white w3-round">ВЫХОД</a>';
+            }
             db_deals.getdeals(curr1,curr2, function (err, data) {
                 if(err) res.status(500).send('Внутренняя ошибка!');
                 res.render('index', { title: 'PRIZM Stock Exchange', LoginRegister: LoginRegister, deals: data, UBalance: UserBalance, infoText:infoText});
