@@ -65,10 +65,10 @@ const userSchema = new mongoose.Schema({
         type: Number, default: 0
     },
     fiats: [{bankId:{type: mongoose.Schema.ObjectId, ref: 'Bank'}}],
-    status: {type: Number, default: 1},     // (0 - заблокирован, 1 - пользователь, 3 - инвестор)
+    status: {type: Number, default: 1},     // (0 - заблокирован, 1 - пользователь, 3 - инвестор, 9 - admin)
     category: String,
     name_f: String,
-    tel: String,
+    tel: {type:String, default: null},
     email: {
         type: String,
         required: 'Укажите e-mail',

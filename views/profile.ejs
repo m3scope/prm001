@@ -116,6 +116,10 @@ let clors=['w3-orange','w3-cyan'];
               <span class="w3-tag w3-green">Имя пользователя</span>
             </p>
             <p>
+              <span class="w3-input w3-border"><%= user.tel%></span>
+              <span class="w3-tag w3-green">Телефон</span>
+            </p>
+            <p>
               <span class="w3-input w3-border" ><%= user.email%>
               </span>
                 <% if(user.email_confirmed){%>
@@ -124,7 +128,6 @@ let clors=['w3-orange','w3-cyan'];
                   <span class="w3-tag w3-red">e-mail</span>
                 <% if(user.email_token){%><span class="w3-tag">Подтвердите e-mail из письма</span><%} else {%><span class="w3-tag"><a href="/confirmed/sendconfirmedemail">подтвердить</a></span> <%}%>
                 <%}%>
-
             </p>
 
           </form>
