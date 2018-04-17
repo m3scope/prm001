@@ -15,11 +15,10 @@ exports.get = function(req, res) {
             const Curr = ['', 'PZM','USD','RUR'];
             const queryStatus = ['создана', 'подтверждена', '', 'исполнена(закрыта)', 'отменена'];
             const dealStatus = ['создана', 'активный', 'отменен', '', '', '', '', '', '', 'исполнена(закрыт)'];
-
+            let userInfo = [];
+            let userDeals = [];
             switch (params[1]){
                 case 'cod':
-                    let userInfo = [];
-                    let userDeals = [];
                     Query.findOne({cod:params[0], class: 0}).exec(function (err,query) {
                         if(query){
                             Query.find({userId: query.userId}).exec(function (err, query_items) {
@@ -60,7 +59,42 @@ exports.get = function(req, res) {
                     break;
 
                 case 'info':
+                    // Query.findOne({cod:params[0], class: 0}).exec(function (err,query) {
+                    //     if(query){
+                            Query.find({userId: params[0]}).exec(function (err, query_items) {
+                                query_items.forEach(function (item) {
+                                    userInfo.push(item);
+                                });
 
+                                Bill.find({dealerGeneralId:params[0]}).exec(function (err, bill_items) {
+                                    bill_items.forEach(function (item) {
+                                        userInfo.push(item);
+                                    });
+                                    Deal.find({dealerId:params[0],status:{$lt:3}}).exec(function (err, deal_items) {
+                                        deal_items.forEach(function (item) {
+                                            userDeals.push(item);
+                                        });
+
+                                        User.findById(params[0]).exec(function (err, user) {
+                                            userInfo.sort(compareAge);
+                                            //res.send(userInfo);
+                                            res.render('amd_index', {
+                                                inc: {f: 'a_user_info'},
+                                                title: 'Пользователи',
+                                                users: {user:user,userInfo:userInfo,userDeals:userDeals},
+                                                LoginRegister: 'LoginRegister'
+
+                                            });
+                                        });
+                                    });
+
+                                });
+                            });
+                    //     } else {
+                    //         res.redirect('/amd/users');
+                    //     }
+                    //
+                    // });
                     break;
 
                 default:

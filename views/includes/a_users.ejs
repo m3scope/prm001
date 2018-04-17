@@ -17,13 +17,15 @@
         <tr class="w3-green">
           <th>UID</th>
           <th class="w3-border-left">Имя</th>
+          <th class="w3-border-left">email</th>
           <th class="w3-border-left">PZM</th>
           <th class="w3-border-left">USD</th>
           <th class="w3-border-left">RUR</th>
         </tr>
         <tr ng-repeat="dt in dt1" ng-click="setSelected();">
           <td>{{ dt.UID }}</td>
-          <td class="w3-border-left">{{ dt.name_f }}</td>
+          <td class="w3-border-left"><a href="/amd/users/{{dt.ID}};info">{{ dt.name_f }}</a></td>
+          <td class="w3-border-left">{{ dt.email }}</td>
           <td class="w3-border-left">{{ dt.PZM }}</td>
           <td class="w3-border-left">{{ dt.USD }}</td>
           <td class="w3-border-left">{{ dt.RUR }}</td>
@@ -43,12 +45,15 @@
     myApp.controller('MainCtrl', function($scope) {
         $scope.dt1 = [];
         <% users.forEach(function(item) { %>
+          nm={};
+          nm.ID = '<%= item._id%>';
           nm.UID = '<%= item.UID%>';
           nm.name_f = '<%= item.name_f%>';
+          nm.email = '<%= item.email %>';
           nm.PZM = '<%= item.PZM%>';
           nm.USD = '<%= item.USD%>';
           nm.RUR = '<%= item.RUR%>';
-          $scope.dt1.push({UID:nm.UID, name_f:nm.name_f, PZM:nm.PZM, USD:nm.USD, RUR:nm.RUR});
+          $scope.dt1.push(nm);
         <%})%>
         $scope.setSelected = function() {
             $scope.selected = this.dt;

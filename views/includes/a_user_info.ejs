@@ -182,7 +182,7 @@
         $scope.dt2 = [];
         $scope.dtD = [];
 
-
+        nm={};
         nm.UID = '<%= users.user.UID%>';
         nm.email = '<%= users.user.email%>';
         nm.tel = '<%= users.user.tel%>';
@@ -190,7 +190,7 @@
         nm.PZM = '<%= users.user.PZM%>';
         nm.USD = '<%= users.user.USD%>';
         nm.RUR = '<%= users.user.RUR%>';
-        $scope.dt1.push({UID:nm.UID, name_f:nm.name_f, PZM:nm.PZM, USD:nm.USD, RUR:nm.RUR});
+        $scope.dt1.push(nm);
 
         <% users.userDeals.forEach(function (deal) { %>
             dl={};
