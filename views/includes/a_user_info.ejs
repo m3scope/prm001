@@ -263,11 +263,13 @@
                 } else {        // ВЫВОД стредств
                     if(<%= item.status%> == 3)      // исполнено
                     {
+                        nm.commiss[Curr[Number(<%=item.currency %>)]] = Math.round(Number(<%= item.commission_summ%>)*100)/100;
                         nm.desc[Curr[Number(<%=item.currency %>)]] = Math.round(Number(<%= item.amount %>)*100)/100;
                         sm[Curr[Number(<%=item.currency %>)]] = Math.round((sm[Curr[Number(<%=item.currency %>)]] - Number('<%= item.amount %>'))*100)/100;
                         nm[Curr[Number(<%=item.currency %>)]] = sm[Curr[Number(<%=item.currency %>)]];
                     } else {
                         nm.desc[Curr[Number(<%=item.currency %>)]] = Math.round(Number(<%= item.amount %>)*100)/100;
+                        nm.commiss[Curr[Number(<%=item.currency %>)]] = Math.round(Number(<%= item.commission_summ%>)*100)/100;
                     }
                 }
             }
