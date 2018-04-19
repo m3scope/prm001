@@ -426,9 +426,9 @@ exports.post = function (req, res, next) {
                             //console.log(qq);
                             if(qq.status == 0){
                                 if(qq.class == 0){
-                                    sndSms(qq.dealerId,'Отправить '+Math.round((qq.amount-qq.commission_summ)*100)/100 + ' '+qq.currency_name);
+                                    sndSms(qq.dealerId,'Отпр. '+Math.round((qq.amount-qq.commission_summ)*100)/100 + ' '+qq.currency_name);
                                 } else {
-                                    sndSms(qq.dealerId,'Принять '+Math.round((qq.amount)*100)/100 + ' '+qq.currency_name);
+                                    sndSms(qq.dealerId,'прием '+Math.round((qq.amount)*100)/100 + ' '+qq.currency_name);
                                 }
                                 qq.status = 1;
                                 qq.save();
