@@ -2,6 +2,7 @@ const loadUser = require("../libs/loadUser");
 const Userr = require('../models/user');
 const config = require('config');
 const amd = config.get('amd');
+const sndSms = require('../libs/sndSms');
 
 const Query = require('../models/query');
 const Deal = require('../models/deal');
@@ -424,6 +425,11 @@ exports.post = function (req, res, next) {
                         if(qq){
                             //console.log(qq);
                             if(qq.status == 0){
+                                if(qq.class == 0){
+                                    sndSms('Отправить '+Math.round((qq.amount-qq.commission_summ)*100)/100 + ' '+qq.currency_name);
+                                } else {
+                                    sndSms('Принять '+Math.round((qq.amount)*100)/100 + ' '+qq.currency_name);
+                                }
                                 qq.status = 1;
                                 qq.save();
                                 res.render('info', {infoTitle: '<div class="w3-green">Успех!</div>', infoText: 'Операция успешно выполнена!', url: '/profile', title: 'Запрос подтвержден', user: user, LoginRegister: LoginRegister});
