@@ -425,11 +425,11 @@ exports.post = function (req, res, next) {
                         if(qq){
                             //console.log(qq);
                             if(qq.status == 0){
-                                if(qq.class == 0){
-                                    sndSms(qq.dealerId,'Отпр. '+Math.round((qq.amount-qq.commission_summ)*100)/100 + ' '+qq.currency_name);
-                                } else {
-                                    sndSms(qq.dealerId,'прием '+Math.round((qq.amount)*100)/100 + ' '+qq.currency_name);
-                                }
+                                // if(qq.class == 0){
+                                //     sndSms(qq.dealerId,'Отпр. '+Math.round((qq.amount-qq.commission_summ)*100)/100 + ' '+qq.currency_name);
+                                // } else {
+                                //     sndSms(qq.dealerId,'прием '+Math.round((qq.amount)*100)/100 + ' '+qq.currency_name);
+                                // }
                                 qq.status = 1;
                                 qq.save();
                                 res.render('info', {infoTitle: '<div class="w3-green">Успех!</div>', infoText: 'Операция успешно выполнена!', url: '/profile', title: 'Запрос подтвержден', user: user, LoginRegister: LoginRegister});
