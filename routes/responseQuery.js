@@ -445,7 +445,7 @@ exports.post = function (req, res, next) {
                     });
                     break;
                 case 'cancel':
-                    Query.findOne({_id:params[0], userId:user._id}, function (err, qq) {
+                    Query.findOne({_id:params[0], userId:user._id, status: 0}, function (err, qq) {
                         if(err) console.error(err);
                         if(qq){
                             //console.log(qq);
@@ -461,7 +461,15 @@ exports.post = function (req, res, next) {
                                 res.redirect('/logout');
                             }
                         } else {
-                            res.redirect('/logout');
+                            // res.redirect('/logout');
+                            res.render('info', {
+                                infoTitle: '<div class="w3-red">Ошибка!</div>',
+                                infoText: 'Операция не выполнена!',
+                                url: '/profile',
+                                title: 'Запрос удален!',
+                                user: user,
+                                LoginRegister: LoginRegister
+                            });
                         }
                     });
                     break;
