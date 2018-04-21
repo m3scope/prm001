@@ -449,13 +449,11 @@ exports.post = function (req, res, next) {
                         if(err) console.error(err);
                         if(qq){
                             //console.log(qq);
-                            if(qq.status == 0){
-                                if(qq.class == 0){
-                                    qq.status = 4;
+                            if(Number(qq.status) < 1){
+                                qq.status = 4;
+                                if(Number(qq.class) < 1){   // Вывод средств
                                     user[qq.currency_name] = Number(user[qq.currency_name])+Number(qq.amount);
                                     user.save();
-                                } else {
-                                    qq.status = 4;
                                 }
                                 qq.save();
                                 res.render('info', {infoTitle: '<div class="w3-green">Успех!</div>', infoText: 'Операция успешно выполнена!', url: '/profile', title: 'Запрос подтвержден', user: user, LoginRegister: LoginRegister});
