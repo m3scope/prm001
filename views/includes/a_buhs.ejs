@@ -1,0 +1,91 @@
+<div class="w3-panel">
+
+</div>
+
+<div class="w3-row-padding" ng-app="myApp">
+    <!-- Left Column -->
+    <div class="w3-col s12" >
+
+        <div class="w3-col " ng-controller="CtrlQuerys2">
+            <div class="">
+
+                <div class="w3-container w3-teal">
+                    <h5>Список банков</h5>
+                </div>
+                <% if(banks.length>0) {%>
+                <table class="w3-table-all w3-small w3-striped w3-hoverable">
+                    <tr  class="w3-green">
+                        <th>UID</th>
+                        <th class="w3-border-left">Банк</th>
+                        <th class="w3-border-left">Валюта</th>
+                        <th class="w3-border-left">Номер</th>
+                        <th class="w3-border-left">Тек.остаток</th>
+                        <th class="w3-border-left">Прием до</th>
+                        <th class="w3-border-left">Отправка до</th>
+                    </tr>
+
+                    <tr class="{{ dt.myColors }} " ng-repeat="dt in qqq" ng-click="setSelected();">
+                        <td>{{ dt.UID }}</td>
+                        <td class="w3-border-left">{{ dt.bank_name }}</td>
+                        <td class="w3-border-left">{{ dt.currency_name }}</td>
+                        <td class="w3-border-left">{{ dt.bank_number }}</td>
+                        <td class="w3-border-left w3-right-align">{{ dt.summ_all_current }}</td>
+                        <td class="w3-border-left">{{ dt.date_in }}</td>
+                        <td class="w3-border-left">{{ dt.date_out }}</td>
+                    </tr>
+
+                </table>
+                <%}%>
+                <a href="/amd/createbank" class="w3-button w3-border w3-border-blue" >Добавить банк</a>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+
+    //<![CDATA[
+    let myApp = angular.module('myApp',[]);
+    let dl = {};
+    let bl = {};
+    let qq={};
+    let i = 0;
+    let glub_buy = 0;
+    let glub_sell = 0;
+    let minPrice = 0;
+    let maxPrice = 0;
+    let bs=['продажа','покупка'];
+    let clors=['w3-orange','w3-cyan','w3-gray','w3-brown','w3-gray','','','','','w3-gray'];
+    const Curr = ['','PZM','USD','RUR'];
+    const w3Btn = [[],['','','w3-white', 'w3-white'],['','w3-white','','w3-white'],['','w3-white','w3-white','']];
+    const typ = ['Вывод','Ввод','Отправить','Получить'];
+
+    myApp.controller('CtrlQuerys2', function ($scope) {
+        $scope.qqq=[];
+
+        <% banks.forEach(function (banks) {%>
+        qq={};
+        <% if(banks.dealerId == dealerId) {%>
+        qq.myColors = 'w3-amber';        // w3-animate-zoom    w3-animate-opacity  'w3-amber'
+        <%} else {%>
+        qq.myColors = '';
+        <%}%>
+        qq.UID = '<%= banks.UID%>';
+        qq.bank_name = '<%= banks.bank_name%>';
+        qq.currency_name = '<%= banks.currency_name%>';
+        qq.bank_number = '<%= banks.bank_number%>';
+        qq.summ_all_current = <%= Math.round(banks.summ_all_current *100)/100 %>;
+        qq.date_in = TimeMsk('<%= banks.date_in%>');
+        qq.date_out = TimeMsk('<%= banks.date_out%>');
+
+        $scope.qqq.push(qq);
+        <%})%>
+
+        $scope.setSelected = function () {
+
+        }
+    });
+
+    //]]>
+</script>
