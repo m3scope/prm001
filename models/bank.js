@@ -3,7 +3,7 @@ const crypto = require('crypto'); // модуль node.js для выполне�
 //const User = require('./user');
 
 const bankSchema = new mongoose.Schema({
-    UID: {type: String, default: Date.now().toString()},
+    UID: {type: String, default: ''},
 
     dealerId: { type: mongoose.Schema.ObjectId, ref: 'User'},     // Id пользователя владелец кошелька
 
@@ -13,6 +13,9 @@ const bankSchema = new mongoose.Schema({
     bank_name: String,                      // Наименование "банка" ['PRIZM','QIWI','Yandex','SberBank','ADVcash','PerfectMoney','NixMoney','PayPal']
     bank_number: String,            // номер счета (кошелька)
     bank_publicKey: {type:String, default:''},         // для Призм
+
+    date_in: {type: Date, default: Date.now()},       // прием средств до даты (дата окончания приема средств)
+    date_out: {type: Date, default: Date.now()},      // отправка средств до даты (дата окончания отправки средств)
 
     currency: {type: Number, default: 0},  // Код (число) валюты (1 - PZM, 2 - USD, 3 - RUR)
     currency_name: String,                  // Наименование валюты ['','PZM','USD','RUR']

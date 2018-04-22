@@ -38,6 +38,7 @@ exports.post = function (req, res, next) {
                 //res.render('createBank', {title: 'Создать Банковский счет', user: user, LoginRegister: LoginRegister});
 
                 const bank = new Bank;
+                bank.UID = Date.now().toString();
                 bank.dealerId = user._id;
                 //bank.bank_cod = req.body.bank_cod;
                 bank.bank_name = banksArr[req.body.bank_cod];
