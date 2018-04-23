@@ -120,7 +120,7 @@ exports.get = function (req, res, next) {
                                                         if (bank) {
                                                             //********** BANK *******
                                                             bank.summ_trans_current = Number(bank.summ_trans_current) - Number(qq.amount);
-                                                            bank.summ_all_current = Number(bank.summ_all_current) - Number(qq.amount);
+                                                            //bank.summ_all_current = Number(bank.summ_all_current) - Number(qq.amount);
 
                                                             //bank.summ_transactions = Number(bank.summ_trans_current)-Number(qq.amount);
                                                             bank.summ_all = Number(bank.summ_all)+Number(qq.amount);
@@ -214,7 +214,7 @@ exports.get = function (req, res, next) {
                                                         if (bank) {
                                                             //********** BANK *******
                                                             bank.summ_trans_current = Number(bank.summ_trans_current) - Number(qq.amount);
-                                                            bank.summ_all_current = Number(bank.summ_all_current) - Number(qq.amount);
+                                                            //bank.summ_all_current = Number(bank.summ_all_current) - Number(qq.amount);
 
                                                             //bank.summ_transactions = Number(bank.summ_trans_current)-Number(qq.amount);
                                                             bank.summ_all = Number(bank.summ_all)+Number(qq.amount);
@@ -350,7 +350,7 @@ exports.get = function (req, res, next) {
                                                         if (bank) {
                                                             //********** BANK *******
                                                             bank.summ_trans_current = Number(bank.summ_trans_current) - Number(qq.amount);
-                                                            bank.summ_all_current = Number(bank.summ_all_current) - Number(qq.amount);
+                                                            //bank.summ_all_current = Number(bank.summ_all_current) - Number(qq.amount);
 
                                                             //bank.summ_transactions = Number(bank.summ_trans_current)-Number(qq.amount);
                                                             bank.summ_all = Number(bank.summ_all)+Number(qq.amount);
@@ -526,8 +526,8 @@ exports.post = function (req, res, next) {
                                             } else {
                                                 if (bank) {
                                                     //********** BANK *******
-                                                    //bank.summ_trans_current = Number(bank.summ_trans_current) - Number(qq.amount);
-                                                    bank.summ_all_current = Number(bank.summ_all_current) - Number(qq.amount);
+                                                    bank.summ_trans_current = Number(bank.summ_trans_current) - Number(qq.amount);
+                                                    //bank.summ_all_current = Number(bank.summ_all_current) - Number(qq.amount);
 
                                                     //bank.summ_transactions = Number(bank.summ_trans_current)-Number(qq.amount);
                                                     bank.summ_all = Number(bank.summ_all)+Number(qq.amount);
@@ -591,6 +591,20 @@ exports.post = function (req, res, next) {
                                                 } else {
                                                     if (userr) {
                                                         if (qqsaved.class == 1) {     // пополнение баланса
+                                                            Bank.findById(qqsaved.bankId, function (err, bank) {
+                                                                if (err) {
+                                                                    console.error(err);
+                                                                } else {
+                                                                    if (bank) {
+                                                                        //********** BANK *******
+
+                                                                        bank.summ_all_current = Number(bank.summ_all_current) + Number(qqsaved.amount);
+
+                                                                        bank.save();
+                                                                        //---------------------
+                                                                    }
+                                                                }
+                                                            });
                                                             userr[qqsaved.currency_name] = Number(userr[qqsaved.currency_name]) + Number(qqsaved.amount) - Number(qqsaved.commission_summ);
                                                             userr.save();
                                                             //******** СПИСАНИЕ КОМИССИИ

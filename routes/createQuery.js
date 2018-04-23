@@ -111,7 +111,7 @@ exports.post = function (req, res, next) {
 
             if(Boolean(Number(req.body.class))){        // (1 - пополнение)
 
-                Bank.findOne({bank_cod:req.body.bank_cod, summ_all:{$gte:summ}, summ_trans_current:{$gte:summ}, currency: curr_cod}).sort({rounds: 1}).exec(function (err, bank) {
+                Bank.findOne({bank_cod:req.body.bank_cod, date_in:{$gte: Date.now()}, summ_all:{$gte:summ}, summ_trans_current:{$gte:summ}, currency: curr_cod}).sort({rounds: 1}).exec(function (err, bank) {
                     "use strict";
                     if(err){
                         console.error(err);
@@ -150,7 +150,7 @@ exports.post = function (req, res, next) {
                                         res.redirect('/api/q/res/'+saved_Q._id.toString()+';confirm');
                                         //********** BANK *******
                                         //bank.summ_trans_current = Number(bank.summ_trans_current)-summ;
-                                        bank.summ_all_current = Number(bank.summ_all_current)+summ;
+                                        //bank.summ_all_current = Number(bank.summ_all_current)+summ;
 
                                         //bank.summ_transactions = Number(bank.summ_trans_current)-summ;
                                         bank.summ_all = Number(bank.summ_all)-summ;
@@ -187,7 +187,7 @@ exports.post = function (req, res, next) {
 
                 if((Number(user[currency]))>=summ){
                     //
-                    Bank.findOne({bank_cod:req.body.bank_cod, summ_all_current:{$gte:Number(summ)}, summ_trans_current:{$gte:Number(summ)}, currency: curr_cod}).sort({rounds: 1}).exec(function (err, bank) {
+                    Bank.findOne({bank_cod:req.body.bank_cod, date_out:{$gte: Date.now()}, summ_all_current:{$gte:Number(summ)}, summ_trans_current:{$gte:Number(summ)}, currency: curr_cod}).sort({rounds: 1}).exec(function (err, bank) {
                         "use strict";
                         if(err) {
                             console.error(err);
