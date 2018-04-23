@@ -324,6 +324,10 @@ router.get('/api/q/deal/:id', checkAuth, noCache, require('./q_deal').get);
 router.get('/confirmed/:id', noCache, require('./confirmed').get);
 //router.get('/confirmed/:id', noCache, require('./confirmed').get);
 
+
+router.get('/qrcode',require('./qrcode').get);
+
+
 //----------------------------------------------
 
 router.get('/:id', function (req, res) {

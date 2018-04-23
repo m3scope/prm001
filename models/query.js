@@ -29,6 +29,7 @@ const  querySchema = new mongoose.Schema({
     info: String,       // Информация, хз какая...
     comment: String,    // Комментарий
     cod: String,
+    qrCode: {type: String, default: ''},
 
     dataCancel: {type: Date}, // _Удалить...
     dateCancel: {type: Date, default: null},    // Дата отмены запроса

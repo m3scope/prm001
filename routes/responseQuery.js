@@ -10,6 +10,9 @@ const Bill = require('../models/bill');
 const db_bills = require('../libs/db_bills');
 const Bank = require('../models/bank');
 const TransactionQuery = require('../models/transactionQuery');
+
+const QRCode = require('qrcode');
+
 const Curr = {
     'RUR' : [3,'/deals/1;3','/deals/2;3'],
     'USD' : [2,'/deals/1;2','','/deals/2;3'],

@@ -17,6 +17,9 @@
       <form action="<%= url %>" method="post" class="w3-container">
         <input hidden name="q_ID" value="<%= qq._id%>">
         <h3>
+          <% if(qq.bank_cod == 0){%>
+            <img src="<%= qq.qrCode%>">
+          <%}%>
           <p>
             Переведите <%= qq.amount %> <%= curr[qq.currency] %> на номер <%= qq.bank_name%> :
             <br> <%= qq.bank_number %>

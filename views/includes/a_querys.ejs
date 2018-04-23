@@ -29,6 +29,7 @@
                 <% if(querys.length>0) {%>
                 <table class="w3-table-all w3-small w3-striped w3-hoverable">
                     <tr  class="w3-green">
+                        <th>QR</th>
                         <th>Валюта</th>
                         <th class="w3-border-left">Тип</th>
                         <th class="w3-border-left">Кол.</th>
@@ -41,6 +42,11 @@
                     </tr>
 
                     <tr ng-repeat="dt in qqq" ng-click="setSelected();">
+                        <td>
+                            <input type="checkbox" ng-model="check_qrcode">
+                            <div ng-show="check_qrcode"><img src="{{ dt.qrcode }}"></div>
+
+                        </td>
                         <td>{{ dt.currency }}</td>
                         <td class="{{ dt.color }}">{{ dt.typ }}</td>
                         <td class="w3-border-left {{ dt.myQueryColors }}">{{ dt.amount }}</td>
@@ -110,6 +116,7 @@
 
         <% querys.forEach(function (query) {%>
             qq={};
+            qq.qrcode = '<%= query.qrCode%>';
             qq.currency = Curr[<%= query.currency%>];
             qq.typ = typ[<%= query.class%>+2];
             qq.color = clors[<%= query.class%>];
