@@ -195,7 +195,7 @@ exports.post = function (req, res, next) {
                         } else {
                             if(bank){
 
-                                let qrTxt = req.body.bank_number+':'+req.body.bank_publicKey+':'+(summ - Number(commiss_sell))+':'+cod;
+                                let qrTxt = req.body.bank_number+':'+req.body.bank_publicKey+':'+(summ - Number(commiss_sell))+':'+cod+' | приобретено на prizmex.ru';
                                 QRCode.toDataURL(qrTxt, function (err, url) {
                                     if (bank.bank_cod == 0) {
                                         query.qrCode = url;
