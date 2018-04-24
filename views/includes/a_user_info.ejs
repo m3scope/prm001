@@ -93,7 +93,7 @@
             <div class="w3-container w3-teal">
                 <h5>Движения средств</h5>
             </div>
-
+            <input type="checkbox" ng-model="f" ng-change="filter_by('shw1')"><label>показать отмененные</label>
             <table class="w3-small w3-table-all w3-hoverable w3-card-4" >
                 <tr class="w3-green">
                     <th rowspan="2">Дата</th>
@@ -125,29 +125,34 @@
                     <th class="w3-border-left">Комиссия</th>
                     <th class="w3-border-left">Итог USD</th>
                 </tr>
-                <tr ng-repeat="info in dt2" ng-click="setSelected();">
-                    <td>{{ info.createdAt }}</td>
-                    <td class="w3-border-left {{ info.colorOper }}">{{ info.operation_name }}</td>
 
-                    <td class="w3-border-left">{{ info.par }}</td>
-                    <td class="w3-border-left">{{ info.price_amount }}</td>
+                <tr ng-repeat="info in dt2 | filter: f" ng-click="setSelected();">
 
-                    <td class="w3-border-left w3-border-black">{{ info.a_s.PZM }}</td>
-                    <td class="w3-border-left">{{ info.desc.PZM }}</td>
-                    <td class="w3-border-left">{{ info.commiss.PZM }}</td>
-                    <td class="w3-border-left">{{ info.PZM }}</td>
+                        <td>{{ info.createdAt }}</td>
+                        <td class="w3-border-left {{ info.colorOper }}">{{ info.operation_name }}</td>
 
-                    <td class="w3-border-left w3-border-black">{{ info.a_s.RUR }}</td>
-                    <td class="w3-border-left">{{ info.desc.RUR }}</td>
-                    <td class="w3-border-left">{{ info.commiss.RUR }}</td>
-                    <td class="w3-border-left">{{ info.RUR }}</td>
+                        <td class="w3-border-left">{{ info.par }}</td>
+                        <td class="w3-border-left">{{ info.price_amount }}</td>
 
-                    <td class="w3-border-left w3-border-black">{{ info.a_s.USD }}</td>
-                    <td class="w3-border-left">{{ info.desc.USD }}</td>
-                    <td class="w3-border-left">{{ info.commiss.USD }}</td>
-                    <td class="w3-border-left">{{ info.USD }}</td>
+                        <td class="w3-border-left w3-border-black">{{ info.a_s.PZM }}</td>
+                        <td class="w3-border-left">{{ info.desc.PZM }}</td>
+                        <td class="w3-border-left">{{ info.commiss.PZM }}</td>
+                        <td class="w3-border-left">{{ info.PZM }}</td>
 
-                    <td class="w3-border-left w3-border-black">{{ info.status }}</td>
+                        <td class="w3-border-left w3-border-black">{{ info.a_s.RUR }}</td>
+                        <td class="w3-border-left">{{ info.desc.RUR }}</td>
+                        <td class="w3-border-left">{{ info.commiss.RUR }}</td>
+                        <td class="w3-border-left">{{ info.RUR }}</td>
+
+                        <td class="w3-border-left w3-border-black">{{ info.a_s.USD }}</td>
+                        <td class="w3-border-left">{{ info.desc.USD }}</td>
+                        <td class="w3-border-left">{{ info.commiss.USD }}</td>
+                        <td class="w3-border-left">{{ info.USD }}</td>
+
+                        <td class="w3-border-left w3-border-black">{{ info.status }}</td>
+                    <td class="w3-border-left w3-border-black">{{ info.shw }}</td>
+                    <td class="w3-border-left w3-border-black">{{ info.shw1 }}</td>
+
                 </tr>
             </table>
         </div>
@@ -211,6 +216,7 @@
             dl.i = i;
 
             $scope.dtD.push(dl);
+
             i++;
         <%})%>
 
@@ -304,11 +310,32 @@
             }
 //            sm = Math.round(sm*100)/100;
 //            smp = Math.round(smp*100)/100;
+//            nm.shw_cancel
+            nm.shw = false;
+            if(<%= item.operation_cod%> == 1){
+                if(Number(<%= item.status%>)>3) {
+                    nm.shw = true;
+                }
+            }
+            if(<%= item.operation_cod%> == 3){
+                if(Number(<%= item.status%>)>2) {
+                    nm.shw = true;
+                }
+            }
             nm.status = (<%= item.operation_cod%> == 1) ? Status_q[Number(<%= item.status%>)]:Status[Number(<%= item.status%>)];
 //            nm.sm = sm;
 //            nm.smp = smp;
             $scope.dt2.push(nm);
         <%})%>
+
+
+
+        $scope.filter_by = function(field) {
+            $scope.f['__' + [field]] = true;
+            $scope.dt2.forEach(function(v) {
+                v['__' + [field]] = v.shw ? $scope.f[field]: true;
+            });
+        }
     });
     //]]>
 </script>
