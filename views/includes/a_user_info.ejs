@@ -93,7 +93,7 @@
             <div class="w3-container w3-teal">
                 <h5>Движения средств</h5>
             </div>
-            <input type="checkbox" ng-model="f.shw1" ng-change="filter_by('shw1')"><label>скрыть отмененные</label>
+            <input type="checkbox" ng-model="f" ng-change="filter_by('shw1')"><label>скрыть отмененные</label>
             <table class="w3-small w3-table-all w3-hoverable w3-card-4" >
                 <tr class="w3-green">
                     <th rowspan="2">Дата</th>
@@ -333,7 +333,7 @@
         $scope.filter_by = function(field) {
             $scope.f['__' + [field]] = true;
             $scope.dt2.forEach(function(v) {
-                v['__' + [field]] = v.shw ? !(Boolean($scope.f[field])): true;
+                v['__' + [field]] = v.shw ? $scope.f[field]: true;
             });
         }
     });
