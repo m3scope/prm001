@@ -333,7 +333,7 @@
         $scope.filter_by = function(field) {
             $scope.f['__' + [field]] = true;
             $scope.dt2.forEach(function(v) {
-                v['__' + [field]] = v.shw ? !($scope.f[field]): true;
+                v['__' + [field]] = v.shw ? !(Boolean($scope.f[field])): true;
             });
         }
     });
