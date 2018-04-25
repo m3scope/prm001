@@ -36,7 +36,7 @@ const  querySchema = new mongoose.Schema({
 
     dateExec: {type: Date, default: null},    // Дата подтверждения/исполнения запроса
 
-    comments: {type:String, default:''},
+    comments: {type:String, default:''},    // Комментарии Администраторов
     status: {type: Number, default: 0},     // ['создана','подтверждена','','исполнена(закрыта)','отменена','отмена АДМ']
 
     class: {type: Number, default: 0},  // Тип(класс) сделки (1 - Ввод средств, 0 - Вывод средств)

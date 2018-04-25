@@ -265,6 +265,7 @@ let clors=['w3-orange','w3-cyan'];
             <th class="w3-border-left">Код</th>
             <th class="w3-border-left">Номер счета</th>
             <th class="w3-border-left">Дата</th>
+            <th class="w3-border-left">Комментарий</th>
             <th class="w3-border-left"></th>
           </tr>
 
@@ -277,6 +278,7 @@ let clors=['w3-orange','w3-cyan'];
             <td class="w3-border-left">{{ dt.cod }}</td>
             <td class="w3-border-left">{{ dt.bank_number }}</td>
             <td class="w3-border-left">{{ dt.dat }}</td>
+            <td class="w3-border-left">{{ dt.comments }}</td>
             <td class="w3-border-left {{ dt.color2 }}">
               <div ng-switch="{{ dt.status }}">
                 <div ng-switch-when="0">
@@ -353,6 +355,7 @@ let clors=['w3-orange','w3-cyan'];
         qq.cod = '<%= query.cod%>';
         qq.bank_number = '<%= query.bank_number%>';
           qq.status = <%= query.status%>;
+        qq.comments = '<%= query.comments%>';
           qq.confirm = '/api/q/res/<%= query._id %>;confirm';
           qq.cancel = '/api/q/res/<%= query._id %>;cancel';
           qq.dat = TimeMsk('<%= query.createdAt %>');

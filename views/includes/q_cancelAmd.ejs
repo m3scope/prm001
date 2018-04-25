@@ -5,9 +5,9 @@
     <div class="w3-col s6" ng-controller="MainCtrl">
         <div class="w3-card-4">
             <div class="w3-container {{ colorHead }}">
-                <h5>Подтверждение запроса</h5>
+                <h5>ОТМЕНА запроса</h5>
             </div>
-            <% const url = '/api/q/res/'+qq._id+';execut' %>
+            <% const url = '/api/q/res/'+qq._id+';cancelamd' %>
             <form action="<%= url %>" method="post" class="w3-container">
                 <input hidden name="q_ID" value="<%= qq._id%>">
 
@@ -16,7 +16,7 @@
                     <div ng-switch-when="1">
                         <div class="w3-panel w3-light-grey">
                             <p class="w3-xlarge w3-serif">
-                                Получено на <%= qq.bank_name%><br>
+                                Отмена пополнения <%= qq.bank_name%><br>
                                 <%= qq.bank_number%>
                             </p>
                             <p>
@@ -31,7 +31,7 @@
                     <div ng-switch-when="0">
                         <div class="w3-panel w3-light-grey">
                             <p class="w3-xlarge w3-serif">
-                                Отправлено на <%= qq.bank_name%><br>
+                                Отмена вывода средств на <%= qq.bank_name%><br>
                                 <%= qq.bank_number%>
                             </p>
                             <p>
@@ -42,7 +42,7 @@
                     </div>
                 </div>
                 <input name="comments" value="">
-                <label>Комментарий</label>
+                <span class="w3-tag w3-green">Комментарий</span>
                 <p>
                     <input class="w3-btn w3-teal" type="submit" value="Подтвердить">
                 </p>

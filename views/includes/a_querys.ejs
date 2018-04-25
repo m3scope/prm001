@@ -38,6 +38,7 @@
                         <th class="w3-border-left">Номер счета</th>
                         <th class="w3-border-left">Pub.key</th>
                         <th class="w3-border-left">Дата</th>
+                        <th class="w3-border-left">Коммент.</th>
                         <th class="w3-border-left"></th>
                     </tr>
 
@@ -64,6 +65,7 @@
                                 </div>
                             </div>
                         </td>
+                        <td class="w3-border-left">{{ dt.comments }}</td>
                         <td class="w3-border-left {{ dt.color2 }}">
                             <div ng-switch="{{ dt.status }}">
                                 <div ng-switch-when="0">
@@ -132,7 +134,8 @@
             qq.cod = '<%= query.cod%>';
             qq.bank_number = '<%= query.bank_number%>';
             qq.bank_publicKey = '<%= query.bank_publicKey%>';
-            qq.status = <%= query.status%>;
+            qq.status = '<%= query.status%>';
+            qq.comments = '<%= query.comments%>';
             qq.confirm = '/api/q/res/<%= query._id %>;confirm';
             qq.cancel = '/api/q/res/<%= query._id %>;cancelamd';
             qq.execut = '/api/q/res/<%= query._id %>;execut';
