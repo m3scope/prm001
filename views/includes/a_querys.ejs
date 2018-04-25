@@ -52,8 +52,8 @@
                         <td class="{{ dt.color }}">{{ dt.typ }}</td>
                         <td class="w3-border-left {{ dt.myQueryColors }}">{{ dt.amount }}</td>
                         <td class="w3-border-left">{{ dt.bank_name }}</td>
-                        <td class="w3-border-left">{{ dt.cod }} <form action="/amd/users" method="post">
-                                        <input type="hidden" name="cod" value="{{ dt.cod }}">
+                        <td class="w3-border-left">{{ dt.cod }} <form action="/amd/users/info" method="post">
+                                        <input type="hidden" name="cod" value="{{ dt.userId }}">
                                        <button type="submit">Проверить</button>
                                     </form></td>
                         <td class="w3-border-left">{{ dt.bank_number }}</td>
@@ -119,6 +119,7 @@
         <% querys.forEach(function (query) {%>
             qq={};
             qq.qrcode = '<%= query.qrCode%>';
+            qq.userId = '<%= query.userId%>';
             qq.currency = Curr[<%= query.currency%>];
             qq.typ = typ[<%= query.class%>+2];
             qq.color = clors[<%= query.class%>];

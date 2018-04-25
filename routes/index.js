@@ -300,7 +300,7 @@ router.get('/amd/buhgalters/:id?', checkAuth, checkAdmin, noCache, require('./a_
 router.post('/amd/buhgalters', checkAuth, checkAdmin, noCache, require('./a_buhs').post);
 
 router.get('/amd/users/:id?', checkAuth, checkAdmin, noCache, require('./users').get);
-router.post('/amd/users/', checkAuth, checkAdmin, noCache, require('./users').post);
+router.post('/amd/users/:id?', checkAuth, checkAdmin, noCache, require('./users').post);
 
 router.get('/amd/querys/:id?', checkAuth, checkAdmin, noCache, require('./a_querys').get);
 router.post('/amd/querys/', checkAuth, checkAdmin, noCache, require('./a_querys').post);

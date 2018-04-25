@@ -19,7 +19,7 @@ exports.get = function(req, res) {
             let userDeals = [];
             switch (params[1]){
                 case 'cod':
-                    Query.findOne({cod:params[0], class: 0}).exec(function (err,query) {
+                    Query.findOne({cod:params[0]}).exec(function (err,query) {
                         if(query){
                             Query.find({userId: query.userId}).exec(function (err, query_items) {
                                 query_items.forEach(function (item) {
@@ -62,32 +62,42 @@ exports.get = function(req, res) {
                     // Query.findOne({cod:params[0], class: 0}).exec(function (err,query) {
                     //     if(query){
                             Query.find({userId: params[0]}).exec(function (err, query_items) {
-                                query_items.forEach(function (item) {
-                                    userInfo.push(item);
-                                });
-
-                                Bill.find({dealerGeneralId:params[0]}).exec(function (err, bill_items) {
-                                    bill_items.forEach(function (item) {
+                                if(query_items) {
+                                    query_items.forEach(function (item) {
                                         userInfo.push(item);
                                     });
-                                    Deal.find({dealerId:params[0],status:{$lt:3}}).exec(function (err, deal_items) {
-                                        deal_items.forEach(function (item) {
-                                            userDeals.push(item);
+                                } else {
+
+                                }
+
+                                Bill.find({dealerGeneralId:params[0]}).exec(function (err, bill_items) {
+                                    if(bill_items) {
+                                        bill_items.forEach(function (item) {
+                                            userInfo.push(item);
                                         });
+                                        Deal.find({
+                                            dealerId: params[0],
+                                            status: {$lt: 3}
+                                        }).exec(function (err, deal_items) {
+                                            deal_items.forEach(function (item) {
+                                                userDeals.push(item);
+                                            });
 
-                                        User.findById(params[0]).exec(function (err, user) {
-                                            userInfo.sort(compareAge);
-                                            //res.send(userInfo);
-                                            res.render('amd_index', {
-                                                inc: {f: 'a_user_info'},
-                                                title: 'Пользователи',
-                                                users: {user:user,userInfo:userInfo,userDeals:userDeals},
-                                                LoginRegister: 'LoginRegister'
+                                            User.findById(params[0]).exec(function (err, user) {
+                                                userInfo.sort(compareAge);
+                                                //res.send(userInfo);
+                                                res.render('amd_index', {
+                                                    inc: {f: 'a_user_info'},
+                                                    title: 'Пользователи',
+                                                    users: {user: user, userInfo: userInfo, userDeals: userDeals},
+                                                    LoginRegister: 'LoginRegister'
 
+                                                });
                                             });
                                         });
-                                    });
-
+                                    } else {
+                                        res.redirect('/amd/users');
+                                    }
                                 });
                             });
                     //     } else {
@@ -117,11 +127,32 @@ exports.get = function(req, res) {
 };
 
 exports.post = function (req, res) {
-    if(req.body.cod){
-        res.redirect('/amd/users/'+req.body.cod+';cod');
+    if(req.params.id){
+        switch (req.params.id){
+            case 'cod':
+                if(req.body.cod){
+                    res.redirect('/amd/users/'+req.body.cod+';cod');
+                } else {
+                    res.redirect('/amd/users/');
+                }
+
+                break;
+
+            case 'info':
+                if(req.body.cod){
+                    res.redirect('/amd/users/'+req.body.cod+';info');
+                } else {
+                    res.redirect('/amd/users/');
+                }
+                break;
+
+            default:
+                res.redirect('/amd/querys/');
+        }
     } else {
-        res.redirect('/amd/users/');
+        res.redirect('/amd/querys/');
     }
+
 };
 
 //module.exports = router;
