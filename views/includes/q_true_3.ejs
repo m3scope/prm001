@@ -10,7 +10,7 @@
       <form action="/api/q/req/add_silver" method="post" class="w3-container">
           <div class="w3-panel w3-card-4 w3-pale-yellow">
               <p class=" w3-large w3-serif">
-                  <i class="fa fa-quote-right w3-xxlarge w3-text-red"></i><br>
+
               <ul>
                   <li>
                       Минимальная сумма к пополнению не менее 500р. Сбербанк не менее 1000р.
@@ -31,13 +31,13 @@
               <label>СберБанк</label>
           </p>
         <p>
-            <span class="w3-tag w3-green"><%= curr[inc.curr] %></span>
+            <span class="w3-tag w3-green">Oтправить: <%= curr[inc.curr] %></span>
             <input class="w3-input" type="number" value="0" step="any" min="{{in_min}}" max="50000" name="deal_amount" required ng-model="deal_amount_buy_rub" ng-change="change_buy_rub()">
             <input type="hidden" name="deal_currency" value="{{ curr1 }}">
         </p>
         <p>
-            <span class="w3-tag w3-green">К зачислению: <%= curr[inc.curr] %></span>
-            <input ng-disabled="true" class="w3-input" type="number" value="0" step="any" name="price_amount" required ng-model="deal_amount_buy_curr" ng-change="change_buy_curr()">
+            <span class="w3-tag w3-green">Будет зачислено на депозит: <%= curr[inc.curr] %></span>
+            <input class="w3-input" type="number" value="0" step="any" min="{{in_min}}" max="50000" name="price_amount" required ng-model="deal_amount_buy_curr" ng-change="change_buy_curr()">
             <input type="hidden" name="curr_cod" value="{{ curr_cod }}">
         </p>
 
@@ -109,23 +109,20 @@
                 tax_current = tax[value];
                 $scope.in_min = 500;
                 $scope.tax_text='Комиссия '+tax_current+'%:';
-                $scope.commission_buy = Math.round((Number($scope.deal_amount_buy_rub)*tax_current/100)*100)/100;
-                $scope.deal_amount_buy_curr = Math.round((Number($scope.deal_amount_buy_rub)- Number($scope.deal_amount_buy_rub)*tax_current/100)*100)/100;
             }
             if(value==2) {
                 tax_current = tax[value];
                 $scope.in_min = 500;
                 $scope.tax_text='Комиссия '+tax_current+'%:';
-                $scope.commission_buy = Math.round((Number($scope.deal_amount_buy_rub)*tax_current/100)*100)/100;
-                $scope.deal_amount_buy_curr = Math.round((Number($scope.deal_amount_buy_rub)- Number($scope.deal_amount_buy_rub)*tax_current/100)*100)/100;
             }
             if(value==3) {
                 tax_current = tax[value];
                 $scope.in_min = 1000;
                 $scope.tax_text='Комиссия '+tax_current+'%:';
-                $scope.commission_buy = Math.round((Number($scope.deal_amount_buy_rub)*tax_current/100)*100)/100;
-                $scope.deal_amount_buy_curr = Math.round((Number($scope.deal_amount_buy_rub)- Number($scope.deal_amount_buy_rub)*tax_current/100)*100)/100;
             }
+            $scope.deal_amount_buy_rub = 0;
+            $scope.commission_buy = 0;  //Math.round((Number($scope.deal_amount_buy_rub)*tax_current/100)*100)/100;
+            $scope.deal_amount_buy_curr = 0;    //Math.round((Number($scope.deal_amount_buy_rub)- Number($scope.deal_amount_buy_rub)*tax_current/100)*100)/100;
         };
         $scope.change_buy_rub = function () {
             $scope.commission_buy = Math.round((Number($scope.deal_amount_buy_rub)*tax_current/100)*100)/100;
