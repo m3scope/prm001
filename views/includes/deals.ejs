@@ -22,7 +22,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <td class="w3-small" ng-click="getSelectBuy()">Ваши средства: <a href="#" class="w3-text-black">{{ UBalance_buy }}</a></td>
+                    <td class="w3-small" ng-click="getSelectBuy()">Ваши средства: <a href="#" class="w3-text-black">{{ UBalance_buy }} <%= curr[deals.curr2] %></a></td>
                 </tr>
             </table>
             <form action="/createdeal" method="post" class="w3-container">
@@ -90,7 +90,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <td class="w3-small" ng-click="getSelectSell()">Ваши средства: <a href="#" class="w3-text-black">{{ UBalance_sell }}</a></td>
+                    <td class="w3-small" ng-click="getSelectSell()">Ваши средства: <a href="#" class="w3-text-black">{{ UBalance_sell }} <%= curr[deals.curr1] %></a></td>
                 </tr>
             </table>
 
