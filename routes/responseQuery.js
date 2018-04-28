@@ -106,6 +106,7 @@ exports.get = function (req, res, next) {
                                                     }
                                                 }
                                             });
+                                            qq.save();
                                             res.render('info', {
                                                 infoTitle: '<div class="w3-green">Успех!</div>',
                                                 infoText: 'Операция успешно выполнена!',
