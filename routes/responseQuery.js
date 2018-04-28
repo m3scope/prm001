@@ -437,8 +437,10 @@ exports.post = function (req, res, next) {
                                         qq.comments = req.body.comments;
                                         Userr.findOne({_id:qq.userId}).exec(function (err, usrr) {
                                             if(usrr){
-                                                usrr[qq.currency_name] = Number(usrr[qq.currency_name]) + Number(qq.amount);
-                                                usrr.save();
+                                                if(!req.body.no_balance) {
+                                                    usrr[qq.currency_name] = Number(usrr[qq.currency_name]) + Number(qq.amount);
+                                                    usrr.save();
+                                                }
                                             }
                                         });
                                         Bank.findById(qq.bankId, function (err, bank) {

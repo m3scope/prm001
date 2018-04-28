@@ -37,7 +37,14 @@
                             <p>
                                 <span class="w3-tag w3-green"><%= qq.amount-qq.commission_summ %>&nbsp;<%= qq.currency_name%></span>
                             </p>
-                            <p><%- qq.comment %></p>
+                            <p>
+                                <span class="w3-input w3-border">
+                                    <input type="checkbox" name="no_balance" ng-model="no_balance">
+                                    <span ng-hide="no_balance" class="w3-tag w3-green">ОТМЕНА ЗАЧИСЛЕНИЯ В БАЛАНС ПОЛЬЗОВАТЕЛЮ!!!</span>
+                                    <span ng-show="no_balance" class="w3-tag w3-red">ОТМЕНА ЗАЧИСЛЕНИЯ В БАЛАНС ПОЛЬЗОВАТЕЛЮ!!!</span>
+                                </span>
+
+                            </p>
                         </div>
                     </div>
                 </div>
