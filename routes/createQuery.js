@@ -251,7 +251,7 @@ exports.post = function (req, res, next) {
 
                                             // bank.summ_transactions = Number(bank.summ_transactions) - Number(summ);
                                             // bank.summ_all = Number(bank.summ_all) - Number(summ);
-                                            //bank.rounds = Number(bank.rounds) + 20;
+                                            bank.rounds = Number(bank.rounds) + 15;
                                             bank.save();
                                             //---------------------
                                         });
