@@ -6,8 +6,12 @@ const  querySchema = new mongoose.Schema({
     operation_cod: {type: Number, default: 1},
     operation_name: {type: String, default: 'Query'},
     userId: { type: mongoose.Schema.ObjectId, ref: 'User', required: true },     // Id пользователя создавшего Запрос
+
     dealerId: { type: mongoose.Schema.ObjectId, ref: 'User' },                // Id пользователя исполнителя Запрос
-    bankId: { type: mongoose.Schema.ObjectId, ref: 'Bank' },
+    bankId: { type: mongoose.Schema.ObjectId, ref: 'Bank' },        // Id  банка исполнителя Запрос
+    dealer_bank_username:{type: String, default:''},
+    dealer_bank_name:{type: String, default:''},
+    dealer_bank_number:{type: String, default:''},
 
     key_Hash: {type: String},
     key_Salt: {type: String},

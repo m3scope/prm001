@@ -13,6 +13,7 @@ const bankSchema = new mongoose.Schema({
     bank_name: String,                      // Наименование "банка" ['PRIZM','QIWI','Yandex','SberBank','ADVcash','PerfectMoney','NixMoney','PayPal']
     bank_number: String,            // номер счета (кошелька)
     bank_publicKey: {type:String, default:''},         // для Призм
+    bank_username:{type: String, default: ''},
 
     date_in: {type: Date, default: Date.now()},       // прием средств до даты (дата окончания приема средств)
     date_out: {type: Date, default: Date.now()},      // отправка средств до даты (дата окончания отправки средств)
