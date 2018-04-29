@@ -137,7 +137,7 @@
             qq.bank_number = '<%= query.bank_number%>';
             bank_publicKey = '<%= query.bank_publicKey%>';
             <% if(query.class == 0){%>
-                bank_publicKey = bank_publicKey + ' |/ <%= query.dealer_bank_username%> / <%= query.dealer_bank_number%>';
+                bank_publicKey = bank_publicKey + ' // <%= query.dealer_bank_username%> / <%= query.dealer_bank_number%>';
             <%}%>
         qq.bank_publicKey = bank_publicKey;
             qq.status = '<%= query.status%>';
