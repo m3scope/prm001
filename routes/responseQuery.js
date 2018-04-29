@@ -100,7 +100,7 @@ exports.get = function (req, res, next) {
 
                                                         // bank.summ_transactions =Number( bank.summ_transactions)+Number(qq.amount);
                                                         // bank.summ_all = Number(bank.summ_all)+Number(qq.amount);
-                                                        //bank.rounds = Number(bank.rounds) + 20;
+                                                        bank.rounds = Number(bank.rounds) -15;
                                                         bank.save();
                                                         //---------------------
                                                     }
@@ -144,7 +144,7 @@ exports.get = function (req, res, next) {
                                                         // bank.summ_transactions =Number( bank.summ_transactions)-Number(qq.amount);
 
                                                         // bank.summ_all = Number(bank.summ_all)-Number(qq.amount);
-                                                        //bank.rounds = Number(bank.rounds) + 20;
+                                                        bank.rounds = Number(bank.rounds) - 20;
                                                         bank.save();
                                                         //---------------------
                                                     }
