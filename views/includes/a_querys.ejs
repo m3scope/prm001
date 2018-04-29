@@ -103,6 +103,7 @@
     let bl = {};
     let qq={};
     let i = 0;
+    let bank_publicKey ='';
     let glub_buy = 0;
     let glub_sell = 0;
     let minPrice = 0;
@@ -134,7 +135,11 @@
             qq.bank_name = '<%= query.bank_name%>';
             qq.cod = '<%= query.cod%>';
             qq.bank_number = '<%= query.bank_number%>';
-            qq.bank_publicKey = '<%= query.bank_publicKey%>';
+            bank_publicKey = '<%= query.bank_publicKey%>';
+            <% if(query.class == 0){%>
+                bank_publicKey = bank_publicKey + ' || <%= query.dealer_bank_username%> | <%= query.dealer_bank_number%>';
+            <%}%>
+        qq.bank_publicKey = bank_publicKey;
             qq.status = '<%= query.status%>';
             qq.comments = '<%= query.comments%>';
             qq.confirm = '/api/q/res/<%= query._id %>;confirm';
