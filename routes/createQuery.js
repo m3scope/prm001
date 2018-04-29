@@ -18,62 +18,80 @@ exports.get = function (req, res, next) {
     if(!req.session.user){
         res.redirect('/login');
     } else {
-        if (req.params.id) {
-            let params = req.params.id.split(';');
-            let UserBalance = [0, 0, 0, 0, 0];
-            loadUser.findID(req.session.user, function (err, user) {
-                if(err) res.status(500).send('Внутренняя ошибка!');
-                if(!user){
-                    req.session.destroy();
-                    res.redirect('/login');
-                } else {
-                    //console.log(params);
-                    UserBalance = [0,Math.round(user.PZM*100)/100,Math.round(user.USD*100)/100,Math.round(user.RUR*100)/100];
-                    LoginRegister = '<div class="w3-right-align w3-small"><span class="w3-border-top">'+req.session.username+'</span></div><a href="/profile" class="w3-button w3-border w3-border-white w3-round"><label>ВВОД / ВЫВОД</label></a>&nbsp;&nbsp;<a href="/profile" class="w3-button w3-border w3-border-white w3-round"><label>ПРОФИЛЬ</label></a>&nbsp;&nbsp;<a href="/logout" class="w3-button w3-border w3-border-white w3-round">ВЫХОД</a>' +
-                        '<div class="w3-right-align w3-small">' +
-                        '<span>PZM: </span>' +
-                        '<label class="w3-border-bottom"> '+UserBalance[1]+' </label>' +
-                        '<span>&nbsp; RUR: </span>' +
-                        '<label class="w3-border-bottom"> '+UserBalance[3]+' </label>' +
-                        '<span>&nbsp; USD: </span>' +
-                        '<label class="w3-border-bottom"> '+UserBalance[2]+' </label></div>';
-                    let i = 'q_true_3';
-                    switch (params[0]){
-                        case 'true':
-                            i = 'q_true_'+ params[1];
-                            res.render('createquery', {
-                                inc: {f: i, curr: params[1] * 1, tax:tax.tax_in[Curr[params[1]]]},
-                                title: 'Создать ЗАПРОС',
-                                user: user,
-                                LoginRegister: LoginRegister
-                            });
-                            break;
-                        case 'false':
-                            i = 'q_false_'+params[1];
-                            if(UserBalance[params[1]] < 1){
-                                res.render('info', {infoTitle: '<div class="w3-red">Ошибка!</div>', infoText: 'Не достаточно средств', url: '/profile', title: 'Запрос отклонен!', user: user, LoginRegister: LoginRegister});
-                            } else {
-                                //console.log('************ fgdjdjdjdjdjdjdjd');
+        if(req.session.check_email) {
+            if (req.params.id) {
+                let params = req.params.id.split(';');
+                let UserBalance = [0, 0, 0, 0, 0];
+                loadUser.findID(req.session.user, function (err, user) {
+                    if (err) res.status(500).send('Внутренняя ошибка!');
+                    if (!user) {
+                        req.session.destroy();
+                        res.redirect('/login');
+                    } else {
+                        //console.log(params);
+                        UserBalance = [0, Math.round(user.PZM * 100) / 100, Math.round(user.USD * 100) / 100, Math.round(user.RUR * 100) / 100];
+                        LoginRegister = '<div class="w3-right-align w3-small"><span class="w3-border-top">' + req.session.username + '</span></div><a href="/profile" class="w3-button w3-border w3-border-white w3-round"><label>ВВОД / ВЫВОД</label></a>&nbsp;&nbsp;<a href="/profile" class="w3-button w3-border w3-border-white w3-round"><label>ПРОФИЛЬ</label></a>&nbsp;&nbsp;<a href="/logout" class="w3-button w3-border w3-border-white w3-round">ВЫХОД</a>' +
+                            '<div class="w3-right-align w3-small">' +
+                            '<span>PZM: </span>' +
+                            '<label class="w3-border-bottom"> ' + UserBalance[1] + ' </label>' +
+                            '<span>&nbsp; RUR: </span>' +
+                            '<label class="w3-border-bottom"> ' + UserBalance[3] + ' </label>' +
+                            '<span>&nbsp; USD: </span>' +
+                            '<label class="w3-border-bottom"> ' + UserBalance[2] + ' </label></div>';
+                        let i = 'q_true_3';
+                        switch (params[0]) {
+                            case 'true':
+                                i = 'q_true_' + params[1];
                                 res.render('createquery', {
-                                    inc: {f: i, curr: params[1] * 1, tax:tax.tax_out[Curr[params[1]]]},
+                                    inc: {f: i, curr: params[1] * 1, tax: tax.tax_in[Curr[params[1]]]},
                                     title: 'Создать ЗАПРОС',
                                     user: user,
                                     LoginRegister: LoginRegister
                                 });
-                            }
-                            break;
-                        default:
-                            res.render('createquery', {
-                                inc: {f: i, curr: params[1] * 1, tax:tax.tax_in[Curr[params[1]]]},
-                                title: 'Создать ЗАПРОС',
-                                user: user,
-                                LoginRegister: LoginRegister
-                            });
+                                break;
+                            case 'false':
+                                i = 'q_false_' + params[1];
+                                if (UserBalance[params[1]] < 1) {
+                                    res.render('info', {
+                                        infoTitle: '<div class="w3-red">Ошибка!</div>',
+                                        infoText: 'Не достаточно средств',
+                                        url: '/profile',
+                                        title: 'Запрос отклонен!',
+                                        user: user,
+                                        LoginRegister: LoginRegister
+                                    });
+                                } else {
+                                    //console.log('************ fgdjdjdjdjdjdjdjd');
+                                    res.render('createquery', {
+                                        inc: {f: i, curr: params[1] * 1, tax: tax.tax_out[Curr[params[1]]]},
+                                        title: 'Создать ЗАПРОС',
+                                        user: user,
+                                        LoginRegister: LoginRegister
+                                    });
+                                }
+                                break;
+                            default:
+                                res.render('createquery', {
+                                    inc: {f: i, curr: params[1] * 1, tax: tax.tax_in[Curr[params[1]]]},
+                                    title: 'Создать ЗАПРОС',
+                                    user: user,
+                                    LoginRegister: LoginRegister
+                                });
+                        }
                     }
-                }
-            });
+                });
+            } else {
+                res.redirect('/');
+            }
         } else {
-        res.redirect('/');
+            res.render('info', {
+                infoTitle: '<div class="w3-red">Ошибка!</div>',
+                infoText: 'ПОДТВЕРДИТЕ ВАШУ ПОЧТУ (email).',
+                url: '/profile',
+                title: 'Запрос отклонен!',
+                user: '',
+                LoginRegister: LoginRegister
+            });
         }
     }
 };

@@ -90,13 +90,32 @@ router.post('/login', (req, res) => {
         if(!user) {
             return res.render('info', {infoTitle: '<div class="w3-red">Внутренняя ошибка!</div>', infoText: 'Неправильный логин или пароль', url: '/login', title: 'Вход', user: null, LoginRegister: '<b><a href="/login">вход</a></b>'});
         }
-        if(user.checkPassword(password)){
-            req.session.user = user._id;
-            req.session.username = user.name_f;
-            return res.redirect('/'); //res.status(200).send('Welcome, '+ username + '!');
+        if(!user.ban) {
+            if (user.checkPassword(password)) {
+                req.session.user = user._id;
+                req.session.username = user.name_f;
+                req.session.check_email = user.email_confirmed;
+                return res.redirect('/'); //res.status(200).send('Welcome, '+ username + '!');
+            }
+            //return res.status(200).send('Пользователь не найден!');
+            return res.render('info', {
+                infoTitle: '<div class="w3-red">Внутренняя ошибка!</div>',
+                infoText: 'Неправильный логин или пароль',
+                url: '/login',
+                title: 'Внутренняя ошибка!',
+                user: null,
+                LoginRegister: '<b><a href="/login">вход</a></b>'
+            });
+        } else {
+            return res.render('info', {
+                infoTitle: '<div class="w3-red">Внутренняя ошибка!</div>',
+                infoText: 'Ваш аккаунт заблокирован, обратитесь в тех.поддержку.',
+                url: '/',
+                title: 'Внутренняя ошибка!',
+                user: null,
+                LoginRegister: '<b><a href="/login">вход</a></b>'
+            });
         }
-        //return res.status(200).send('Пользователь не найден!');
-        return res.render('info', {infoTitle: '<div class="w3-red">Внутренняя ошибка!</div>', infoText: 'Неправильный логин или пароль', url: '/login', title: 'Вход', user: null, LoginRegister: '<b><a href="/login">вход</a></b>'});
     });
 });
 

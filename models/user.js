@@ -69,6 +69,10 @@ const userSchema = new mongoose.Schema({
     category: String,
     name_f: String,
     tel: {type:String, default: null},
+    tel_confirmed: {
+        type: Boolean,
+        default: false
+    },
     email: {
         type: String,
         required: 'Укажите e-mail',
