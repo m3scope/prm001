@@ -13,26 +13,26 @@ const  querySchema = new mongoose.Schema({
     dealer_bank_name:{type: String, default:''},
     dealer_bank_number:{type: String, default:''},
 
-    key_Hash: {type: String},
-    key_Salt: {type: String},
-    datas: {type: String},      // данные для запроса
+    key_Hash: {type: String, default:''},
+    key_Salt: {type: String, default:''},
+    datas: {type: String, default:''},   // данные для запроса
 
-    bank_cod: Number,               // cod
-    bank_name: String,
-    bank_number: String,        // number
+    bank_cod: {type: Number, default: 0},               // cod
+    bank_name: {type: String, default:''},
+    bank_number: {type: String, default:''},        // number
     bank_publicKey: {type: String, default:'0'},
 
-    amount: Number,
+    amount: {type: Number, default: 0},
     commission_tax: {type: Number, default: 0},
-    commission_summ: Number,
+    commission_summ: {type: Number, default: 0},
 
-    currency: Number,
-    currency_name: String,
+    currency: {type: Number, default: 1},
+    currency_name: {type: String, default:''},
 
-    action: String,     // Строка действий после поддтверждения запроса
-    info: String,       // Информация, хз какая...
-    comment: String,    // Комментарий
-    cod: String,
+    action: {type: String, default:''},    // Строка действий после поддтверждения запроса
+    info: {type: String, default:''},       // Информация, хз какая...
+    comment: {type: String, default:''},    // Комментарий
+    cod: {type: String, default:''},
     qrCode: {type: String, default: ''},
 
     dataCancel: {type: Date}, // _Удалить...
