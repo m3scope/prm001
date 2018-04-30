@@ -75,12 +75,13 @@ exports.get = function (req, res, next) {
                     }
                     if(eml){
                         User.findByIdAndUpdate(eml.user_id,{email_confirmed: true}, function (err,user) {
-                            req.session.check_email = true;
-                            res.render('info', {infoTitle: '<div class="w3-green">Успех!</div>', infoText: 'Ваш e-mail подтвержден!', url: '/', title: 'e-mail подтвержден!', user: {}, LoginRegister: '<b></b>'});
+                            req.session.destroy();
+                            res.render('info', {infoTitle: '<div class="w3-green">Успех!</div>', infoText: 'Ваш e-mail подтвержден!', url: '/login', title: 'e-mail подтвержден!', user: {}, LoginRegister: '<b></b>'});
 
                         });
                     } else {
-                        res.render('info', {infoTitle: '<div class="w3-red">Ошибка!</div>', infoText: 'E-mail не найден!', url: '/', title: 'Запрос отклонен!', user: {}, LoginRegister: '<b></b>'});
+                        req.session.destroy();
+                        res.render('info', {infoTitle: '<div class="w3-red">Ошибка!</div>', infoText: 'E-mail не найден!', url: '/login', title: 'Запрос отклонен!', user: {}, LoginRegister: '<b></b>'});
 
                     }
                 });
