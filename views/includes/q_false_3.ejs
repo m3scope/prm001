@@ -93,7 +93,7 @@
             }
             if(value==2) {
                 tax_current = tax[value];
-                $scope.tax_text='Комиссия '+tax_current+'%: (с учетом комиссии Яндекс 0,5%):';
+                $scope.tax_text='Комиссия '+tax_current+'%:';
                 $scope.num_text = 'Номер в формате XXXXXXXXXXXXXX';
                 $scope.commission_sell = Math.round((Number($scope.deal_amount_sell_rub)*tax_current/100)*100)/100;
                 $scope.deal_amount_sell_curr = Math.round((Number($scope.deal_amount_sell_rub)- Number($scope.deal_amount_sell_rub)*tax_current/100)*100)/100;
@@ -101,7 +101,7 @@
             }
             if(value==3) {
                 tax_current = tax[value];
-                $scope.tax_text='Комиссия '+tax_current+'%: (с учетом комиссии Сбербанка 1%):';
+                $scope.tax_text='Комиссия '+tax_current+'%:';
                 $scope.num_text = 'Номер в формате XXXXXXXXXXXXXXXX';
                 $scope.commission_sell = Math.round((Number($scope.deal_amount_sell_rub)*tax_current/100)*100)/100;
                 $scope.deal_amount_sell_curr = Math.round((Number($scope.deal_amount_sell_rub)- Number($scope.deal_amount_sell_rub)*tax_current/100)*100)/100;

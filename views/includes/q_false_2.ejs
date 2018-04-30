@@ -93,14 +93,14 @@
             }
             if(value==5) {      //PerfectMoney
                 tax_current = tax[value];
-                $scope.tax_text='Комиссия '+tax_current+'%: (с учетом комиссии PerfectMoney 1,99%):';
+                $scope.tax_text='Комиссия '+tax_current+'%:';
                 $scope.num_text = 'Номер в формате PM UXXXXXXX';
                 $scope.commission_sell = Math.round((Number($scope.deal_amount_sell_rub)*tax_current/100)*100)/100;
                 $scope.deal_amount_sell_curr = Math.round((Number($scope.deal_amount_sell_rub)- Number($scope.deal_amount_sell_rub)*tax_current/100)*100)/100;
             }
             if(value==6) {      //NixMoney
                 tax_current = tax[value];
-                $scope.tax_text='Комиссия '+tax_current+'%: (с учетом комиссии NixMoney 0,5%):';
+                $scope.tax_text='Комиссия '+tax_current+'%:';
                 $scope.num_text = 'Номер в формате UXXXXXXXXXXXXXX';
 
                 $scope.commission_sell = Math.round((Number($scope.deal_amount_sell_rub)*tax_current/100)*100)/100;
