@@ -129,7 +129,7 @@ exports.post = function (req, res, next) {
 
             if(Boolean(Number(req.body.class))){        // (1 - пополнение)
 
-                Bank.findOne({bank_cod:req.body.bank_cod, date_in:{$gte: Date.now()}, summ_all:{$gte:summ}, summ_trans_current:{$gte:summ}, currency: curr_cod}).sort({rounds: 1}).exec(function (err, bank) {
+                Bank.findOne({bank_cod:req.body.bank_cod, date_in:{$gte: Date.now()}, summ_all:{$gte:summ}, summ_trans_current:{$gte:summ}, currency: curr_cod}).sort({rounds: -1}).exec(function (err, bank) {
                     "use strict";
                     if(err){
                         console.error(err);
