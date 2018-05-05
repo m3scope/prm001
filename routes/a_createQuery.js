@@ -143,53 +143,53 @@ exports.post = function (req, res, next) {
                                 if(bank.bank_cod == 0){
                                     query.qrCode = url;
                                 }
-                                    query.data = {bank_cod: bank.bank_cod, cod: cod, deal_amount: summ, deal_currency: bank.currency, price_amount: req.body.price_amount, price_currency: req.body.price_currency, commission_summ: commiss_buy};
-                                    query.userId = user._id;
-                                    query.UID = Date.now().toString();
-                                    query.dealerId = bank.dealerId;
-                                    query.bankId = bank._id;
-                                    query.bank_cod = bank.bank_cod;
-                                    query.bank_name = bank.bank_name;
+                                query.data = {bank_cod: bank.bank_cod, cod: cod, deal_amount: summ, deal_currency: bank.currency, price_amount: req.body.price_amount, price_currency: req.body.price_currency, commission_summ: commiss_buy};
+                                query.userId = user._id;
+                                query.UID = Date.now().toString();
+                                query.dealerId = bank.dealerId;
+                                query.bankId = bank._id;
+                                query.bank_cod = bank.bank_cod;
+                                query.bank_name = bank.bank_name;
                                 query.dealer_bank_username = bank.bank_username;
                                 query.dealer_bank_name = bank.bank_name;
                                 query.dealer_bank_number = bank.bank_number;
-                                    query.bank_number = bank.bank_number;
-                                    query.bank_publicKey = bank.bank_publicKey;
-                                    query.amount = summ;
-                                    query.commission_tax = Number(tax.tax_in[currency][bank.bank_cod]);
-                                    query.commission_summ = commiss_buy;
-                                    query.currency = bank.currency;
-                                    query.currency_name = bank.currency_name;
-                                    query.action = 'function()';
-                                    query.cod = cod;
-                                    query.info = 'Переведите '+summ +' '+bank.currency_name+ ' на номер '+bank.bank_number+ ' '+bank.bank_name;
-                                    query.comment = '<h3><span class="w3-text-red">В комментарии к переводу вставьте код: </span></h3><h1><b>'+cod+'</b></h1>';
-                                    query.class = req.body.class;
-                                    query.save(function (err, saved_Q) {
-                                        if(err) console.error(err);
-                                        console.log(saved_Q._id.toString());
-                                        res.redirect('/api/q/res/'+saved_Q._id.toString()+';confirm');
-                                        //********** BANK *******
-                                        //bank.summ_trans_current = Number(bank.summ_trans_current)-summ;
-                                        //bank.summ_all_current = Number(bank.summ_all_current)+summ;
+                                query.bank_number = bank.bank_number;
+                                query.bank_publicKey = bank.bank_publicKey;
+                                query.amount = summ;
+                                query.commission_tax = Number(tax.tax_in[currency][bank.bank_cod]);
+                                query.commission_summ = commiss_buy;
+                                query.currency = bank.currency;
+                                query.currency_name = bank.currency_name;
+                                query.action = 'function()';
+                                query.cod = cod;
+                                query.info = 'Переведите '+summ +' '+bank.currency_name+ ' на номер '+bank.bank_number+ ' '+bank.bank_name;
+                                query.comment = '<h3><span class="w3-text-red">В комментарии к переводу вставьте код: </span></h3><h1><b>'+cod+'</b></h1>';
+                                query.class = req.body.class;
+                                query.save(function (err, saved_Q) {
+                                    if(err) console.error(err);
+                                    console.log(saved_Q._id.toString());
+                                    res.redirect('/api/q/res/'+saved_Q._id.toString()+';confirm');
+                                    //********** BANK *******
+                                    //bank.summ_trans_current = Number(bank.summ_trans_current)-summ;
+                                    //bank.summ_all_current = Number(bank.summ_all_current)+summ;
 
-                                        //bank.summ_transactions = Number(bank.summ_trans_current)-summ;
-                                        bank.summ_all = Number(bank.summ_all)-summ;
+                                    //bank.summ_transactions = Number(bank.summ_trans_current)-summ;
+                                    bank.summ_all = Number(bank.summ_all)-summ;
 
-                                        //bank.summ_trans_day = Number(bank.summ_trans_day)+summ;
-                                        bank.summ_all_day = Number(bank.summ_all_day)+summ;
-
-
-                                        //bank.summ_trans_month = Number(bank.summ_trans_month)+summ;
-                                        bank.summ_all_month = Number(bank.summ_all_month)+summ;
+                                    //bank.summ_trans_day = Number(bank.summ_trans_day)+summ;
+                                    bank.summ_all_day = Number(bank.summ_all_day)+summ;
 
 
-                                        // bank.summ_transactions =Number( bank.summ_transactions)+summ;
-                                        // bank.summ_all = Number(bank.summ_all)+summ;
-                                        bank.rounds = Number(bank.rounds) + 20;
-                                        bank.save();
-                                        //---------------------
-                                    });
+                                    //bank.summ_trans_month = Number(bank.summ_trans_month)+summ;
+                                    bank.summ_all_month = Number(bank.summ_all_month)+summ;
+
+
+                                    // bank.summ_transactions =Number( bank.summ_transactions)+summ;
+                                    // bank.summ_all = Number(bank.summ_all)+summ;
+                                    bank.rounds = Number(bank.rounds) + 20;
+                                    bank.save();
+                                    //---------------------
+                                });
 
                             });
 
@@ -221,64 +221,64 @@ exports.post = function (req, res, next) {
                                     if (bank.bank_cod == 0) {
                                         query.qrCode = url;
                                     }
-                                        query.data = {
-                                            bank: req.body.bank,
-                                            cod: cod,
-                                            deal_amount: req.body.deal_amount,
-                                            deal_currency: req.body.deal_currency,
-                                            price_amount: req.body.price_amount,
-                                            price_currency: req.body.price_currency,
-                                            commission_summ: commiss_sell
-                                        };
-                                        query.userId = req.session.user;
-                                        query.UID = Date.now().toString();
-                                        query.dealerId = bank.dealerId;
-                                        query.bankId = bank._id;
-                                        query.bank_cod = bank.bank_cod;
-                                        query.dealer_bank_username = bank.bank_username;
+                                    query.data = {
+                                        bank: req.body.bank,
+                                        cod: cod,
+                                        deal_amount: req.body.deal_amount,
+                                        deal_currency: req.body.deal_currency,
+                                        price_amount: req.body.price_amount,
+                                        price_currency: req.body.price_currency,
+                                        commission_summ: commiss_sell
+                                    };
+                                    query.userId = req.session.user;
+                                    query.UID = Date.now().toString();
+                                    query.dealerId = bank.dealerId;
+                                    query.bankId = bank._id;
+                                    query.bank_cod = bank.bank_cod;
+                                    query.dealer_bank_username = bank.bank_username;
                                     query.dealer_bank_name = bank.bank_name;
                                     query.dealer_bank_number = bank.bank_number;
-                                        query.bank_name = bank.bank_name;
-                                        query.bank_number = req.body.bank_number;
-                                        query.bank_publicKey = req.body.bank_publicKey;
-                                        query.amount = summ;
-                                        query.commission_tax = Number(tax.tax_out[currency][bank.bank_cod]);
-                                        query.commission_summ = commiss_sell;
-                                        query.currency = bank.currency;
-                                        query.currency_name = bank.currency_name;
-                                        query.action = 'function()';
-                                        query.cod = cod;
-                                        query.info = 'Подтвердите вывод ' + req.body.deal_amount +' '+bank.currency_name+ ' на номер ' + bank.bank_number + ' ' + bank.bank_name;
-                                        query.comment = '<span class="w3-text-yellow">Средства к получению: ' + (summ - Number(commiss_sell)) + '</span>';
-                                        query.class = req.body.class;
-                                        query.save(function (err, saved_Q) {
-                                            if (err) console.error(err);
-                                            console.log(saved_Q._id.toString());
-                                            res.redirect('/api/q/res/' + saved_Q._id.toString() + ';confirm');
+                                    query.bank_name = bank.bank_name;
+                                    query.bank_number = req.body.bank_number;
+                                    query.bank_publicKey = req.body.bank_publicKey;
+                                    query.amount = summ;
+                                    query.commission_tax = Number(tax.tax_out[currency][bank.bank_cod]);
+                                    query.commission_summ = commiss_sell;
+                                    query.currency = bank.currency;
+                                    query.currency_name = bank.currency_name;
+                                    query.action = 'function()';
+                                    query.cod = cod;
+                                    query.info = 'Подтвердите вывод ' + req.body.deal_amount +' '+bank.currency_name+ ' на номер ' + bank.bank_number + ' ' + bank.bank_name;
+                                    query.comment = '<span class="w3-text-yellow">Средства к получению: ' + (summ - Number(commiss_sell)) + '</span>';
+                                    query.class = req.body.class;
+                                    query.save(function (err, saved_Q) {
+                                        if (err) console.error(err);
+                                        console.log(saved_Q._id.toString());
+                                        res.redirect('/api/q/res/' + saved_Q._id.toString() + ';confirm');
 
-                                            user[currency] = Number(user[currency]) - Number(summ);
-                                            user.save();
+                                        user[currency] = Number(user[currency]) - Number(summ);
+                                        user.save();
 
-                                            //********** BANK *******
-                                            bank.summ_trans_current = Number(bank.summ_trans_current) - Number(summ);
-                                            bank.summ_all_current = Number(bank.summ_all_current) - Number(summ);
+                                        //********** BANK *******
+                                        bank.summ_trans_current = Number(bank.summ_trans_current) - Number(summ);
+                                        bank.summ_all_current = Number(bank.summ_all_current) - Number(summ);
 
-                                            bank.summ_transactions = Number(bank.summ_trans_current)-summ;
-                                            bank.summ_all = Number(bank.summ_all)+summ;
+                                        bank.summ_transactions = Number(bank.summ_trans_current)-summ;
+                                        bank.summ_all = Number(bank.summ_all)+summ;
 
-                                            bank.summ_trans_day = Number(bank.summ_trans_day)+summ;
-                                            bank.summ_all_day = Number(bank.summ_all_day)-summ;
+                                        bank.summ_trans_day = Number(bank.summ_trans_day)+summ;
+                                        bank.summ_all_day = Number(bank.summ_all_day)-summ;
 
 
-                                            bank.summ_trans_month = Number(bank.summ_trans_month)+summ;
-                                            bank.summ_all_month = Number(bank.summ_all_month)-summ;
+                                        bank.summ_trans_month = Number(bank.summ_trans_month)+summ;
+                                        bank.summ_all_month = Number(bank.summ_all_month)-summ;
 
-                                            // bank.summ_transactions = Number(bank.summ_transactions) - Number(summ);
-                                            // bank.summ_all = Number(bank.summ_all) - Number(summ);
-                                            bank.rounds = Number(bank.rounds) + 13;
-                                            bank.save();
-                                            //---------------------
-                                        });
+                                        // bank.summ_transactions = Number(bank.summ_transactions) - Number(summ);
+                                        // bank.summ_all = Number(bank.summ_all) - Number(summ);
+                                        bank.rounds = Number(bank.rounds) - 13;
+                                        bank.save();
+                                        //---------------------
+                                    });
 
                                 });
 
@@ -293,9 +293,9 @@ exports.post = function (req, res, next) {
                 } else {
                     res.render('info', {infoTitle: '<div class="w3-red">Ошибка!</div>', infoText: 'Не достаточно средств', url: '/profile', title: 'Запрос отклонен!', user: user, LoginRegister: LoginRegister});
                 }
-        }
+            }
 
-    }
+        }
 
     });
 };

@@ -312,6 +312,9 @@ router.get('/deals/:id?', function (req, res) {
 router.get('/amd/createbank', checkAuth, checkAdmin, noCache, require('./createBank').get);
 router.post('/amd/createbank', checkAuth, checkAdmin, noCache, require('./createBank').post);
 
+router.get('/amd/createquery/:id?', checkAuth, checkAdmin, noCache, require('./a_createQuery').get);
+router.post('/amd/createquery/:id?', checkAuth, checkAdmin, noCache, require('./a_createQuery').post);
+
 router.get('/amd/banks/:id?', checkAuth, checkAdmin, noCache, require('./a_banks').get);
 router.post('/amd/banks', checkAuth, checkAdmin, noCache, require('./a_banks').post);
 
@@ -333,7 +336,6 @@ router.post('/amd/transactions/', checkAuth, checkAdmin, noCache, require('./a_q
 
 router.get('/api/q/res/:id?', checkAuth, noCache, require('./responseQuery').get);
 router.post('/api/q/res/:id?', checkAuth, noCache, require('./responseQuery').post);
-
 
 router.get('/api/q/req/:id?', checkAuth, noCache, require('./createQuery').get);
 router.post('/api/q/req/:id?', checkAuth, noCache, require('./createQuery').post);
