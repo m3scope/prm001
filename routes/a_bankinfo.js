@@ -13,15 +13,30 @@ exports.get = function(req, res) {
         return res.render('login', {title: 'Авторизация'});
     } else {
         if(req.params.id){
+            Query.find({bankId: req.params.id}).sort({createdAt: 1}).exec(function (err, querys) {
+                if(err) console.error(err);
+                if(querys){
+                    res.render('amd_index', {
+                        inc: {f: 'a_bankinfo'},
+                        title: 'Банк - информация',
+                        querys: querys,
+                        dealerId:req.session.user,
+                        LoginRegister: 'LoginRegister'
 
-            res.render('amd_index', {
-                inc: {f: 'a_banks'},
-                title: 'Банки',
-                querys: querys,
-                dealerId:req.session.user,
-                LoginRegister: 'LoginRegister'
+                    });
+                } else {
+                    res.render('info', {
+                        infoTitle: '<div class="w3-red">Ошибка!</div>',
+                        infoText: 'Банк не найден!',
+                        url: '/amd/banks',
+                        title: 'Запрос отклонен!',
+                        user: {},
+                        LoginRegister: '<b></b>'
+                    });
+                }
 
             });
+
 
         } else {
 

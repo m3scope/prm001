@@ -12,39 +12,41 @@
                 <div class="w3-container w3-teal">
                     <h5>Список банков</h5>
                 </div>
-                <% if(banks.length>0) {%>
+                <% if(querys.length>0) {%>
                 <table class="w3-table-all w3-small w3-striped w3-hoverable">
                     <tr  class="w3-green">
                         <th>UID</th>
-                        <th class="w3-border-left">Банк</th>
-                        <th class="w3-border-left">Валюта</th>
-                        <th class="w3-border-left">Номер</th>
-                        <th class="w3-border-left">Тек.остаток</th>
-                        <th class="w3-border-left">Прием до</th>
-                        <th class="w3-border-left">Отправка до</th>
+                        <th class="w3-border-left">Дата</th>
+                        <th class="w3-border-left">Приход</th>
+                        <th class="w3-border-left">Расход</th>
+                        <th class="w3-border-left">%</th>
+                        <th class="w3-border-left">Комисс.</th>
+                        <th class="w3-border-left">Комисс.итог</th>
+                        <th class="w3-border-left">Итог</th>
                         <th class="w3-border-left"></th>
                         <th class="w3-border-left"></th>
                     </tr>
 
-                    <tr class="{{ dt.myColors }} " ng-repeat="dt in qqq" ng-click="setSelected();">
-                        <td>{{ dt.UID }}</td>
-                        <td class="w3-border-left">{{ dt.bank_name }}</td>
-                        <td class="w3-border-left">{{ dt.currency_name }}</td>
-                        <td class="w3-border-left">{{ dt.bank_number }}</td>
-                        <td class="w3-border-left w3-right-align">{{ dt.summ_all_current }}</td>
+                    <tr  ng-repeat="dt in qqq" ng-click="setSelected();">
+                        <td class="{{ dt.myColors }} ">{{ dt.UID }}</td>
                         <td class="w3-border-left">{{ dt.date_in }}</td>
-                        <td class="w3-border-left">{{ dt.date_out }}</td>
+                        <td class="w3-border-left">{{ dt.summ_in }}</td>
+                        <td class="w3-border-left">{{ dt.summ_out }}</td>
+                        <td class="w3-border-left w3-right-align">{{ dt.commission_tax }}</td>
+                        <td class="w3-border-left">{{ dt.commission_summ }}</td>
+                        <td class="w3-border-left">{{ dt.commission_all }}</td>
+                        <td class="w3-border-left">{{ dt.summ_all_current }}</td>
                         <td class="w3-border-left">
-                            <a href="/amd/bankinfo/{{ dt.bankId }}" class="w3-button">Инфо</a>
+
                         </td>
                         <td class="w3-border-left">
-                            <a href="/amd/createquery/{{ dt.bankId }}" class="w3-button">Коррекция</a>
+
                         </td>
                     </tr>
 
                 </table>
                 <%}%>
-                <a href="/amd/createbank" class="w3-button w3-border w3-border-blue" >Добавить банк</a>
+
             </div>
         </div>
 
@@ -55,7 +57,7 @@
 
     //<![CDATA[
     let myApp = angular.module('myApp',[]);
-    let dl = {};
+    let dl = [];
     let bl = {};
     let qq={};
     let i = 0;
@@ -63,6 +65,10 @@
     let glub_sell = 0;
     let minPrice = 0;
     let maxPrice = 0;
+    let summ_all_current = 0;
+    let summ_in = 0;
+    let summ_out = 0;
+    let commission_all = 0;
     let bs=['продажа','покупка'];
     let clors=['w3-orange','w3-cyan','w3-gray','w3-brown','w3-gray','','','','','w3-gray'];
     const Curr = ['','PZM','USD','RUR'];
@@ -72,21 +78,33 @@
     myApp.controller('CtrlQuerys2', function ($scope) {
         $scope.qqq=[];
 
-        <% banks.forEach(function (banks) {%>
+        <% querys.forEach(function (item) {%>
         qq={};
-        <% if(banks.dealerId == dealerId) {%>
-        qq.myColors = 'w3-amber';        // w3-animate-zoom    w3-animate-opacity  'w3-amber'
-        <%} else {%>
-        qq.myColors = '';
+        qq.summ_in = '';
+        qq.summ_out = '';
+        qq.UID = '<%= item.UID%>';
+        qq.myColors = clors[2];        // w3-animate-zoom    w3-animate-opacity  'w3-amber'
+        <% if(item.status == 3){%>
+            <% if(item.class == 0) {%>      // Вывод - расход
+                summ_all_current = Math.round((summ_all_current - <%= Number(item.amount- item.commission_summ)%>)*100)/100;
+                qq.summ_out = <%= Math.round((item.amount - item.commission_summ)*100)/100%>
+            <%} else {%>        //Ввод - приход
+                summ_all_current = Math.round((summ_all_current + <%= Number(item.amount)%>)*100)/100;
+                qq.summ_in = <%= item.amount%>
+            <%}%>
+            qq.myColors = clors[<%= item.class%>];        // w3-animate-zoom    w3-animate-opacity  'w3-amber'
+            commission_all = Math.round((commission_all + <%= Number(item.commission_summ)%>)*100)/100;
         <%}%>
-        qq.UID = '<%= banks.UID%>';
-        qq.bankId = '<%= banks._id%>';
-        qq.bank_name = '<%= banks.bank_name%>';
-        qq.currency_name = '<%= banks.currency_name%>';
-        qq.bank_number = '<%= banks.bank_number%>';
-        qq.summ_all_current = <%= Math.round(banks.summ_all_current *100)/100 %>;
-        qq.date_in = TimeMsk('<%= banks.date_in%>');
-        qq.date_out = TimeMsk('<%= banks.date_out%>');
+        qq.commission_all = commission_all;
+        qq.commission_tax = '<%= item.commission_tax%>';
+        qq.commission_summ = '<%= item.commission_summ%>';
+
+        qq.date_in = TimeMsk('<%= item.createdAt%>');
+
+        qq.currency_name = '<%= item.currency_name%>';
+        qq.bank_number = '<%= item.dealer_bank_number%>';
+        qq.summ_all_current = summ_all_current;
+
 
         $scope.qqq.push(qq);
         <%})%>

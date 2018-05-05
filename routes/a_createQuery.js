@@ -92,7 +92,7 @@ exports.post = function (req, res, next) {
                         //********** BANK *******
                         //bank.summ_trans_current = Number(bank.summ_trans_current)-summ;
                         if(req.body.class == 0) {
-                            bank.summ_all_current = Math((Number(bank.summ_all_current) - (req.body.amount))*100)/100;
+                            bank.summ_all_current = Math.round((Number(bank.summ_all_current) - (req.body.amount))*100)/100;
                         }
                         bank.save();
                         //---------------------
