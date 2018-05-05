@@ -312,6 +312,9 @@ router.get('/deals/:id?', function (req, res) {
 router.get('/amd/createbank', checkAuth, checkAdmin, noCache, require('./createBank').get);
 router.post('/amd/createbank', checkAuth, checkAdmin, noCache, require('./createBank').post);
 
+router.get('/amd/bankinfo/:id?', checkAuth, checkAdmin, noCache, require('./a_bankinfo').get);
+router.post('/amd/bankinfo/:id?', checkAuth, checkAdmin, noCache, require('./a_bankinfo').post);
+
 router.get('/amd/createquery/:id?', checkAuth, checkAdmin, noCache, require('./a_createQuery').get);
 router.post('/amd/createquery/:id?', checkAuth, checkAdmin, noCache, require('./a_createQuery').post);
 

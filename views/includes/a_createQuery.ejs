@@ -1,0 +1,90 @@
+<div class="w3-panel">
+
+</div>
+
+<div class="w3-row-padding" ng-app="myApp">
+    <!-- Left Column -->
+    <div class="w3-col s12" >
+
+        <div class="w3-col m3" ng-controller="CtrlQuerys2">
+            <div class="w3-border">
+
+
+                <div class="w3-container w3-teal">
+                    <h5>Запрос корректировки БАНКа</h5>
+                </div>
+
+                    <form action="/amd/createquery/" method="post" class="w3-container">
+                        <p>
+                            <input type="radio" name="class" value="0" checked class="w3-radio"/><label>Списать</label>
+                            <input type="radio" name="class" value="1"  class="w3-radio"/><label>Увеличить</label>
+                        </p>
+                        <p>
+                            <input type="text" name="bankId" value="{{ bankId }}" class="w3-input w3-border" >
+                            <label class="w3-tag w3-green">ИД</label>
+                        </p>
+                        <p>
+                            <span class="w3-input w3-border">{{ bank_name }}</span>
+                            <label class="w3-tag w3-green">Наим.</label>
+                        </p>
+                        <p>
+                            <span class="w3-input w3-border">{{ bank_number }}</span>
+                            <label class="w3-tag w3-green">Номер</label>
+                        </p>
+                        <p>
+                            <span class="w3-input w3-border">{{ bank_username }}</span>
+                            <label class="w3-tag w3-green">Служебное имя</label>
+                        </p>
+                        <p>
+                            <input type="number" name="amount" value="0" class="w3-input w3-border">
+                            <label class="w3-tag w3-green">Количество</label>
+                        </p>
+                        <p>
+                            <input type="text" name="comments" value="" class="w3-input w3-border">
+                            <label class="w3-tag w3-green">Комментарий</label>
+                        </p>
+                        <p>
+                            <input class="w3-btn w3-green" type="submit">
+                        </p>
+                    </form>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+
+    //<![CDATA[
+    let myApp = angular.module('myApp',[]);
+    let dl = {};
+    let bl = {};
+    let qq={};
+    let i = 0;
+    let bank_publicKey ='';
+    let glub_buy = 0;
+    let glub_sell = 0;
+    let minPrice = 0;
+    let maxPrice = 0;
+    let bs=['продажа','покупка'];
+    let clors=['w3-orange','w3-cyan','w3-gray','w3-brown','w3-gray','','','','','w3-gray'];
+    const Curr = ['','PZM','USD','RUR'];
+    const w3Btn = [[],['','','w3-white', 'w3-white'],['','w3-white','','w3-white'],['','w3-white','w3-white','']];
+    const typ = ['Вывод','Ввод','Отправить','Получить'];
+
+    myApp.controller('CtrlQuerys2', function ($scope) {
+        $scope.qqq=[];
+
+        $scope.bankId = '<%= inc.bank._id%>';
+        $scope.bank_name = '<%= inc.bank.bank_name%>';
+        $scope.bank_number = '<%= inc.bank.bank_number%>';
+        $scope.bank_username = '<%= inc.bank.bank_username%>';
+
+        $scope.setSelected = function () {
+
+        }
+    });
+
+    //]]>
+</script>

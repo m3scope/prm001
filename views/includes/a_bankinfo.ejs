@@ -75,9 +75,9 @@
         <% banks.forEach(function (banks) {%>
         qq={};
         <% if(banks.dealerId == dealerId) {%>
-            qq.myColors = 'w3-amber';        // w3-animate-zoom    w3-animate-opacity  'w3-amber'
+        qq.myColors = 'w3-amber';        // w3-animate-zoom    w3-animate-opacity  'w3-amber'
         <%} else {%>
-            qq.myColors = '';
+        qq.myColors = '';
         <%}%>
         qq.UID = '<%= banks.UID%>';
         qq.bankId = '<%= banks._id%>';

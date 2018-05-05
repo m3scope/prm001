@@ -45,7 +45,7 @@ const  querySchema = new mongoose.Schema({
 
     class: {type: Number, default: 0},  // Тип(класс) сделки (1 - Ввод средств, 0 - Вывод средств)
 
-    sort: {type: Number, default: 0},
+    sort: {type: Number, default: 0},   // ['обычная','служебная']
     views: {type: Number, default: 0}
 }, {
     timestamps: true
