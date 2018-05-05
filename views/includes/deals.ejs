@@ -36,7 +36,7 @@
                         </td>
                         <td>
                             <span class="w3-tag w3-green">Цена в: <%= curr[deals.curr2] %></span>
-                            <input class="w3-input" type="number" value="0" step="any" name="price_amount" required ng-model="price_amount_buy" ng-change="change_buy()">
+                            <input class="w3-input" type="number" value="0" step="any" min="0.1" name="price_amount" required ng-model="price_amount_buy" ng-change="change_buy()">
                             <input type="hidden" name="price_currency" value="{{ curr2 }}">
                         </td>
                     </tr>
