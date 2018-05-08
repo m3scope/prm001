@@ -13,15 +13,31 @@ exports.get = function(req, res) {
         return res.render('login', {title: 'Авторизация'});
     } else {
         if(req.params.id){
-            Query.find({bankId: req.params.id}).sort({createdAt: 1}).exec(function (err, querys) {
+            Bank.findById(req.params.id, function (err, bank) {
                 if(err) console.error(err);
-                if(querys){
-                    res.render('amd_index', {
-                        inc: {f: 'a_bankinfo'},
-                        title: 'Банк - информация',
-                        querys: querys,
-                        dealerId:req.session.user,
-                        LoginRegister: 'LoginRegister'
+                if(bank){
+                    Query.find({bankId: req.params.id}).sort({createdAt: 1}).exec(function (err, querys) {
+                        if(err) console.error(err);
+                        if(querys){
+                            res.render('amd_index', {
+                                inc: {f: 'a_bankinfo'},
+                                title: 'Банк - информация',
+                                bank: bank,
+                                querys: querys,
+                                dealerId:req.session.user,
+                                LoginRegister: 'LoginRegister'
+
+                            });
+                        } else {
+                            res.render('info', {
+                                infoTitle: '<div class="w3-red">Ошибка!</div>',
+                                infoText: 'Банк не найден!',
+                                url: '/amd/banks',
+                                title: 'Запрос отклонен!',
+                                user: {},
+                                LoginRegister: '<b></b>'
+                            });
+                        }
 
                     });
                 } else {
@@ -34,9 +50,7 @@ exports.get = function(req, res) {
                         LoginRegister: '<b></b>'
                     });
                 }
-
             });
-
 
         } else {
 

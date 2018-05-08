@@ -1,12 +1,44 @@
-<div class="w3-panel">
 
-</div>
 
 <div class="w3-row-padding" ng-app="myApp">
     <!-- Left Column -->
     <div class="w3-col s12" >
 
         <div class="w3-col " ng-controller="CtrlQuerys2">
+            <div class="">
+
+                <div class="w3-container w3-teal">
+                    <h5>Банк</h5>
+                </div>
+                <table class="w3-table-all w3-small w3-striped w3-hoverable">
+                    <tr  class="w3-green">
+                        <th>UID</th>
+                        <th class="w3-border-left">Имя</th>
+                        <th class="w3-border-left">Номер</th>
+                        <th class="w3-border-left">username</th>
+                        <th class="w3-border-left">Тек.остаток</th>
+                        <th class="w3-border-left">Сумма транзакций</th>
+                        <th class="w3-border-left"></th>
+                        <th class="w3-border-left"></th>
+                    </tr>
+
+                    <tr  >
+                        <td><%= bank.UID%></td>
+                        <td class="w3-border-left"><%= bank.bank_name%></td>
+                        <td class="w3-border-left"><%= bank.bank_number%></td>
+                        <td class="w3-border-left"><%= bank.bank_username%></td>
+                        <td class="w3-border-left"><%= bank.summ_all_current%></td>
+                        <td class="w3-border-left"><%= bank.summ_transactions%></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+
+                </table>
+            </div>
+
+            <div class="w3-panel">
+            </div>
+
             <div class="">
 
                 <div class="w3-container w3-teal">
@@ -23,6 +55,7 @@
                         <th class="w3-border-left">Комисс.</th>
                         <th class="w3-border-left">Комисс.итог</th>
                         <th class="w3-border-left">Итог</th>
+                        <th class="w3-border-left">Коммент.</th>
                         <th class="w3-border-left"></th>
                         <th class="w3-border-left"></th>
                     </tr>
@@ -36,6 +69,7 @@
                         <td class="w3-border-left">{{ dt.commission_summ }}</td>
                         <td class="w3-border-left">{{ dt.commission_all }}</td>
                         <td class="w3-border-left">{{ dt.summ_all_current }}</td>
+                        <td class="w3-border-left">{{ dt.comments }}</td>
                         <td class="w3-border-left">
 
                         </td>
@@ -83,6 +117,7 @@
         qq.summ_in = '';
         qq.summ_out = '';
         qq.UID = '<%= item.UID%>';
+        qq.comments = '<%= item.comments%>';
         qq.myColors = clors[2];        // w3-animate-zoom    w3-animate-opacity  'w3-amber'
         <% if(item.status == 3){%>
             <% if(item.class == 0) {%>      // Вывод - расход
