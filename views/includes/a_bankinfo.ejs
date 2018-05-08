@@ -120,15 +120,21 @@
         qq.summ_out = '';
         qq.UID = '<%= item.UID%>';
         qq.comments = '<%= item.comments%>';
+        qq.commission_tax = '<%= item.commission_tax%>';
+        qq.commission_summ = '<%= item.commission_summ%>';
+//        qq.commission_tax = commission_tax;
+//        qq.commission_summ = commission_summ;
         qq.myColors = clors[2];        // w3-animate-zoom    w3-animate-opacity  'w3-amber'
         <% if(item.status == 3){%>
             <% if(item.class == 0) {%>      // Вывод - расход
                 <% if(item.currency != 0){%>
-                    summ_all_current = Math.round((summ_all_current - <%= Number(item.amount- item.commission_summ)%>)*100)/100;
+                    summ_all_current = Math.round((summ_all_current - <%= Number(item.amount)- Number(item.commission_summ)%>)*100)/100;
+                    qq.summ_out = <%= Math.round((item.amount - item.commission_summ)*100)/100%>
                 <%} else {%>
                     summ_all_current = Math.round((summ_all_current - <%= Number(item.amount)%>)*100)/100;
+                    qq.summ_out = <%= Math.round((item.amount)*100)/100%>
                 <%}%>
-                qq.summ_out = <%= Math.round((item.amount - item.commission_summ)*100)/100%>
+
             <%} else {%>        //Ввод - приход
                 summ_all_current = Math.round((summ_all_current + <%= Number(item.amount)%>)*100)/100;
                 qq.summ_in = <%= item.amount%>
@@ -137,8 +143,7 @@
             commission_all = Math.round((commission_all + <%= Number(item.commission_summ)%>)*100)/100;
         <%}%>
         qq.commission_all = commission_all;
-        qq.commission_tax = '<%= item.commission_tax%>';
-        qq.commission_summ = '<%= item.commission_summ%>';
+
 
         qq.date_in = TimeMsk('<%= item.createdAt%>');
 
