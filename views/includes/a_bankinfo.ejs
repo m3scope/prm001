@@ -127,7 +127,7 @@
         qq.myColors = clors[2];        // w3-animate-zoom    w3-animate-opacity  'w3-amber'
         <% if(item.status == 3){%>
             <% if(item.class == 0) {%>      // Вывод - расход
-                <% if(item.currency != 0){%>
+                <% if(item.currency != 1){%>
                     summ_all_current = Math.round((summ_all_current - <%= Number(item.amount)- Number(item.commission_summ)%>)*100)/100;
                     qq.summ_out = <%= Math.round((item.amount - item.commission_summ)*100)/100%>
                 <%} else {%>
