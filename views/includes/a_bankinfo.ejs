@@ -103,6 +103,7 @@
     let summ_in = 0;
     let summ_out = 0;
     let commission_all = 0;
+    let commis_item = 0;
     let bs=['продажа','покупка'];
     let clors=['w3-orange','w3-cyan','w3-gray','w3-brown','w3-gray','','','','','w3-gray'];
     const Curr = ['','PZM','USD','RUR'];
@@ -114,6 +115,7 @@
 
         <% querys.forEach(function (item) {%>
         qq={};
+        commis_item = 0;
         qq.summ_in = '';
         qq.summ_out = '';
         qq.UID = '<%= item.UID%>';
@@ -121,7 +123,11 @@
         qq.myColors = clors[2];        // w3-animate-zoom    w3-animate-opacity  'w3-amber'
         <% if(item.status == 3){%>
             <% if(item.class == 0) {%>      // Вывод - расход
-                summ_all_current = Math.round((summ_all_current - <%= Number(item.amount- item.commission_summ)%>)*100)/100;
+                <% if(item.currency != 0){%>
+                    summ_all_current = Math.round((summ_all_current - <%= Number(item.amount- item.commission_summ)%>)*100)/100;
+                <%} else {%>
+                    summ_all_current = Math.round((summ_all_current - <%= Number(item.amount)%>)*100)/100;
+                <%}%>
                 qq.summ_out = <%= Math.round((item.amount - item.commission_summ)*100)/100%>
             <%} else {%>        //Ввод - приход
                 summ_all_current = Math.round((summ_all_current + <%= Number(item.amount)%>)*100)/100;
