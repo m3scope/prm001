@@ -110,6 +110,12 @@
     const w3Btn = [[],['','','w3-white', 'w3-white'],['','w3-white','','w3-white'],['','w3-white','w3-white','']];
     const typ = ['Вывод','Ввод','Отправить','Получить'];
 
+    // Наша функция сравнения
+    function compareAge(personA, personB) {
+        return new Date(personB.createdAt) - new Date(personA.createdAt);
+
+    }
+
     myApp.controller('CtrlQuerys2', function ($scope) {
         $scope.qqq=[];
 
@@ -150,10 +156,12 @@
         qq.currency_name = '<%= item.currency_name%>';
         qq.bank_number = '<%= item.dealer_bank_number%>';
         qq.summ_all_current = summ_all_current;
+        qq.createdAt = '<%= item.createdAt%>';
 
 
         $scope.qqq.push(qq);
         <%})%>
+        $scope.qqq.sort(compareAge);
 
         $scope.setSelected = function () {
 
