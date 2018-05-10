@@ -128,7 +128,7 @@
 
                 <tr ng-repeat="info in dt2 | filter: f" ng-click="setSelected();">
 
-                        <td>{{ info.createdAt }}</td>
+                        <td>{{ info.dat }}</td>
                         <td class="w3-border-left {{ info.colorOper }}">{{ info.operation_name }}</td>
 
                         <td class="w3-border-left">{{ info.par }}</td>
@@ -180,6 +180,11 @@
 //    let sm = {};
     let smp = 0;
     let dl={};
+    // Наша функция сравнения
+    function compareAge(personA, personB) {
+        return new Date(personB.createdAt) - new Date(personA.createdAt);
+
+    }
     myApp.controller('MainCtrl', function($scope) {
         $scope.dt1 = [];
         $scope.dt2 = [];
@@ -197,6 +202,7 @@
 
         <% users.userDeals.forEach(function (deal) { %>
             dl={};
+
             dl.cans = '/api/q/deal/<%= deal._id %>;cancel';
             dl.deal_currency = Curr[<%= deal.deal_currency%>];
             dl.price_currency = Curr[<%= deal.price_currency%>];
@@ -217,6 +223,7 @@
 
             i++;
         <%})%>
+
 
         $scope.setSelected = function() {
             $scope.selected = this.dt;
@@ -241,7 +248,8 @@
         nm.commiss.USD = '';
         nm.commiss.RUR = '';
 
-            nm.createdAt = TimeMsk("<%= item.createdAt %>");
+            nm.createdAt = "<%= item.createdAt %>";
+            nm.dat = TimeMsk("<%= item.createdAt %>");
             nm.operation_name = Oper[<%= item.operation_cod%>];
             nm.colorOper = clors[3-<%= item.operation_cod - item.class%>];
             nm.class = (<%= item.operation_cod%> == 1) ? Class_q[<%= item.class%>] : Class[<%= item.class%>];
@@ -325,7 +333,7 @@
 //            nm.smp = smp;
             $scope.dt2.push(nm);
         <%})%>
-
+        $scope.dt2.sort(compareAge);
 
 
         $scope.filter_by = function(field) {
