@@ -8,9 +8,43 @@
 <div class="w3-row-padding" ng-app="myApp">
   <!-- Left Column -->
   <div class="w3-col" ng-controller="MainCtrl">
+
     <div class="w3-card-4">
       <div class="w3-container w3-teal">
-        <h5>Списое пользователей</h5>
+        <h5>Суммы на балансе</h5>
+      </div>
+
+      <table class="w3-table-all w3-hoverable w3-card-4" >
+        <tr class="w3-green">
+          <th></th>
+          <th class="w3-border-left">PZM</th>
+          <th class="w3-border-left">USD</th>
+          <th class="w3-border-left">RUR</th>
+        </tr>
+        <tr >
+          <td>у польз.</td>
+          <td class="w3-border-left"><%= userAmount[0].PZM%></td>
+          <td class="w3-border-left"><%= userAmount[0].USD%></td>
+          <td class="w3-border-left"><%= userAmount[0].RUR%></td>
+        </tr>
+        <tr >
+          <td class="w3-border-left">на ордерах</td>
+          <td class="w3-border-left">{{ ud.PZM}}</td>
+          <td class="w3-border-left">{{ ud.USD}}</td>
+          <td class="w3-border-left">{{ ud.RUR}}</td>
+        </tr>
+        <tr >
+          <td class="w3-border-left">итого</td>
+          <td class="w3-border-left">{{ all.PZM}}</td>
+          <td class="w3-border-left">{{ all.USD}}</td>
+          <td class="w3-border-left">{{ all.RUR}}</td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="w3-card-4">
+      <div class="w3-container w3-teal">
+        <h5>Список пользователей</h5>
       </div>
 
       <table class="w3-table-all w3-hoverable w3-card-4" >
@@ -41,6 +75,7 @@
     //<![CDATA[
     let myApp = angular.module('myApp',[]);
     let nm = {};
+    let ud = {'PZM':0,'USD':0,'RUR':0};
     const Curr = ['','PZM','USD','RUR'];
     myApp.controller('MainCtrl', function($scope) {
         $scope.dt1 = [];
@@ -55,6 +90,25 @@
           nm.RUR = '<%= item.RUR%>';
           $scope.dt1.push(nm);
         <%})%>
+        $scope.ud ={};
+        $scope.all ={};
+
+        <% userDeals.forEach(function (item) {%>
+          //ud={};
+          <% if(item._id.class == 0){%>
+            ud[Curr[<%= item._id.deal_currency%>]] = ud[Curr[<%= item._id.deal_currency%>]] + <%= Number(item.deal_amount_bill)%>
+
+          <%} else {%>
+            ud[Curr[<%= item._id.price_currency%>]] = ud[Curr[<%= item._id.price_currency%>]] + <%= Number(item.summ_bill)%>
+
+            <%}%>
+        <%})%>
+
+            $scope.ud = ud;
+        $scope.all.PZM = $scope.ud.PZM + <%= Number(userAmount[0].PZM)%>;
+        $scope.all.USD = $scope.ud.USD + <%= Number(userAmount[0].USD)%>;
+        $scope.all.RUR = $scope.ud.RUR + <%= Number(userAmount[0].RUR)%>;
+
         $scope.setSelected = function() {
             $scope.selected = this.dt;
             console.log(this.dt.name_f);

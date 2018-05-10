@@ -112,15 +112,88 @@ exports.get = function(req, res) {
             }
 
         } else {
-            User.find({status: 1}).limit(50).sort({PZM: -1,USD:-1,RUR: -1}).exec(function (err, users) {
+            User.find({status: 1}).limit(200).sort({PZM: -1,RUR: -1, USD:-1}).exec(function (err, users) {
 
-                res.render('amd_index', {
-                    inc: {f: 'a_users'},
-                    title: 'Пользователи',
-                    users: users,
-                    LoginRegister: 'LoginRegister'
+                User.aggregate(
+                    [
+                        {
+                            "$match" : {
+                                "ban" : false
+                            }
+                        },
+                        {
+                            "$group" : {
+                                "_id" : "$status",
+                                "PZM" : {
+                                    "$sum" : "$PZM"
+                                },
+                                "RUR" : {
+                                    "$sum" : "$RUR"
+                                },
+                                "USD" : {
+                                    "$sum" : "$USD"
+                                }
+                            }
+                        }
+                    ],function (err, userAmount) {
+                        if(err) console.error(err);
 
+                        Deal.aggregate(
+                            [
+                                {
+                                    "$match" : {
+                                        "status" : {
+                                            "$lt" : 3.0
+                                        }
+                                    }
+                                },
+                                {
+                                    "$group" : {
+                                        "_id" : {
+                                            "class" : "$class",
+                                            "deal_currency" : "$deal_currency",
+                                            "price_currency" : "$price_currency"
+                                        },
+                                        "deal_amount_bill" : {
+                                            "$sum" : "$deal_amount_bill"
+                                        },
+                                        "summ_bill" : {
+                                            "$sum" : "$summ_bill"
+                                        }
+                                    }
+                                }
+                            ],function (err, userDeals) {
+                                res.render('amd_index', {
+                                    inc: {f: 'a_users'},
+                                    title: 'Пользователи',
+                                    users: users,
+                                    userAmount: userAmount,
+                                    userDeals: userDeals,
+                                    LoginRegister: 'LoginRegister'
+
+                                });
+                            }
+                        );
+
+
+                        // res.render('amd_index', {
+                        //     inc: {f: 'a_users'},
+                        //     title: 'Пользователи',
+                        //     users: users,
+                        //     userAmount: userAmount,
+                        //     LoginRegister: 'LoginRegister'
+                        //
+                        // });
                 });
+
+                // res.render('amd_index', {
+                //     inc: {f: 'a_users'},
+                //     title: 'Пользователи',
+                //     users: users,
+                //     userAmount: userAmount,
+                //     LoginRegister: 'LoginRegister'
+                //
+                // });
             });
         }
     }
@@ -158,10 +231,10 @@ exports.post = function (req, res) {
 //module.exports = router;
 
 // Наша функция сравнения
-function compareAge(personA, personB) {
-  return new Date(personA.createdAt) - new Date(personB.createdAt);
-
-}
+// function compareAge(personA, personB) {
+//   return new Date(personA.createdAt) - new Date(personB.createdAt);
+//
+// }
 
 /*
 // проверка
