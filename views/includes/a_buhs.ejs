@@ -10,33 +10,50 @@
             <div class="">
 
                 <div class="w3-container w3-teal">
-                    <h5>Список банков</h5>
+                    <h5>Комиссии</h5>
                 </div>
-                <% if(banks.length>0) {%>
+
                 <table class="w3-table-all w3-small w3-striped w3-hoverable">
                     <tr  class="w3-green">
-                        <th>UID</th>
-                        <th class="w3-border-left">Банк</th>
-                        <th class="w3-border-left">Валюта</th>
-                        <th class="w3-border-left">Номер</th>
-                        <th class="w3-border-left">Тек.остаток</th>
-                        <th class="w3-border-left">Прием до</th>
-                        <th class="w3-border-left">Отправка до</th>
+                        <th></th>
+                        <th class="w3-border-left">PZM</th>
+                        <th class="w3-border-left">USD</th>
+                        <th class="w3-border-left">RUR</th>
+                        <th class="w3-border-left"></th>
+                        <th class="w3-border-left"></th>
+                        <th class="w3-border-left"></th>
                     </tr>
 
-                    <tr class="{{ dt.myColors }} " ng-repeat="dt in qqq" ng-click="setSelected();">
-                        <td>{{ dt.UID }}</td>
-                        <td class="w3-border-left">{{ dt.bank_name }}</td>
-                        <td class="w3-border-left">{{ dt.currency_name }}</td>
-                        <td class="w3-border-left">{{ dt.bank_number }}</td>
-                        <td class="w3-border-left w3-right-align">{{ dt.summ_all_current }}</td>
-                        <td class="w3-border-left">{{ dt.date_in }}</td>
-                        <td class="w3-border-left">{{ dt.date_out }}</td>
+                    <tr>
+                        <td>сделки</td>
+                        <td class="w3-border-left">{{aggrTrans.PZM}}</td>
+                        <td class="w3-border-left">{{aggrTrans.USD}}</td>
+                        <td class="w3-border-left">{{aggrTrans.RUR}}</td>
+                        <td class="w3-border-left w3-right-align"></td>
+                        <td class="w3-border-left"></td>
+                        <td class="w3-border-left"></td>
+                    </tr>
+                    <tr>
+                        <td>ввод/вывод</td>
+                        <td class="w3-border-left">0</td>
+                        <td class="w3-border-left">{{aggrQuery.USD}}</td>
+                        <td class="w3-border-left">{{aggrQuery.RUR}}</td>
+                        <td class="w3-border-left w3-right-align"></td>
+                        <td class="w3-border-left"></td>
+                        <td class="w3-border-left"></td>
+                    </tr>
+                    <tr>
+                        <td>итого</td>
+                        <td class="w3-border-left">{{qq.PZM}}</td>
+                        <td class="w3-border-left">{{qq.USD}}</td>
+                        <td class="w3-border-left">{{qq.RUR}}</td>
+                        <td class="w3-border-left w3-right-align"></td>
+                        <td class="w3-border-left"></td>
+                        <td class="w3-border-left"></td>
                     </tr>
 
                 </table>
-                <%}%>
-                <a href="/amd/createbank" class="w3-button w3-border w3-border-blue" >Добавить банк</a>
+
             </div>
         </div>
 
@@ -61,25 +78,26 @@
     const w3Btn = [[],['','','w3-white', 'w3-white'],['','w3-white','','w3-white'],['','w3-white','w3-white','']];
     const typ = ['Вывод','Ввод','Отправить','Получить'];
 
+    // Наша функция сравнения
+    function compareAge(personA, personB) {
+        return new Date(personB.createdAt) - new Date(personA.createdAt);
+
+    }
+
     myApp.controller('CtrlQuerys2', function ($scope) {
-        $scope.qqq=[];
+        $scope.qq = {'PZM':0,'USD':0,'RUR':0};;
+        $scope.aggrQuery = {'PZM':0,'USD':0,'RUR':0};
+        $scope.aggrTrans = {'PZM':0,'USD':0,'RUR':0};
 
-        <% banks.forEach(function (banks) {%>
-        qq={};
-        <% if(banks.dealerId == dealerId) {%>
-        qq.myColors = 'w3-amber';        // w3-animate-zoom    w3-animate-opacity  'w3-amber'
-        <%} else {%>
-        qq.myColors = '';
-        <%}%>
-        qq.UID = '<%= banks.UID%>';
-        qq.bank_name = '<%= banks.bank_name%>';
-        qq.currency_name = '<%= banks.currency_name%>';
-        qq.bank_number = '<%= banks.bank_number%>';
-        qq.summ_all_current = <%= Math.round(banks.summ_all_current *100)/100 %>;
-        qq.date_in = TimeMsk('<%= banks.date_in%>');
-        qq.date_out = TimeMsk('<%= banks.date_out%>');
-
-        $scope.qqq.push(qq);
+        <% aggrQuery.forEach(function(item){%>
+            $scope.aggrQuery[Curr[<%= item._id%>]] = Math.round(($scope.aggrQuery[Curr[<%= item._id%>]] + <%= Number(item.amount)%>)*100)/100;
+            <% if(item._id != 1){%>
+            $scope.qq[Curr[<%= item._id%>]] = Math.round(($scope.qq[Curr[<%= item._id%>]] + <%= Number(item.amount)%>)*100)/100;
+            <%}%>
+        <%})%>
+        <% aggrTrans.forEach(function(item){%>
+        $scope.aggrTrans[Curr[<%= item._id%>]] = Math.round(($scope.aggrTrans[Curr[<%= item._id%>]] + <%= Number(item.amount)%>)*100)/100;
+        $scope.qq[Curr[<%= item._id%>]] = Math.round(($scope.qq[Curr[<%= item._id%>]] + <%= Number(item.amount)%>)*100)/100;
         <%})%>
 
         $scope.setSelected = function () {

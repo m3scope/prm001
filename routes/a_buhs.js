@@ -26,21 +26,65 @@ exports.get = function(req, res) {
 
         } else {
 
-            Query.find({dealerId:req.session.user,status:{$lt:2}}).limit(20).sort({createdAt: -1}).exec(function (err, querys) {
-                if(err){
-                    console.error(err);
-                    res.redirect('/amd/users');
-                } else {
-                    res.render('amd_index', {
-                        inc: {f: 'a_querys'},
-                        title: 'Пользователи',
-                        querys: querys,
-                        dealerId:req.session.user,
-                        LoginRegister: 'LoginRegister'
+            Transaction.aggregate(
+                [
+                    {
+                        "$match" : {
+                            "sort" : 3.0
+                        }
+                    },
+                    {
+                        "$group" : {
+                            "_id" : "$currency",
+                            "amount" : {
+                                "$sum" : "$amount"
+                            }
+                        }
+                    }
+                ],function (err, aggrTrans) {
+                    if(err){
+                        console.error(err);
+                        res.redirect('/amd/users');
+                    } else {
 
-                    });
+                        Query.aggregate(
+                            [
+                                {
+                                    "$match" : {
+                                        "status" : 3.0
+                                    }
+                                },
+                                {
+                                    "$group" : {
+                                        "_id" : "$currency",
+                                        "amount" : {
+                                            "$sum" : "$commission_summ"
+                                        }
+                                    }
+                                }
+                            ],function (err, aggrQuery) {
+                                if(err){
+                                    console.error(err);
+                                    res.redirect('/amd/users');
+                                } else {
+                                    console.log(aggrQuery);
+                                    res.render('amd_index', {
+                                        inc: {f: 'a_buhs'},
+                                        title: 'Бухгалтерия',
+                                        aggrTrans: aggrTrans,
+                                        aggrQuery: aggrQuery,
+                                        userId:req.session.user,
+                                        LoginRegister: 'LoginRegister'
+
+                                    });
+                                }
+                                }
+                        );
+
+                    }
+
                 }
-            });
+            );
         }
     }
 };
