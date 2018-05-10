@@ -231,10 +231,10 @@ exports.post = function (req, res) {
 //module.exports = router;
 
 // Наша функция сравнения
-// function compareAge(personA, personB) {
-//   return new Date(personA.createdAt) - new Date(personB.createdAt);
-//
-// }
+function compareAge(personA, personB) {
+  return new Date(personA.createdAt) - new Date(personB.createdAt);
+
+}
 
 /*
 // проверка
