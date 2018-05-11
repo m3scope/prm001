@@ -97,9 +97,9 @@
 
         <% userAmount.forEach(function (item) {%>
         //ud={};
-        ua.PZM = Math.round((ud.PZM + <%= Number(item.PZM)%>)*100)/100;
-        ua.USD = Math.round((ud.USD + <%= Number(item.USD)%>)*100)/100;
-        ua.RUR = Math.round((ud.RUR + <%= Number(item.RUR)%>)*100)/100;
+        ua.PZM = Math.round((ua.PZM + <%= Number(item.PZM)%>)*100)/100;
+        ua.USD = Math.round((ua.USD + <%= Number(item.USD)%>)*100)/100;
+        ua.RUR = Math.round((ua.RUR + <%= Number(item.RUR)%>)*100)/100;
         <%})%>
 
         $scope.ua = ua;
