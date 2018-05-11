@@ -61,7 +61,7 @@
                         <td class="{{ dt.color }}">{{ dt.typ }}</td>
                         <td class="w3-border-left">{{ dt.deal_amount }}<span class="w3-small">({{ dt.deal_amount_bill }})</span></td>
                         <td class="w3-border-left">{{ dt.price_amount}}</td>
-                        <td class="w3-border-left">{{ dt.summ }}</td>
+                        <td class="w3-border-left">{{ dt.summ }}<span class="w3-small">({{ dt.summ_bill }})</span></td>
                         <td class="w3-border-left">{{ dt.dat }}</td>
                         <td class="w3-border-left {{ dt.color2 }}">
                             <div ng-switch="{{ dt.status }}">
@@ -198,6 +198,7 @@
         nm.PZM = '<%= users.user.PZM%>';
         nm.USD = '<%= users.user.USD%>';
         nm.RUR = '<%= users.user.RUR%>';
+
         $scope.dt1.push(nm);
 
         <% users.userDeals.forEach(function (deal) { %>
@@ -212,6 +213,7 @@
             dl.deal_amount_bill = <%= deal.deal_amount_bill%>;
             dl.price_amount = <%= deal.price_amount%>;
             dl.summ = <%= Math.round(deal.deal_amount*deal.price_amount*100)/100 %>;
+            dl.summ_bill = <%= Math.round(deal.summ_bill*100)/100%>;
 
             dl.dat = TimeMsk('<%= deal.createdAt%>');
             //console.log(dl.dat);
