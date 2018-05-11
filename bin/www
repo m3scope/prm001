@@ -19,7 +19,7 @@ app.set('port', port);
  */
 const server = http.createServer(app);
 
-const io = require('socket.io')(server);
+const io = require('socket.io').listen(server);
 /**
  * Listen on provided port, on all network interfaces.
  */
@@ -36,7 +36,7 @@ server.on('listening', onListening);
 
 io.on('connection', function (socket) {
     console.log('**** Made SOCKET connection', socket.id);
-    socket.send({greeting:'Hello? World!'});
+    //socket.send({greeting:'Hello? World!'});
     socket.on('greeting', function (data) {
         console.log(data);
     });
