@@ -23,9 +23,9 @@
         </tr>
         <tr >
           <td>у польз.</td>
-          <td class="w3-border-left"><%= userAmount[0].PZM%></td>
-          <td class="w3-border-left"><%= userAmount[0].USD%></td>
-          <td class="w3-border-left"><%= userAmount[0].RUR%></td>
+          <td class="w3-border-left">{{ ua.PZM}}</td>
+          <td class="w3-border-left">{{ ua.USD}}</td>
+          <td class="w3-border-left">{{ ua.RUR}}</td>
         </tr>
         <tr >
           <td class="w3-border-left">на ордерах</td>
@@ -75,6 +75,7 @@
     //<![CDATA[
     let myApp = angular.module('myApp',[]);
     let nm = {};
+    let ua = {'PZM':0,'USD':0,'RUR':0};
     let ud = {'PZM':0,'USD':0,'RUR':0};
     const Curr = ['','PZM','USD','RUR'];
     myApp.controller('MainCtrl', function($scope) {
@@ -85,29 +86,39 @@
           nm.UID = '<%= item.UID%>';
           nm.name_f = '<%= item.name_f%>';
           nm.email = '<%= item.email %>';
-          nm.PZM = '<%= item.PZM%>';
-          nm.USD = '<%= item.USD%>';
-          nm.RUR = '<%= item.RUR%>';
+          nm.PZM = Math.round(<%= Number(item.PZM) %>*100)/100;
+          nm.USD = Math.round(<%= Number(item.USD) %>*100)/100;
+          nm.RUR = Math.round(<%= Number(item.RUR) %>*100)/100;
           $scope.dt1.push(nm);
         <%})%>
+        $scope.ua ={};
         $scope.ud ={};
         $scope.all ={};
+
+        <% userAmount.forEach(function (item) {%>
+        //ud={};
+        ua.PZM = Math.round((ud.PZM + <%= Number(item.PZM)%>)*100)/100;
+        ua.USD = Math.round((ud.USD + <%= Number(item.USD)%>)*100)/100;
+        ua.RUR = Math.round((ud.RUR + <%= Number(item.RUR)%>)*100)/100;
+        <%})%>
+
+        $scope.ua = ua;
 
         <% userDeals.forEach(function (item) {%>
           //ud={};
           <% if(item._id.class == 0){%>
-            ud[Curr[<%= item._id.deal_currency%>]] = ud[Curr[<%= item._id.deal_currency%>]] + <%= Number(item.deal_amount_bill)%>
+            ud[Curr[<%= item._id.deal_currency%>]] = Math.round((ud[Curr[<%= item._id.deal_currency%>]] + <%= Number(item.deal_amount_bill)%>)*100)/100;
 
           <%} else {%>
-            ud[Curr[<%= item._id.price_currency%>]] = ud[Curr[<%= item._id.price_currency%>]] + <%= Number(item.summ_bill)%>
+            ud[Curr[<%= item._id.price_currency%>]] = Math.round((ud[Curr[<%= item._id.price_currency%>]] + <%= Number(item.summ_bill)%>)*100)/100;
 
             <%}%>
         <%})%>
 
-            $scope.ud = ud;
-        $scope.all.PZM = $scope.ud.PZM + <%= Number(userAmount[0].PZM)%>;
-        $scope.all.USD = $scope.ud.USD + <%= Number(userAmount[0].USD)%>;
-        $scope.all.RUR = $scope.ud.RUR + <%= Number(userAmount[0].RUR)%>;
+        $scope.ud = ud;
+        $scope.all.PZM = Math.round(($scope.ud.PZM + <%= Number(userAmount[0].PZM)%>)*100)/100;
+        $scope.all.USD = Math.round(($scope.ud.USD + <%= Number(userAmount[0].USD)%>)*100)/100;
+        $scope.all.RUR = Math.round(($scope.ud.RUR + <%= Number(userAmount[0].RUR)%>)*100)/100;
 
         $scope.setSelected = function() {
             $scope.selected = this.dt;
