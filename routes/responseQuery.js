@@ -570,6 +570,7 @@ exports.post = function (req, res, next) {
                                                                         //********** BANK *******
 
                                                                         bank.summ_all_current = Number(bank.summ_all_current) + Number(qqsaved.amount);
+                                                                        bank.rounds = Number(bank.rounds) + Number(qqsaved.amount);
 
                                                                         bank.save();
                                                                         //---------------------
