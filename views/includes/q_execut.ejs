@@ -23,8 +23,10 @@
                                 <span class="w3-tag w3-green"><%= qq.amount %>&nbsp;<%= qq.currency_name%></span>
                             </p>
                             <p>Код операции <br>
-                            <h3><%= qq.cod %></h3>
+                                <h3><%= qq.cod %></h3>
                             </p>
+                            <input hidden type="number" name="bank_commission_tax" value="0" class="w3-input w3-border">
+                            <input hidden type="number" name="bank_commission_summ" value="0" class="w3-input w3-border">
                         </div>
                     </div>
 
@@ -38,6 +40,18 @@
                                 <span class="w3-tag w3-green"><%= qq.amount-qq.commission_summ %>&nbsp;<%= qq.currency_name%></span>
                             </p>
                             <p><%- qq.comment %></p>
+                            <p>
+                                <span class="w3-input w3-border">
+                                    <input type="number" step="any" name="bank_commission_tax" value="0" class="w3-input w3-border">
+                                </span>
+                                <span class="w3-tag w3-green">Процент комиссии банка</span>
+                            </p>
+                            <p>
+                                <span class="w3-input w3-border">
+                                    <input type="number" step="any" name="bank_commission_summ" value="0" class="w3-input w3-border">
+                                </span>
+                                <span class="w3-tag w3-green">СУММА процента комиссии банка</span>
+                            </p>
                         </div>
                     </div>
                 </div>

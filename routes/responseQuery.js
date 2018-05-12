@@ -546,6 +546,8 @@ exports.post = function (req, res, next) {
                                 if (qq.status == 1) {
                                     qq.status = 3;
                                     qq.dateExec = Date.now();
+                                    qq.bank_commission_tax = req.body.bank_commission_tax;
+                                    qq.bank_commission_summ = req.body.bank_commission_summ;
                                     qq.save(function (err, qqsaved) {
                                         if (err) {
                                             console.error(err);

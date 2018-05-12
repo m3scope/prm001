@@ -26,6 +26,9 @@ const  querySchema = new mongoose.Schema({
     commission_tax: {type: Number, default: 0},
     commission_summ: {type: Number, default: 0},
 
+    bank_commission_tax: {type: Number, default: 0},
+    bank_commission_summ: {type: Number, default: 0},
+
     currency: {type: Number, default: 1},
     currency_name: {type: String, default:''},
 
