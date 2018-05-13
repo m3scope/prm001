@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<!-- http://plnkr.co/edit/FipgiTUaaymm5Mk6HIfn?p=preview -->
+<html ng-app="validation" >
+<title>PrizmEx: <%= title %></title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Roboto'>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<script src="https://code.angularjs.org/1.6.4/angular.min.js"></script>
+<script src="https://code.angularjs.org/1.6.4/angular-messages.min.js"></script>
+
+<!--<script src="https://code.angularjs.org/1.3.0-rc.2/angular.js"></script>-->
+<!--<script src="https://code.angularjs.org/1.3.0-rc.2/angular-messages.js"></script>-->
+
+<style>
+    html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
+</style>
+<body class="w3-light-grey">
+
+<!-- Page Container -->
+<div class="w3-content w3-margin-top" style="max-width:1400px;" ng-controller="RegistrationController as registration">
+    <!-- The Grid -->
+    <div class="w3-row-padding">
+        <!-- Left Column -->
+        <div class="w3-third">
+            <div class="w3-card-4">
+                <div class="w3-container w3-green">
+                    <h2>Новый пароль</h2>
+                </div>
+                <h3>{{ registration.message }}</h3>
+                <form name="registrationForm" action="/confirmed/newpass" method="post" novalidate method="post" class="w3-container" ng-submit="registration.submit(registrationForm.$valid)"> <!-- action="/register" method="post" -->
+                    <label class="w3-text-yellow w3-small">* Все поля обязательны для заполнения!</label><br>
+                    <input hidden type="text" value="<%= email_token%>" name="email_token">
+                    <label class="w3-tag w3-teal">Пароль</label>
+                    <input class="w3-input" type="password" name="password" required ng-model="registration.user.password">
+                    <div ng-messages="registrationForm.password.$error">
+                        <div class="w3-text-red" >
+                            <div ng-message="required">обязательный</div>
+                            <div ng-message="minlength">Too short</div>
+                            <div ng-message="maxlength">Too long</div>
+                            <div ng-message="email">Invalid email address</div>
+                            <div ng-message="compareTo">Пароли не совпадают</div>
+                        </div>
+                    </div>
+
+                    <label class="w3-tag w3-teal">повторить Пароль</label>
+                    <input class="w3-input" type="password" name="confirmPassword" required ng-model="registration.user.confirmPassword" compare-to="registration.user.password">
+                    <div ng-messages="registrationForm.confirmPassword.$error">
+                        <div class="w3-text-red" >
+                            <div ng-message="required">обязательный</div>
+                            <div ng-message="minlength">Too short</div>
+                            <div ng-message="maxlength">Too long</div>
+                            <div ng-message="email">Invalid email address</div>
+                            <div ng-message="compareTo">Пароли не совпадают</div>
+                        </div>
+                    </div>
+
+
+                    <p>
+                        <input class="w3-btn w3-green" type="submit" ng-disabled="registrationForm.$invalid">
+                    </p>
+
+                </form>
+            </div>
+            <div class="w3-right-align"><a href="/login">Вход</a></div>
+        </div>
+    </div>
+
+
+</div>
+
+</div>
+
+</div>
+
+<!-- End Grid -->
+
+<footer>
+
+</footer>
+<script>
+
+
+    let app = angular.module("validation", ["ngMessages"]);
+
+    let RegistrationController = function() {
+        let model = this;
+
+        model.message = "";
+
+        model.user = {
+            password: "",
+            confirmPassword: ""
+        };
+
+        model.submit = function(isValid) {
+            console.log(model.user);
+            if (isValid) {
+                model.message = "Новый пароль ";
+                //window.location.href = '/login';
+            } else {
+                model.message = "Некорректно заполнена форма";
+            }
+        };
+
+    };
+
+    let compareTo = function() {
+        return {
+            require: "ngModel",
+            scope: {
+                otherModelValue: "=compareTo"
+            },
+            link: function(scope, element, attributes, ngModel) {
+
+                ngModel.$validators.compareTo = function(modelValue) {
+                    return modelValue == scope.otherModelValue;
+                };
+
+                scope.$watch("otherModelValue", function() {
+                    ngModel.$validate();
+                });
+            }
+        };
+    };
+    app.directive("compareTo", compareTo);
+    app.controller("RegistrationController", RegistrationController);
+</script>
+</body>
+</html>
