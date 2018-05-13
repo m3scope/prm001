@@ -87,6 +87,10 @@ exports.get = function (req, res, next) {
                 });
                 break;
 
+            case 'confirmedquery':
+                res.render('confirmedquery',{title: 'Подтверрждение операции!'});
+                break;
+
             case 'droppass':
                 res.render('droppass',{title: 'Сброс пароля!'});
                 break;
