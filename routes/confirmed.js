@@ -74,7 +74,7 @@ exports.get = function (req, res, next) {
                         console.error(err);
                     }
                     if(eml){
-                        User.findByIdAndUpdate(eml.user_id,{email_confirmed: true}, function (err,user) {
+                        User.findByIdAndUpdate(eml.user_id,{email_confirmed: true, email_token: null}, function (err,user) {
                             req.session.destroy();
                             res.render('info', {infoTitle: '<div class="w3-green">Успех!</div>', infoText: 'Ваш e-mail подтвержден!', url: '/login', title: 'e-mail подтвержден!', user: {}, LoginRegister: '<b></b>'});
 
