@@ -11,6 +11,7 @@ const mongoose = require('../libs/mongoose'),
 const schema = new Schema({
     created: {type: Date, default: Date.now},
     user_id: {type: ObjectId, ref: 'User'},
+    confirmed: {type: Boolean, default: false},
     email_address: {type: String},
     text: {type: String, default: null},
     token: {type: String, default: null},

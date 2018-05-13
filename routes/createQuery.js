@@ -280,7 +280,7 @@ exports.post = function (req, res, next) {
                                             //---------------------
 
                                             //res.redirect('/api/q/res/' + saved_Q._id.toString() + ';confirm');
-                                            res.redirect('/api/q/res/sendconfirmedquery;' + saved_Q._id.toString());
+                                            res.redirect('/confirmed/sendconfirmedquery;' + saved_Q._id.toString());
                                         });
 
                                 });

@@ -106,10 +106,10 @@ exports.get = function (req, res, next) {
                                     if(err) console.error(err);
                                     if(query) {
                                         const SL = secretLine();
-                                        user.email_token = SL;
+                                        //user.email_token = SL;
                                         //user.UID = Date.now().toString();
                                         //user.email.address = req.body.email;
-                                        user.save();
+                                        //user.save();
                                         let text = 'http://prizmex.ru/confirmed/confirmedquery;' + SL;
                                         let new_email_token = db_email({
                                             user_id: user._id,
@@ -122,7 +122,7 @@ exports.get = function (req, res, next) {
                                         });
                                         new_email_token.save();
                                         console.log(text);
-                                        sndMail(user.email, 0, text);
+                                        sndMail(user.email, 2, text);
                                         //res.send({});
                                         res.render('info', {
                                             infoTitle: '<div class="w3-green">Успех!</div>',
@@ -170,6 +170,10 @@ exports.get = function (req, res, next) {
                                         // }
                                         qq.status = 1;
                                         qq.save();
+
+                                        eml.confirmed = true;
+                                        eml.save();
+
                                         res.render('info', {
                                             infoTitle: '<div class="w3-green">Успех!</div>',
                                             infoText: 'Операция успешно выполнена!',
@@ -186,6 +190,15 @@ exports.get = function (req, res, next) {
                                 res.redirect('/logout');
                             }
 
+                        });
+                    } else {
+                        res.render('info', {
+                            infoTitle: '<div class="w3-red">Ошибка!</div>',
+                            infoText: 'Операция не найдена!',
+                            url: '/profile',
+                            title: 'Запрос отклонен!',
+                            user: {},
+                            LoginRegister: '<b></b>'
                         });
                     }
                 });
@@ -221,8 +234,14 @@ exports.get = function (req, res, next) {
                         });
                     } else {
                         req.session.destroy();
-                        res.render('info', {infoTitle: '<div class="w3-red">Ошибка!</div>', infoText: 'E-mail не найден!', url: '/login', title: 'Запрос отклонен!', user: {}, LoginRegister: '<b></b>'});
-
+                        res.render('info', {
+                            infoTitle: '<div class="w3-red">Ошибка!</div>',
+                            infoText: 'E-mail не найден!',
+                            url: '/login',
+                            title: 'Запрос отклонен!',
+                            user: {},
+                            LoginRegister: '<b></b>'
+                        });
                     }
                 });
                 break;

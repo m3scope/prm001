@@ -597,7 +597,6 @@ exports.post = function (req, res, next) {
                                                                 } else {
                                                                     if (bank) {
                                                                         //********** BANK *******
-
                                                                         bank.summ_all_current = Number(bank.summ_all_current) + Number(qqsaved.amount);
                                                                         bank.rounds = Number(bank.rounds) + Number(qqsaved.amount);
 
@@ -619,6 +618,21 @@ exports.post = function (req, res, next) {
                                                             newTrans3.up_down = true;
                                                             newTrans3.save();
                                                         } else {
+                                                            //**************** Списание ДОП. Комиссии ***********
+                                                            Bank.findById(qqsaved.bankId, function (err, bank) {
+                                                                if (err) {
+                                                                    console.error(err);
+                                                                } else {
+                                                                    if (bank) {
+                                                                        //********** BANK *******
+                                                                        bank.summ_all_current = Number(bank.summ_all_current) - Number(qq.bank_commission_summ);
+                                                                        //bank.rounds = Number(bank.rounds) + Number(qqsaved.amount);
+
+                                                                        bank.save();
+                                                                        //---------------------
+                                                                    }
+                                                                }
+                                                            });
                                                             //******** СПИСАНИЕ КОМИССИИ
                                                             let newTrans3 = new TransactionQuery;
                                                             newTrans3.sort = 3;
