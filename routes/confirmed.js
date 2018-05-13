@@ -2,6 +2,8 @@
 const db_email = require('../models/email').Email;
 const User = require('../models/user');
 const sndMail = require('../libs/sndMail').sndMail;
+const Query = require('../models/query');
+const sndSms = require('../libs/sndSms');
 //var HttpError = require('error').HttpError;
 
 // exports.get = function(req, res, next){
@@ -86,8 +88,108 @@ exports.get = function (req, res, next) {
                 });
                 break;
 
+            case 'sendconfirmedquery':
+                if(!req.session.user){
+                    res.redirect('/login');
+                } else {
+                    User.findById(req.session.user, function (err, user) {
+                        if(err){
+                            console.error(err);
+                            req.session.destroy();
+                            res.redirect('/login');
+                        } else {
+                            if(!user){
+                                req.session.destroy();
+                                res.redirect('/login');
+                            } else {
+                                Query.findById(params[1]).exec(function (err, query) {
+                                    if(err) console.error(err);
+                                    if(query) {
+                                        const SL = secretLine();
+                                        user.email_token = SL;
+                                        //user.UID = Date.now().toString();
+                                        //user.email.address = req.body.email;
+                                        user.save();
+                                        let text = 'http://prizmex.ru/confirmed/confirmedquery;' + SL;
+                                        let new_email_token = db_email({
+                                            user_id: user._id,
+                                            email_address: user.email,
+                                            text: text,
+                                            token: SL,
+                                            operationId: query._id,
+                                            operation_class: 2,
+                                            operation_name: 'query'
+                                        });
+                                        new_email_token.save();
+                                        console.log(text);
+                                        sndMail(user.email, 0, text);
+                                        //res.send({});
+                                        res.render('info', {
+                                            infoTitle: '<div class="w3-green">Успех!</div>',
+                                            infoText: 'Проверьте свою почту и перейдите по ссылке! (ПРОВЕРЬТЕ ПАПКУ СПАМ!!!)',
+                                            url: '/',
+                                            title: 'Подтверждение запроса!',
+                                            user: {},
+                                            LoginRegister: '<b></b>'
+                                        });
+                                    } else {
+                                        res.render('info', {
+                                            infoTitle: '<div class="w3-red">Ошибка!</div>',
+                                            infoText: 'Операция не найдена!!!)',
+                                            url: '/',
+                                            title: 'Операция не найдена!',
+                                            user: {},
+                                            LoginRegister: '<b></b>'
+                                        });
+                                    }
+                                });
+                            }
+                        }
+                    });
+                }
+                break;
+
             case 'confirmedquery':
-                res.render('confirmedquery',{title: 'Подтверрждение операции!'});
+                db_email.findOne({token: params[1]}, function (err, eml) {
+                    "use strict";
+                    if(err){
+                        console.error(err);
+                    }
+                    if(eml){
+                        Query.findOne({_id:eml.operationId, userId:eml.user_id}, function (err, qq) {
+                            if(err) console.error(err);
+                            if(qq){
+                                //console.log(qq);
+                                if(qq.status == 0){
+                                    if(qq.class == 0) {
+                                        sndSms(qq.dealerId, 'Отпр. ' + qq.bank_name + ' ' + Math.round((qq.amount - qq.commission_summ) * 100) / 100 + ' ' + qq.currency_name);
+                                        // } else {
+                                        //     if(qq.bank_cod == 0 || qq.bank_cod > 3) {
+                                        //         sndSms(qq.dealerId, 'прием '+qq.bank_name +' ' + Math.round((qq.amount) * 100) / 100 + ' ' + qq.currency_name);
+                                        //     }
+                                        // }
+                                        qq.status = 1;
+                                        qq.save();
+                                        res.render('info', {
+                                            infoTitle: '<div class="w3-green">Успех!</div>',
+                                            infoText: 'Операция успешно выполнена!',
+                                            url: '/profile',
+                                            title: 'Запрос подтвержден',
+                                            user: {},
+                                            LoginRegister: ''
+                                        });
+                                    }
+                                } else {
+                                    res.redirect('/logout');
+                                }
+                            } else {
+                                res.redirect('/logout');
+                            }
+
+                        });
+                    }
+                });
+
                 break;
 
             case 'droppass':

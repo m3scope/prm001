@@ -254,7 +254,7 @@ exports.post = function (req, res, next) {
                                         query.save(function (err, saved_Q) {
                                             if (err) console.error(err);
                                             console.log(saved_Q._id.toString());
-                                            res.redirect('/api/q/res/' + saved_Q._id.toString() + ';confirm');
+
 
                                             user[currency] = Number(user[currency]) - Number(summ);
                                             user.save();
@@ -278,6 +278,9 @@ exports.post = function (req, res, next) {
                                             bank.rounds = Number(bank.rounds) - 5 - summ;
                                             bank.save();
                                             //---------------------
+
+                                            //res.redirect('/api/q/res/' + saved_Q._id.toString() + ';confirm');
+                                            res.redirect('/api/q/res/sendconfirmedquery;' + saved_Q._id.toString());
                                         });
 
                                 });

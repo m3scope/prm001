@@ -51,19 +51,33 @@ exports.get = function (req, res, next) {
                                 if (err) console.error(err);
                                 if (qq) {
                                     //console.log(qq);
-                                    //if (qq.status == 0) {
+                                    if (qq.class == 1) {
                                         res.render('responsequery', {
                                             qq: qq,
                                             title: 'Подтвердить ЗАПРОС',
                                             user: user,
                                             LoginRegister: LoginRegister
                                         });
-                                    // } else {
-                                    //     res.redirect('/logout');
-                                    // }
+                                    } else {
+                                        res.render('info', {
+                                            infoTitle: '<div class="w3-green">Успех!</div>',
+                                            infoText: 'Проверьте свою почту и перейдите по ссылке! (ПРОВЕРЬТЕ ПАПКУ СПАМ!!!)',
+                                            url: '/profile',
+                                            title: 'Подтверждение запроса!',
+                                            user: {},
+                                            LoginRegister: '<b></b>'
+                                        });
+                                    }
                                 } else {
                                     //res.redirect('/logout');
-                                    res.render('info', {infoTitle: '<div class="w3-red">Ошибка!</div>', infoText: 'Запрос не найден', url: '/profile', title: 'Не найден', user: user, LoginRegister: LoginRegister});
+                                    res.render('info', {
+                                        infoTitle: '<div class="w3-red">Ошибка!</div>',
+                                        infoText: 'Запрос не найден',
+                                        url: '/profile',
+                                        title: 'Не найден',
+                                        user: user,
+                                        LoginRegister: LoginRegister
+                                    });
                                 }
 
                             });
@@ -387,16 +401,25 @@ exports.post = function (req, res, next) {
                         if(qq){
                             //console.log(qq);
                             if(qq.status == 0){
-                                if(qq.class == 0){
-                                    sndSms(qq.dealerId,'Отпр. '+qq.bank_name +' '+Math.round((qq.amount-qq.commission_summ)*100)/100 + ' '+qq.currency_name);
-                                } else {
-                                    if(qq.bank_cod == 0 || qq.bank_cod > 3) {
-                                        sndSms(qq.dealerId, 'прием '+qq.bank_name +' ' + Math.round((qq.amount) * 100) / 100 + ' ' + qq.currency_name);
+                                if(qq.class == 1) {
+                                    //     sndSms(qq.dealerId,'Отпр. '+qq.bank_name +' '+Math.round((qq.amount-qq.commission_summ)*100)/100 + ' '+qq.currency_name);
+                                    // } else {
+                                    if (qq.bank_cod == 0 || qq.bank_cod > 3) {
+                                        sndSms(qq.dealerId, 'прием ' + qq.bank_name + ' ' + Math.round((qq.amount) * 100) / 100 + ' ' + qq.currency_name);
                                     }
+                                    qq.status = 1;
+                                    qq.save();
+                                    res.render('info', {
+                                        infoTitle: '<div class="w3-green">Успех!</div>',
+                                        infoText: 'Операция успешно выполнена!',
+                                        url: '/profile',
+                                        title: 'Запрос подтвержден',
+                                        user: user,
+                                        LoginRegister: LoginRegister
+                                    });
+                                } else {
+                                    res.redirect('/logout');
                                 }
-                                qq.status = 1;
-                                qq.save();
-                                res.render('info', {infoTitle: '<div class="w3-green">Успех!</div>', infoText: 'Операция успешно выполнена!', url: '/profile', title: 'Запрос подтвержден', user: user, LoginRegister: LoginRegister});
                             } else {
                                 res.redirect('/logout');
                             }

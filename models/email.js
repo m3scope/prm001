@@ -15,7 +15,8 @@ const schema = new Schema({
     text: {type: String, default: null},
     token: {type: String, default: null},
     operationId: {type: ObjectId, default: null},
-    operation_class: {type:Number, default: 0}
+    operation_class: {type:Number, default: 0},
+    operation_name: {type: String, default: ''}
 
 }, {
     timestamps: true
