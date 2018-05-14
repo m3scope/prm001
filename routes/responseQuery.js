@@ -469,7 +469,8 @@ exports.post = function (req, res, next) {
                                     if(Number(qq.class) < 1){   //отмена вывода средств
                                         qq.status = 5;
                                         qq.dateCancel = Date.now();
-                                        qq.comments = req.body.comments;
+                                        if(req.body.comments != '') qq.comments = req.body.comments;
+
                                         Userr.findOne({_id:qq.userId}).exec(function (err, usrr) {
                                             if(usrr){
                                                 if(!req.body.no_balance) {
@@ -509,7 +510,7 @@ exports.post = function (req, res, next) {
                                     } else {        // ОТМЕНА ПОПОЛНЕНИЯ БАЛАНСА
                                         qq.status = 5;
                                         qq.dateCancel = Date.now();
-                                        qq.comments = req.body.comments;
+                                        if(req.body.comments != '') qq.comments = req.body.comments;
                                         Bank.findById(qq.bankId, function (err, bank) {
                                             if (err) {
                                                 console.error(err);

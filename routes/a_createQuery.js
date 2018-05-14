@@ -84,6 +84,7 @@ exports.post = function (req, res, next) {
                     query.currency_name = bank.currency_name;
                     query.class = req.body.class;
                     query.sort = 1;
+                    query.status = 1;
                     query.comments = req.body.comments;
                     query.save(function (err, saved_Q) {
                         if (err) console.error(err);
