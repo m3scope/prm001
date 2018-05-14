@@ -54,6 +54,7 @@
                         <th class="w3-border-left">%</th>
                         <th class="w3-border-left">Комисс.</th>
                         <th class="w3-border-left">Комисс.итог</th>
+                        <th class="w3-border-left">Доп.комисс</th>
                         <th class="w3-border-left">Итог</th>
                         <th class="w3-border-left">Коммент.</th>
                         <th class="w3-border-left"></th>
@@ -68,6 +69,7 @@
                         <td class="w3-border-left w3-right-align">{{ dt.commission_tax }}</td>
                         <td class="w3-border-left">{{ dt.commission_summ }}</td>
                         <td class="w3-border-left">{{ dt.commission_all }}</td>
+                        <td class="w3-border-left">{{ dt.bank_commission_summ }}</td>
                         <td class="w3-border-left">{{ dt.summ_all_current }}</td>
                         <td class="w3-border-left">{{ dt.comments }}</td>
                         <td class="w3-border-left">
@@ -128,13 +130,13 @@
         qq.comments = '<%= item.comments%>';
         qq.commission_tax = '<%= item.commission_tax%>';
         qq.commission_summ = '<%= item.commission_summ%>';
-//        qq.commission_tax = commission_tax;
+        qq.bank_commission_summ = '<%= item.bank_commission_summ%>';
 //        qq.commission_summ = commission_summ;
         qq.myColors = clors[2];        // w3-animate-zoom    w3-animate-opacity  'w3-amber'
         <% if(item.status == 3){%>
             <% if(item.class == 0) {%>      // Вывод - расход
                 <% if(item.currency != 1){%>
-                    summ_all_current = Math.round((summ_all_current - <%= Number(item.amount)- Number(item.commission_summ)%>)*100)/100;
+                    summ_all_current = Math.round((summ_all_current - <%= Number(item.amount)- Number(item.commission_summ)- Number(item.bank_commission_summ)%>)*100)/100;
                     qq.summ_out = <%= Math.round((item.amount - item.commission_summ)*100)/100%>
                 <%} else {%>
                     summ_all_current = Math.round((summ_all_current - <%= Number(item.amount)%>)*100)/100;
@@ -146,7 +148,7 @@
                 qq.summ_in = <%= item.amount%>
             <%}%>
             qq.myColors = clors[<%= item.class%>];        // w3-animate-zoom    w3-animate-opacity  'w3-amber'
-            commission_all = Math.round((commission_all + <%= Number(item.commission_summ)%>)*100)/100;
+            commission_all = Math.round((commission_all + <%= Number(item.commission_summ)- Number(item.bank_commission_summ)%>)*100)/100;
         <%}%>
         qq.commission_all = commission_all;
 
