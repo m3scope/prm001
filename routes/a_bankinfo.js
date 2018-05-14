@@ -16,7 +16,7 @@ exports.get = function(req, res) {
             Bank.findById(req.params.id, function (err, bank) {
                 if(err) console.error(err);
                 if(bank){
-                    Query.find({bankId: req.params.id}).sort({createdAt: 1}).exec(function (err, querys) {
+                    Query.find({bankId: req.params.id, status: 3}).sort({createdAt: 1}).exec(function (err, querys) {
                         if(err) console.error(err);
                         if(querys){
                             res.render('amd_index', {
