@@ -75,6 +75,7 @@ exports.get = function (req, res, next) {
 
                     });
                 }
+
                 break;
 
             case 'email':
@@ -95,6 +96,7 @@ exports.get = function (req, res, next) {
 
                     }
                 });
+
                 break;
 
             case 'sendconfirmedquery':
@@ -156,6 +158,7 @@ exports.get = function (req, res, next) {
                         }
                     });
                 }
+
                 break;
 
             case 'confirmedquery':
@@ -163,52 +166,55 @@ exports.get = function (req, res, next) {
                     "use strict";
                     if(err){
                         console.error(err);
-                    }
-                    if(eml){
-                        Query.findOne({_id:eml.operationId, userId:eml.user_id}, function (err, qq) {
-                            if(err) console.error(err);
-                            if(qq){
-                                //console.log(qq);
-                                if(qq.status == 0){
-                                    if(qq.class == 0) {
-                                        sndSms(qq.dealerId, 'Отпр. ' + qq.bank_name + ' ' + Math.round((qq.amount - qq.commission_summ) * 100) / 100 + ' ' + qq.currency_name);
-                                        // } else {
-                                        //     if(qq.bank_cod == 0 || qq.bank_cod > 3) {
-                                        //         sndSms(qq.dealerId, 'прием '+qq.bank_name +' ' + Math.round((qq.amount) * 100) / 100 + ' ' + qq.currency_name);
-                                        //     }
-                                        // }
-                                        qq.status = 1;
-                                        qq.save();
+                        res.redirect('/logout');
+                    } else {
+                        if (eml) {
+                            Query.findOne({_id: eml.operationId, userId: eml.user_id}, function (err, qq) {
+                                if (err) console.error(err);
+                                if (qq) {
+                                    //console.log(qq);
+                                    if (qq.status == 0) {
+                                        if (qq.class == 0) {
+                                            sndSms(qq.dealerId, 'Отпр. ' + qq.bank_name + ' ' + Math.round((qq.amount - qq.commission_summ) * 100) / 100 + ' ' + qq.currency_name);
+                                            // } else {
+                                            //     if(qq.bank_cod == 0 || qq.bank_cod > 3) {
+                                            //         sndSms(qq.dealerId, 'прием '+qq.bank_name +' ' + Math.round((qq.amount) * 100) / 100 + ' ' + qq.currency_name);
+                                            //     }
+                                            // }
+                                            qq.status = 1;
+                                            qq.save();
 
-                                        eml.confirmed = true;
-                                        eml.save();
+                                            eml.confirmed = true;
+                                            eml.save();
 
-                                        res.render('info', {
-                                            infoTitle: '<div class="w3-green">Успех!</div>',
-                                            infoText: 'Операция успешно выполнена!',
-                                            url: '/profile',
-                                            title: 'Запрос подтвержден',
-                                            user: {},
-                                            LoginRegister: ''
-                                        });
-                                    }
-                                } else {
+                                            res.render('info', {
+                                                infoTitle: '<div class="w3-green">Успех!</div>',
+                                                infoText: 'Операция успешно выполнена!',
+                                                url: '/profile',
+                                                title: 'Запрос подтвержден',
+                                                user: {},
+                                                LoginRegister: ''
+                                            });
+                                        } else {
+                                            res.redirect('/logout');
+                                        }
+                                    } else {
                                         res.redirect('/logout');
                                     }
-                            } else {
-                                res.redirect('/logout');
-                            }
-
-                        });
-                    } else {
-                        res.render('info', {
-                            infoTitle: '<div class="w3-red">Ошибка!</div>',
-                            infoText: 'Операция не найдена!',
-                            url: '/profile',
-                            title: 'Запрос отклонен!',
-                            user: {},
-                            LoginRegister: '<b></b>'
-                        });
+                                } else {
+                                    res.redirect('/logout');
+                                }
+                            });
+                        } else {
+                            res.render('info', {
+                                infoTitle: '<div class="w3-red">Ошибка!</div>',
+                                infoText: 'Операция не найдена!',
+                                url: '/profile',
+                                title: 'Запрос отклонен!',
+                                user: {},
+                                LoginRegister: '<b></b>'
+                            });
+                        }
                     }
                 });
 
@@ -216,6 +222,7 @@ exports.get = function (req, res, next) {
 
             case 'droppass':
                 res.render('droppass',{title: 'Сброс пароля!'});
+
                 break;
 
             case 'newpass':
@@ -253,10 +260,12 @@ exports.get = function (req, res, next) {
                         });
                     }
                 });
+
                 break;
 
             default:
-
+                res.redirect('/logout');
+                break;
         }
     } else {
         res.render('info', {infoTitle: '<div class="w3-red">Ошибка!</div>', infoText: 'Страница не найдена!', url: '/', title: 'Запрос отклонен!', user: {}, LoginRegister: '<b></b>'});
@@ -347,6 +356,8 @@ exports.post = function (req, res, next) {
                     user: {},
                     LoginRegister: '<b></b>'
                 });
+
+                break;
         }
     } else {
         res.render('info', {
