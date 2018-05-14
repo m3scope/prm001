@@ -1,0 +1,59 @@
+<div class="w3-panel">
+
+</div>
+
+<div class="w3-row-padding" ng-app="myApp">
+    <!-- Left Column -->
+    <div class="w3-col s12" >
+
+        <div class="w3-col " ng-controller="CtrlQuerys2">
+            <div class="">
+
+
+                <div class="w3-container w3-teal">
+                    <h5>Запросы к исполнению</h5>
+                </div>
+                <div class="w3-panel w3-blue">
+                    <form action="/amd/querys/<%= querys._id.toString()%>" method="post">
+                        <input hidden type="number" name="bank_commission_summ_OLD" value="<%= querys.bank_commission_summ%>" />
+                        <span class="w3-input"><%= querys.bank_commission_summ%></span><label>Старое значение Доп.комисс</label>
+                        <input type="number" name="bank_commission_summ" step="any" value="0" class="w3-input"/><label>Новое значение Доп.комисс</label>
+
+                        <input class="w3-btn w3-green" type="submit">
+                    </form>
+
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+
+    //<![CDATA[
+    let myApp = angular.module('myApp',[]);
+    let dl = {};
+    let bl = {};
+    let qq={};
+    let i = 0;
+    let bank_publicKey ='';
+    let glub_buy = 0;
+    let glub_sell = 0;
+    let minPrice = 0;
+    let maxPrice = 0;
+    let bs=['продажа','покупка'];
+    let clors=['w3-orange','w3-cyan','w3-gray','w3-brown','w3-gray','','','','','w3-gray'];
+    const Curr = ['','PZM','USD','RUR'];
+    const w3Btn = [[],['','','w3-white', 'w3-white'],['','w3-white','','w3-white'],['','w3-white','w3-white','']];
+    const typ = ['Вывод','Ввод','Отправить','Получить'];
+
+    myApp.controller('CtrlQuerys2', function ($scope) {
+        $scope.qqq=[];
+
+
+    });
+
+    //]]>
+</script>

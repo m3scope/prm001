@@ -120,6 +120,7 @@
         <% querys.forEach(function (query) {%>
             qq={};
             qq.qrcode = '<%= query.qrCode%>';
+            qq.qID = '<%= query._id.toString()%>';
             qq.userId = '<%= query.userId%>';
             qq.currency = Curr[<%= query.currency%>];
             qq.typ = typ[<%= query.class%>+2];

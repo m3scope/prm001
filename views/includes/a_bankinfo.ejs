@@ -62,7 +62,7 @@
                     </tr>
 
                     <tr  ng-repeat="dt in qqq" ng-click="setSelected();">
-                        <td class="{{ dt.myColors }} ">{{ dt.UID }}</td>
+                        <td class="{{ dt.myColors }} "><a href="/amd/querys/{{ dt.qID}}"> {{ dt.UID }}</a></td>
                         <td class="w3-border-left">{{ dt.date_in }}</td>
                         <td class="w3-border-left">{{ dt.summ_in }}</td>
                         <td class="w3-border-left">{{ dt.summ_out }}</td>
@@ -127,6 +127,7 @@
         qq.summ_in = '';
         qq.summ_out = '';
         qq.UID = '<%= item.UID%>';
+        qq.qID = '<%= item._id.toString()%>';
         qq.comments = '<%= item.comments%>';
         qq.commission_tax = '<%= item.commission_tax%>';
         qq.commission_summ = '<%= item.commission_summ%>';

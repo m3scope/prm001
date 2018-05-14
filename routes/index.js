@@ -328,7 +328,7 @@ router.get('/amd/users/:id?', checkAuth, checkAdmin, noCache, require('./users')
 router.post('/amd/users/:id?', checkAuth, checkAdmin, noCache, require('./users').post);
 
 router.get('/amd/querys/:id?', checkAuth, checkAdmin, noCache, require('./a_querys').get);
-router.post('/amd/querys/', checkAuth, checkAdmin, noCache, require('./a_querys').post);
+router.post('/amd/querys/:id?', checkAuth, checkAdmin, noCache, require('./a_querys').post);
 
 router.get('/amd/transactions/:id?', checkAuth, checkAdmin, noCache, require('./a_querys').get);
 router.post('/amd/transactions/', checkAuth, checkAdmin, noCache, require('./a_querys').post);
