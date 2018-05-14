@@ -193,8 +193,8 @@ exports.get = function (req, res, next) {
                                         });
                                     }
                                 } else {
-                                    res.redirect('/logout');
-                                }
+                                        res.redirect('/logout');
+                                    }
                             } else {
                                 res.redirect('/logout');
                             }
