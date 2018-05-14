@@ -134,10 +134,10 @@
             <% if(item.class == 0) {%>      // Вывод - расход
                 <% if(item.currency != 1){%>
                     summ_all_current = Math.round((summ_all_current - <%= Number(item.amount)%> - <%= Number(item.commission_summ)%> - <%= Number(item.bank_commission_summ)%>)*100)/100;
-                    qq.summ_out = <%= Math.round((item.amount - item.commission_summ)*100)/100%>
+                    qq.summ_out = Math.round((<%= item.amount%> - <%=item.commission_summ%>)*100)/100;
                 <%} else {%>
                     summ_all_current = Math.round((summ_all_current - <%= Number(item.amount)%>)*100)/100;
-                    qq.summ_out = <%= Math.round((item.amount)*100)/100%>
+                    qq.summ_out =  Math.round((<%=item.amount%>)*100)/100;
                 <%}%>
 
             <%} else {%>        //Ввод - приход
