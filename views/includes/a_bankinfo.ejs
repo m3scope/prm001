@@ -51,12 +51,12 @@
                         <th class="w3-border-left">Дата</th>
                         <th class="w3-border-left">Приход</th>
                         <th class="w3-border-left">Расход</th>
+                        <th class="w3-border-left">Комисс.Банка</th>
+                        <th class="w3-border-left">Итог</th>
+                        <th class="w3-border-left">Коммент.</th>
                         <th class="w3-border-left">%</th>
                         <th class="w3-border-left">Комисс.</th>
                         <th class="w3-border-left">Комисс.итог</th>
-                        <th class="w3-border-left">Доп.комисс</th>
-                        <th class="w3-border-left">Итог</th>
-                        <th class="w3-border-left">Коммент.</th>
                         <th class="w3-border-left"></th>
                         <th class="w3-border-left"></th>
                     </tr>
@@ -66,18 +66,14 @@
                         <td class="w3-border-left">{{ dt.date_in }}</td>
                         <td class="w3-border-left">{{ dt.summ_in }}</td>
                         <td class="w3-border-left">{{ dt.summ_out }}</td>
-                        <td class="w3-border-left w3-right-align">{{ dt.commission_tax }}</td>
-                        <td class="w3-border-left">{{ dt.commission_summ }}</td>
-                        <td class="w3-border-left">{{ dt.commission_all }}</td>
                         <td class="w3-border-left">{{ dt.bank_commission_summ }}</td>
                         <td class="w3-border-left">{{ dt.summ_all_current }}</td>
                         <td class="w3-border-left">{{ dt.comments }}</td>
-                        <td class="w3-border-left">
-
-                        </td>
-                        <td class="w3-border-left">
-
-                        </td>
+                        <td class="w3-border-left w3-right-align">{{ dt.commission_tax }}</td>
+                        <td class="w3-border-left">{{ dt.commission_summ }}</td>
+                        <td class="w3-border-left">{{ dt.commission_all }}</td>
+                        <td class="w3-border-left">   </td>
+                        <td class="w3-border-left">   </td>
                     </tr>
 
                 </table>
