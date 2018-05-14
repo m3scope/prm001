@@ -133,7 +133,7 @@
         <% if(item.status == 3){%>
             <% if(item.class == 0) {%>      // Вывод - расход
                 <% if(item.currency != 1){%>
-                    summ_all_current = Math.round((summ_all_current - <%= Number(item.amount)- Number(item.commission_summ)- Number(item.bank_commission_summ)%>)*100)/100;
+                    summ_all_current = Math.round((summ_all_current - <%= Number(item.amount)%> - <%= Number(item.commission_summ)%> - <%= Number(item.bank_commission_summ)%>)*100)/100;
                     qq.summ_out = <%= Math.round((item.amount - item.commission_summ)*100)/100%>
                 <%} else {%>
                     summ_all_current = Math.round((summ_all_current - <%= Number(item.amount)%>)*100)/100;
@@ -145,7 +145,7 @@
                 qq.summ_in = <%= item.amount%>
             <%}%>
             qq.myColors = clors[<%= item.class%>];        // w3-animate-zoom    w3-animate-opacity  'w3-amber'
-            commission_all = Math.round((commission_all + <%= Number(item.commission_summ)- Number(item.bank_commission_summ)%>)*100)/100;
+            commission_all = Math.round((commission_all + <%= Number(item.commission_summ)%> - <%= Number(item.bank_commission_summ)%>)*100)/100;
         <%}%>
         qq.commission_all = commission_all;
 
