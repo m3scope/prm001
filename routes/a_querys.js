@@ -17,19 +17,20 @@ exports.get = function(req, res) {
                 if (err) {
                     console.error(err);
                     res.redirect('/amd/users');
-                }
-                if (querys) {
-
-                    res.render('amd_index', {
-                        inc: {f: 'a_queryinfo'},
-                        title: 'Пользователи',
-                        querys: querys,
-                        dealerId: req.session.user,
-                        LoginRegister: 'LoginRegister'
-
-                    });
                 } else {
-                    res.redirect('/amd/users');
+                    if (querys) {
+
+                        res.render('amd_index', {
+                            inc: {f: 'a_queryinfo'},
+                            title: 'Пользователи',
+                            querys: querys,
+                            dealerId: req.session.user,
+                            LoginRegister: 'LoginRegister'
+
+                        });
+                    } else {
+                        res.redirect('/amd/users');
+                    }
                 }
             });
 
