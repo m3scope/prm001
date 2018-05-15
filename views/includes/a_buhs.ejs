@@ -13,9 +13,26 @@
                     <h5>Комиссии</h5>
                 </div>
 
+                    <div class="w3-border">
+                        <form action="" method="post" class="w3-container">
+                            <div  class="w3-col m3">
+                                <label class="w3-tag w3-green">С</label>
+                                <input type="date" name="dateAt" class="w3-input">
+
+                            </div>
+                            <div  class="w3-col m3">
+                                <label class="w3-tag w3-green">по</label>
+                                <input type="date" name="dateTo" class="w3-input">
+
+                            </div>
+                            <input type="submit" class="w3-button w3-green">
+                        </form>
+                    </div>
+
+
                 <table class="w3-table-all w3-small w3-striped w3-hoverable">
                     <tr  class="w3-green">
-                        <th></th>
+                        <th class="w3-black">{{ dateAt }} - {{ dateTo }}</th>
                         <th class="w3-border-left">PZM</th>
                         <th class="w3-border-left">USD</th>
                         <th class="w3-border-left">RUR</th>
@@ -88,6 +105,8 @@
         $scope.qq = {'PZM':0,'USD':0,'RUR':0};;
         $scope.aggrQuery = {'PZM':0,'USD':0,'RUR':0};
         $scope.aggrTrans = {'PZM':0,'USD':0,'RUR':0};
+        $scope.dateAt = TimeMsk('<%= dateRange.dateAt%>');
+        $scope.dateTo = TimeMsk('<%= dateRange.dateTo%>');
 
         <% aggrQuery.forEach(function(item){%>
             $scope.aggrQuery[Curr[<%= item._id%>]] = Math.round(($scope.aggrQuery[Curr[<%= item._id%>]] + <%= Number(item.amount)%>)*100)/100;
