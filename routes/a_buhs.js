@@ -25,12 +25,18 @@ exports.get = function(req, res) {
             });
 
         } else {
-
+            let dateAt = new Date();
+            dateAt.setDate(1);
+            dateAt.setHours(0);
+            dateAt.setMinutes(0);
+            dateAt.setSeconds(0);
+            dateAt.setMilliseconds(0);
             Transaction.aggregate(
                 [
                     {
                         "$match" : {
-                            "sort" : 3.0
+                            "sort" : 3.0,
+                            "createdAt": {$gte: dateAt}
                         }
                     },
                     {
@@ -51,7 +57,8 @@ exports.get = function(req, res) {
                             [
                                 {
                                     "$match" : {
-                                        "status" : 3.0
+                                        "status" : 3.0,
+                                        "dateExec": {$gte: dateAt}
                                     }
                                 },
                                 {
