@@ -309,29 +309,29 @@ router.get('/deals/:id?', function (req, res) {
 
 //*** BANK *****
 
-router.get('/amd/createbank', checkAuth, checkAdmin, noCache, require('./createBank').get);
-router.post('/amd/createbank', checkAuth, checkAdmin, noCache, require('./createBank').post);
+router.get('/amd/createbank',  checkAdmin, noCache, require('./createBank').get);
+router.post('/amd/createbank',  checkAdmin, noCache, require('./createBank').post);
 
-router.get('/amd/bankinfo/:id?', checkAuth, checkAdmin, noCache, require('./a_bankinfo').get);
-router.post('/amd/bankinfo/:id?', checkAuth, checkAdmin, noCache, require('./a_bankinfo').post);
+router.get('/amd/bankinfo/:id?',  checkAdmin, noCache, require('./a_bankinfo').get);
+router.post('/amd/bankinfo/:id?',  checkAdmin, noCache, require('./a_bankinfo').post);
 
-router.get('/amd/createquery/:id?', checkAuth, checkAdmin, noCache, require('./a_createQuery').get);
-router.post('/amd/createquery/:id?', checkAuth, checkAdmin, noCache, require('./a_createQuery').post);
+router.get('/amd/createquery/:id?',  checkAdmin, noCache, require('./a_createQuery').get);
+router.post('/amd/createquery/:id?',  checkAdmin, noCache, require('./a_createQuery').post);
 
-router.get('/amd/banks/:id?', checkAuth, checkAdmin, noCache, require('./a_banks').get);
-router.post('/amd/banks', checkAuth, checkAdmin, noCache, require('./a_banks').post);
+router.get('/amd/banks/:id?',  checkAdmin, noCache, require('./a_banks').get);
+router.post('/amd/banks',  checkAdmin, noCache, require('./a_banks').post);
 
-router.get('/amd/buhgalters/:id?', checkAuth, checkAdmin, noCache, require('./a_buhs').get);
-router.post('/amd/buhgalters', checkAuth, checkAdmin, noCache, require('./a_buhs').post);
+router.get('/amd/buhgalters/:id?',  checkAdmin, noCache, require('./a_buhs').get);
+router.post('/amd/buhgalters',  checkAdmin, noCache, require('./a_buhs').post);
 
-router.get('/amd/users/:id?', checkAuth, checkAdmin, noCache, require('./users').get);
-router.post('/amd/users/:id?', checkAuth, checkAdmin, noCache, require('./users').post);
+router.get('/amd/users/:id?',  checkAdmin, noCache, require('./users').get);
+router.post('/amd/users/:id?',  checkAdmin, noCache, require('./users').post);
 
-router.get('/amd/querys/:id?', checkAuth, checkAdmin, noCache, require('./a_querys').get);
-router.post('/amd/querys/:id?', checkAuth, checkAdmin, noCache, require('./a_querys').post);
+router.get('/amd/querys/:id?',  checkAdmin, noCache, require('./a_querys').get);
+router.post('/amd/querys/:id?',  checkAdmin, noCache, require('./a_querys').post);
 
-router.get('/amd/transactions/:id?', checkAuth, checkAdmin, noCache, require('./a_querys').get);
-router.post('/amd/transactions/', checkAuth, checkAdmin, noCache, require('./a_querys').post);
+router.get('/amd/transactions/:id?',  checkAdmin, noCache, require('./a_querys').get);
+router.post('/amd/transactions/',  checkAdmin, noCache, require('./a_querys').post);
 
 //-----------------------------
 
