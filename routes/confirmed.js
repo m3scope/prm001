@@ -55,7 +55,7 @@ exports.get = function (req, res, next) {
                                 user.UID = Date.now().toString();
                                 //user.email.address = req.body.email;
                                 user.save();
-                                let text = 'http://prizmex.ru/confirmed/email;'+SL;
+                                let text = 'http://prizmex.ru/confirmed/email;' + SL;
                                 let new_email_token = db_email(
                                     {
                                         user_id: user._id,
@@ -69,7 +69,14 @@ exports.get = function (req, res, next) {
                                 console.log(text);
                                 sndMail(user.email, 0, text);
                                 //res.send({});
-                                res.render('info', {infoTitle: '<div class="w3-green">Успех!</div>', infoText: 'Проверьте свою почту и перейдите по ссылке! (ПРОВЕРЬТЕ ПАПКУ СПАМ!!!)', url: '/', title: 'Подтверждение e-mail!', user: {}, LoginRegister: '<b></b>'});
+                                res.render('info', {
+                                    infoTitle: '<div class="w3-green">Успех!</div>',
+                                    infoText: '<div class="w3-text-red">ДЛЯ ПОДТВЕРЖДЕНИЯ EMAIL ПРОВЕРЬТЕ СВОЮ ПОЧТУ </div> и перейдите по ссылке в письме! (ПРОВЕРЬТЕ ПАПКУ СПАМ!!!)',
+                                    url: '/',
+                                    title: 'Подтверждение email!',
+                                    user: {},
+                                    LoginRegister: '<b></b>'
+                                });
                             }
                         }
 
@@ -137,9 +144,9 @@ exports.get = function (req, res, next) {
                                         //res.send({});
                                         res.render('info', {
                                             infoTitle: '<div class="w3-green">Успех!</div>',
-                                            infoText: 'Проверьте свою почту и перейдите по ссылке! (ПРОВЕРЬТЕ ПАПКУ СПАМ!!!)',
+                                            infoText: '<div class="w3-text-red">ДЛЯ ПОДТВЕРЖДЕНИЯ ОПЕРАЦИИ ПРОВЕРЬТЕ СВОЮ ПОЧТУ </div> и перейдите по ссылке в письме! (ПРОВЕРЬТЕ ПАПКУ СПАМ!!!)',
                                             url: '/',
-                                            title: 'Подтверждение запроса!',
+                                            title: 'Подтверждение операции!',
                                             user: {},
                                             LoginRegister: '<b></b>'
                                         });
