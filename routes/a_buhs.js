@@ -34,6 +34,7 @@ exports.get = function(req, res) {
             dateAt.setSeconds(0);
             dateAt.setMilliseconds(0);
             const dateTo = new Date();
+
             Transaction.aggregate(
                 [
                     {
