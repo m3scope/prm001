@@ -97,9 +97,9 @@
 
         <% userAmount.forEach(function (item) {%>
         //ud={};
-        ua.PZM = Math.round((ua.PZM + <%= Number(item.PZM)%>)*100)/100;
-        ua.USD = Math.round((ua.USD + <%= Number(item.USD)%>)*100)/100;
-        ua.RUR = Math.round((ua.RUR + <%= Number(item.RUR)%>)*100)/100;
+          ua.PZM = Math.round((ua.PZM + <%= Number(item.PZM)%>)*100)/100;
+          ua.USD = Math.round((ua.USD + <%= Number(item.USD)%>)*100)/100;
+          ua.RUR = Math.round((ua.RUR + <%= Number(item.RUR)%>)*100)/100;
         <%})%>
 
         $scope.ua = ua;
@@ -116,9 +116,10 @@
         <%})%>
 
         $scope.ud = ud;
-        $scope.all.PZM = Math.round(($scope.ud.PZM + <%= Number(userAmount[0].PZM)%>)*100)/100;
-        $scope.all.USD = Math.round(($scope.ud.USD + <%= Number(userAmount[0].USD)%>)*100)/100;
-        $scope.all.RUR = Math.round(($scope.ud.RUR + <%= Number(userAmount[0].RUR)%>)*100)/100;
+
+        $scope.all.PZM = Math.round((ud.PZM + ua.PZM)*100)/100;
+        $scope.all.USD = Math.round((ud.USD + ua.USD)*100)/100;
+        $scope.all.RUR = Math.round((ud.RUR + ua.RUR)*100)/100;
 
         $scope.setSelected = function() {
             $scope.selected = this.dt;
