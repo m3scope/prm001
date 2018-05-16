@@ -106,7 +106,7 @@
 
         <% banks.forEach(function (item) {%>
             qq={};
-            banksAll[<%= item.currency_name%>] = Math.round((banksAll[<%=item.currency_name%>] + <%= Number(item.summ_all_current)%>)*100)/100;
+            banksAll['<%= item.currency_name%>'] = Math.round((banksAll['<%=item.currency_name%>'] + <%= Number(item.summ_all_current)%>)*100)/100;
             <% if(item.dealerId == dealerId) {%>
                 qq.myColors = 'w3-amber';        // w3-animate-zoom    w3-animate-opacity  'w3-amber'
             <%} else {%>
