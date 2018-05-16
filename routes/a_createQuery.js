@@ -89,7 +89,7 @@ exports.post = function (req, res, next) {
                     query.save(function (err, saved_Q) {
                         if (err) console.error(err);
                         console.log(saved_Q._id.toString());
-                        res.redirect('/api/q/res/' + saved_Q._id.toString() + ';confirm');
+                        res.redirect('/api/q/res/');
                         //********** BANK *******
                         //bank.summ_trans_current = Number(bank.summ_trans_current)-summ;
                         if(req.body.class == 0) {
