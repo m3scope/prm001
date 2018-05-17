@@ -148,7 +148,8 @@
                 <%}%>
 
             <%} else {%>        //Ввод - приход
-                summ_all_current = Math.round((summ_all_current + <%= Number(item.amount)%> - <%= Number(item.commission_summ)%>)*100)/100;
+                //summ_all_current = Math.round((summ_all_current + <%= Number(item.amount)%> - <%= Number(item.commission_summ)%>)*100)/100;   //с 2018.06.01
+                summ_all_current = Math.round((summ_all_current + <%= Number(item.amount)%>)*100)/100;
                 summ_all_bank = Math.round((summ_all_bank + <%= Number(item.amount)%>)*100)/100;
                 qq.summ_in = <%= item.amount%>
             <%}%>
