@@ -29,7 +29,7 @@
                         <td class="w3-border-left"><%= bank.bank_number%></td>
                         <td class="w3-border-left"><%= bank.bank_username%></td>
                         <td class="w3-border-left"><%= bank.summ_all_current%></td>
-                        <td class="w3-border-left"><%= bank.summ_all_bank%></td>
+                        <td class="w3-border-left"></td>
                         <td class="w3-border-left"><%= bank.summ_transactions%></td>
                         <td></td>
                         <td></td>
@@ -54,7 +54,8 @@
                         <th class="w3-border-left">Приход</th>
                         <th class="w3-border-left">Расход</th>
                         <th class="w3-border-left">Комисс.Банка</th>
-                        <th class="w3-border-left">Итог</th>
+                        <th class="w3-border-left">Итог система</th>
+                        <th class="w3-border-left">Итог Банк</th>
                         <th class="w3-border-left">Коммент.</th>
                         <th class="w3-border-left">%</th>
                         <th class="w3-border-left">Комисс.</th>
@@ -70,6 +71,7 @@
                         <td class="w3-border-left">{{ dt.summ_out }}</td>
                         <td class="w3-border-left">{{ dt.bank_commission_summ }}</td>
                         <td class="w3-border-left">{{ dt.summ_all_current }}</td>
+                        <td class="w3-border-left">{{ dt.summ_all_bank }}</td>
                         <td class="w3-border-left">{{ dt.comments }}</td>
                         <td class="w3-border-left w3-right-align">{{ dt.commission_tax }}</td>
                         <td class="w3-border-left">{{ dt.commission_summ }}</td>
