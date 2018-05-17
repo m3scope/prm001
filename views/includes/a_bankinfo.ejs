@@ -16,7 +16,8 @@
                         <th class="w3-border-left">Имя</th>
                         <th class="w3-border-left">Номер</th>
                         <th class="w3-border-left">username</th>
-                        <th class="w3-border-left">Тек.остаток</th>
+                        <th class="w3-border-left">Тек.ост.система</th>
+                        <th class="w3-border-left">Тек.ост.Банк</th>
                         <th class="w3-border-left">Сумма транзакций</th>
                         <th class="w3-border-left"></th>
                         <th class="w3-border-left"></th>
@@ -28,6 +29,7 @@
                         <td class="w3-border-left"><%= bank.bank_number%></td>
                         <td class="w3-border-left"><%= bank.bank_username%></td>
                         <td class="w3-border-left"><%= bank.summ_all_current%></td>
+                        <td class="w3-border-left"><%= bank.summ_all_bank%></td>
                         <td class="w3-border-left"><%= bank.summ_transactions%></td>
                         <td></td>
                         <td></td>
@@ -98,6 +100,7 @@
     let minPrice = 0;
     let maxPrice = 0;
     let summ_all_current = 0;
+    let summ_all_bank = 0;
     let summ_in = 0;
     let summ_out = 0;
     let commission_all = 0;
@@ -133,15 +136,18 @@
         <% if(item.status == 3){%>
             <% if(item.class == 0) {%>      // Вывод - расход
                 <% if(item.currency != 1){%>
-                    summ_all_current = Math.round((summ_all_current - <%= Number(item.amount)%> + <%= Number(item.commission_summ)%> - <%= Number(item.bank_commission_summ)%>)*100)/100;
+                    summ_all_current = Math.round((summ_all_current - <%= Number(item.amount)%> - <%= Number(item.bank_commission_summ)%>)*100)/100;
+                    summ_all_bank = Math.round((summ_all_bank - <%= Number(item.amount)%> + <%= Number(item.commission_summ)%> - <%= Number(item.bank_commission_summ)%>)*100)/100;
                     qq.summ_out = Math.round((<%= item.amount%> - <%=item.commission_summ%>)*100)/100;
                 <%} else {%>
                     summ_all_current = Math.round((summ_all_current - <%= Number(item.amount)%>)*100)/100;
+                    summ_all_bank = Math.round((summ_all_bank - <%= Number(item.amount)%>)*100)/100;
                     qq.summ_out =  Math.round((<%=item.amount%>)*100)/100;
                 <%}%>
 
             <%} else {%>        //Ввод - приход
                 summ_all_current = Math.round((summ_all_current + <%= Number(item.amount)%>)*100)/100;
+                summ_all_bank = Math.round((summ_all_bank + <%= Number(item.amount)%>)*100)/100;
                 qq.summ_in = <%= item.amount%>
             <%}%>
             qq.myColors = clors[<%= item.class%>];        // w3-animate-zoom    w3-animate-opacity  'w3-amber'
@@ -155,6 +161,7 @@
         qq.currency_name = '<%= item.currency_name%>';
         qq.bank_number = '<%= item.dealer_bank_number%>';
         qq.summ_all_current = summ_all_current;
+        qq.summ_all_bank = summ_all_bank;
         qq.createdAt = '<%= item.createdAt%>';
 
 
