@@ -257,6 +257,7 @@ let clors=['w3-orange','w3-cyan'];
           <% if(user.querys.length>0) {%>
         <table class="w3-table-all w3-small w3-striped w3-hoverable">
           <tr  class="w3-green">
+            <th class="w3-border-left"></th>
             <th>Валюта</th>
             <th class="w3-border-left">Тип</th>
             <th class="w3-border-left">Кол.</th>
@@ -267,22 +268,14 @@ let clors=['w3-orange','w3-cyan'];
             <th class="w3-border-left">Дата</th>
             <th class="w3-border-left">Комментарий</th>
             <th class="w3-border-left"></th>
+
           </tr>
 
           <tr ng-repeat="dt in qqq" ng-click="setSelected();">
-            <td>{{ dt.currency }}</td>
-            <td class="{{ dt.color }}">{{ dt.typ }}</td>
-            <td class="w3-border-left">{{ dt.amount }}</td>
-            <td class="w3-border-left">{{ dt.amount2 }}</td>
-            <td class="w3-border-left">{{ dt.bank_name }}</td>
-            <td class="w3-border-left">{{ dt.cod }}</td>
-            <td class="w3-border-left">{{ dt.bank_number }}</td>
-            <td class="w3-border-left">{{ dt.dat }}</td>
-            <td class="w3-border-left">{{ dt.comments }}</td>
             <td class="w3-border-left {{ dt.color2 }}">
               <div ng-switch="{{ dt.status }}">
                 <div ng-switch-when="0">
-                  <span><a href="{{dt.confirm}}">подтвердить</a></span><span> / </span><span> <a href="{{dt.cancel}}">отменить</a></span>
+                  <span class="w3-button w3-black"><a href="{{dt.confirm}}">подтвердить</a>
                 </div>
                 <div ng-switch-when="1">
                   <span>в обработке</span>
@@ -297,7 +290,24 @@ let clors=['w3-orange','w3-cyan'];
                   <span>отменен Адм.</span>
                 </div>
               </div>
+              </td>
+            <td>{{ dt.currency }}</td>
+            <td class="{{ dt.color }}">{{ dt.typ }}</td>
+            <td class="w3-border-left">{{ dt.amount }}</td>
+            <td class="w3-border-left">{{ dt.amount2 }}</td>
+            <td class="w3-border-left">{{ dt.bank_name }}</td>
+            <td class="w3-border-left">{{ dt.cod }}</td>
+            <td class="w3-border-left">{{ dt.bank_number }}</td>
+            <td class="w3-border-left">{{ dt.dat }}</td>
+            <td class="w3-border-left">{{ dt.comments }}</td>
+            <td class="w3-border-left {{ dt.color2 }}">
+              <div ng-switch="{{ dt.status }}">
+                <div ng-switch-when="0">
+                  <span> <a href="{{dt.cancel}}">отменить</a></span>
+                </div>
+              </div>
             </td>
+
           </tr>
 
         </table>

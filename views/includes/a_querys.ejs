@@ -29,20 +29,39 @@
                 <% if(querys.length>0) {%>
                 <table class="w3-table-all w3-small w3-striped w3-hoverable">
                     <tr  class="w3-green">
-                        <th>QR</th>
-                        <th>Валюта</th>
+                        <th class="w3-border-left">Дата</th>
+                        <th class="w3-border-left">QR</th>
+                        <th class="w3-border-left">Валюта</th>
                         <th class="w3-border-left">Тип</th>
                         <th class="w3-border-left">Кол.</th>
                         <th class="w3-border-left">Банк</th>
                         <th class="w3-border-left">Код</th>
                         <th class="w3-border-left">Номер счета</th>
                         <th class="w3-border-left">Pub.key</th>
-                        <th class="w3-border-left">Дата</th>
                         <th class="w3-border-left">Коммент.</th>
                         <th class="w3-border-left"></th>
                     </tr>
 
                     <tr ng-repeat="dt in qqq" ng-click="setSelected();">
+                        <td class="w3-border-left {{ dt.color2 }}">{{ dt.dat }}
+                            <div ng-switch="{{ dt.status }}">
+                                <div ng-switch-when="0">
+                                    <span>/не подтвержден/</span>
+                                </div>
+                                <div ng-switch-when="1">
+                                    <span>/в обработке/</span><a class="w3-block w3-btn w3-black" href="{{dt.execut}}">подтвердить</a>
+                                </div>
+                                <div ng-switch-when="3">
+                                    <span>/исполнен/</span>
+                                </div>
+                                <div ng-switch-when="4">
+                                    <span>/отменен/</span>
+                                </div>
+                                <div ng-switch-when="5">
+                                    <span>/отменен Адм./</span>
+                                </div>
+                            </div>
+                        </td>
                         <td>
                             <input type="checkbox" ng-model="check_qrcode">
                             <div ng-show="check_qrcode"><img src="{{ dt.qrcode }}"></div>
@@ -58,13 +77,7 @@
                                     </form></td>
                         <td class="w3-border-left">{{ dt.bank_number }}</td>
                         <td class="w3-border-left">{{ dt.bank_publicKey }}</td>
-                        <td class="w3-border-left">{{ dt.dat }}
-                            <div ng-switch="{{ dt.status }}">
-                                <div ng-switch-when="1">
-                                    <a class="w3-block w3-btn w3-black" href="{{dt.execut}}">подтвердить</a>
-                                </div>
-                            </div>
-                        </td>
+
                         <td class="w3-border-left">{{ dt.comments }}</td>
                         <td class="w3-border-left {{ dt.color2 }}">
                             <div ng-switch="{{ dt.status }}">
@@ -72,17 +85,9 @@
                                     <span><a href="{{dt.cancel}}">отменить</a></span>
                                 </div>
                                 <div ng-switch-when="1">
-                                    <span>в обработке</span><span> / </span><span> <a href="{{dt.cancel}}">отменить</a></span>
+                                    <span> <a href="{{dt.cancel}}">отменить</a></span>
                                 </div>
-                                <div ng-switch-when="3">
-                                    <span>исполнен</span>
-                                </div>
-                                <div ng-switch-when="4">
-                                    <span>отменен</span>
-                                </div>
-                                <div ng-switch-when="5">
-                                    <span>отменен Адм.</span>
-                                </div>
+
                             </div>
                         </td>
                     </tr>
