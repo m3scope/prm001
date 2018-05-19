@@ -48,7 +48,7 @@
                             </p>
                             <p>
                                 <span class="w3-input w3-border">
-                                    <input type="number" step="any" name="bank_commission_summ" value="0" class="w3-input w3-border">
+                                    <input type="number" step="any" name="bank_commission_summ" value="{{ bank_commission_summ }}" class="w3-input w3-border">
                                 </span>
                                 <span class="w3-tag w3-green">СУММА процента комиссии банка</span>
                             </p>
@@ -79,7 +79,11 @@
     myApp.controller('MainCtrl', function($scope) {
         $scope.qqClass = <%= qq.class %>;
         $scope.colorHead = Colors[<%= qq.class %>];    // 1 - пополнение баланса, 0-Вывод средств
-
+        $scope.bank_commission_summ = 0;
+        if (<%= qq.class %> == 0)
+        {
+            $scope.bank_commission_summ = Math.round(((<%= qq.amount - qq.commission_summ %>) * 0.01) * 100) / 100;
+        }
     });
     //]]>
 </script>
