@@ -49,14 +49,38 @@ router.get('/', function(req, res, next) {
                 LoginRegister = '<div class="w3-right-align w3-small"><span class="w3-border-top">'+req.session.username+'</span></div><a href="/amd/querys" class=" w3-btn w3-border w3-border-green w3-round" >А</a>&nbsp;&nbsp;<a href="/profile" class="w3-button w3-border w3-border-white w3-round"><label>ВВОД / ВЫВОД</label></a>&nbsp;&nbsp;<a href="/profile" class="w3-button w3-border w3-border-white w3-round"><label>ПРОФИЛЬ</label></a>&nbsp;&nbsp;<a href="/logout" class="w3-button w3-border w3-border-white w3-round">ВЫХОД</a>';
             }
             db_deals.getdeals(curr1,curr2, function (err, data) {
-                if(err) res.status(500).send('Внутренняя ошибка!');
-                res.render('index', { title: 'PRIZM Stock Exchange', LoginRegister: LoginRegister, deals: data, UBalance: UserBalance, infoText: infoText});
+                if(err) {
+                    res.status(500).send('Внутренняя ошибка!');
+                } else {
+                    Deal.find({dealerId: user._id, status:{$lt:3}, deal_currency:curr1, price_currency:curr2}).exec(function (err, userDeals) {
+                        if(err) {
+                            res.status(500).send('Внутренняя ошибка!');
+                        } else {
+                            res.render('index', {
+                                title: 'PRIZM Stock Exchange',
+                                LoginRegister: LoginRegister,
+                                userDeals: userDeals,
+                                deals: data,
+                                UBalance: UserBalance,
+                                infoText: infoText
+                            });
+                        }
+                    });
+
+                }
             });
         });
     } else {
         db_deals.getdeals(curr1,curr2, function (err, data) {
-            if(err) res.status(500).send('Внутренняя ошибка!');
-            res.render('index', { title: 'PRIZM Stock Exchange', LoginRegister: LoginRegister, deals: data, UBalance: UserBalance, infoText: infoText});
+            if (err) res.status(500).send('Внутренняя ошибка!');
+            res.render('index', {
+                title: 'PRIZM Stock Exchange',
+                LoginRegister: LoginRegister,
+                userDeals: [],
+                deals: data,
+                UBalance: UserBalance,
+                infoText: infoText
+            });
         });
     }
 
@@ -294,14 +318,38 @@ router.get('/deals/:id?', function (req, res) {
                 LoginRegister = '<div class="w3-right-align w3-small"><span class="w3-border-top">'+req.session.username+'</span></div><a href="/amd/querys" class=" w3-btn w3-border w3-border-green w3-round" >А</a>&nbsp;&nbsp;<a href="/profile" class="w3-button w3-border w3-border-white w3-round"><label>ВВОД / ВЫВОД</label></a>&nbsp;&nbsp;<a href="/profile" class="w3-button w3-border w3-border-white w3-round"><label>ПРОФИЛЬ</label></a>&nbsp;&nbsp;<a href="/logout" class="w3-button w3-border w3-border-white w3-round">ВЫХОД</a>';
             }
             db_deals.getdeals(curr1,curr2, function (err, data) {
-                if(err) res.status(500).send('Внутренняя ошибка!');
-                res.render('index', { title: 'PRIZM Stock Exchange', LoginRegister: LoginRegister, deals: data, UBalance: UserBalance, infoText:infoText});
+                if(err) {
+                    res.status(500).send('Внутренняя ошибка!');
+                } else {
+                    Deal.find({dealerId: user._id, status:{$lt:3}, deal_currency:curr1, price_currency:curr2}).exec(function (err, userDeals) {
+                        if(err) {
+                            res.status(500).send('Внутренняя ошибка!');
+                        } else {
+                            res.render('index', {
+                                title: 'PRIZM Stock Exchange',
+                                LoginRegister: LoginRegister,
+                                userDeals: userDeals,
+                                deals: data,
+                                UBalance: UserBalance,
+                                infoText: infoText
+                            });
+                        }
+                    });
+
+                }
             });
         });
     } else {
         db_deals.getdeals(curr1,curr2, function (err, data) {
-            if(err) res.status(500).send('Внутренняя ошибка!');
-            res.render('index', { title: 'PRIZM Stock Exchange', LoginRegister: LoginRegister, deals: data, UBalance: UserBalance, infoText:infoText});
+            if (err) res.status(500).send('Внутренняя ошибка!');
+            res.render('index', {
+                title: 'PRIZM Stock Exchange',
+                LoginRegister: LoginRegister,
+                userDeals: [],
+                deals: data,
+                UBalance: UserBalance,
+                infoText: infoText
+            });
         });
     }
 

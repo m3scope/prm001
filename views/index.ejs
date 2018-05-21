@@ -22,6 +22,20 @@
         document.getElementById("time").innerHTML = Y+"."+M+"."+D+" "+hours + ":" + minutes + ":" + seconds + " MSK";
         setTimeout(startTime, 1000);
     }
+    function TimeMsk(dt) {
+        let dat = new Date(dt);
+        let dtMosk = dat.getTime();
+        let date = new Date(dtMosk + (3600000*3));
+        let Y = date.getUTCFullYear();
+        let M = checkZero(date.getUTCMonth()+1);
+        let D = checkZero(date.getUTCDate());
+        let hours = checkZero(date.getUTCHours());
+        let minutes = checkZero(date.getUTCMinutes());
+        let seconds = checkZero(date.getUTCSeconds());
+        let rez = Y+"."+M+"."+D+" "+hours + ":" + minutes + ":" + seconds + " MSK";
+        //console.log(rez);
+        return rez;
+    }
     function checkZero(t) {
         return t<10 ? '0'+t : t;
     }
