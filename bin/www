@@ -33,7 +33,7 @@ server.on('listening', onListening);
  */
 
 // const io = socket(server);
-
+let Clients = [];
 io.on('connection', function (socket) {
     console.log('**** Made SOCKET connection', socket.id);
     //socket.send({greeting:'Hello? World!'});
