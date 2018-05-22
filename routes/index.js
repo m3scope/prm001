@@ -14,7 +14,18 @@ const noCache = function(req, res, next) {
     res.header('Cache-Control', 'no-cache, private, no-store, must-revalidate');
     return next();
 };
+
+const log4js = require('log4js');
+log4js.configure({
+    appenders: { cheese: { type: 'file', filename: 'cheese.log' } },
+    categories: { default: { appenders: ['cheese'], level: 'trace' } }
+});
+
+const logger = log4js.getLogger('cheese');
+logger.info('START SERVER. *******************************');
+
 /* GET home page. */
+
 router.get('/', function(req, res, next) {
     //const id = req.params.id;
     let curr1 = 1;
@@ -71,6 +82,7 @@ router.get('/', function(req, res, next) {
             });
         });
     } else {
+        logger.info('Не зарегистрированный.');
         db_deals.getdeals(curr1,curr2, function (err, data) {
             if (err) res.status(500).send('Внутренняя ошибка!');
             res.render('index', {

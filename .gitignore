@@ -12,7 +12,7 @@ logs
 results
 
 node_modules
-npm-debug.log
+*.log*
 /public/js
 .idea
 .git
