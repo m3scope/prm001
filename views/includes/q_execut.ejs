@@ -80,7 +80,7 @@
         $scope.qqClass = <%= qq.class %>;
         $scope.colorHead = Colors[<%= qq.class %>];    // 1 - пополнение баланса, 0-Вывод средств
         $scope.bank_commission_summ = 0;
-        if (<%= qq.class %> == 0)
+        if (<%= qq.class %> == 0 && <%= qq.currency%> != 1)
         {
             $scope.bank_commission_summ = Math.round(((<%= qq.amount - qq.commission_summ %>) * 0.01) * 100) / 100;
         }
