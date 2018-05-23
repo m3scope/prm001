@@ -29,16 +29,33 @@
         </div>
 
     </div>
-    <div ng-model="counter">
-        {{ onlineCount }}
+
+    <div >
+        {{onlineCount}}
+        <!--<ul id="messages"></ul>-->
+        <!--<form action="">-->
+            <!--<input id="m" autocomplete="off" /><button>Send</button>-->
+        <!--</form>-->
     </div>
 </div>
+
+
 
 <script type="text/javascript">
     //<![CDATA[
     //let myApp = angular.module('myApp',[]);
-    let socketIo = io.connect();
-
+    let socketIo = io();
+//    $(function () {
+//        let socket = io();
+//        $('form').submit(function(){
+//            socket.emit('chat message', $('#m').val());
+//            $('#m').val('');
+//            return false;
+//        });
+//        socket.on('chat message', function(msg){
+//            $('#messages').append($('<li>').text(msg));
+//        });
+//    });
     myApp.controller('footer', function($scope) {
 
         socketIo.on('onlineCount', function (data) {

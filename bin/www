@@ -5,8 +5,8 @@
  */
 const app = require('../app');
 const debug = require('debug')('prizm001:server');
-const http = require('http');
-//const socket = require('socket.io');
+const server = require('http').Server(app);
+const io = require('socket.io')(server);
 
 /**
  * Get port from environment and store in Express.
@@ -17,9 +17,9 @@ app.set('port', port);
 /**
  * Create HTTP server.
  */
-const server = http.createServer(app);
+//const server = http.createServer(app);
 
-const io = require('socket.io').listen(server);
+//const io = require('socket.io')(server);
 /**
  * Listen on provided port, on all network interfaces.
  */
@@ -37,12 +37,18 @@ let Clients = [];
 io.on('connection', function (socket) {
     console.log('**** Made SOCKET connection', socket.id);
     Clients.push(socket.id);
-    socket.emit('onlineCount', {onlineCount: Clients.length});
-    console.log(Clients);
+    io.emit('onlineCount', Clients.length);
+    console.log(Clients.length);
     //socket.send({greeting:'Hello? World!'});
-    socket.on('greeting', function (data) {
-        console.log(data);
+    socket.on('disconnect', function (data) {
+        Clients.pop(data.id);
+        console.log('user disconnected');
     });
+
+    socket.on('chat message', function(msg){
+        io.emit('chat message', msg);
+    });
+
 });
 
 function normalizePort(val) {
