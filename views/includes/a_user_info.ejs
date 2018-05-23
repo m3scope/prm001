@@ -128,8 +128,8 @@
 
                 <tr ng-repeat="info in dt2 | filter: f" ng-click="setSelected();">
 
-                        <td>{{ info.dat }}</td>
-                        <td class="w3-border-left {{ info.colorOper }}">{{ info.operation_name }}</td>
+                        <td class="w3-border-left {{ info.clors_status }}">{{ info.dat }} / {{ info.status }}</td>
+                        <td class="w3-border-left {{ info.colorOper }}">{{ info.operation_name }} </td>
 
                         <td class="w3-border-left">{{ info.par }}</td>
                         <td class="w3-border-left">{{ info.price_amount }}</td>
@@ -171,6 +171,7 @@
     const Status_q = ['создана','подтверждена','','исполнена','отменена','отменен Адм.'];
     const bs=['продажа','покупка'];
     const clors=['w3-orange','w3-cyan','w3-gray','w3-brown','w3-gray','','','','','w3-gray'];
+    const clors_status=['w3-orange','w3-cyan','w3-gray','w3-brown','w3-black','w3-black','','','','w3-gray'];
     const w3Btn = [[],['','','w3-white', 'w3-white'],['','w3-white','','w3-white'],['','w3-white','w3-white','']];
     const typ = ['Вывод','Ввод','Отправить','Получить'];
     let sm = {}; // итоговыя сумма
@@ -331,6 +332,7 @@
                 }
             }
             nm.status = (<%= item.operation_cod%> == 1) ? Status_q[Number(<%= item.status%>)]:Status[Number(<%= item.status%>)];
+            nm.clors_status = clors_status[<%= item.status%>];
 //            nm.sm = sm;
 //            nm.smp = smp;
             $scope.dt2.push(nm);
