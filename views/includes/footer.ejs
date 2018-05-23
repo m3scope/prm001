@@ -27,16 +27,12 @@
                 Тех.поддержка support@prizmex.ru
             </p>
         </div>
-
+        <div >
+            {{ oCt }}
+        </div>
     </div>
 
-    <div >
-        {{onlineCount}}
-        <!--<ul id="messages"></ul>-->
-        <!--<form action="">-->
-            <!--<input id="m" autocomplete="off" /><button>Send</button>-->
-        <!--</form>-->
-    </div>
+
 </div>
 
 
@@ -58,9 +54,12 @@
 //    });
     myApp.controller('footer', function($scope) {
 
+        //$scope.onlineCount = 0;
+
         socketIo.on('onlineCount', function (data) {
 
-            $scope.onlineCount = data;
+            $scope.oCt = data;
+            console.log(data);
 
         });
 

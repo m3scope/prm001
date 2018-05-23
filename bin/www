@@ -43,6 +43,7 @@ io.on('connection', function (socket) {
     socket.on('disconnect', function (data) {
         Clients.pop(data.id);
         console.log('user disconnected');
+        io.emit('onlineCount', Clients.length);
     });
 
     socket.on('chat message', function(msg){
