@@ -37,7 +37,8 @@ let Clients = [];
 io.on('connection', function (socket) {
     console.log('**** Made SOCKET connection', socket.id);
     Clients.push(socket.id);
-    socket.broadcast({onlineCount: Clients.length});
+    socket.emit('onlineCount', {onlineCount: Clients.length});
+    console.log(Clients);
     //socket.send({greeting:'Hello? World!'});
     socket.on('greeting', function (data) {
         console.log(data);

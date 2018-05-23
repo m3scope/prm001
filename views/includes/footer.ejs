@@ -29,4 +29,25 @@
         </div>
 
     </div>
+    <div ng-model="counter">
+        {{ onlineCount }}
+    </div>
 </div>
+
+<script type="text/javascript">
+    //<![CDATA[
+    //let myApp = angular.module('myApp',[]);
+    let socketIo = io.connect();
+
+    myApp.controller('footer', function($scope) {
+
+        socketIo.on('onlineCount', function (data) {
+
+            $scope.onlineCount = data;
+
+        });
+
+    });
+
+    //]]>
+</script>
