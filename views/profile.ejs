@@ -7,6 +7,7 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
 <link rel="stylesheet" href="/stylesheets/fontawesome.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+<script src="/socket.io/socket.io.js"></script>
 <script language = 'javascript'>
     function TimeMsk(dt) {
         let dat = new Date(dt);
@@ -40,11 +41,6 @@
   }
 </style>
 <body onload="startTime()" class="w3-light-grey ng-scope" ng-app="myApp">
-
-<% let currs=['','PZM','USD','RUR'];
-let bs=['продажа','покупка'];
-let clors=['w3-orange','w3-cyan'];
-%>
 
 <div class="w3-content w3-margin-top" style="max-width:1400px;" ng-controller="w3BtnCtrl">
     <%- include('includes/header') -%>
@@ -112,16 +108,13 @@ let clors=['w3-orange','w3-cyan'];
               <span class="w3-tag w3-green">Login</span>
             </p>
             <p>
-              <span class="w3-input w3-border"><%= user.name_f%></span>
-              <span class="w3-tag w3-green">Имя пользователя</span>
+                <span class="w3-input w3-border"><%= user.name_f%></span>
+                <span class="w3-tag w3-green">Имя пользователя</span>
+
             </p>
             <p>
               <span class="w3-input w3-border"><%= user.tel%></span>
               <span class="w3-tag w3-green">Телефон</span>
-            </p>
-            <p>
-              <span class="w3-input w3-border"></span>
-              <span class="w3-tag w3-green">Адрес в "Паровозе"</span>
             </p>
             <p>
               <span class="w3-input w3-border" ><%= user.email%>
@@ -131,6 +124,23 @@ let clors=['w3-orange','w3-cyan'];
                 <%} else {%>
                   <span class="w3-tag w3-red">e-mail</span>
                   <% if(user.email_token){%><span class="w3-tag">перейдите по ссылке из письма на почте</span><%} else {%><span class="w3-tag"><a href="/confirmed/sendconfirmedemail">нажмите для подтверждения email</a></span> <%}%>
+                <%}%>
+            </p>
+
+            <p>
+                <% if(user.prizmaddress){%>
+              <span class="w3-input w3-border"><%= user.prizmaddress%></span>
+              <span class="w3-tag w3-green">Адрес в "Паровозе"</span>
+                <%} else {%>
+              <input type="checkbox" class="w3-check" ng-model="vip">Я в "Паровозе"
+              <div ng-show="vip">
+                <FORM action="/" method="post" class="w3-form">
+                  <input name="prizmaddress" type="text" class="w3-input w3-border">
+                  <span class="w3-tag w3-green">Адрес в "Паровозе"</span>
+                  <input type="submit">
+                </FORM>
+
+              </div>
                 <%}%>
             </p>
 
@@ -317,12 +327,6 @@ let clors=['w3-orange','w3-cyan'];
   </div>
 
 </div>
-
-
-  <div class="w3-panel">
-  </div>
-    <%- include('includes/footer') -%>
-</div>
 <script>
     //<![CDATA[
     let myApp = angular.module('myApp',[]);
@@ -442,5 +446,12 @@ let clors=['w3-orange','w3-cyan'];
 
     //]]>
 </script>
+
+
+  <div class="w3-panel">
+  </div>
+    <%- include('includes/footer') -%>
+</div>
+
 </body>
 </html>

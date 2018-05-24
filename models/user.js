@@ -20,9 +20,11 @@ const userSchema = new mongoose.Schema({
     UID: {type: String, default: ''},
     prizmaddress: {
         type: String,
+        default: null
     },
     publicKey: {
         type: String,
+        default: null
     },
     tax_in:{
         PZM: {
@@ -66,8 +68,8 @@ const userSchema = new mongoose.Schema({
     },
     fiats: [{bankId:{type: mongoose.Schema.ObjectId, ref: 'Bank'}}],
     status: {type: Number, default: 1},     // (0 - заблокирован, 1 - пользователь, 3 - инвестор, 9 - admin)
-    category: String,
-    name_f: String,
+    category: {type: String, default: null},
+    name_f: {type: String, default: null},
     tel: {type:String, default: null},
     tel_confirmed: {
         type: Boolean,
@@ -83,6 +85,7 @@ const userSchema = new mongoose.Schema({
         default: false
     },
     email_token: {type: String, default: null},
+    vip:{type:Boolean, default: false},
     ban: {type: Boolean, default: false},
     passwordHash: String,
     salt: String

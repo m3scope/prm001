@@ -34,28 +34,28 @@
     }
 </script>
 <style>
-  html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
-  input[type=number]::-webkit-inner-spin-button,
-  input[type=number]::-webkit-outer-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-  }
+    html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
+    input[type=number]::-webkit-inner-spin-button,
+    input[type=number]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
 </style>
-<body onload="startTime()" class="w3-light-grey ng-scope" >
+<body onload="startTime()" class="w3-light-grey ng-scope"  ng-app="myApp">
 <!-- Page Container -->
 <div class="w3-content w3-margin-top" style="max-width:1400px;">
-  <!-- Header -->
+    <!-- Header -->
     <%- include('includes/a_header') -%>
-  <!-- The Grid -->
-  <div class="w3-row-padding">
-    <!-- Left Column -->
+    <!-- The Grid -->
+    <div class="w3-row-padding">
+        <!-- Left Column -->
         <% let i = 'includes/'+ inc.f %>
         <%- include(i) %>
 
-  </div>
-  <div class="w3-panel">
-  </div>
-  <!-- Footer -->
+    </div>
+    <div class="w3-panel">
+    </div>
+    <!-- Footer -->
     <%- include('includes/footer') -%>
 </div>
 

@@ -409,6 +409,8 @@ router.get('/api/q/deal/:id', checkAuth, noCache, require('./q_deal').get);
 router.get('/confirmed/:id', noCache, require('./confirmed').get);
 router.post('/confirmed/:id', noCache, require('./confirmed').post);
 
+router.get('/edituser/:id?', checkAuth, noCache, require('./edituser').get);
+router.post('/edituser/:id?', checkAuth, noCache, require('./edituser').post);
 
 router.get('/qrcode',require('./qrcode').get);
 
