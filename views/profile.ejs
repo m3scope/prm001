@@ -98,7 +98,7 @@
         <div class="w3-container w3-teal">
           <h5>Личные данные</h5>
         </div>
-          <form action="/profile" method="post" class="w3-container">
+          <div class="w3-container">
             <p>
               <span class="w3-input w3-border" ><%= user.UID%></span>
               <span class="w3-tag w3-green">UID</span>
@@ -134,17 +134,17 @@
                 <%} else {%>
               <input type="checkbox" class="w3-check" ng-model="vip">Я в "Паровозе"
               <div ng-show="vip">
-                <FORM action="/" method="post" class="w3-form">
+                <form action="/edituser" method="post" class="w3-form">
                   <input name="prizmaddress" type="text" class="w3-input w3-border">
                   <span class="w3-tag w3-green">Адрес в "Паровозе"</span>
                   <input type="submit">
-                </FORM>
+                </form>
 
               </div>
                 <%}%>
             </p>
 
-          </form>
+          </div>
 
         </div>
       </div>
