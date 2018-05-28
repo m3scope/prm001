@@ -102,16 +102,16 @@
     }
 
     myApp.controller('CtrlQuerys2', function ($scope) {
-        $scope.qq = {'PZM':0,'USD':0,'RUR':0};;
+        $scope.qq = {'PZM':0,'USD':0,'RUR':0};
         $scope.aggrQuery = {'PZM':0,'USD':0,'RUR':0};
         $scope.aggrTrans = {'PZM':0,'USD':0,'RUR':0};
         $scope.dateAt = TimeMsk('<%= dateRange.dateAt%>');
         $scope.dateTo = TimeMsk('<%= dateRange.dateTo%>');
 
         <% aggrQuery.forEach(function(item){%>
-            $scope.aggrQuery[Curr[<%= item._id%>]] = Math.round(($scope.aggrQuery[Curr[<%= item._id%>]] + <%= Number(item.amount)%>)*100)/100;
+            $scope.aggrQuery[Curr[<%= item._id%>]] = Math.round(($scope.aggrQuery[Curr[<%= item._id%>]] + <%= Number(item.amount)%> - <%= Number(item.bank_amount)%>)*100)/100;
             <% if(item._id != 1){%>
-            $scope.qq[Curr[<%= item._id%>]] = Math.round(($scope.qq[Curr[<%= item._id%>]] + <%= Number(item.amount)%>)*100)/100;
+            $scope.qq[Curr[<%= item._id%>]] = Math.round(($scope.qq[Curr[<%= item._id%>]] + <%= Number(item.amount)%> - <%= Number(item.bank_amount)%>)*100)/100;
             <%}%>
         <%})%>
         <% aggrTrans.forEach(function(item){%>

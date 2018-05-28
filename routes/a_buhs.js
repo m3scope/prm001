@@ -70,6 +70,9 @@ exports.get = function(req, res) {
                                         "_id" : "$currency",
                                         "amount" : {
                                             "$sum" : "$commission_summ"
+                                        },
+                                        "bank_amount": {
+                                            "$sum":"$bank_commission_summ"
                                         }
                                     }
                                 }
@@ -155,6 +158,9 @@ exports.post = function(req, res) {
                                     "_id" : "$currency",
                                     "amount" : {
                                         "$sum" : "$commission_summ"
+                                    },
+                                    "bank_amount": {
+                                        "$sum":"$bank_commission_summ"
                                     }
                                 }
                             }
