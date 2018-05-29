@@ -37,7 +37,7 @@ exports.post = function (req, res, next) {
                     res.render('info', {
                         infoTitle: '<div class="w3-red">Ошибка!</div>',
                         infoText: 'Prizm address не найден!',
-                        url: '/',
+                        url: '/profile',
                         title: 'Запрос отклонен!',
                         user: {},
                         LoginRegister: '<b></b>'

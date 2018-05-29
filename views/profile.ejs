@@ -100,6 +100,15 @@
         </div>
           <div class="w3-container">
             <p>
+                <% if(user.vip){%>
+              <span class="w3-input w3-border w3-green">VIP (включены льготные комиссии)</span>
+                <%} else {%>
+              <span class="w3-input w3-border w3-gray">Простой</span>
+
+                <%}%>
+              <span class="w3-tag w3-green">Статус</span>
+            </p>
+            <p>
               <span class="w3-input w3-border" ><%= user.UID%></span>
               <span class="w3-tag w3-green">UID</span>
             </p>
@@ -132,7 +141,8 @@
               <span class="w3-input w3-border"><%= user.prizmaddress%></span>
               <span class="w3-tag w3-green">Адрес в "Паровозе"</span>
                 <%} else {%>
-              <input type="checkbox" class="w3-check" ng-model="vip">Я в "Паровозе"
+              <input type="checkbox" class="w3-check" ng-model="vip">
+              <span class="w3-tag w3-green">Я в "Паровозе"</span>
               <div ng-show="vip">
                 <form action="/edituser" method="post" class="w3-form">
                   <input name="prizmaddress" type="text" class="w3-input w3-border">
