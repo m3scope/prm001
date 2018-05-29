@@ -69,7 +69,7 @@
                         </td>
                         <td>{{ dt.currency }}</td>
                         <td class="{{ dt.color }}">{{ dt.typ }}</td>
-                        <td class="w3-border-left {{ dt.myQueryColors }}">{{ dt.amount }}</td>
+                        <td class="w3-border-left {{ dt.myQueryColors }}"><span class="w3-tag w3-gray">{{ dt.amount }}</span></td>
                         <td class="w3-border-left">{{ dt.bank_name }}</td>
                         <td class="w3-border-left">COD-{{ dt.cod }} <form action="/amd/users/info" method="post">
                                         <input type="hidden" name="cod" value="{{ dt.userId }}">
