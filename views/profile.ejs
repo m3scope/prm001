@@ -91,6 +91,29 @@
         </form>
       </div>
 
+      <div class="w3-panel">
+
+
+      </div>
+
+      <!--<div class="w3-col m3">-->
+        <div class="w3-border">
+          <div class="w3-container w3-green">
+            <h5>ВНИМАНИЕ! ПРОЧТИ!</h5>
+          </div>
+          <div class="w3-container">
+            <ul>
+              <li>"Адрес в ПАРОВОЗЕ ПРИЗМ" заполняется только участниками "ПАРОВОЗА ПРИЗМ".</li>
+              <li>Адрес проверяется на принадлежность ПАРОВОЗУ.</li>
+              <li>После заполнения, адрес невозможно изменить.</li>
+              <li>После занесения адреса, вывод PRIZM будет возможен только на указанный кошелёк.</li>
+              <li>Участники "ПАРОВОЗА ПРИЗМ" получают льготу.</li>
+            </ul>
+            <a href="http://www.parovoz-prizm.com/obmennik">Подробнее о тарифах в разделе "ТАРИФЫ"</a>
+          </div>
+        </div>
+      <!--</div>-->
+
     </div>
 
       <div class="w3-col m3">
@@ -147,7 +170,9 @@
                 <form action="/edituser" method="post" class="w3-form">
                   <input name="prizmaddress" type="text" class="w3-input w3-border">
                   <span class="w3-tag w3-green">Адрес в "Паровозе"</span>
-                  <input type="submit">
+                  <input name="prizmPKey" type="text" class="w3-input w3-border">
+                  <span class="w3-tag w3-green">Public Key</span>
+                  <input class="w3-border w3-teal w3-btn w3-button" type="submit" value="Подтвердить">
                 </form>
 
               </div>
@@ -158,6 +183,7 @@
 
         </div>
       </div>
+
 
 
   </div>
