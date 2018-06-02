@@ -15,70 +15,6 @@
 <div class="w3-row-padding w3-small">
 
     <div class="w3-col m3">
-
-        <div class="w3-border">
-            <div class="w3-container w3-green">
-                <h5>ВНИМАНИЕ! ПРОЧТИ!</h5>
-            </div>
-            <div class="w3-container">
-                <p>
-                    ВНИМАНИЕ! С 1 июня 2018 г вводятся льготы для участников "ПАРОВОЗА ПРИЗМ".
-                </p>
-                <p>
-                    Для того, чтобы воспользоваться льготой необходимо заполнить поля "адрес в ПАРОВОЗЕ ПРИЗМ".
-                </p>
-                <ul>
-                    <li>Адрес проверяется на принадлежность ПАРОВОЗУ.</li>
-                    <li>После заполнения, адрес невозможно изменить.</li>
-                    <li>После занесения адреса, вывод PRIZM будет возможен <b>ТОЛЬКО</b> на указанный кошелёк.</li>
-                    <li>Для вновь зарегистрированных участников льгота вводится через 4-5 дней после регистрации.</li>
-                </ul>
-                <a href="http://www.parovoz-prizm.com/obmennik">Размер льгот посмотреть можно здесь</a>
-            </div>
-        </div>
-
-        <div class="w3-panel">
-        </div>
-
-        <div class="w3-border">
-            <div class="w3-container w3-teal">
-                <h5>Баланс</h5>
-            </div>
-            <form class="w3-container">
-                <p>
-                    <span class="w3-input w3-border" ><%= user.PZM%></span>
-                    <span class="w3-tag w3-green">PZM</span>
-                    <span class="w3-tag w3-orange"><a href="/api/q/req/true;1" >пополнить</a></span>
-                    <span class="w3-tag w3-teal"><a href="/api/q/req/false;1" >вывод средств</a></span>
-                </p>
-                <p>
-                    <span class="w3-input w3-border" ><%= user.USD%></span>
-                    <span class="w3-tag w3-green">USD&nbsp;</span>
-                    <span class="w3-tag w3-orange"><a href="/api/q/req/true;2" >пополнить</a></span>
-                    <span class="w3-tag w3-teal"><a href="/api/q/req/false;2" >вывод средств</a></span>
-
-                </p>
-                <p>
-                    <span class="w3-input w3-border" ><%= user.RUR%></span>
-                    <span class="w3-tag w3-green">RUR&nbsp;</span>
-                    <span class="w3-tag w3-orange"><a href="/api/q/req/true;3" >пополнить</a></span>
-                    <span class="w3-tag w3-teal"><a href="/api/q/req/false;3" >вывод средств</a></span>
-                </p>
-                <p>
-
-                </p>
-            </form>
-        </div>
-
-
-
-        <!--<div class="w3-col m3">-->
-
-        <!--</div>-->
-
-    </div>
-
-    <div class="w3-col m3">
         <div class="w3-border">
             <div class="w3-container w3-teal">
                 <h5>Личные данные</h5>
@@ -144,6 +80,70 @@
             </div>
 
         </div>
+    </div>
+
+    <div class="w3-col m3">
+
+        <div class="w3-border">
+            <div class="w3-container w3-green">
+                <h5>ВНИМАНИЕ! ПРОЧТИ!</h5>
+            </div>
+            <div class="w3-container">
+                <p>
+                    ВНИМАНИЕ! С 1 июня 2018 г вводятся льготы для участников "ПАРОВОЗА ПРИЗМ".
+                </p>
+                <p>
+                    Для того, чтобы воспользоваться льготой необходимо заполнить поля "адрес в ПАРОВОЗЕ ПРИЗМ".
+                </p>
+                <ul>
+                    <li>Адрес проверяется на принадлежность ПАРОВОЗУ.</li>
+                    <li>После заполнения, адрес невозможно изменить.</li>
+                    <li>После занесения адреса, вывод PRIZM будет возможен <b>ТОЛЬКО</b> на указанный кошелёк.</li>
+                    <li>Для вновь зарегистрированных участников льгота вводится через 4-5 дней после регистрации.</li>
+                </ul>
+                <a href="http://www.parovoz-prizm.com/obmennik">Размер льгот посмотреть можно здесь</a>
+            </div>
+        </div>
+
+        <div class="w3-panel">
+        </div>
+
+        <div class="w3-border">
+            <div class="w3-container w3-teal">
+                <h5>Баланс</h5>
+            </div>
+            <form class="w3-container">
+                <p>
+                    <span class="w3-input w3-border" ><%= user.PZM%></span>
+                    <span class="w3-tag w3-green">PZM</span>
+                    <span class="w3-tag w3-orange"><a href="/api/q/req/true;1" >пополнить</a></span>
+                    <span class="w3-tag w3-teal"><a href="/api/q/req/false;1" >вывод средств</a></span>
+                </p>
+                <p>
+                    <span class="w3-input w3-border" ><%= user.USD%></span>
+                    <span class="w3-tag w3-green">USD&nbsp;</span>
+                    <span class="w3-tag w3-orange"><a href="/api/q/req/true;2" >пополнить</a></span>
+                    <span class="w3-tag w3-teal"><a href="/api/q/req/false;2" >вывод средств</a></span>
+
+                </p>
+                <p>
+                    <span class="w3-input w3-border" ><%= user.RUR%></span>
+                    <span class="w3-tag w3-green">RUR&nbsp;</span>
+                    <span class="w3-tag w3-orange"><a href="/api/q/req/true;3" >пополнить</a></span>
+                    <span class="w3-tag w3-teal"><a href="/api/q/req/false;3" >вывод средств</a></span>
+                </p>
+                <p>
+
+                </p>
+            </form>
+        </div>
+
+
+
+        <!--<div class="w3-col m3">-->
+
+        <!--</div>-->
+
     </div>
 
 </div>
