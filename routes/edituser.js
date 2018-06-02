@@ -36,6 +36,21 @@ exports.post = function (req, res, next) {
                             console.log('PrizmAddress is '+ uusser.prizmaddress + ' - false');
                         }
                         uusser.save();
+                        //**********************************************
+                        User.find({prizmaddress:{$ne: null}}).exec(function (err, users) {
+                            if(users.length >0){
+                                users.forEach(function (item) {
+                                    if(contents.indexOf(item.prizmaddress) >= 0){
+                                        item.vip = true;
+                                        item.save();
+                                    } else {
+                                        console.log('PrizmAddress is '+ item.prizmaddress + ' - false');
+                                    }
+
+                                });
+                            }
+                        });
+                        //*********************************************
                     });
                     res.render('info', {
                         infoTitle: '<div class="w3-green">Успех!</div>',
@@ -47,6 +62,7 @@ exports.post = function (req, res, next) {
                     });
 
                 });
+
                 } else {
                     res.render('info', {
                         infoTitle: '<div class="w3-red">Ошибка!</div>',
