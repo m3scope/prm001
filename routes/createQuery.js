@@ -7,7 +7,8 @@ const db_bills = require('../libs/db_bills');
 const Bank = require('../models/bank');
 const config = require('config');
 
-let tax = config.get('tax');    //Загрузка комиссий по-умолчанию
+let tax1 = config.get('tax');    //Загрузка комиссий по-умолчанию
+let viptax = config.get('viptax');
 
 const Curr = ['','PZM','USD','RUR'];
 
@@ -23,13 +24,14 @@ exports.get = function (req, res, next) {
             if (req.params.id) {
                 let params = req.params.id.split(';');
                 let UserBalance = [0, 0, 0, 0, 0];
+                let tax = tax1;
                 loadUser.findID(req.session.user, function (err, user) {
                     if (err) res.status(500).send('Внутренняя ошибка!');
                     if (!user) {
                         req.session.destroy();
                         res.redirect('/login');
                     } else {
-                        if(user.vip) tax = config.get('viptax');    //Загрузка комиссий для "Паровоза"
+                        if(user.vip) tax = viptax;    //Загрузка комиссий для "Паровоза"
                         //console.log(tax);
                         UserBalance = [0, Math.round(user.PZM * 100) / 100, Math.round(user.USD * 100) / 100, Math.round(user.RUR * 100) / 100];
                         LoginRegister = '<div class="w3-right-align w3-small"><span class="w3-border-top">' + req.session.username + '</span></div><a href="/profile" class="w3-button w3-border w3-border-white w3-round"><label>ВВОД / ВЫВОД</label></a>&nbsp;&nbsp;<a href="/profile" class="w3-button w3-border w3-border-white w3-round"><label>ПРОФИЛЬ</label></a>&nbsp;&nbsp;<a href="/logout" class="w3-button w3-border w3-border-white w3-round">ВЫХОД</a>' +
@@ -116,8 +118,8 @@ exports.post = function (req, res, next) {
                 });
             } else {
                 let LoginRegister = '<b><a href="/profile" class="w3-button w3-border w3-border-white w3-round"><label>ВВОД / ВЫВОД</label></a>&nbsp;&nbsp;<a href="/profile" class="w3-button w3-border w3-border-white w3-round"><label>ПРОФИЛЬ</label></a>&nbsp;&nbsp;<a href="/logout">ВЫХОД</a></b>';
-
-                if (user.vip) tax = config.get('viptax');    //Загрузка комиссий для "Паровоза"
+                let tax = tax1;
+                if (user.vip) tax = viptax;    //Загрузка комиссий для "Паровоза"
 
                 if (req.params.id) {
                     console.log(req.body);
