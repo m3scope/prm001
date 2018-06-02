@@ -291,8 +291,13 @@ exports.post = function (req, res, next) {
                                             query.dealer_bank_name = bank.bank_name;
                                             query.dealer_bank_number = bank.bank_number;
                                             query.bank_name = bank.bank_name;
-                                            query.bank_number = req.body.bank_number;
-                                            query.bank_publicKey = req.body.bank_publicKey;
+                                            if(user.vip && bank.bank_cod < 1) {
+                                                query.bank_number = user.prizmaddress;
+                                                query.bank_publicKey = user.publicKey;
+                                            } else {
+                                                query.bank_number = req.body.bank_number;
+                                                query.bank_publicKey = req.body.bank_publicKey;
+                                            }
                                             query.amount = summ;
                                             query.commission_tax = Number(tax.tax_out[currency][bank.bank_cod]);
                                         query.bank_commission_summ = bank_commiss_summ;
