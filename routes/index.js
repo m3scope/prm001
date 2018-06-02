@@ -46,7 +46,7 @@ router.get('/', function(req, res, next) {
             // session updated
         });
         User.findById(req.session.user, function (err, user) {
-            infoText.txt = 'Внимание!<p>С 21-00 мск 01/06/2018 по 07-00 мск 03/06/2018 на бирже будет производиться обновление программного обеспечения.</p>' +
+            infoText.txt = 'Внимание!' +
                 '<p> Заявки обрабатываются с 7.00 до 21.00 МСК.<br> Биржа работает в ручном режиме. Об ошибках и предложениях сообщать на support@prizmex.ru</p>';
             UserBalance = [0,Math.round(user.PZM*100)/100,Math.round(user.USD*100)/100,Math.round(user.RUR*100)/100];
             LoginRegister = '<div class="w3-right-align w3-small"><span class="w3-border-top">'+req.session.username+'</span></div><a href="/profile" class="w3-button w3-border w3-border-white w3-round"><label>ВВОД / ВЫВОД</label></a>&nbsp;&nbsp;<a href="/profile" class="w3-button w3-border w3-border-white w3-round"><label>ПРОФИЛЬ</label></a>&nbsp;&nbsp;<a href="/logout" class="w3-button w3-border w3-border-white w3-round">ВЫХОД</a>' +
@@ -320,7 +320,7 @@ router.get('/deals/:id?', function (req, res) {
             // session updated
         });
         User.findById(req.session.user, function (err, user) {
-            infoText.txt = 'Внимание!<p>С 21-00 мск 01/06/2018 по 07-00 мск 03/06/2018 на бирже будет производиться обновление программного обеспечения.</p>' +
+            infoText.txt = 'Внимание!' +
                 '<p> Заявки обрабатываются с 7.00 до 21.00 МСК.<br> Биржа работает в ручном режиме. Об ошибках и предложениях сообщать на support@prizmex.ru</p>';
             UserBalance = [0,Math.round(user.PZM*100)/100,Math.round(user.USD*100)/100,Math.round(user.RUR*100)/100];
             LoginRegister = '<div class="w3-right-align w3-small"><span class="w3-border-top">'+req.session.username+'</span></div><a href="/profile" class="w3-button w3-border w3-border-white w3-round"><label>ВВОД / ВЫВОД</label></a>&nbsp;&nbsp;<a href="/profile" class="w3-button w3-border w3-border-white w3-round"><label>ПРОФИЛЬ</label></a>&nbsp;&nbsp;<a href="/logout" class="w3-button w3-border w3-border-white w3-round">ВЫХОД</a>' +
