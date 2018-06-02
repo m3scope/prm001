@@ -70,6 +70,8 @@ router.get('/', function(req, res, next) {
                         } else {
                             res.render('index', {
                                 title: 'PRIZM Stock Exchange',
+                                user: user,
+                                inc: {f: 'deals'},
                                 LoginRegister: LoginRegister,
                                 userDeals: userDeals,
                                 deals: data,
@@ -88,6 +90,8 @@ router.get('/', function(req, res, next) {
             if (err) res.status(500).send('Внутренняя ошибка!');
             res.render('index', {
                 title: 'PRIZM Stock Exchange',
+                user: null,
+                inc: {f: 'deals'},
                 LoginRegister: LoginRegister,
                 userDeals: [],
                 deals: data,
@@ -99,8 +103,8 @@ router.get('/', function(req, res, next) {
 
 });
 
-router.get('/profile', checkAuth, require('./getProfile').get);
-router.post('/profile', checkAuth, require('./getProfile').post);
+router.get('/profile/:id?', checkAuth, require('./getProfile').get);
+router.post('/profile/:id?', checkAuth, require('./getProfile').post);
 
 router.post('/users', checkAuth, noCache, require('./users_post'), function (req, res){
     let user = req.user;
@@ -341,6 +345,8 @@ router.get('/deals/:id?', function (req, res) {
                             res.render('index', {
                                 title: 'PRIZM Stock Exchange',
                                 LoginRegister: LoginRegister,
+                                user: user,
+                                inc: {f: 'deals'},
                                 userDeals: userDeals,
                                 deals: data,
                                 UBalance: UserBalance,
@@ -358,6 +364,8 @@ router.get('/deals/:id?', function (req, res) {
             res.render('index', {
                 title: 'PRIZM Stock Exchange',
                 LoginRegister: LoginRegister,
+                user: null,
+                inc: {f: 'deals'},
                 userDeals: [],
                 deals: data,
                 UBalance: UserBalance,

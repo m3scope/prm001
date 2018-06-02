@@ -7,7 +7,8 @@ const db_bills = require('../libs/db_bills');
 const Bank = require('../models/bank');
 const config = require('config');
 
-let tax = config.get('tax');
+let tax = config.get('tax');    //Загрузка комиссий по-умолчанию
+
 const Curr = ['','PZM','USD','RUR'];
 
 const QRCode = require('qrcode');
@@ -28,8 +29,8 @@ exports.get = function (req, res, next) {
                         req.session.destroy();
                         res.redirect('/login');
                     } else {
-                        if(user.vip) tax = config.get('viptax');
-                        //console.log(params);
+                        if(user.vip) tax = config.get('viptax');    //Загрузка комиссий для "Паровоза"
+                        //console.log(tax);
                         UserBalance = [0, Math.round(user.PZM * 100) / 100, Math.round(user.USD * 100) / 100, Math.round(user.RUR * 100) / 100];
                         LoginRegister = '<div class="w3-right-align w3-small"><span class="w3-border-top">' + req.session.username + '</span></div><a href="/profile" class="w3-button w3-border w3-border-white w3-round"><label>ВВОД / ВЫВОД</label></a>&nbsp;&nbsp;<a href="/profile" class="w3-button w3-border w3-border-white w3-round"><label>ПРОФИЛЬ</label></a>&nbsp;&nbsp;<a href="/logout" class="w3-button w3-border w3-border-white w3-round">ВЫХОД</a>' +
                             '<div class="w3-right-align w3-small">' +
@@ -115,7 +116,9 @@ exports.post = function (req, res, next) {
                 });
             } else {
                 let LoginRegister = '<b><a href="/profile" class="w3-button w3-border w3-border-white w3-round"><label>ВВОД / ВЫВОД</label></a>&nbsp;&nbsp;<a href="/profile" class="w3-button w3-border w3-border-white w3-round"><label>ПРОФИЛЬ</label></a>&nbsp;&nbsp;<a href="/logout">ВЫХОД</a></b>';
-                if (user.vip) tax = config.get('viptax');
+
+                if (user.vip) tax = config.get('viptax');    //Загрузка комиссий для "Паровоза"
+
                 if (req.params.id) {
                     console.log(req.body);
                     const banks = [{QIWI: '+79627948161', Yandex: '410012300589165'}];
@@ -139,13 +142,7 @@ exports.post = function (req, res, next) {
                             }
                         }
                         commiss_sell = commiss_sell + bank_commiss_summ;
-                        // commiss_sell = 0.05;
-                        // if (summ > 10) {
-                        //     commiss_sell = Math.round(Number(summ) * 0.5 + 0.005) / 100;
-                        //     if (commiss_sell > 10) {
-                        //         commiss_sell = 10;
-                        //     }
-                        // }
+
                     }
 
                     if (Boolean(Number(req.body.class))) {        // (1 - пополнение)

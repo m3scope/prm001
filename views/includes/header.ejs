@@ -11,9 +11,36 @@
         </div>
         <!-- Right Column -->
         <div class="w3-third w3-right-align">
-            <p><%- LoginRegister%></p>
+
+            <% if(user){%>
+            <p>
+                <div class="w3-right-align w3-small">
+                    <span class="w3-border-top"><%= user.username%></span>
+                </div>
+                <a href="/profile/query" class="w3-button w3-border w3-border-white w3-round">
+                    <label>ВВОД / ВЫВОД</label>
+                </a>&nbsp;&nbsp;
+                <a href="/profile" class="w3-button w3-border w3-border-white w3-round">
+                    <label>МОИ ДАННЫЕ</label>
+                </a>&nbsp;&nbsp;
+                <a href="/logout" class="w3-button w3-border w3-border-white w3-round">ВЫХОД</a>
+                <div class="w3-right-align w3-small">
+                    <span>PZM: </span>
+                    <label class="w3-border-bottom"><%= user.PZM %></label>
+                    <span>&nbsp; RUR: </span>
+                    <label class="w3-border-bottom"><%= user.RUR %></label>
+                    <span>&nbsp; USD: </span>
+                    <label class="w3-border-bottom"><%= user.USD %></label>
+                </div>
+            </p>
+            <%}else {%>
+            <p>
+                <b><a href="/login">Вход</a> </b>
+            </p>
+            <%}%>
         </div>
     </div>
+
 </div>
 
 <div class="w3-small" id="info">

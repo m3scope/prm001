@@ -59,8 +59,10 @@
       <div class="w3-row-padding">
             <!-- Left Column -->
             <div class="w3-twothird">
-                <%- include('includes/deals') %>
+                <% let i = 'includes/'+ inc.f %>
+                <%- include(i) %>
             </div>
+
 
             <div class="w3-third">
                   <%- include('includes/r_info') %>

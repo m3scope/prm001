@@ -23,6 +23,8 @@ function formatDate(dt, cb) {
 
 exports.get = function(req, res){
     let UserBalance = [0,0,0,0,0];
+    let inc_file = 'profile_data';
+    if (req.params.id) inc_file = 'profile_'+req.params.id;
     loadUser.findID(req.session.user, function (err, user) {
         UserBalance = [0,Math.round(user.PZM*100)/100,Math.round(user.USD*100)/100,Math.round(user.RUR*100)/100];
         let LoginRegister = '<b><a href="/login">Вход</a> </b>';
@@ -44,15 +46,21 @@ exports.get = function(req, res){
                     if(err) console.log(err);
                     user.bills = userBills;
                     db_querys.getUserQuerys(user._id, function (err, userQuerys) {
-                        if(err) console.error(err);
-                        user.querys = userQuerys;
-                        res.render('profile', {title: 'Профиль', user: user, LoginRegister: LoginRegister, UBalance: UserBalance});
-                        // db_querys.getUserQExec(user._id, function (err, userQExec) {
-                        //     if(err) console.error(err);
-                        //     user.userQExec = userQExec;
-                        //     res.render('profile', {title: 'Профиль', user: user, LoginRegister: LoginRegister, UBalance: UserBalance});
-                        // });
-                    });
+                            if (err) console.error(err);
+                            user.querys = userQuerys;
+                            res.render('profile', {
+                                title: 'Профиль',
+                                user: user,
+                                inc: {f: inc_file},
+                                LoginRegister: LoginRegister,
+                                UBalance: UserBalance
+                            });
+                            // db_querys.getUserQExec(user._id, function (err, userQExec) {
+                            //     if(err) console.error(err);
+                            //     user.userQExec = userQExec;
+                            //     res.render('profile', {title: 'Профиль', user: user, LoginRegister: LoginRegister, UBalance: UserBalance});
+                            // });
+                        });
 
                 });
 

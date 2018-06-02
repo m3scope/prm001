@@ -1,0 +1,204 @@
+
+<div class="w3-panel" >
+
+    <a href="/profile/data" class="w3-white w3-btn w3-border w3-border-green w3-round-xlarge">Профиль</a>
+    <a href="/profile/finance" class="w3-white w3-btn w3-border w3-border-green w3-round-xlarge">Финансы</a>
+    <a href="/profile/query" class="w3-cyan w3-btn w3-border w3-border-green w3-round-xlarge">Ввод/Вывод</a>
+    <!-- <a href="/3;3" class="w3-btn w3-white w3-border w3-border-green w3-round-xlarge">Pzm/Slv</a> -->
+    <% if(user.status > 2){%>
+
+    <a href="/amd/querys" class=" w3-btn w3-border w3-border-green w3-round" >А</a>
+    <%}%>
+</div>
+
+<div class="w3-row-padding w3-small">
+
+    <div class="w3-col " ng-controller="CtrlQuerys">
+        <div class="">
+            <div class="w3-panel w3-sand">
+                <p>Внимание: ЗАПРОСЫ обрабатываются с 7.00 до 21.00 МСК</p>
+            </div>
+            <div class="w3-container w3-teal">
+                <h5>Мои запросы</h5>
+            </div>
+            <% if(user.querys.length>0) {%>
+            <table class="w3-table-all w3-small w3-striped w3-hoverable">
+                <tr  class="w3-green">
+                    <th class="w3-border-left"></th>
+                    <th>Валюта</th>
+                    <th class="w3-border-left">Тип</th>
+                    <th class="w3-border-left">Кол.</th>
+                    <th class="w3-border-left">Зачислено/Получено</th>
+                    <th class="w3-border-left">Банк</th>
+                    <th class="w3-border-left">Код</th>
+                    <th class="w3-border-left">Номер счета</th>
+                    <th class="w3-border-left">Дата</th>
+                    <th class="w3-border-left">Комментарий</th>
+                    <th class="w3-border-left"></th>
+
+                </tr>
+
+                <tr ng-repeat="dt in qqq" ng-click="setSelected();">
+                    <td class="w3-border-left {{ dt.color2 }}">
+                        <div ng-switch="{{ dt.status }}">
+                            <div ng-switch-when="0">
+                  <span class="w3-button w3-black"><a href="{{dt.confirm}}">подтвердить</a>
+                            </div>
+                            <div ng-switch-when="1">
+                                <span>в обработке</span>
+                            </div>
+                            <div ng-switch-when="3">
+                                <span>исполнен</span>
+                            </div>
+                            <div ng-switch-when="4">
+                                <span>отменен</span>
+                            </div>
+                            <div ng-switch-when="5">
+                                <span>отменен Адм.</span>
+                            </div>
+                        </div>
+                    </td>
+                    <td>{{ dt.currency }}</td>
+                    <td class="{{ dt.color }}">{{ dt.typ }}</td>
+                    <td class="w3-border-left">{{ dt.amount }}</td>
+                    <td class="w3-border-left">{{ dt.amount2 }}</td>
+                    <td class="w3-border-left">{{ dt.bank_name }}</td>
+                    <td class="w3-border-left">{{ dt.cod }}</td>
+                    <td class="w3-border-left">{{ dt.bank_number }}</td>
+                    <td class="w3-border-left">{{ dt.dat }}</td>
+                    <td class="w3-border-left">{{ dt.comments }}</td>
+                    <td class="w3-border-left {{ dt.color2 }}">
+                        <div ng-switch="{{ dt.status }}">
+                            <div ng-switch-when="0">
+                                <span> <a href="{{dt.cancel}}">отменить</a></span>
+                            </div>
+                        </div>
+                    </td>
+
+                </tr>
+
+            </table>
+            <%}%>
+        </div>
+    </div>
+</div>
+
+<script>
+    //<![CDATA[
+    let myApp = angular.module('myApp',[]);
+    let dl = {};
+    let bl = {};
+    let qq={};
+    let i = 0;
+    let glub_buy = 0;
+    let glub_sell = 0;
+    let minPrice = 0;
+    let maxPrice = 0;
+    const bs=['продажа','покупка'];
+    const clors=['w3-orange','w3-cyan','w3-gray','w3-brown','w3-gray','','','','','w3-gray'];
+    const Curr = ['','PZM','USD','RUR'];
+    const w3Btn = [[],['','','w3-white', 'w3-white'],['','w3-white','','w3-white'],['','w3-white','w3-white','']];
+    const typ = ['Вывод','Ввод','Отправить','Получить'];
+
+    myApp.controller('w3BtnCtrl', function ($scope) {
+        $scope.nm = 'one';
+        $scope.btn = {'color':{'one':'w3-cyan','two':'w3-white','three':'w3-white' }};
+        $scope.btnClick = function (nm) {
+            $scope.nm = nm;
+            $scope.btn = {'color':{'one':'w3-white','two':'w3-white','three':'w3-white' }};
+            $scope.btn.color[nm] = 'w3-cyan';
+        }
+    });
+
+    myApp.controller('CtrlQuerys', function ($scope) {
+        $scope.qqq=[];
+
+        <% user.querys.forEach(function (query) {%>
+        qq={};
+        qq.currency = Curr[<%= query.currency%>];
+        qq.typ = typ[<%= query.class%>];
+        qq.color = clors[<%= query.class%>];
+        qq.color2 = clors[<%= query.status%>];
+        qq.amount = <%= query.amount%>;
+        qq.amount2 = <%= Math.round((query.amount - query.commission_summ)*100)/100 %>;
+        qq.bank_name = '<%= query.bank_name%>';
+        qq.cod = '<%= query.cod%>';
+        qq.bank_number = '<%= query.bank_number%>';
+        qq.status = <%= query.status%>;
+        qq.comments = '<%= query.comments%>';
+        qq.confirm = '/api/q/res/<%= query._id %>;confirm';
+        qq.cancel = '/api/q/res/<%= query._id %>;cancel';
+        qq.dat = TimeMsk('<%= query.createdAt %>');
+
+        $scope.qqq.push(qq);
+        <%})%>
+
+
+        $scope.setSelected = function () {
+
+        }
+    });
+
+    myApp.controller('CtrlDeals', function($scope) {
+        $scope.dt1 = [];
+        $scope.minPrice = minPrice;
+        $scope.commission_buy = 0;
+        $scope.data = {disabled_buy: true};
+        i=0;
+        <% user.deals.forEach(function (deal) { %>
+        dl={};
+        dl.cans = '/api/q/deal/<%= deal._id %>;cancel';
+        dl.deal_currency = Curr[<%= deal.deal_currency%>];
+        dl.price_currency = Curr[<%= deal.price_currency%>];
+        dl.typ = bs[<%= deal.class %>];
+        dl.color = clors[<%= deal.class%>];
+        dl.deal_amount = <%= deal.deal_amount%>;
+        dl.deal_amount_bill = <%= deal.deal_amount_bill%>;
+        dl.price_amount = <%= deal.price_amount%>;
+        dl.summ = <%= Math.round(deal.deal_amount*deal.price_amount*100)/100 %>;
+
+        dl.dat = TimeMsk('<%= deal.createdAt%>');
+        //console.log(dl.dat);
+        dl.status = <%= deal.status %>;
+        dl.color2 = clors[<%= deal.status%>];
+        dl.i = i;
+
+        $scope.dt1.push(dl);
+        i++;
+        <%})%>
+
+        $scope.setSelected = function() {
+
+        }
+    });
+
+    myApp.controller('CtrlBills', function ($scope) {
+        $scope.dt3 = [];
+        i=0;
+        <% user.bills.forEach(function (bill) { %>
+        bl={};
+        bl.deal_currency = Curr[<%= bill.deal_currency%>];
+        bl.price_currency = Curr[<%= bill.price_currency%>];
+        bl.typ = bs[<%= bill.class %>];
+        bl.color = clors[<%= bill.class%>];
+        bl.deal_amount = <%= bill.deal_amount%>;
+        bl.price_amount = <%= bill.price_amount%>;
+        bl.summ = <%= Math.round(bill.deal_amount*bill.price_amount*100)/100 %>;
+
+        bl.dat = TimeMsk('<%= bill.createdAt%>');
+        bl.status = <%= bill.status %>;
+        bl.color2 = clors[<%= bill.status%>];
+        bl.i = i;
+
+        $scope.dt3.push(bl);
+        i++;
+
+        <% })%>
+        $scope.setSelected = function() {
+
+        }
+
+    });
+
+    //]]>
+</script>

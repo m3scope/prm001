@@ -570,8 +570,8 @@ exports.post = function (req, res, next) {
                                     qq.status = 3;
                                     qq.dateExec = Date.now();
                                     qq.comments = qq.comments + ' / '+req.body.comments;
-                                    qq.bank_commission_tax = req.body.bank_commission_tax;
-                                    qq.bank_commission_summ = req.body.bank_commission_summ;
+                                    if(req.body.bank_commission_tax > 0) qq.bank_commission_tax = req.body.bank_commission_tax;
+                                    if(req.body.bank_commission_summ > 0) qq.bank_commission_summ = req.body.bank_commission_summ;
                                     qq.save(function (err, qqsaved) {
                                         if (err) {
                                             console.error(err);
