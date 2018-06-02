@@ -39,7 +39,7 @@
                 <%if(user.vip){%>
                     <p>
                         <span class="w3-tag w3-green">Номер кошелька:</span>
-                        <input ng-disabled="true" class="w3-input" type="text" name="bank_number" required ng-model="bank_number" value="<%= user.prizmaddress%>">
+                        <input ng-disabled="true" class="w3-input" type="text" name="bank_number" required value="<%= user.prizmaddress%>">
                         <label>в формате PRIZM-ХХХХ-ХХХХ-XXXХ-ХХХХ</label>
                     </p>
                     <p>
@@ -50,7 +50,7 @@
                 <%} else {%>
                     <p>
                         <span class="w3-tag w3-green">Номер кошелька:</span>
-                        <input class="w3-input" type="text" name="bank_number" required ng-model="bank_number">
+                        <input class="w3-input" type="text" name="bank_number" required >
                         <label>в формате PRIZM-ХХХХ-ХХХХ-XXXХ-ХХХХ</label>
                     </p>
                     <p>
