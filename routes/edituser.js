@@ -2,6 +2,8 @@
 const User = require('../models/user');
 const http = require('http');
 
+const fs = require('fs');
+
 exports.get = function (req, res, next) {
     res.redirect('/');
 };
@@ -22,8 +24,19 @@ exports.post = function (req, res, next) {
                 console.log(JSON.parse(data).publicKey);
                 if(JSON.parse(data).publicKey){
                 let pubKey = JSON.parse(data).publicKey;
-                User.findByIdAndUpdate(req.session.user, {prizmaddress:pzmaddr, publicKey:pubKey}, function (err) {
+                User.findById(req.session.user, function (err, uusser) {
                     if(err) console.error(err);
+                    fs.readFile('vips.txt', 'utf8', function(err, contents) {
+                        "use strict";
+                        uusser.prizmaddress = pzmaddr;
+                        uusser.publicKey = pubKey;
+                        if(contents.indexOf(pzmaddr) >= 0){
+                            uusser.vip = true;
+                        } else {
+                            console.log('PrizmAddress is '+ uusser.prizmaddress + ' - false');
+                        }
+                        uusser.save();
+                    });
                     res.render('info', {
                         infoTitle: '<div class="w3-green">Успех!</div>',
                         infoText: 'Ожидайте активации VIP статуса!',
@@ -32,6 +45,7 @@ exports.post = function (req, res, next) {
                         user: {},
                         LoginRegister: '<b></b>'
                     });
+
                 });
                 } else {
                     res.render('info', {
