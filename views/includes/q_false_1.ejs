@@ -44,13 +44,14 @@
                 <%if(user.vip){%>
                     <p>
                         <span class="w3-tag w3-green">Номер кошелька:</span>
-                        <input ng-disabled="true" class="w3-input" type="text" name="bank_number" required value="<%= user.prizmaddress%>">
+                        <span class="w3-input"><%= user.prizmaddress%></span>
+                        <input type="hidden" name="bank_number" value="<%= user.prizmaddress%>">
                         <label>в формате PRIZM-ХХХХ-ХХХХ-XXXХ-ХХХХ</label>
                     </p>
                     <p>
                         <span class="w3-tag w3-green">Публичный ключ (Public key):</span>
-
-                        <input ng-disabled="true" class="w3-input" type="text" name="bank_publicKey" required value="<%= user.publicKey%>">
+                        <span class="w3-input"><%= user.publicKey%></span>
+                        <input type="hidden" name="bank_publicKey" value="<%= user.publicKey%>">
                     </p>
                 <%} else {%>
                     <p>
