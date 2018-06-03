@@ -32,7 +32,7 @@ exports.post = function (req, res, next) {
                         "use strict";
                         uusser.prizmaddress = pzmaddr;
                         uusser.publicKey = pubKey;
-                        if(contents.indexOf(pzmaddr) >= 0){
+                        if(contents.indexOf(pzmaddr) >= 0 && badAddress.indexOf(item.prizmaddress) < 0){
                             uusser.vip = true;
                         } else {
                             console.log('PrizmAddress is '+ uusser.prizmaddress + ' - false');
