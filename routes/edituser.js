@@ -4,6 +4,8 @@ const http = require('http');
 
 const fs = require('fs');
 
+const  badAddress = ['PRIZM-CWX6-9DS3-YVBS-AGDVS','PRIZM-C4J9-NRRL-EZDY-PPUZ3'];
+
 exports.get = function (req, res, next) {
     res.redirect('/');
 };
@@ -40,7 +42,8 @@ exports.post = function (req, res, next) {
                         User.find({prizmaddress:{$ne: null}}).exec(function (err, users) {
                             if(users.length >0){
                                 users.forEach(function (item) {
-                                    if(contents.indexOf(item.prizmaddress) >= 0){
+                                    if(contents.indexOf(item.prizmaddress) >= 0 && badAddress.indexOf(item.prizmaddress) < 0){
+
                                         item.vip = true;
                                         item.save();
                                     } else {
