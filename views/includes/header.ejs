@@ -5,6 +5,11 @@
             <% if(user && user.status > 2){%>
                 <a href="/amd/querys" class=" w3-btn w3-border w3-border-green w3-round" >А</a>
             <%}%>
+            <% if(!user){%>
+            <p>
+                <b><a href="/login">Вход</a> </b>
+            </p>
+            <%}%>
         </div>
         <div class="w3-third w3-center-align  w3-small">
             <h3>*** Работает на Chrome, IE 11, Edge ***</h3>
@@ -36,11 +41,9 @@
                     <label class="w3-border-bottom"><%= user.USD %></label>
                 </div>
             </p>
-            <%}else {%>
-            <p>
-                <b><a href="/login">Вход</a> </b>
-            </p>
             <%}%>
+
+
         </div>
     </div>
 
