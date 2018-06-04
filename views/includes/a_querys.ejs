@@ -117,6 +117,8 @@
     let maxPrice = 0;
     let bs=['продажа','покупка'];
     let clors=['w3-orange','w3-cyan','w3-gray','w3-brown','w3-gray','w3-green','','','','w3-gray'];
+    let clors2=['w3-orange','w3-cyan','w3-gray','w3-green','w3-green','w3-gray','','','','w3-gray'];
+    let clors3=['w3-orange','w3-cyan','w3-gray','w3-green','w3-gray','w3-gray','','','','w3-gray'];
     const Curr = ['','PZM','USD','RUR'];
     const w3Btn = [[],['','','w3-white', 'w3-white'],['','w3-white','','w3-white'],['','w3-white','w3-white','']];
     const typ = ['Вывод','Ввод','Отправить','Получить'];
@@ -141,7 +143,11 @@
             qq.amount = <%= (Boolean(query.class)) ? query.amount:Math.round((query.amount - query.commission_summ)*100)/100%>;
             qq.amount2 = <%= Math.round((query.amount - query.commission_summ)*100)/100 %>;
             qq.percent = '<%= query.commission_tax%>';
-            qq.percent_color = clors[<%= query.class + query.commission_tax%>];
+            if (<%= query.class > 0%>) {
+                qq.percent_color = clors2[<%= query.class + query.commission_tax %>];
+            } else {
+                qq.percent_color = clors3[<%= query.class + query.commission_tax %>];
+            }
             qq.bank_name = '<%= query.bank_name%>';
             qq.cod = '<%= query.cod%>';
             qq.bank_number = '<%= query.bank_number%>';
