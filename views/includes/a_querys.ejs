@@ -34,6 +34,7 @@
                         <th class="w3-border-left">Валюта</th>
                         <th class="w3-border-left">Тип</th>
                         <th class="w3-border-left">Кол.</th>
+                        <th class="w3-border-left">%</th>
                         <th class="w3-border-left">Банк</th>
                         <th class="w3-border-left">Код</th>
                         <th class="w3-border-left">Номер счета</th>
@@ -70,6 +71,7 @@
                         <td>{{ dt.currency }}</td>
                         <td class="{{ dt.color }}">{{ dt.typ }}</td>
                         <td class="w3-border-left {{ dt.myQueryColors }}"><span class="w3-tag w3-gray">{{ dt.amount }}</span></td>
+                        <td class="w3-border-left">{{ dt.percent }}</td>
                         <td class="w3-border-left">{{ dt.bank_name }}</td>
                         <td class="w3-border-left">COD-{{ dt.cod }} <form action="/amd/users/info" method="post">
                                         <input type="hidden" name="cod" value="{{ dt.userId }}">
@@ -138,6 +140,7 @@
             <%}%>
             qq.amount = <%= (Boolean(query.class)) ? query.amount:Math.round((query.amount - query.commission_summ)*100)/100%>;
             qq.amount2 = <%= Math.round((query.amount - query.commission_summ)*100)/100 %>;
+            qq.percent = '<%= query.commission_tax%>';
             qq.bank_name = '<%= query.bank_name%>';
             qq.cod = '<%= query.cod%>';
             qq.bank_number = '<%= query.bank_number%>';
