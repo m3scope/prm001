@@ -144,9 +144,9 @@
             qq.amount2 = <%= Math.round((query.amount - query.commission_summ)*100)/100 %>;
             qq.percent = '<%= query.commission_tax%>';
             if (<%= query.class > 0%>) {
-                qq.percent_color = clors2[<%= query.class + query.commission_tax %>];
+                qq.percent_color = clors3[<%= query.commission_tax %>];
             } else {
-                qq.percent_color = clors3[<%= query.class + query.commission_tax %>];
+                qq.percent_color = clors2[<%= query.commission_tax %>];
             }
             qq.bank_name = '<%= query.bank_name%>';
             qq.cod = '<%= query.cod%>';
