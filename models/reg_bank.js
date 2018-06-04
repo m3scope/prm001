@@ -3,6 +3,10 @@ const crypto = require('crypto'); // модуль node.js для выполне�
 //const User = require('./user');
 
 const reg_bankSchema = new mongoose.Schema({
+
+    DateCurrent: {type: Date, default: Date.now},
+    EditUser: { type: mongoose.Schema.ObjectId, ref: 'User'},
+
     UID: {type: String, default: ''},
 
     dealerId: { type: mongoose.Schema.ObjectId, ref: 'User'},     // Id пользователя владелец кошелька

@@ -71,7 +71,7 @@
                         <td>{{ dt.currency }}</td>
                         <td class="{{ dt.color }}">{{ dt.typ }}</td>
                         <td class="w3-border-left {{ dt.myQueryColors }}"><span class="w3-tag w3-gray">{{ dt.amount }}</span></td>
-                        <td class="w3-border-left">{{ dt.percent }}</td>
+                        <td class="{{dt.percent_color}} w3-border-left">{{ dt.percent }}</td>
                         <td class="w3-border-left">{{ dt.bank_name }}</td>
                         <td class="w3-border-left">COD-{{ dt.cod }} <form action="/amd/users/info" method="post">
                                         <input type="hidden" name="cod" value="{{ dt.userId }}">
@@ -116,7 +116,7 @@
     let minPrice = 0;
     let maxPrice = 0;
     let bs=['продажа','покупка'];
-    let clors=['w3-orange','w3-cyan','w3-gray','w3-brown','w3-gray','','','','','w3-gray'];
+    let clors=['w3-orange','w3-cyan','w3-gray','w3-brown','w3-gray','w3-green','','','','w3-gray'];
     const Curr = ['','PZM','USD','RUR'];
     const w3Btn = [[],['','','w3-white', 'w3-white'],['','w3-white','','w3-white'],['','w3-white','w3-white','']];
     const typ = ['Вывод','Ввод','Отправить','Получить'];
@@ -141,6 +141,7 @@
             qq.amount = <%= (Boolean(query.class)) ? query.amount:Math.round((query.amount - query.commission_summ)*100)/100%>;
             qq.amount2 = <%= Math.round((query.amount - query.commission_summ)*100)/100 %>;
             qq.percent = '<%= query.commission_tax%>';
+            qq.percent_color = clors[<%= query.class + query.commission_tax%>];
             qq.bank_name = '<%= query.bank_name%>';
             qq.cod = '<%= query.cod%>';
             qq.bank_number = '<%= query.bank_number%>';
