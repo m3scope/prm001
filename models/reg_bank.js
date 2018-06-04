@@ -6,6 +6,7 @@ const reg_bankSchema = new mongoose.Schema({
 
     DateCurrent: {type: Date, default: Date.now},
     EditUser: { type: mongoose.Schema.ObjectId, ref: 'User'},
+    BankId: { type: mongoose.Schema.ObjectId, ref: 'Bank'},
 
     UID: {type: String, default: ''},
 

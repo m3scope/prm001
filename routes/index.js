@@ -405,6 +405,9 @@ router.post('/amd/transactions/',  checkAdmin, noCache, require('./a_querys').po
 router.get('/amd/vips/:id?',  checkAdmin, noCache, require('./a_vips').get);
 router.post('/amd/vips/:id?',  checkAdmin, noCache, require('./a_vips').post);
 
+router.get('/amd/reg_bank/:id?',  checkAdmin, noCache, require('./a_reg_bank').get);
+router.post('/amd/reg_bank/:id?',  checkAdmin, noCache, require('./a_reg_bank').post);
+
 //-----------------------------
 
 //*** (API) - ЗАПРОСЫ / ОТВЕТЫ ********************
