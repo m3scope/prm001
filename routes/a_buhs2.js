@@ -153,6 +153,7 @@ exports.post = function(req, res) {
         dateTo.setSeconds(59);
         dateTo.setMilliseconds(0);
         //console.log(dateAt);
+
         Transaction.aggregate(
             [
                 {
@@ -199,17 +200,49 @@ exports.post = function(req, res) {
                                 console.error(err);
                                 res.redirect('/amd/users');
                             } else {
-                                console.log(aggrQuery);
-                                res.render('amd_index', {
-                                    inc: {f: 'a_buhs'},
-                                    dateRange: {dateAt: dateAt, dateTo: dateTo},
-                                    title: 'Бухгалтерия',
-                                    aggrTrans: aggrTrans,
-                                    aggrQuery: aggrQuery,
-                                    userId:req.session.user,
-                                    LoginRegister: 'LoginRegister'
 
-                                });
+                                Bank.aggregate(
+                                    [
+                                        {
+                                            "$match" : {
+                                                "bank_cod" : {
+                                                    "$lt" : 99.0
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "$group" : {
+                                                "_id" : "$bank_name",
+                                                "amount" : {
+                                                    "$sum" : "$summ_all_current"
+                                                }
+                                            }
+                                        }
+                                    ],function (err, aggrBanks) {
+                                        if(err){
+                                            console.error(err);
+                                            res.redirect('/amd/users');
+                                        } else {
+                                            Bank.find().sort({bank_cod: 1}).exec(function (err, banks) {
+                                                res.render('amd_index', {
+                                                    inc: {f: 'a_buhs2'},
+                                                    title: 'Бухгалтерия2',
+                                                    dateRange: {dateAt: dateAt, dateTo: dateTo},
+                                                    aggrTrans: aggrTrans,
+                                                    aggrQuery: aggrQuery,
+                                                    aggrBanks: aggrBanks,
+                                                    banks: banks,
+                                                    dealerId:req.session.user,
+                                                    userId: req.session.user,
+                                                    LoginRegister: 'LoginRegister'
+
+                                                });
+                                            });
+                                        }
+                                    }
+                                );
+
+
                             }
                         }
                     );
@@ -219,4 +252,5 @@ exports.post = function(req, res) {
             }
         );
     }
+
 };
