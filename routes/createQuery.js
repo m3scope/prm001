@@ -197,6 +197,9 @@ exports.post = function (req, res, next) {
                                         query.action = 'function()';
                                         query.cod = cod;
                                         query.info = 'Переведите ' + summ + ' ' + bank.currency_name + ' на номер ' + bank.bank_number + ' ' + bank.bank_name;
+                                        if (bank_cod == 3) {
+                                            query.info = 'Переведите ' + summ + ' ' + bank.currency_name + ' на номер карты ' + bank.bank_number + ' ' + bank.bank_name;
+                                        }
                                         query.comment = '<h3><span class="w3-text-red">В комментарии к переводу вставьте код: </span></h3><h1><b>' + cod + '</b></h1>';
                                         query.class = req.body.class;
                                         query.save(function (err, saved_Q) {
