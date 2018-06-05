@@ -21,7 +21,11 @@
             <img src="<%= qq.qrCode%>">
           <%}%>
           <p>
-            Переведите <%= qq.amount %> <%= curr[qq.currency] %> на номер <%= qq.bank_name%> :
+            <% if(qq.bank_cod == 3){%>
+              Переведите <%= qq.amount %> <%= curr[qq.currency] %> на номер карты <%= qq.bank_name%> :
+            <%} else {%>
+              Переведите <%= qq.amount %> <%= curr[qq.currency] %> на номер <%= qq.bank_name%> :
+            <%}%>
             <br> <%= qq.bank_number %>
             <% if(qq.bank_cod == 0){%>
             <br><span>Public key: </span>
