@@ -102,17 +102,20 @@ exports.get = function(req, res) {
                                                 console.error(err);
                                                 res.redirect('/amd/users');
                                             } else {
-                                                console.log(aggrQuery);
-                                                res.render('amd_index', {
-                                                    inc: {f: 'a_buhs2'},
-                                                    title: 'Бухгалтерия2',
-                                                    dateRange: {dateAt: dateAt, dateTo: dateTo},
-                                                    aggrTrans: aggrTrans,
-                                                    aggrQuery: aggrQuery,
-                                                    aggrBanks: aggrBanks,
-                                                    userId:req.session.user,
-                                                    LoginRegister: 'LoginRegister'
+                                                Bank.find().sort({bank_cod: 1}).exec(function (err, banks) {
+                                                    res.render('amd_index', {
+                                                        inc: {f: 'a_buhs2'},
+                                                        title: 'Бухгалтерия2',
+                                                        dateRange: {dateAt: dateAt, dateTo: dateTo},
+                                                        aggrTrans: aggrTrans,
+                                                        aggrQuery: aggrQuery,
+                                                        aggrBanks: aggrBanks,
+                                                        banks: banks,
+                                                        dealerId:req.session.user,
+                                                        userId: req.session.user,
+                                                        LoginRegister: 'LoginRegister'
 
+                                                    });
                                                 });
                                             }
                                         }
