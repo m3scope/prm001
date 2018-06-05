@@ -393,6 +393,9 @@ router.post('/amd/banks',  checkAdmin, noCache, require('./a_banks').post);
 router.get('/amd/buhgalters/:id?',  checkAdmin, noCache, require('./a_buhs').get);
 router.post('/amd/buhgalters',  checkAdmin, noCache, require('./a_buhs').post);
 
+router.get('/amd/buhgalters2/:id?',  checkAdmin, noCache, require('./a_buhs2').get);
+router.post('/amd/buhgalters2/:id?',  checkAdmin, noCache, require('./a_buhs2').post);
+
 router.get('/amd/users/:id?',  checkAdmin, noCache, require('./users').get);
 router.post('/amd/users/:id?',  checkAdmin, noCache, require('./users').post);
 

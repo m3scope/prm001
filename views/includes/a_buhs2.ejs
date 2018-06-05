@@ -1,0 +1,182 @@
+<div class="w3-panel">
+
+</div>
+
+<div class="w3-row-padding" ng-app="myApp">
+    <!-- Left Column -->
+    <div class="w3-col s12" >
+
+        <div class="w3-col " ng-controller="CtrlQuerys2">
+            <div class="">
+
+                <div class="w3-container w3-teal">
+                    <h5>Комиссии</h5>
+                </div>
+
+                <div class="w3-border">
+                    <form action="" method="post" class="w3-container">
+                        <div  class="w3-col m3">
+                            <label class="w3-tag w3-green">С</label>
+                            <input type="date" name="dateAt" class="w3-input">
+
+                        </div>
+                        <div  class="w3-col m3">
+                            <label class="w3-tag w3-green">по</label>
+                            <input type="date" name="dateTo" class="w3-input">
+
+                        </div>
+                        <input type="submit" class="w3-button w3-green">
+                    </form>
+                </div>
+
+
+                <table class="w3-table-all w3-small w3-striped w3-hoverable">
+                    <tr  class="w3-green">
+                        <th width="200" class="w3-black ">{{ dateAt }} - {{ dateTo }}</th>
+                        <th width="200" class="w3-border-left">PZM</th>
+                        <th width="200" class="w3-border-left">USD</th>
+                        <th width="200" class="w3-border-left">RUR</th>
+                        <th class="w3-border-left"></th>
+                        <th class="w3-border-left"></th>
+                        <th class="w3-border-left"></th>
+                    </tr>
+
+                    <tr >
+                        <td class="">сделки</td>
+                        <td class="w3-border-left">{{aggrTrans.PZM}}</td>
+                        <td class="w3-border-left">{{aggrTrans.USD}}</td>
+                        <td class="w3-border-left">{{aggrTrans.RUR}}</td>
+                        <td class="w3-border-left w3-right-align"></td>
+                        <td class="w3-border-left"></td>
+                        <td class="w3-border-left"></td>
+                    </tr>
+                    <tr>
+                        <td class="">ввод/вывод</td>
+                        <td class="w3-border-left">{{aggrQuery.PZM}}</td>
+                        <td class="w3-border-left">{{aggrQuery.USD}}</td>
+                        <td class="w3-border-left">{{aggrQuery.RUR}}</td>
+                        <td class="w3-border-left w3-right-align"></td>
+                        <td class="w3-border-left"></td>
+                        <td class="w3-border-left"></td>
+                    </tr>
+                    <tr>
+                        <td class="">итого</td>
+                        <td class="w3-border-left">{{qq.PZM}}</td>
+                        <td class="w3-border-left">{{qq.USD}}</td>
+                        <td class="w3-border-left">{{qq.RUR}}</td>
+                        <td class="w3-border-left w3-right-align"></td>
+                        <td class="w3-border-left"></td>
+                        <td class="w3-border-left"></td>
+                    </tr>
+
+                </table>
+
+            </div>
+        </div>
+
+    </div>
+
+    <div class="w3-col s12" >
+
+        <div class="w3-col " ng-controller="CtrlBanks2">
+            <div class="">
+
+                <div class="w3-container w3-teal">
+                    <h5>Общее по виду банка</h5>
+                </div>
+
+                <table class="w3-table-all w3-small w3-striped w3-hoverable">
+                    <tr  class="w3-green">
+                        <th width="200" class="w3-black ">PRIZM</th>
+                        <th width="200" class="w3-border-left">QIWI</th>
+                        <th width="200" class="w3-border-left">Yandex</th>
+                        <th width="200" class="w3-border-left">SberBank</th>
+                        <th class="w3-border-left">AdvCash</th>
+                        <th class="w3-border-left">PerfectMoney</th>
+                        <th class="w3-border-left">NixMoney</th>
+                    </tr>
+
+                    <tr >
+                        <td class="w3-border-left">{{aggrBanks.PRIZM}}</td>
+                        <td class="w3-border-left">{{aggrBanks.QIWI}}</td>
+                        <td class="w3-border-left">{{aggrBanks.Yandex}}</td>
+                        <td class="w3-border-left">{{aggrBanks.SberBank}}</td>
+                        <td class="w3-border-left w3-right-align">{{aggrBanks.AdvCash}}</td>
+                        <td class="w3-border-left">{{aggrBanks.PerfectMoney}}</td>
+                        <td class="w3-border-left">{{aggrBanks.NixMoney}}</td>
+                    </tr>
+                </table>
+
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+    //<![CDATA[
+    let myApp = angular.module('myApp',[]);
+    let dl = {};
+    let bl = {};
+    let qq={};
+    let i = 0;
+    let glub_buy = 0;
+    let glub_sell = 0;
+    let minPrice = 0;
+    let maxPrice = 0;
+    let bs=['продажа','покупка'];
+    let clors=['w3-orange','w3-cyan','w3-gray','w3-brown','w3-gray','','','','','w3-gray'];
+    const Curr = ['','PZM','USD','RUR'];
+    const w3Btn = [[],['','','w3-white', 'w3-white'],['','w3-white','','w3-white'],['','w3-white','w3-white','']];
+    const typ = ['Вывод','Ввод','Отправить','Получить'];
+
+    // Наша функция сравнения
+    function compareAge(personA, personB) {
+        return new Date(personB.createdAt) - new Date(personA.createdAt);
+
+    }
+
+    myApp.controller('CtrlQuerys2', function ($scope) {
+        $scope.qq = {'PZM':0,'USD':0,'RUR':0};
+        $scope.aggrQuery = {'PZM':0,'USD':0,'RUR':0};
+        $scope.aggrTrans = {'PZM':0,'USD':0,'RUR':0};
+        $scope.dateAt = TimeMsk('<%= dateRange.dateAt%>');
+        $scope.dateTo = TimeMsk('<%= dateRange.dateTo%>');
+
+        <% aggrQuery.forEach(function(item){%>
+        $scope.aggrQuery[Curr[<%= item._id%>]] = Math.round(($scope.aggrQuery[Curr[<%= item._id%>]] + <%= Number(item.amount)%> - <%= Number(item.bank_amount)%>)*100)/100;
+        <% if(Number(item._id) != 1){%>
+            $scope.qq[Curr[<%= item._id%>]] = Math.round(($scope.qq[Curr[<%= item._id%>]] + <%= Number(item.amount)%> - <%= Number(item.bank_amount)%>)*100)/100;
+        <%}%>
+        <%})%>
+        <% aggrTrans.forEach(function(item){%>
+            $scope.aggrTrans[Curr[<%= item._id%>]] = Math.round(($scope.aggrTrans[Curr[<%= item._id%>]] + <%= Number(item.amount)%>)*100)/100;
+            $scope.qq[Curr[<%= item._id%>]] = Math.round(($scope.qq[Curr[<%= item._id%>]] + <%= Number(item.amount)%>)*100)/100;
+        <%})%>
+
+        $scope.setSelected = function () {
+
+        }
+    });
+
+    myApp.controller('CtrlBanks2', function ($scope) {
+        $scope.qq = {'PRIZM':0, 'QIWI':0,'Yandex':0, 'SberBank':0,'AdvCash':0, 'PerfectMoney':0, 'NixMoney':0,'PayPal':0};
+        $scope.aggrBanks = {'PRIZM':0, 'QIWI':0,'Yandex':0, 'SberBank':0,'AdvCash':0, 'PerfectMoney':0, 'NixMoney':0,'PayPal':0};
+        $scope.aggrTrans = {'PZM':0,'USD':0,'RUR':0};
+        $scope.dateAt = TimeMsk('<%= dateRange.dateAt%>');
+        $scope.dateTo = TimeMsk('<%= dateRange.dateTo%>');
+
+        <% aggrBanks.forEach(function(item){%>
+            $scope.aggrBanks['<%= item._id%>'] = Math.round(($scope.aggrBanks['<%= item._id%>'] + <%= Number(item.amount)%>%>)*100)/100;
+
+        <%})%>
+
+        $scope.setSelected = function () {
+
+        }
+    });
+
+    //]]>
+</script>
