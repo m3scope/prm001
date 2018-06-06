@@ -4,6 +4,7 @@
     <!-- Left Column -->
 
     <div class="w3-col s12" >
+
         <div class="w3-col " ng-controller="CtrlQuerys1">
             <div class="">
 
@@ -100,26 +101,31 @@
                 <% if(querys.length>0) {%>
                 <table class="w3-table-all w3-small w3-striped w3-hoverable">
                     <tr  class="w3-green">
-                        <th>UID</th>
-                        <th class="w3-border-left">Дата</th>
-                        <th class="w3-border-left">Приход</th>
-                        <th class="w3-border-left">Расход</th>
-                        <th class="w3-border-left">Отправил</th>
-                        <th class="w3-border-left">Комисс.Банка</th>
-                        <th class="w3-border-left">Итог система</th>
-                        <th class="w3-border-left">Итог Банк</th>
-                        <th class="w3-border-left">Коммент.</th>
-                        <th class="w3-border-left">%</th>
-                        <th class="w3-border-left">Комисс.</th>
-                        <th class="w3-border-left">Комисс.итог</th>
-                        <th class="w3-border-left"></th>
-                        <th class="w3-border-left"></th>
+                        <th rowspan="2">UID</th>
+                        <th rowspan="2" class="w3-border-left">Дата</th>
+                        <th colspan="2" class="w3-border-left">Приход</th>
+
+                        <th colspan="4" class="w3-border-left">Расход</th>
+
+                        <th rowspan="2" class="w3-border-left">Сальдо текущее</th>
+                        <th rowspan="2" class="w3-border-left">Итого комиссия нарастающим</th>
+                        <th rowspan="2" class="w3-border-left">Комментарий</th>
+                    </tr>
+                    <tr  class="w3-green">
+                        <th class="w3-border-left">факт</th>
+                        <th class="w3-border-left">в т.ч. наша комиссия</th>
+                        <th class="w3-border-left">факт с комиссией банка</th>
+                        <th class="w3-border-left">отправил</th>
+                        <th class="w3-border-left">комиссия банка</th>
+                        <th class="w3-border-left">наша комиссия</th>
                     </tr>
 
                     <tr  ng-repeat="dt in qqq" ng-click="setSelected();">
                         <td class="{{ dt.myColors }} "><a href="/amd/querys/{{ dt.qID}}"> {{ dt.UID }}</a></td>
                         <td class="w3-border-left">{{ dt.date_in }}</td>
                         <td class="w3-border-left">{{ dt.summ_in }}</td>
+                        <td class="w3-border-left">{{ dt.commission_summ_in }}</td>
+
                         <td class="w3-border-left">{{ dt.summ_out }}</td>
                         <td class="w3-border-left">{{ dt.summ_out_curr }}</td>
                         <td class="w3-border-left">{{ dt.bank_commission_summ }}</td>
@@ -129,8 +135,6 @@
                         <td class="w3-border-left w3-right-align">{{ dt.commission_tax }}</td>
                         <td class="w3-border-left">{{ dt.commission_summ }}</td>
                         <td class="w3-border-left">{{ dt.commission_all }}</td>
-                        <td class="w3-border-left">   </td>
-                        <td class="w3-border-left">   </td>
                     </tr>
 
                 </table>
@@ -231,24 +235,27 @@
         qq.qID = '<%= item._id.toString()%>';
         qq.comments = '<%= item.comments%>';
         qq.commission_tax = '<%= item.commission_tax%>';
-        qq.commission_summ = '<%= item.commission_summ%>';
+        qq.commission_summ_out = '';
+        qq.commission_summ_in = '';
         qq.bank_commission_summ = '<%= item.bank_commission_summ%>';
 //        qq.commission_summ = commission_summ;
         qq.myColors = clors[2];        // w3-animate-zoom    w3-animate-opacity  'w3-amber'
         <% if(item.status == 3){%>
-        <% if(item.class == 0) {%>      // Вывод - расход
-        summ_all_current = Math.round((summ_all_current - <%= Number(item.amount)%> - <%= Number(item.bank_commission_summ)%>)*100)/100;
-        summ_all_bank = Math.round((summ_all_bank - <%= Number(item.amount)%> + <%= Number(item.commission_summ)%> - <%= Number(item.bank_commission_summ)%>)*100)/100;
-        qq.summ_out_curr = Math.round((<%= item.amount%> - <%=item.commission_summ%>)*100)/100;
-        qq.summ_out =  Math.round((<%=item.amount%>)*100)/100;
-        <%} else {%>        //Ввод - приход
+            <% if(item.class == 0) {%>      // Вывод - расход
+                summ_all_current = Math.round((summ_all_current - <%= Number(item.amount)%> - <%= Number(item.bank_commission_summ)%>)*100)/100;
+                summ_all_bank = Math.round((summ_all_bank - <%= Number(item.amount)%> + <%= Number(item.commission_summ)%> - <%= Number(item.bank_commission_summ)%>)*100)/100;
+                qq.summ_out_curr = Math.round((<%= item.amount%> - <%=item.commission_summ%>)*100)/100;
+                qq.summ_out =  Math.round((<%=item.amount%>)*100)/100;
+                qq.commission_summ_out = '<%= item.commission_summ%>';
+            <%} else {%>        //Ввод - приход
+                summ_all_current = Math.round((summ_all_current + <%= Number(item.amount)%>)*100)/100;
+                summ_all_bank = Math.round((summ_all_bank + <%= Number(item.amount)%>)*100)/100;
+                qq.summ_in = <%= item.amount%>
+                    qq.commission_summ_in = '<%= item.commission_summ%>';
+             <%}%>
 
-        summ_all_current = Math.round((summ_all_current + <%= Number(item.amount)%>)*100)/100;
-        summ_all_bank = Math.round((summ_all_bank + <%= Number(item.amount)%>)*100)/100;
-        qq.summ_in = <%= item.amount%>
-                <%}%>
-            qq.myColors = clors[<%= item.class%>];        // w3-animate-zoom    w3-animate-opacity  'w3-amber'
-        commission_all = Math.round((commission_all + <%= Number(item.commission_summ)%> - <%= Number(item.bank_commission_summ)%>)*100)/100;
+                qq.myColors = clors[<%= item.class%>];        // w3-animate-zoom    w3-animate-opacity  'w3-amber'
+                commission_all = Math.round((commission_all + <%= Number(item.commission_summ)%> - <%= Number(item.bank_commission_summ)%>)*100)/100;
         <%}%>
         qq.commission_all = commission_all;
 
