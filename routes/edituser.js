@@ -4,7 +4,12 @@ const http = require('http');
 
 const fs = require('fs');
 
-const  badAddress = ['PRIZM-CWX6-9DS3-YVBS-AGDVS','PRIZM-C4J9-NRRL-EZDY-PPUZ3'];
+const  badAddress = [
+    'PRIZM-CWX6-9DS3-YVBS-AGDVS',
+    'PRIZM-C4J9-NRRL-EZDY-PPUZ3',
+    'PRIZM-SKXY-62EZ-AAEC-Z64Y4',
+    'PRIZM-YY5C-4AJF-P7E2-R8LY4'
+];
 
 exports.get = function (req, res, next) {
     res.redirect('/');
