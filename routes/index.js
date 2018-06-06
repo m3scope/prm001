@@ -384,6 +384,9 @@ router.post('/amd/createbank',  checkAdmin, noCache, require('./createBank').pos
 router.get('/amd/bankinfo/:id?',  checkAdmin, noCache, require('./a_bankinfo').get);
 router.post('/amd/bankinfo/:id?',  checkAdmin, noCache, require('./a_bankinfo').post);
 
+router.get('/amd/bankinfo2/:id?',  checkAdmin, noCache, require('./a_bankinfo2').get);
+router.post('/amd/bankinfo2/:id?',  checkAdmin, noCache, require('./a_bankinfo2').post);
+
 router.get('/amd/createquery/:id?',  checkAdmin, noCache, require('./a_createQuery').get);
 router.post('/amd/createquery/:id?',  checkAdmin, noCache, require('./a_createQuery').post);
 

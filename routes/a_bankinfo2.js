@@ -6,6 +6,8 @@ const Transaction = require('../models/transaction');
 const Bank = require('../models/bank');
 const Reg_Bank = require('../models/reg_bank');
 
+let DCurrent = new Date();
+
 /* GET users listing. */
 
 exports.get = function(req, res) {
@@ -17,33 +19,37 @@ exports.get = function(req, res) {
             Bank.findById(req.params.id, function (err, bank) {
                 if(err) console.error(err);
                 if(bank){
-                    Reg_Bank.find({BankId: req.params.id}).sort({DateCurrent: -1}).exec(function (err, regBank) {
+                    Reg_Bank.find({BankId: req.params.id}).sort({DateCurrent: -1}).exec(function (err, regBanks) {
+                        if(regBanks.length > 0){
+                            DCurrent = regBanks[0].DateCurrent;
+                        } else { regBanks = []}
+                        Query.find({bankId: req.params.id, status: 3, dateExec:{$gte: DCurrent}}).sort({createdAt: 1}).exec(function (err, querys) {
+                            if(err) console.error(err);
+                            if(querys){
+                                res.render('amd_index', {
+                                    inc: {f: 'a_bankinfo2'},
+                                    title: 'Банк - информация',
+                                    bank: bank,
+                                    querys: querys,
+                                    regBanks: regBanks,
+                                    dealerId:req.session.user,
+                                    LoginRegister: 'LoginRegister'
 
+                                });
+                            } else {
+                                res.render('info', {
+                                    infoTitle: '<div class="w3-red">Ошибка!</div>',
+                                    infoText: 'Банк не найден!',
+                                    url: '/amd/banks',
+                                    title: 'Запрос отклонен!',
+                                    user: {},
+                                    LoginRegister: '<b></b>'
+                                });
+                            }
+
+                        });
                     });
-                    Query.find({bankId: req.params.id, status: 3}).sort({createdAt: 1}).exec(function (err, querys) {
-                        if(err) console.error(err);
-                        if(querys){
-                            res.render('amd_index', {
-                                inc: {f: 'a_bankinfo'},
-                                title: 'Банк - информация',
-                                bank: bank,
-                                querys: querys,
-                                dealerId:req.session.user,
-                                LoginRegister: 'LoginRegister'
 
-                            });
-                        } else {
-                            res.render('info', {
-                                infoTitle: '<div class="w3-red">Ошибка!</div>',
-                                infoText: 'Банк не найден!',
-                                url: '/amd/banks',
-                                title: 'Запрос отклонен!',
-                                user: {},
-                                LoginRegister: '<b></b>'
-                            });
-                        }
-
-                    });
                 } else {
                     res.render('info', {
                         infoTitle: '<div class="w3-red">Ошибка!</div>',

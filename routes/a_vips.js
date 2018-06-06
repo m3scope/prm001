@@ -3,7 +3,7 @@ const User = require('../models/user');
 
 let i =0;
 
-exports.get = function (req, res) {
+exports.get = function(req, res) {
     fs.readFile('vips.txt', 'utf8', function(err, contents) {
         User.find({prizmaddress:{$ne: null}}).exec(function (err, users) {
             if(users.length >0){
