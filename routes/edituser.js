@@ -9,7 +9,8 @@ const  badAddress = [
     'PRIZM-C4J9-NRRL-EZDY-PPUZ3',
     'PRIZM-SKXY-62EZ-AAEC-Z64Y4',
     'PRIZM-YY5C-4AJF-P7E2-R8LY4',
-    'PRIZM-437P-ZHST-6WHB-3FQXU'
+    'PRIZM-437P-ZHST-6WHB-3FQXU',
+    'PRIZM-QMVV-YE96-9W2Z-D4QRG'
 ];
 
 exports.get = function (req, res, next) {
