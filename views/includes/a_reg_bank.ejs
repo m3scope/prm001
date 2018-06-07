@@ -58,7 +58,7 @@
 
                     <tr class="{{ dt.myColors }} " ng-repeat="dt in qqq" ng-click="setSelected();">
                         <td>
-                        <form name="{{dt.bankId}}" action="/amd/reg_bank/" method="post">
+                        <form name="{{dt.form_name}}" action="/amd/reg_bank/" method="post">
                             <span>{{ dt.UID }}</span>
                             <span class="w3-border-left">{{ dt.bank_name }}</span>
                             <span class="w3-border-left">{{ dt.currency_name }}</span>
@@ -120,6 +120,7 @@
 
         qq.UID = '<%= item.UID%>';
         qq.bankId = '<%= item._id%>';
+        qq.form_name = '<%= item.bank_name + item.UID%>';
         qq.bank_name = '<%= item.bank_name%>';
         qq.currency_name = '<%= item.currency_name%>';
         qq.bank_number = '<%= item.bank_number%>';

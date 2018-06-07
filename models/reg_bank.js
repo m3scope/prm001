@@ -8,7 +8,7 @@ const reg_bankSchema = new mongoose.Schema({
     EditUser: { type: mongoose.Schema.ObjectId, ref: 'User'},
     BankId: { type: mongoose.Schema.ObjectId, ref: 'Bank'},
 
-    UID: {type: String, default: ''},
+    UID: {type: String, default: Date.now},
 
     dealerId: { type: mongoose.Schema.ObjectId, ref: 'User'},     // Id пользователя владелец кошелька
 

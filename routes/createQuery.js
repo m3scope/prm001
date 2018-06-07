@@ -323,7 +323,7 @@ exports.post = function (req, res, next) {
                                                 user.save();
 
                                                 //********** BANK *******
-                                                bank.summ_trans_current = Number(bank.summ_trans_current) - Number(summ);
+                                                bank.summ_trans_current = Math.round((Number(bank.summ_trans_current) - Number(summ) + Number(commiss_sell))*100)/100;
                                                 bank.summ_all_current = Number(bank.summ_all_current) - Number(summ);
 
                                                 bank.summ_transactions = Number(bank.summ_trans_current) - summ;

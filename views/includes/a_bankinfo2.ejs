@@ -5,57 +5,6 @@
 
     <div class="w3-col s12" >
 
-        <div class="w3-col " ng-controller="CtrlQuerys1">
-            <div class="">
-
-                <div class="w3-container w3-teal">
-                    <h5>Банк</h5>
-                </div>
-                <table class="w3-table-all w3-small w3-striped w3-hoverable">
-                    <tr  class="w3-green">
-                        <th rowspan="2">UID</th>
-                        <th rowspan="2" class="w3-border-left">Дата</th>
-                        <th colspan="2" class="w3-border-left">Приход</th>
-
-                        <th colspan="4" class="w3-border-left">Расход</th>
-
-                        <th rowspan="2" class="w3-border-left">Сальдо текущее</th>
-                        <th rowspan="2" class="w3-border-left">Итого комиссия нарастающим</th>
-                        <th rowspan="2" class="w3-border-left">Комментарий</th>
-                    </tr>
-                    <tr  class="w3-green">
-                        <th class="w3-border-left">факт</th>
-                        <th class="w3-border-left">в т.ч. наша комиссия</th>
-                        <th class="w3-border-left">факт с комиссией банка</th>
-                        <th class="w3-border-left">отправил</th>
-                        <th class="w3-border-left">комиссия банка</th>
-                        <th class="w3-border-left">наша комиссия</th>
-                    </tr>
-                    <tr>
-                        <td >UID</td>
-                        <td class="w3-border-left">Дата</td>
-                        <td class="w3-border-left">Номер</td>
-                        <td class="w3-border-left">username</td>
-                        <td class="w3-border-left">Тек.ост.система</td>
-                        <td class="w3-border-left">Тек.ост.Банк</td>
-                        <td class="w3-border-left">Сумма транзакций</td>
-                        <td class="w3-border-left">8</td>
-                        <td class="w3-border-left">9</td>
-                        <td class="w3-border-left">10</td>
-                        <td class="w3-border-left">11</td>
-                    </tr>
-                </table>
-            </div>
-        </div>
-    </div>
-
-<div class="w3-panel">
-
-</div>
-
-
-    <!--<div class="w3-col s12" >-->
-
         <div class="w3-col " ng-controller="CtrlQuerys2">
             <div class="">
 
@@ -101,23 +50,23 @@
                 <% if(querys.length>0) {%>
                 <table class="w3-table-all w3-small w3-striped w3-hoverable">
                     <tr  class="w3-green">
-                        <th rowspan="2">UID</th>
-                        <th rowspan="2" class="w3-border-left">Дата</th>
-                        <th colspan="2" class="w3-border-left">Приход</th>
+                        <th rowspan="2" class="w3-center">UID</th>
+                        <th rowspan="2" class="w3-border-left w3-center">Дата</th>
+                        <th colspan="2" class="w3-border-left w3-center">Приход</th>
 
-                        <th colspan="4" class="w3-border-left">Расход</th>
+                        <th colspan="4" class="w3-border-left w3-center">Расход</th>
 
-                        <th rowspan="2" class="w3-border-left">Сальдо текущее</th>
-                        <th rowspan="2" class="w3-border-left">Итого комиссия нарастающим</th>
-                        <th rowspan="2" class="w3-border-left">Комментарий</th>
+                        <th rowspan="2" class="w3-border-left w3-center">Сальдо текущее</th>
+                        <th rowspan="2" class="w3-border-left w3-center ">Итого комиссия нарастающим</th>
+                        <th rowspan="2" class="w3-border-left w3-center">Комментарий</th>
                     </tr>
                     <tr  class="w3-green">
-                        <th class="w3-border-left">факт</th>
-                        <th class="w3-border-left">в т.ч. наша комиссия</th>
-                        <th class="w3-border-left">факт с комиссией банка</th>
-                        <th class="w3-border-left">отправил</th>
-                        <th class="w3-border-left">комиссия банка</th>
-                        <th class="w3-border-left">наша комиссия</th>
+                        <th class="w3-border-left w3-center">факт</th>
+                        <th class="w3-border-left w3-center">в т.ч. наша комиссия</th>
+                        <th class="w3-border-left w3-center">факт с комиссией банка</th>
+                        <th class="w3-border-left w3-center">отправил</th>
+                        <th class="w3-border-left w3-center">комиссия банка</th>
+                        <th class="w3-border-left w3-center">наша комиссия</th>
                     </tr>
 
                     <tr  ng-repeat="dt in qqq" ng-click="setSelected();">
@@ -126,15 +75,14 @@
                         <td class="w3-border-left">{{ dt.summ_in }}</td>
                         <td class="w3-border-left">{{ dt.commission_summ_in }}</td>
 
+                        <td class="w3-border-left">{{ dt.summ_out_commiss }}</td>
                         <td class="w3-border-left">{{ dt.summ_out }}</td>
-                        <td class="w3-border-left">{{ dt.summ_out_curr }}</td>
                         <td class="w3-border-left">{{ dt.bank_commission_summ }}</td>
-                        <td class="w3-border-left">{{ dt.summ_all_current }}</td>
+                        <td class="w3-border-left">{{ dt.commission_summ_out }}</td>
                         <td class="w3-border-left">{{ dt.summ_all_bank }}</td>
-                        <td class="w3-border-left">{{ dt.comments }}</td>
-                        <td class="w3-border-left w3-right-align">{{ dt.commission_tax }}</td>
-                        <td class="w3-border-left">{{ dt.commission_summ }}</td>
                         <td class="w3-border-left">{{ dt.commission_all }}</td>
+
+                        <td class="w3-border-left">{{ dt.comments }}</td>
                     </tr>
 
                 </table>
@@ -198,7 +146,7 @@
             qq1.summ_out_curr = '';
             qq1.UID = '<%= regBanks[0].UID%>';
             qq1.qID = '<%= regBanks[0]._id.toString()%>';
-            qq1.comments = 'start';
+            qq1.comments = 'по Банку на '+TimeMsk('<%= regBanks[0].DateCurrent%>');
             qq1.commission_tax = '';
             qq1.commission_summ = '';
             qq1.bank_commission_summ = '';
@@ -237,7 +185,7 @@
         qq.commission_tax = '<%= item.commission_tax%>';
         qq.commission_summ_out = '';
         qq.commission_summ_in = '';
-        qq.bank_commission_summ = '<%= item.bank_commission_summ%>';
+        qq.bank_commission_summ = Math.round((<%= item.bank_commission_summ%>)*100)/100;
 //        qq.commission_summ = commission_summ;
         qq.myColors = clors[2];        // w3-animate-zoom    w3-animate-opacity  'w3-amber'
         <% if(item.status == 3){%>
@@ -246,6 +194,8 @@
                 summ_all_bank = Math.round((summ_all_bank - <%= Number(item.amount)%> + <%= Number(item.commission_summ)%> - <%= Number(item.bank_commission_summ)%>)*100)/100;
                 qq.summ_out_curr = Math.round((<%= item.amount%> - <%=item.commission_summ%>)*100)/100;
                 qq.summ_out =  Math.round((<%=item.amount%>)*100)/100;
+
+                qq.summ_out_commiss = Math.round((<%= item.amount + item.bank_commission_summ%>)*100)/100;
                 qq.commission_summ_out = '<%= item.commission_summ%>';
             <%} else {%>        //Ввод - приход
                 summ_all_current = Math.round((summ_all_current + <%= Number(item.amount)%>)*100)/100;

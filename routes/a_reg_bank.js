@@ -13,7 +13,7 @@ exports.get = function(req, res) {
                 inc: {f: 'a_banks'},
                 title: 'Банки',
                 querys: querys,
-                dealerId:req.session.user,
+                dealerId: req.session.user,
                 LoginRegister: 'LoginRegister'
 
             });
@@ -29,7 +29,7 @@ exports.get = function(req, res) {
                         inc: {f: 'a_reg_bank'},
                         title: 'Банк',
                         banks: banks,
-                        dealerId:req.session.user,
+                        dealerId: req.session.user,
                         LoginRegister: 'LoginRegister'
 
                     });
@@ -53,7 +53,7 @@ exports.post = function(req, res) {
                     console.error(err);
                     res.redirect('/amd/users');
                 } else {
-                    let reg_bank = new Reg_Bank();
+                    let reg_bank = new Reg_Bank;
 
                     reg_bank.DateCurrent = req.body.dateCurrent;
                     reg_bank.EditUser = user._id;
