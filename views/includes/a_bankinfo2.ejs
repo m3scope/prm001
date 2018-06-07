@@ -196,7 +196,7 @@
                 qq.summ_out =  Math.round((<%=item.amount%>)*100)/100;
 
                 qq.summ_out_commiss = Math.round((<%= item.amount - item.commission_summ + item.bank_commission_summ%>)*100)/100;
-                qq.commission_summ_out = '<%= item.commission_summ%>';
+                qq.commission_summ_out = Math.round((<%= item.commission_summ - item.bank_commission_summ%>)*100)/100;
             <%} else {%>        //Ввод - приход
                 summ_all_current = Math.round((summ_all_current + <%= Number(item.amount)%>)*100)/100;
                 summ_all_bank = Math.round((summ_all_bank + <%= Number(item.amount)%>)*100)/100;
