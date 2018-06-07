@@ -123,7 +123,7 @@
 
     // Наша функция сравнения
     function compareAge(personA, personB) {
-        return new Date(personB.createdAt) - new Date(personA.createdAt);
+        return new Date(personB.dateExec) - new Date(personA.dateExec);
 
     }
 
@@ -170,7 +170,7 @@
             qq1.bank_number = '<%= regBanks[0].dealer_bank_number%>';
             qq1.summ_all_current = summ_all_current;
             qq1.summ_all_bank = summ_all_bank;
-            qq1.createdAt = '<%= regBanks[0].DateCurrent%>';
+            qq1.dateExec = '<%= regBanks[0].DateCurrent%>';
 
             $scope.qqq.push(qq1);
             start = false;
@@ -195,7 +195,7 @@
                 qq.summ_out_curr = Math.round((<%= item.amount%> - <%=item.commission_summ%>)*100)/100;
                 qq.summ_out =  Math.round((<%=item.amount%>)*100)/100;
 
-                qq.summ_out_commiss = Math.round((<%= item.amount + item.bank_commission_summ%>)*100)/100;
+                qq.summ_out_commiss = Math.round((<%= item.amount - item.commission_summ + item.bank_commission_summ%>)*100)/100;
                 qq.commission_summ_out = '<%= item.commission_summ%>';
             <%} else {%>        //Ввод - приход
                 summ_all_current = Math.round((summ_all_current + <%= Number(item.amount)%>)*100)/100;
@@ -216,7 +216,7 @@
         qq.bank_number = '<%= item.dealer_bank_number%>';
         qq.summ_all_current = summ_all_current;
         qq.summ_all_bank = summ_all_bank;
-        qq.createdAt = '<%= item.createdAt%>';
+        qq.dateExec = '<%= item.dateExec%>';
 
 
         $scope.qqq.push(qq);

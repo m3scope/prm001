@@ -23,7 +23,7 @@ exports.get = function(req, res) {
                         if(regBanks.length > 0){
                             DCurrent = regBanks[0].DateCurrent;
                         } else { regBanks = []}
-                        Query.find({bankId: req.params.id, status: 3, dateExec:{$gte: DCurrent}}).sort({createdAt: 1}).exec(function (err, querys) {
+                        Query.find({bankId: req.params.id, status: 3, dateExec:{$gte: DCurrent}}).sort({dateExec: 1}).exec(function (err, querys) {
                             if(err) console.error(err);
                             if(querys){
                                 res.render('amd_index', {
@@ -92,7 +92,7 @@ exports.post = function(req, res) {
         const lm = (!req.body.limit || Number(req.body.limit) <= 0) ? 20:Number(req.body.limit);
 
 
-        Query.find(filtr[Number(req.body.filter)]).limit(lm).sort({createdAt: -1}).exec(function (err, querys) {
+        Query.find(filtr[Number(req.body.filter)]).limit(lm).sort({dateExec: -1}).exec(function (err, querys) {
             if(err){
                 console.error(err);
                 res.redirect('/amd/users');
