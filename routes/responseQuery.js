@@ -100,7 +100,7 @@ exports.get = function (req, res, next) {
                                                     if (bank) {
                                                         //********** BANK *******
                                                         bank.summ_trans_current = Number(bank.summ_trans_current) - Number(qq.amount);
-                                                        bank.summ_all_current = Number(bank.summ_all_current) + Number(qq.amount);
+                                                        bank.summ_all_current = Number(bank.summ_all_current) + Number(qq.amount) - Number(qq.commission_summ);
 
                                                         bank.summ_transactions = Number(bank.summ_trans_current)-Number(qq.amount);
                                                         bank.summ_all = Number(bank.summ_all)-Number(qq.amount);
@@ -292,7 +292,7 @@ exports.get = function (req, res, next) {
                                                         if (bank) {
                                                             //********** BANK *******
                                                             bank.summ_trans_current = Number(bank.summ_trans_current) - Number(qq.amount);
-                                                            bank.summ_all_current = Number(bank.summ_all_current) + Number(qq.amount);
+                                                            bank.summ_all_current = Number(bank.summ_all_current) + Number(qq.amount) - Number(qq.commission_summ);
 
                                                             bank.summ_transactions = Number(bank.summ_trans_current)-Number(qq.amount);
                                                             bank.summ_all = Number(bank.summ_all)-Number(qq.amount);
@@ -485,7 +485,7 @@ exports.post = function (req, res, next) {
                                                 if (bank) {
                                                     //********** BANK *******
                                                     bank.summ_trans_current = Number(bank.summ_trans_current) - Number(qq.amount);
-                                                    bank.summ_all_current = Number(bank.summ_all_current) + Number(qq.amount) + Number(qq.bank_commission_summ);
+                                                    bank.summ_all_current = Number(bank.summ_all_current) + Number(qq.amount) - Number(qq.bank_commission_summ);
 
                                                     bank.summ_transactions = Number(bank.summ_trans_current)-Number(qq.amount);
                                                     bank.summ_all = Number(bank.summ_all)-Number(qq.amount);
