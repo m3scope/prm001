@@ -94,10 +94,10 @@
             if(value==2) {
                 tax_current = tax[value];
                 $scope.tax_text='Комиссия '+tax_current+'%:';
-                $scope.num_text = 'Номер в формате XXXXXXXXXXXXXX';
+                $scope.num_text = 'Номер в формате 41XXXXXXXXXXXX';
                 $scope.commission_sell = Math.round((Number($scope.deal_amount_sell_rub)*tax_current/100)*100)/100;
                 $scope.deal_amount_sell_curr = Math.round((Number($scope.deal_amount_sell_rub)- Number($scope.deal_amount_sell_rub)*tax_current/100)*100)/100;
-                $scope.numSys_txt = 'Номер кошелька Яндекс.Деньги:';
+                $scope.numSys_txt = 'Номер кошелька Яндекс.Деньги начинается на "41..." (не номер карты яндекса!):';
             }
             if(value==3) {
                 tax_current = tax[value];

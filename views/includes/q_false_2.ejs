@@ -81,12 +81,12 @@
         $scope.dt1 = [];
         $scope.commission_sell = 0;
         $scope.tax_text='Комиссия '+tax_current+'%:';
-        $scope.num_text = 'Номер кошелька в формате U ХХХ ХХХ ХХХ';
+        $scope.num_text = 'Номер кошелька в формате U ХХХХ ХХХХ ХХХХ';
         $scope.newValue = function(value) {
             if(value==4){       //AdvCash
                 tax_current = tax[value];
                 $scope.tax_text='Комиссия '+tax_current+'%:';
-                $scope.num_text = 'Номер кошелька в формате U ХХХ ХХХ ХХХ';
+                $scope.num_text = 'Номер кошелька в формате U ХХХХ ХХХХ ХХХХ';
                 $scope.commission_sell = Math.round((Number($scope.deal_amount_sell_rub)*tax_current/100)*100)/100;
                 $scope.deal_amount_sell_curr = Math.round((Number($scope.deal_amount_sell_rub)- Number($scope.deal_amount_sell_rub)*tax_current/100)*100)/100;
             }
