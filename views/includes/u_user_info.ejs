@@ -1,0 +1,351 @@
+
+<div class="w3-panel">
+    <form action="/amd/users/cod" method="post">
+        <input name="cod"><span>Код запроса</span>
+        <button type="submit">Проверить</button>
+    </form>
+</div>
+<div class="w3-row-padding" ng-app="myApp">
+    <!-- Left Column -->
+    <div class="w3-col s12" ng-controller="MainCtrl">
+        <div class="w3-card-4">
+            <div class="w3-container w3-teal">
+                <h5>Список пользователей</h5>
+            </div>
+
+            <table class="w3-table-all w3-hoverable w3-card-4" >
+                <tr class="w3-green">
+                    <th>UID</th>
+                    <th class="w3-border-left">Имя</th>
+                    <th class="w3-border-left">email</th>
+                    <th class="w3-border-left">tel.</th>
+                    <th class="w3-border-left">PZM</th>
+                    <th class="w3-border-left">USD</th>
+                    <th class="w3-border-left">RUR</th>
+                </tr>
+                <tr ng-repeat="dt in dt1" ng-click="setSelected();">
+                    <td>{{ dt.UID }}</td>
+                    <td class="w3-border-left">{{ dt.name_f }}</td>
+                    <td class="w3-border-left">{{ dt.email }}</td>
+                    <td class="w3-border-left">{{ dt.tel }}</td>
+                    <td class="w3-border-left">{{ dt.PZM }}</td>
+                    <td class="w3-border-left">{{ dt.USD }}</td>
+                    <td class="w3-border-left">{{ dt.RUR }}</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="w3-panel"></div>
+
+        <div class="w3-card-4">
+            <div class="w3-container w3-teal">
+                <h5>Список открытых ордеров пользователя</h5>
+            </div>
+
+
+            <% if(users.userDeals.length>0) {%>
+
+            <table class="w3-table-all w3-small w3-striped w3-hoverable">
+                <tr  class="w3-green">
+                    <th>Пара</th>
+                    <th class="w3-border-left">Тип</th>
+                    <th class="w3-border-left">Кол.(остаток)</th>
+                    <th class="w3-border-left">Цена</th>
+                    <th class="w3-border-left">Сумма</th>
+                    <th class="w3-border-left">Дата</th>
+                    <th class="w3-border-left"></th>
+                </tr>
+
+                <tr ng-repeat="dt in dtD" ng-click="setSelected();">
+                    <td>{{ dt.deal_currency }}/{{ dt.price_currency}}</td>
+                    <td class="{{ dt.color }}">{{ dt.typ }}</td>
+                    <td class="w3-border-left">{{ dt.deal_amount }}<span class="w3-small">({{ dt.deal_amount_bill }})</span></td>
+                    <td class="w3-border-left">{{ dt.price_amount}}</td>
+                    <td class="w3-border-left">{{ dt.summ }}<span class="w3-small">({{ dt.summ_bill }})</span></td>
+                    <td class="w3-border-left">{{ dt.dat }}</td>
+                    <td class="w3-border-left {{ dt.color2 }}">
+                        <div ng-switch="{{ dt.status }}">
+                            <div ng-switch-when="0">
+                                <span><a href="{{dt.cans}}">отменить</a> </span>
+                            </div>
+                            <div ng-switch-when="1">
+                                <span> Активный </span><span><a href="{{dt.cans}}">отменить</a> </span>
+                            </div>
+                            <div ng-switch-when="3">
+                                <span>отменен</span>
+                            </div>
+                            <div ng-switch-when="9">
+                                <span>исполнен</span>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+
+            </table>
+
+            <%}%>
+
+        </div>
+
+        <div class="w3-panel"></div>
+
+        <div class="w3-card-4">
+            <div class="w3-container w3-teal">
+                <h5>Движения средств</h5>
+            </div>
+            <input type="checkbox" ng-model="f" ng-change="filter_by('shw1')"><label>показать отмененные</label>
+            <table class="w3-small w3-table-all w3-hoverable w3-card-4" >
+                <tr class="w3-green">
+                    <th rowspan="2">Дата</th>
+                    <th rowspan="2" class="w3-border-left">Операция</th>
+
+                    <th rowspan="2" class="w3-border-left">Пара</th>
+                    <th rowspan="2" class="w3-border-left">Цена</th>
+
+                    <th colspan="4" class="w3-center w3-border-left">PZM</th>
+                    <th colspan="4" class="w3-center w3-border-left">RUR</th>
+                    <th colspan="4" class="w3-center w3-border-left">USD</th>
+
+
+                    <th rowspan="2" class="w3-border-left">Статус</th>
+                </tr>
+                <tr class="w3-green">
+                    <th class="w3-border-left">Приход</th>
+                    <th class="w3-border-left">Расход</th>
+                    <th class="w3-border-left">Комиссия</th>
+                    <th class="w3-border-left">Итог PZM</th>
+
+                    <th class="w3-border-left">Приход</th>
+                    <th class="w3-border-left">Расход</th>
+                    <th class="w3-border-left">Комиссия</th>
+                    <th class="w3-border-left">Итог RUR</th>
+
+                    <th class="w3-border-left">Приход</th>
+                    <th class="w3-border-left">Расход</th>
+                    <th class="w3-border-left">Комиссия</th>
+                    <th class="w3-border-left">Итог USD</th>
+                </tr>
+
+                <tr ng-repeat="info in dt2 | filter: f" ng-click="setSelected();">
+
+                    <td class="w3-border-left {{ info.clors_status }}">{{ info.dat }} / {{ info.status }}</td>
+                    <td class="w3-border-left {{ info.colorOper }}">{{ info.operation_name }} </td>
+
+                    <td class="w3-border-left">{{ info.par }}</td>
+                    <td class="w3-border-left">{{ info.price_amount }}</td>
+
+                    <td class="w3-border-left w3-border-black">{{ info.a_s.PZM }}</td>
+                    <td class="w3-border-left">{{ info.desc.PZM }}</td>
+                    <td class="w3-border-left">{{ info.commiss.PZM }}</td>
+                    <td class="w3-border-left">{{ info.PZM }}</td>
+
+                    <td class="w3-border-left w3-border-black">{{ info.a_s.RUR }}</td>
+                    <td class="w3-border-left">{{ info.desc.RUR }}</td>
+                    <td class="w3-border-left">{{ info.commiss.RUR }}</td>
+                    <td class="w3-border-left">{{ info.RUR }}</td>
+
+                    <td class="w3-border-left w3-border-black">{{ info.a_s.USD }}</td>
+                    <td class="w3-border-left">{{ info.desc.USD }}</td>
+                    <td class="w3-border-left">{{ info.commiss.USD }}</td>
+                    <td class="w3-border-left">{{ info.USD }}</td>
+
+                    <td class="w3-border-left w3-border-black"></td>
+
+                </tr>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+<script type="text/javascript">
+    //<![CDATA[
+    let myApp = angular.module('myApp',[]);
+    let nm = {};
+    let i = 0;
+    const Curr = ['','PZM','USD','RUR'];
+    const Oper = ['','Запрос','Ордер','Счет'];
+    const Class = ['Продажа','Покупка'];
+    const Class_q = ['Вывод средств','Пополнение'];
+    const Status = ['активный','отменен','исполнен','отменен Адм.'];
+    const Status_q = ['создана','подтверждена','','исполнена','отменена','отменен Адм.'];
+    const bs=['продажа','покупка'];
+    const clors=['w3-orange','w3-cyan','w3-gray','w3-brown','w3-gray','','','','','w3-gray'];
+    const clors_status=['w3-orange','w3-cyan','w3-gray','w3-brown','w3-black','w3-black','','','','w3-gray'];
+    const w3Btn = [[],['','','w3-white', 'w3-white'],['','w3-white','','w3-white'],['','w3-white','w3-white','']];
+    const typ = ['Вывод','Ввод','Отправить','Получить'];
+    let sm = {}; // итоговыя сумма
+    sm.PZM = 0;
+    sm.USD = 0;
+    sm.RUR = 0;
+    //    let sm = {};
+    let smp = 0;
+    let dl={};
+    // Наша функция сравнения
+    function compareAge(personA, personB) {
+        return new Date(personB.createdAt) - new Date(personA.createdAt);
+
+    }
+    myApp.controller('MainCtrl', function($scope) {
+        $scope.dt1 = [];
+        $scope.dt2 = [];
+        $scope.dtD = [];
+
+        nm={};
+        nm.UID = '<%= users.user.UID%>';
+        nm.email = '<%= users.user.email%>';
+        nm.tel = '<%= users.user.tel%>';
+        nm.name_f = '<%= users.user.name_f%>';
+        nm.PZM = '<%= users.user.PZM%>';
+        nm.USD = '<%= users.user.USD%>';
+        nm.RUR = '<%= users.user.RUR%>';
+
+        $scope.dt1.push(nm);
+
+        <% users.userDeals.forEach(function (deal) { %>
+        dl={};
+
+        dl.cans = '/api/q/deal/<%= deal._id %>;cancel';
+        dl.deal_currency = Curr[<%= deal.deal_currency%>];
+        dl.price_currency = Curr[<%= deal.price_currency%>];
+        dl.typ = bs[<%= deal.class %>];
+        dl.color = clors[<%= deal.class%>];
+        dl.deal_amount = <%= deal.deal_amount%>;
+        dl.deal_amount_bill = <%= deal.deal_amount_bill%>;
+        dl.price_amount = <%= deal.price_amount%>;
+        dl.summ = <%= Math.round(deal.deal_amount*deal.price_amount*100)/100 %>;
+        dl.summ_bill = <%= Math.round(deal.summ_bill*100)/100%>;
+
+        dl.dat = TimeMsk('<%= deal.createdAt%>');
+        //console.log(dl.dat);
+        dl.status = <%= deal.status %>;
+        dl.color2 = clors[<%= deal.status%>];
+        dl.i = i;
+
+        $scope.dtD.push(dl);
+
+        i++;
+        <%})%>
+
+
+        $scope.setSelected = function() {
+            $scope.selected = this.dt;
+            console.log(this.dt.name_f);
+        };
+
+        <% users.userInfo.forEach(function(item) { %>
+        nm={};
+        nm.PZM = sm.PZM;
+        nm.USD = sm.USD;
+        nm.RUR = sm.RUR;
+        nm.a_s = {};
+        nm.a_s.PZM = '';
+        nm.a_s.USD = '';
+        nm.a_s.RUR = '';
+        nm.desc = {};
+        nm.desc.PZM = '';
+        nm.desc.USD = '';
+        nm.desc.RUR = '';
+        nm.commiss = {};
+        nm.commiss.PZM = '';
+        nm.commiss.USD = '';
+        nm.commiss.RUR = '';
+
+        nm.createdAt = "<%= item.createdAt %>";
+        nm.dat = TimeMsk("<%= item.createdAt %>");
+        nm.operation_name = Oper[<%= item.operation_cod%>];
+        nm.colorOper = clors[3-<%= item.operation_cod - item.class%>];
+        nm.class = (<%= item.operation_cod%> == 1) ? Class_q[<%= item.class%>] : Class[<%= item.class%>];
+        nm.par = (<%= item.operation_cod%> == 1) ? Curr[Number(<%= item.currency%>)]:Curr[Number(<%= item.deal_currency%>)]+'/'+Curr[Number(<%= item.price_currency %>)];
+
+        nm.deal_amount = (<%= item.operation_cod%> == 1) ? '--':(Math.round(Number(<%= item.deal_amount%>) *100)/100);
+        nm.price_amount = (<%= item.operation_cod%> == 1) ? '--':'<%= item.price_amount%>';
+        nm.summ = (<%= item.operation_cod%> == 1) ? (Math.round(Number(<%= item.amount%>) *100)/100):'<%= item.summ%>';
+        nm.commission_summ = Math.round(Number(<%= item.commission_summ%>)*100)/100;
+
+        if(<%= item.operation_cod%> == 1){  // запрос
+            if(<%= item.class%> == 1){    // пополнение
+                if(<%= item.status%> == 3)      // исполнено
+                {
+                    nm.commiss[Curr[Number(<%=item.currency %>)]] = Math.round(Number(<%= item.commission_summ%>)*100)/100;
+                    nm.a_s[Curr[Number(<%=item.currency %>)]] = Math.round(Number(<%= item.amount %>)*100)/100;
+                    sm[Curr[Number(<%=item.currency %>)]] = Math.round((sm[Curr[Number(<%=item.currency %>)]] + Number(<%= item.amount %>)-Number(<%= item.commission_summ%>))*100)/100;
+                    nm[Curr[Number(<%=item.currency %>)]] = sm[Curr[Number(<%=item.currency %>)]];
+                } else {
+                    nm.commiss[Curr[Number(<%=item.currency %>)]] = Math.round(Number(<%= item.commission_summ%>)*100)/100;
+                    nm.a_s[Curr[Number(<%=item.currency %>)]] = Math.round(Number(<%= item.amount %>)*100)/100;
+                }
+            } else {        // ВЫВОД стредств
+                if(<%= item.status%> == 3)      // исполнено
+                {
+                    nm.commiss[Curr[Number(<%=item.currency %>)]] = Math.round(Number(<%= item.commission_summ%>)*100)/100;
+                    nm.desc[Curr[Number(<%=item.currency %>)]] = Math.round(Number(<%= item.amount %>)*100)/100;
+                    sm[Curr[Number(<%=item.currency %>)]] = Math.round((sm[Curr[Number(<%=item.currency %>)]] - Number('<%= item.amount %>'))*100)/100;
+                    nm[Curr[Number(<%=item.currency %>)]] = sm[Curr[Number(<%=item.currency %>)]];
+                } else {
+                    nm.desc[Curr[Number(<%=item.currency %>)]] = Math.round(Number(<%= item.amount %>)*100)/100;
+                    nm.commiss[Curr[Number(<%=item.currency %>)]] = Math.round(Number(<%= item.commission_summ%>)*100)/100;
+                }
+            }
+        }
+
+        if(<%= item.operation_cod%> == 3)        // счет
+        {
+            if (<%= item.status %> == 2)        //исполнен
+            {
+                if (<%= item.class %> == 0)     // продажа
+                {
+                    nm.commiss[Curr[Number(<%=item.price_currency %>)]] = Math.round(Number(<%= item.commission_summ%>)*100)/100;
+                    nm.a_s[Curr[Number(<%=item.price_currency %>)]] = Math.round(Number('<%= item.summ %>')*100)/100;
+                    sm[Curr[Number(<%=item.price_currency %>)]] = Math.round((sm[Curr[Number(<%=item.price_currency %>)]] + (Number('<%= item.summ %>')-Number(<%= item.commission_summ%>)))*100)/100;
+                    nm[Curr[Number(<%=item.price_currency %>)]] = sm[Curr[Number(<%=item.price_currency %>)]];
+
+                    nm.desc[Curr[Number(<%=item.deal_currency %>)]] = Math.round(Number('<%= item.deal_amount %>')*100)/100;
+                    sm[Curr[Number(<%=item.deal_currency %>)]] = Math.round((sm[Curr[Number(<%=item.deal_currency %>)]] - Number('<%= item.deal_amount %>'))*100)/100;
+                    nm[Curr[Number(<%=item.deal_currency %>)]] = sm[Curr[Number(<%=item.deal_currency %>)]];
+                }
+            else        //покупка
+                {
+                    nm.desc[Curr[Number(<%=item.price_currency %>)]] = Math.round(Number('<%= item.summ %>')*100)/100;
+                    sm[Curr[Number(<%=item.price_currency %>)]] = Math.round((sm[Curr[Number(<%=item.price_currency %>)]] - (Number('<%= item.summ %>')))*100)/100;
+                    nm[Curr[Number(<%=item.price_currency %>)]] = sm[Curr[Number(<%=item.price_currency %>)]];
+
+                    nm.commiss[Curr[Number(<%=item.deal_currency %>)]] = Math.round(Number(<%= item.commission_summ%>)*100)/100;
+                    nm.a_s[Curr[Number(<%=item.deal_currency %>)]] = Math.round(Number('<%= item.deal_amount %>')*100)/100;
+                    sm[Curr[Number(<%=item.deal_currency %>)]] = Math.round((sm[Curr[Number(<%=item.deal_currency %>)]] + (Number('<%= item.deal_amount %>')-Number(<%= item.commission_summ%>)))*100)/100;
+                    nm[Curr[Number(<%=item.deal_currency %>)]] = sm[Curr[Number(<%=item.deal_currency %>)]];
+                }
+            }
+        }
+//            sm = Math.round(sm*100)/100;
+//            smp = Math.round(smp*100)/100;
+//            nm.shw_cancel
+        nm.shw = false;
+        if(<%= item.operation_cod%> == 1){
+            if(Number(<%= item.status%>)>3) {
+                nm.shw = true;
+            }
+        }
+        if(<%= item.operation_cod%> == 3){
+            if(Number(<%= item.status%>)>2) {
+                nm.shw = true;
+            }
+        }
+        nm.status = (<%= item.operation_cod%> == 1) ? Status_q[Number(<%= item.status%>)]:Status[Number(<%= item.status%>)];
+        nm.clors_status = clors_status[<%= item.status%>];
+//            nm.sm = sm;
+//            nm.smp = smp;
+        $scope.dt2.push(nm);
+        <%})%>
+        $scope.dt2.sort(compareAge);
+
+
+        $scope.filter_by = function(field) {
+            $scope.f['__' + [field]] = true;
+            $scope.dt2.forEach(function(v) {
+                v['__' + [field]] = v.shw ? $scope.f[field]: true;
+            });
+        }
+    });
+    //]]>
+</script>
