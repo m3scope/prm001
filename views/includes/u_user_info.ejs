@@ -14,6 +14,7 @@
                 <tr class="w3-green">
                     <th>UID</th>
                     <th class="w3-border-left">Имя</th>
+                    <th class="w3-border-left">Статус</th>
                     <th class="w3-border-left">email</th>
                     <th class="w3-border-left">tel.</th>
                     <th class="w3-border-left">PZM</th>
@@ -23,6 +24,7 @@
                 <tr ng-repeat="dt in dt1" ng-click="setSelected();">
                     <td>{{ dt.UID }}</td>
                     <td class="w3-border-left">{{ dt.name_f }}</td>
+                    <td class="w3-border-left {{ dt.vip[1] }}">{{ dt.vip[0] }}</td>
                     <td class="w3-border-left">{{ dt.email }}</td>
                     <td class="w3-border-left">{{ dt.tel }}</td>
                     <td class="w3-border-left">{{ dt.PZM }}</td>
@@ -170,7 +172,7 @@
     const clors=['w3-orange','w3-cyan','w3-gray','w3-brown','w3-gray','','','','','w3-gray'];
     const clors_status=['w3-orange','w3-cyan','w3-gray','w3-brown','w3-black','w3-black','','','','w3-gray'];
     const w3Btn = [[],['','','w3-white', 'w3-white'],['','w3-white','','w3-white'],['','w3-white','w3-white','']];
-    const typ = ['Вывод','Ввод','Отправить','Получить'];
+    const vip = [['Простой','w3-gray'],['VIP','w3-green']];
     let sm = {}; // итоговыя сумма
     sm.PZM = 0;
     sm.USD = 0;
@@ -190,6 +192,7 @@
 
         nm={};
         nm.UID = '<%= users.user.UID%>';
+        nm.vip = vip[<%= users.user.vip%>];
         nm.email = '<%= users.user.email%>';
         nm.tel = '<%= users.user.tel%>';
         nm.name_f = '<%= users.user.name_f%>';
