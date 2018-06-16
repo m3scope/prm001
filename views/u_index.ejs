@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<title>PrizmEx: <%= title %></title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/stylesheets/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
+<link rel="stylesheet" href="/stylesheets/fontawesome.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+<script src="/socket.io/socket.io.js"></script>
+
+<script language = 'javascript'>
+    function startTime() {
+        let dat = new Date();
+        let dtMosk = dat.getTime();
+        let date = new Date(dtMosk + (3600000*3));
+        let Y = date.getUTCFullYear();
+        let M = checkZero(date.getUTCMonth()+1);
+        let D = checkZero(date.getUTCDate());
+        let hours = checkZero(date.getUTCHours());
+        let minutes = checkZero(date.getUTCMinutes());
+        let seconds = checkZero(date.getUTCSeconds());
+        document.getElementById("time").innerHTML = Y+"."+M+"."+D+" "+hours + ":" + minutes + ":" + seconds + " MSK";
+        setTimeout(startTime, 1000);
+    }
+    function TimeMsk(dt) {
+        let dat = new Date(dt);
+        let dtMosk = dat.getTime();
+        let date = new Date(dtMosk + (3600000*3));
+        let Y = date.getUTCFullYear();
+        let M = checkZero(date.getUTCMonth()+1);
+        let D = checkZero(date.getUTCDate());
+        let hours = checkZero(date.getUTCHours());
+        let minutes = checkZero(date.getUTCMinutes());
+        let seconds = checkZero(date.getUTCSeconds());
+        let rez = Y+"."+M+"."+D+" "+hours + ":" + minutes + ":" + seconds + " MSK";
+        //console.log(rez);
+        return rez;
+    }
+    function checkZero(t) {
+        return t<10 ? '0'+t : t;
+    }
+</script>
+<style>
+    html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
+    input[type=number]::-webkit-inner-spin-button,
+    input[type=number]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+</style>
+
+<body onload="startTime()" class="w3-light-grey ng-scope" ng-app="myApp">
+<!-- Page Container -->
+<div class="w3-content w3-margin-top" style="max-width:1400px;">
+    <!-- Header -->
+    <%- include('includes/header') -%>
+    <!-- The Grid -->
+    <div class="w3-row-padding">
+        <!-- Left Column -->
+
+            <% let i = 'includes/'+ inc.f %>
+            <%- include(i) %>
+
+
+    </div>
+    <div class="w3-panel">
+    </div>
+    <!-- Footer -->
+    <%- include('includes/footer') -%>
+</div>
+
+</body>
+</html>

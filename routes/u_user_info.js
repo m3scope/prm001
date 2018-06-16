@@ -18,7 +18,7 @@ exports.get = function(req, res) {
             let userInfo = [];
             let userDeals = [];
         User.findById(req.session.user).exec(function (err, user) {
-            userInfo.sort(compareAge);
+
             //res.send(userInfo);
             if(err){
                 res.redirect();
@@ -48,9 +48,11 @@ exports.get = function(req, res) {
                                 } else {
 
                                 }
-                                res.render('index', {
+                                userInfo.sort(compareAge);
+                                res.render('u_index', {
                                     inc: {f: 'u_user_info'},
                                     title: 'Пользователь',
+                                    user: user,
                                     users: {user: user, userInfo: userInfo, userDeals: userDeals},
                                     LoginRegister: 'LoginRegister'
 
