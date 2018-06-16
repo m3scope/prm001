@@ -106,6 +106,9 @@ router.get('/', function(req, res, next) {
 router.get('/profile/:id?', checkAuth, require('./getProfile').get);
 router.post('/profile/:id?', checkAuth, require('./getProfile').post);
 
+router.get('/userinfo/:id?', checkAuth, require('./u_user_info').get);
+router.post('/userinfo/:id?', checkAuth, require('./u_user_info').post);
+
 router.post('/users', checkAuth, noCache, require('./users_post'), function (req, res){
     let user = req.user;
     res.render('users', {title: 'Ceate new User', user: user});
@@ -294,6 +297,12 @@ router.get('/gettrans/:id', (req, res) => {
 //----------------------------------------------
 
 //**********************************************
+
+
+
+
+
+
 //************ БИРЖА ***************************
 
 router.get('/createdeal', checkAuth, noCache, require('./createdeal').get);
@@ -391,10 +400,10 @@ router.get('/amd/createquery/:id?',  checkAdmin, noCache, require('./a_createQue
 router.post('/amd/createquery/:id?',  checkAdmin, noCache, require('./a_createQuery').post);
 
 router.get('/amd/banks/:id?',  checkAdmin, noCache, require('./a_banks').get);
-router.post('/amd/banks',  checkAdmin, noCache, require('./a_banks').post);
+router.post('/amd/banks/:id?',  checkAdmin, noCache, require('./a_banks').post);
 
 router.get('/amd/buhgalters/:id?',  checkAdmin, noCache, require('./a_buhs').get);
-router.post('/amd/buhgalters',  checkAdmin, noCache, require('./a_buhs').post);
+router.post('/amd/buhgalters/:id?',  checkAdmin, noCache, require('./a_buhs').post);
 
 router.get('/amd/buhgalters2/:id?',  checkAdmin, noCache, require('./a_buhs2').get);
 router.post('/amd/buhgalters2/:id?',  checkAdmin, noCache, require('./a_buhs2').post);
@@ -406,7 +415,7 @@ router.get('/amd/querys/:id?',  checkAdmin, noCache, require('./a_querys').get);
 router.post('/amd/querys/:id?',  checkAdmin, noCache, require('./a_querys').post);
 
 router.get('/amd/transactions/:id?',  checkAdmin, noCache, require('./a_querys').get);
-router.post('/amd/transactions/',  checkAdmin, noCache, require('./a_querys').post);
+router.post('/amd/transactions/:id?',  checkAdmin, noCache, require('./a_querys').post);
 
 router.get('/amd/vips/:id?',  checkAdmin, noCache, require('./a_vips').get);
 router.post('/amd/vips/:id?',  checkAdmin, noCache, require('./a_vips').post);
