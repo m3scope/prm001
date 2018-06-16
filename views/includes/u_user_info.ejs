@@ -24,7 +24,7 @@
                 <tr ng-repeat="dt in dt1" ng-click="setSelected();">
                     <td>{{ dt.UID }}</td>
                     <td class="w3-border-left">{{ dt.name_f }}</td>
-                    <td class="w3-border-left {{ dt.vip[1] }}">{{ dt.vip[0] }}</td>
+                    <td class="w3-border-left {{ dt.vcolor }}">{{ dt.vstatus }}</td>
                     <td class="w3-border-left">{{ dt.email }}</td>
                     <td class="w3-border-left">{{ dt.tel }}</td>
                     <td class="w3-border-left">{{ dt.PZM }}</td>
@@ -192,7 +192,8 @@
 
         nm={};
         nm.UID = '<%= users.user.UID%>';
-        nm.vip = vip[<%= users.user.vip%>];
+        nm.vstatus = vip[<%= Number(users.user.vip)%>][0];
+        nm.vcolor = vip[<%= Number(users.user.vip)%>][1];
         nm.email = '<%= users.user.email%>';
         nm.tel = '<%= users.user.tel%>';
         nm.name_f = '<%= users.user.name_f%>';
