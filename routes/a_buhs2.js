@@ -102,21 +102,77 @@ exports.get = function(req, res) {
                                                 console.error(err);
                                                 res.redirect('/amd/users');
                                             } else {
-                                                Bank.find().sort({bank_cod: 1}).exec(function (err, banks) {
-                                                    res.render('amd_index', {
-                                                        inc: {f: 'a_buhs2'},
-                                                        title: 'Бухгалтерия2',
-                                                        dateRange: {dateAt: dateAt, dateTo: dateTo},
-                                                        aggrTrans: aggrTrans,
-                                                        aggrQuery: aggrQuery,
-                                                        aggrBanks: aggrBanks,
-                                                        banks: banks,
-                                                        dealerId:req.session.user,
-                                                        userId: req.session.user,
-                                                        LoginRegister: 'LoginRegister'
+                                                User.aggregate(
+                                                    [
+                                                        {
+                                                            "$match" : {
+                                                                "ban" : false
+                                                            }
+                                                        },
+                                                        {
+                                                            "$group" : {
+                                                                "_id" : "$status",
+                                                                "PZM" : {
+                                                                    "$sum" : "$PZM"
+                                                                },
+                                                                "RUR" : {
+                                                                    "$sum" : "$RUR"
+                                                                },
+                                                                "USD" : {
+                                                                    "$sum" : "$USD"
+                                                                }
+                                                            }
+                                                        }
+                                                    ],function (err, userAmount) {
+                                                        if(err) console.error(err);
 
+                                                        Deal.aggregate(
+                                                            [
+                                                                {
+                                                                    "$match" : {
+                                                                        "status" : {
+                                                                            "$lt" : 3.0
+                                                                        }
+                                                                    }
+                                                                },
+                                                                {
+                                                                    "$group" : {
+                                                                        "_id" : {
+                                                                            "class" : "$class",
+                                                                            "deal_currency" : "$deal_currency",
+                                                                            "price_currency" : "$price_currency"
+                                                                        },
+                                                                        "deal_amount_bill" : {
+                                                                            "$sum" : "$deal_amount_bill"
+                                                                        },
+                                                                        "summ_bill" : {
+                                                                            "$sum" : "$summ_bill"
+                                                                        }
+                                                                    }
+                                                                }
+                                                            ],function (err, userDeals) {
+
+                                                                Bank.find().sort({bank_cod: 1}).exec(function (err, banks) {
+                                                                    res.render('amd_index', {
+                                                                        inc: {f: 'a_buhs2'},
+                                                                        title: 'Бухгалтерия2',
+                                                                        dateRange: {dateAt: dateAt, dateTo: dateTo},
+                                                                        aggrTrans: aggrTrans,
+                                                                        aggrQuery: aggrQuery,
+                                                                        aggrBanks: aggrBanks,
+                                                                        banks: banks,
+                                                                            userAmount: userAmount,
+                                                                            userDeals: userDeals,
+                                                                        dealerId:req.session.user,
+                                                                        userId: req.session.user,
+                                                                        LoginRegister: 'LoginRegister'
+
+                                                                    });
+                                                                });
+                                                            }
+                                                        );
                                                     });
-                                                });
+
                                             }
                                         }
                                     );
