@@ -30,7 +30,7 @@ exports.post = function (req, res, next) {
             });
             ress.on('end', function () {
                 //JSON.stringify(chunk);
-                console.log(JSON.parse(data).publicKey);
+                //console.log(JSON.parse(data).publicKey);
                 if(JSON.parse(data).publicKey){
                 let pubKey = JSON.parse(data).publicKey;
                 User.findById(req.session.user, function (err, uusser) {
