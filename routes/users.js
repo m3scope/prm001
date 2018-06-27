@@ -112,7 +112,7 @@ exports.get = function(req, res) {
             }
 
         } else {
-            User.find({status: 1}).limit(200).sort({PZM: -1,RUR: -1, USD:-1}).exec(function (err, users) {
+            User.find({status: 1}).limit(1000).sort({PZM: -1,RUR: -1, USD:-1}).exec(function (err, users) {
 
                 User.aggregate(
                     [
