@@ -350,8 +350,8 @@ exports.post = function (req, res, next) {
 
                                     } else {
                                         res.render('info', {
-                                            infoTitle: '<div class="w3-yellow">Превышение очереди!</div>',
-                                            infoText: 'Большая очередь запросов. Попробуйте запросить позже.',
+                                            infoTitle: '<div class="w3-yellow">Внимание!</div>',
+                                            infoText: 'Просьба запрос средств сделать на другую платежную систему или уменьшить сумму запроса.',
                                             url: '/profile',
                                             title: 'Запрос отклонен!',
                                             user: user,
