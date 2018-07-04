@@ -182,7 +182,9 @@ exports.get = function (req, res, next) {
                                     //console.log(qq);
                                     if (qq.status == 0) {
                                         if (qq.class == 0) {
+
                                             sndSms(qq.dealerId, 'Отпр. ' + qq.bank_name + ' ' + Math.round((qq.amount - qq.commission_summ) * 100) / 100 + ' ' + qq.currency_name);
+
                                             // } else {
                                             //     if(qq.bank_cod == 0 || qq.bank_cod > 3) {
                                             //         sndSms(qq.dealerId, 'прием '+qq.bank_name +' ' + Math.round((qq.amount) * 100) / 100 + ' ' + qq.currency_name);
