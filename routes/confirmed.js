@@ -67,7 +67,7 @@ exports.get = function (req, res, next) {
                                     });
                                 new_email_token.save();
                                 console.log(text);
-                                sndMail(user.email, 0, text);
+                                sndMail(user.email, 0, text,0,0);
                                 //res.send({});
                                 res.render('info', {
                                     infoTitle: '<div class="w3-green">Успех!</div>',
@@ -345,7 +345,7 @@ exports.post = function (req, res, next) {
                             let new_email_token = db_email({user_id: user._id, email_address: user.email, text: text, token: SL});
                             new_email_token.save();
                             console.log(text);
-                            sndMail(user.email, 1, text);
+                            sndMail(user.email, 1, text,0,0);
                             //res.send({});
                             res.render('info', {infoTitle: '<div class="w3-green">Успех!</div>', infoText: 'Проверьте свою почту и перейдите по ссылке! (ПРОВЕРЬТЕ ПАПКУ СПАМ!!!)', url: '/', title: 'Сброс пароля!!!', user: {}, LoginRegister: '<b></b>'});
                         }
