@@ -10,7 +10,7 @@ const poolConfig = {
     secure: true, // use TLS
     auth: {
         user: 'support@prizmex.ru',
-        pass: 'vfrcbvx4'
+        pass: 'VfrcbvX429160476'
     }
 };
 // const sendMailConfig = {
