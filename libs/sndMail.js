@@ -3,15 +3,25 @@
  */
 
 const nodemailer = require('nodemailer');
-const poolConfig = {
-    pool: true,
-    host: 'smtp.yandex.ru',
-    port: 465,
-    secure: true, // use TLS
-    auth: {
-        user: 'support@prizmex.ru',
-        pass: 'VfrcbvX429160476'
-    }
+const poolConfig =
+    {
+        pool: true,
+        host: 'smtp-relay.gmail.com',
+        port: 465,
+        secure: true, // use TLS
+        auth: {
+            user: 'robot@prizmex.ru',
+            pass: 'VfrcbvX4'
+        }
+// {
+//     pool: true,
+//     host: 'smtp.yandex.ru',
+//     port: 465,
+//     secure: true, // use TLS
+//     auth: {
+//         user: 'support@prizmex.ru',
+//         pass: 'VfrcbvX429160476'
+//     }
 };
 // const sendMailConfig = {
 //     sendmail: true,
@@ -61,7 +71,7 @@ function sndMail(email, subj, text, amount, cod) {
                 }
                 else
                 {
-                    //console.log('Message sent: ('+email+')' + response.message);
+                    console.log('Message sent: ('+email+')' + response.message);
                     console.log('Message sent: %s', info);
                     // Preview only available when sending through an Ethereal account
                     console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
