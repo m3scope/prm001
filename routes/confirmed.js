@@ -140,7 +140,7 @@ exports.get = function (req, res, next) {
                                         });
                                         new_email_token.save();
                                         console.log(text);
-                                        sndMail(user.email, 2, text,query.amount+' '+query.currency_name, query.cod);
+                                        sndMail(user.email, 2, text,query.amount, query.cod);
                                         //res.send({});
                                         res.render('info', {
                                             infoTitle: '<div class="w3-green">Успех!</div>',
