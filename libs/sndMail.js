@@ -32,7 +32,7 @@ const poolConfig =
 const smtpTransport = nodemailer.createTransport(poolConfig);
 
 let mailOptions = {
-    from: 'Тех.поддержка <support@prizmex.ru>' // sender address
+    from: 'Тех.поддержка <robot@prizmex.ru>' // sender address
     , to: "" // list of receivers
     , text: "" // plaintext body
     , html: ""
