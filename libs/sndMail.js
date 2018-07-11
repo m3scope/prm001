@@ -4,24 +4,25 @@
 
 const nodemailer = require('nodemailer');
 const poolConfig =
-    {
-        pool: true,
-        host: 'smtp-relay.gmail.com',
-        port: 465,
-        secure: true, // use TLS
-        auth: {
-            user: 'robot@prizmex.ru',
-            pass: 'VfrcbvX4'
-        }
-// {
-//     pool: true,
-//     host: 'smtp.yandex.ru',
-//     port: 465,
-//     secure: true, // use TLS
-//     auth: {
-//         user: 'support@prizmex.ru',
-//         pass: 'VfrcbvX429160476'
-//     }
+    // {
+    //     pool: true,
+    //     host: 'smtp.gmail.com',
+    //     //service: 'Gmail',
+    //     port: 465,
+    //     secure: true, // use TLS
+    //     auth: {
+    //         user: 'robot@prizmex.ru',
+    //         pass: 'VfrcbvX4'
+    //     }
+{
+    pool: true,
+    host: 'smtp.yandex.ru',
+    port: 465,
+    secure: true, // use TLS
+    auth: {
+        user: 'support@prizmex.ru',
+        pass: 'VfrcbvX429160476'
+    }
 };
 // const sendMailConfig = {
 //     sendmail: true,
@@ -32,7 +33,7 @@ const poolConfig =
 const smtpTransport = nodemailer.createTransport(poolConfig);
 
 let mailOptions = {
-    from: 'Тех.поддержка <robot@prizmex.ru>' // sender address
+    from: 'Тех.поддержка <support@prizmex.ru>' // sender address
     , to: "" // list of receivers
     , text: "" // plaintext body
     , html: ""

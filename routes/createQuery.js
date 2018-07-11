@@ -344,7 +344,7 @@ exports.post = function (req, res, next) {
                                                 //---------------------
 
                                                 res.redirect('/api/q/res/' + saved_Q._id.toString() + ';confirm');
-                                                //res.redirect('/confirmed/sendconfirmedquery;' + saved_Q._id.toString());
+                                                //res.redirect('/confirmed/sendconfirmedquery;' + saved_Q._id.toString()); // Подтверждение через E-mail
                                             });
 
                                         });

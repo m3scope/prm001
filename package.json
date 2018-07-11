@@ -20,7 +20,7 @@
     "@angular/platform-server": "^5.2.11",
     "@angular/router": "^5.2.11",
     "@angular/upgrade": "^5.2.11",
-    "angular": "^1.7.0",
+    "angular": "^1.7.2",
     "bluebird": "^3.5.1",
     "body-parser": "^1.18.3",
     "config": "^1.30.0",
@@ -30,14 +30,14 @@
     "ejs": "^2.6.1",
     "express": "^4.16.3",
     "express-session": "^1.15.6",
-    "jsdom": "^11.10.0",
-    "log4js": "^2.7.0",
-    "mongodb": "^3.0.8",
-    "mongoose": "^4.13.13",
+    "jsdom": "^11.11.0",
+    "log4js": "^2.10.0",
+    "mongodb": "^3.1.1",
+    "mongoose": "^4.13.14",
     "morgan": "^1.9.0",
     "nodemailer": "^4.6.4",
     "qrcode": "^1.2.0",
-    "rxjs": "^5.5.10",
+    "rxjs": "^5.5.11",
     "serve-favicon": "^2.5.0",
     "socket.io": "^2.1.1",
     "socket.io-client": "^2.1.1",
@@ -46,7 +46,7 @@
   "devDependencies": {
     "@ngtools/webpack": "^1.8.0",
     "@types/core-js": "0.9.36",
-    "@types/node": "^6.0.45",
+    "@types/node": "^6.0.114",
     "angular-router-loader": "^0.5.0",
     "angular2-template-loader": "^0.5.0",
     "awesome-typescript-loader": "^3.1.2",
@@ -54,8 +54,8 @@
     "html-loader": "^0.4.4",
     "raw-loader": "^0.5.1",
     "ts-loader": "^2.0.3",
-    "typescript": "^2.8.3",
+    "typescript": "^2.9.2",
     "webpack": "^2.2.1",
-    "webpack-merge": "^4.1.0"
+    "webpack-merge": "^4.1.3"
   }
 }
