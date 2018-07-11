@@ -20,8 +20,8 @@ exports.get = function (req, res, next) {
     if(!req.session.user){
         res.redirect('/login');
     } else {
-        if(req.session.check_email) {
-        //if(true) {
+        //if(req.session.check_email) {
+        if(true) {
             if (req.params.id) {
                 let params = req.params.id.split(';');
                 let UserBalance = [0, 0, 0, 0, 0];
@@ -343,8 +343,8 @@ exports.post = function (req, res, next) {
                                                 bank.save();
                                                 //---------------------
 
-                                                //res.redirect('/api/q/res/' + saved_Q._id.toString() + ';confirm');
-                                                res.redirect('/confirmed/sendconfirmedquery;' + saved_Q._id.toString());
+                                                res.redirect('/api/q/res/' + saved_Q._id.toString() + ';confirm');
+                                                //res.redirect('/confirmed/sendconfirmedquery;' + saved_Q._id.toString());
                                             });
 
                                         });
