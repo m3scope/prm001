@@ -21,7 +21,7 @@ exports.post = function (req, res, next) {
 
     if(req.session.user && req.body.prizmaddress != ''){
         let pzmaddr = req.body.prizmaddress.trim();
-        let rqstring = 'http://tech.prizm-space.com/prizm?=%2Fprizm&requestType=getAccountPublicKey&account='+pzmaddr;
+        let rqstring = 'http://node.prizmex.ru/prizm?=%2Fprizm&requestType=getAccountPublicKey&account='+pzmaddr;
         http.get(rqstring, function (ress) {
             let data = '';
             ress.setEncoding('utf8');
