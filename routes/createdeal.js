@@ -145,6 +145,7 @@ exports.post = function(req, res) {
                             LoginRegister = LoginRegister + '<div class="w3-red">Недостаточно средств</div>';
                             //res.render('createdeal', {title: 'Создать СДЕЛКУ', user: user, LoginRegister: LoginRegister});
                             //res.redirect(Curr[req.body.price_currency][Curr[req.body.deal_currency][0]]);
+                            console.log('********* | req.body.price_currency / req.body.deal_currency | '+req.body.price_currency + ' / ' + req.body.deal_currency + ' |');
                             res.render('info', {
                                 infoTitle: '<div class="w3-red">Ошибка!</div>',
                                 infoText: 'Недостаточно средств!',
