@@ -153,6 +153,7 @@ exports.post = function(req, res) {
                                 title: 'Создать СДЕЛКУ',
                                 user: user,
                                 LoginRegister: LoginRegister
+
                             });
                         }
                     } else {    // ******************* ПРОДАЖА  **************
