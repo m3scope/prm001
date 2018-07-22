@@ -11,6 +11,8 @@ pids
 logs
 results
 
+_new_style
+
 node_modules
 *.log*
 /public/js
