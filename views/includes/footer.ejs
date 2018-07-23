@@ -1,69 +1,15 @@
-<div class="w3-container w3-teal" ng-controller="footer">
-    <div class="w3-row-padding">
-        <div class="w3-third">
-            <p>
-                2018 (c) PrizmEx
-            </p>
-        </div>
-        <!-- Right Column -->
-        <div class="w3-third">
-            <p>Наш сайт: <a href="https://www.parovoz-prizm.com/" >Паровоз-Призм</a> </p>
-
-        </div>
-
-        <!--<div class="w3-third">
-            <p>
-                <i class="fa fa-facebook-official w3-hover-opacity"></i>
-                <i class="fa fa-instagram w3-hover-opacity"></i>
-                <i class="fa fa-snapchat w3-hover-opacity"></i>
-                <i class="fa fa-pinterest-p w3-hover-opacity"></i>
-                <i class="fa fa-twitter w3-hover-opacity"></i>
-                <i class="fa fa-linkedin w3-hover-opacity"></i>
-            </p>
-        </div>
-        -->
-        <div class="w3-third w3-right-align">
-            <p>
-                Тех.поддержка support@prizmex.ru
-            </p>
-        </div>
-        <div >
-            {{ oCt }}
-        </div>
+<div class="top_line"></div>
+<div class="container">
+    <div class="logo">
+        <a href="/"><img src="img/logo.svg" alt="logo"></a>
     </div>
-
-
+    <div class="menu">
+        <ul>
+            <li><a href="index.html" class="active">Главная</a></li>
+            <li><a href="vvod-vivod.html">Ввод-вывод</a></li>
+            <li><a href="profile.html">Профиль</a></li>
+            <li><a href="otchety.html">Отчеты</a></li>
+            <li><a href="komissii.html">Комиссии</a></li>
+        </ul>
+    </div>
 </div>
-
-
-
-<script type="text/javascript">
-    //<![CDATA[
-    //let myApp = angular.module('myApp',[]);
-    let socketIo = io();
-//    $(function () {
-//        let socket = io();
-//        $('form').submit(function(){
-//            socket.emit('chat message', $('#m').val());
-//            $('#m').val('');
-//            return false;
-//        });
-//        socket.on('chat message', function(msg){
-//            $('#messages').append($('<li>').text(msg));
-//        });
-//    });
-    myApp.controller('footer', function($scope) {
-
-        //$scope.onlineCount = 0;
-
-        socketIo.on('onlineCount', function (data) {
-
-            $scope.oCt = data;
-            console.log(data);
-
-        });
-
-    });
-
-    //]]>
-</script>

@@ -18,35 +18,51 @@
     </div>
     <div class="line_black"></div>
 
-    <div class="trades">
-        <div class="trade buy">
-            <div class="title">КУПИТЬ BTC</div>
-            <div class="form">
-                <form action="">
-                    <div class="form-group"><span class="name">Ваши средства:</span><input ng-click="getSelectBuy()" class="value form-control" id="cash" type="text" value="{{ UBalance_buy }} <%= curr[deals.curr2] %>"></div>
-                    <div class="cash">0  BTC</div>
-                    <div class="form-group"><span class="name">Количество BTC:</span><input class="value form-control" id="amount" type="text" value="1.00000000"></div>
-                    <div class="form-group"><span class="name">Цена за BTC (USD):</span><input class="value form-control" id="price" type="text" value="6000.000"></div>
-                    <div class="form-group"><span class="name">Всего:</span><span class="value">0  USD</span></div>
-                    <div class="form-group"><span class="name">Комиссия:</span><span class="value">0  BTC</span><button type="submit" class="btn active">Купить</button></div>
-                </form>
-            </div>
+    <div class="w3-col s12" ng-controller="userDealsCtrl">
+        <% if (userDeals.length>0) {  %>
+        <div class="">
+        <h5>Мои ордера</h5>
+        <table class="w3-table-all w3-small w3-striped w3-hoverable">
+            <tr  class="w3-green">
+                <th>Пара</th>
+                <th class="w3-border-left">Тип</th>
+                <th class="w3-border-left">Кол.(остаток)</th>
+                <th class="w3-border-left">Цена</th>
+                <th class="w3-border-left">Сумма</th>
+                <th class="w3-border-left">Дата</th>
+                <th class="w3-border-left"></th>
+            </tr>
+
+            <tr ng-repeat="dt in dtud" ng-click="setSelected();">
+                <td>{{ dt.deal_currency }}/{{ dt.price_currency}}</td>
+                <td class="{{ dt.color }}">{{ dt.typ }}</td>
+                <td class="w3-border-left">{{ dt.deal_amount }}<span class="w3-small"> ({{ dt.deal_amount_bill }})</span></td>
+                <td class="w3-border-left">{{ dt.price_amount}}</td>
+                <td class="w3-border-left">{{ dt.summ }}<span class="w3-small"> ({{ dt.summ_bill }})</span></td>
+                <td class="w3-border-left">{{ dt.dat }}</td>
+                <td class="w3-border-left {{ dt.color2 }}">
+                    <div ng-switch="{{ dt.status }}">
+                        <div ng-switch-when="0">
+                            <span><a href="{{dt.cans}}">отменить</a> </span>
+                        </div>
+                        <div ng-switch-when="1">
+                            <span> Активный </span><span><a href="{{dt.cans}}">отменить</a> </span>
+                        </div>
+                        <div ng-switch-when="3">
+                            <span>отменен</span>
+                        </div>
+                        <div ng-switch-when="9">
+                            <span>исполнен</span>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+
+        </table>
         </div>
-        <div class="trade sell">
-            <div class="title">ПРОДАТЬ BTC</div>
-            <div class="form">
-                <form action="">
-                    <div class="form-group"><span class="name">Ваши средства:</span><input class="value form-control" id="cash2" type="text"></div>
-                    <div class="cash">0  BTC</div>
-                    <div class="form-group"><span class="name">Количество BTC:</span><input class="value form-control" id="amount2" type="text" value="1.00000000"></div>
-                    <div class="form-group"><span class="name">Цена за BTC (USD):</span><input class="value form-control" id="price2" type="text" value="6000.000"></div>
-                    <div class="form-group"><span class="name">Всего:</span><span class="value">0  USD</span></div>
-                    <div class="form-group"><span class="name">Комиссия:</span><span class="value">0  BTC</span><button type="submit" class="btn active">Продать</button></div>
-                </form>
-            </div>
-        </div>
+        <%}%>
     </div>
-    <div class="line_black"></div>
+    <div class="w3-panel">
 
     </div>
     <!-- Left Column -->

@@ -2,12 +2,19 @@
 <html>
 <title>PrizmEx: <%= title %></title>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="/stylesheets/w3.css">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
-<link rel="stylesheet" href="/stylesheets/fontawesome.min.css">
-<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
-<script src="/socket.io/socket.io.js"></script>
+<head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+      <link rel="stylesheet" href="css/normalize.css">
+      <link rel="stylesheet" href="css/jquery.mCustomScrollbar.min.css">
+      <link rel="stylesheet" href="css/style.css?ver=1.0.18">
+      <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+      <script src="/js/jquery.mCustomScrollbar-3.1.5.min.js"></script>
+      <script src="/js/jquery.mousewheel.min.js"></script>
+      <script src="/js/common.js?ver=1.0.18"></script>
+      <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+      <script src="/socket.io/socket.io.js"></script>
+</head>
 
 <script language = 'javascript'>
     function startTime() {
@@ -52,25 +59,23 @@
 
 <body onload="startTime()" class="w3-light-grey ng-scope" ng-app="myApp">
 <!-- Page Container -->
-<div class="w3-content w3-margin-top" style="max-width:1400px;">
-      <!-- Header -->
-    <%- include('includes/header') -%>
-      <!-- The Grid -->
-      <div class="w3-row-padding">
-            <!-- Left Column -->
-            <div class="w3-twothird">
-                <% let i = 'includes/'+ inc.f %>
-                <%- include(i) %>
-            </div>
-
-
-            <div class="w3-third">
-                  <%- include('includes/r_info') %>
-            </div>
+<div class="wrap">
+      <div class="header">
+          <%- include('includes/header') -%>
       </div>
-      <div class="w3-panel">
+      <div class="content">
+          <% let i = 'includes/'+ inc.f %>
+          <%- include(i) %>
       </div>
-      <!-- Footer -->
+      <div class="reserves">
+
+      </div>
+      <div class="stats">
+
+      </div>
+
+</div>
+<div class="footer">
     <%- include('includes/footer') -%>
 </div>
 
