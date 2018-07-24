@@ -15,7 +15,7 @@ _new_style
 
 node_modules
 *.log*
-/public/js
+
 .idea
 .git
 config
