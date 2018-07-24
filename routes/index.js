@@ -310,6 +310,7 @@ router.get('/createdeal', checkAuth, noCache, require('./createdeal').get);
 router.post('/createdeal', checkAuth, noCache, require('./createdeal').post);
 
 //router.get('/getdeals', checkAuth, noCache, require('./getdeals').get);
+
 router.get('/deals/:id?', function (req, res) {
     //const id = req.params.id;
     let curr1 = 1;
