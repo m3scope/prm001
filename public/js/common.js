@@ -79,7 +79,7 @@ $(document).ready(function() {
   	$('#signup, #repassbtn').click(function(e){
   		e.preventDefault();
   		$('.signup, .repass').hide();
-  		$('.in_acc').show();
+  		$('.signup').show();
   	});
 
   	$('#repass').click(function(e) {

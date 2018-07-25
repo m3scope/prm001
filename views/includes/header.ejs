@@ -15,6 +15,7 @@
             </div>
             <span>Личный кабинет</span>
         </div>
+        <% if(user){%>
         <div class="in_acc" style="display: none;">
             <div class="body">
                 <div class="name"><span>Username</span><a href="#" id="logout">Выйти</a></div>
@@ -36,27 +37,31 @@
                 <div><img src="/img/account/2.png" alt=""><a href="#">rePRIZM</a></div>
             </div>
         </div>
+        <%} else {%>
         <div class="signup">
-            <form action="">
+            <form action="/login" method="post">
                 <div class="form-group"><input class="form-control email" type="text" placeholder="E-mail"></div>
                 <div class="form-group"><input class="form-control password" type="password" placeholder="Пароль"></div>
                 <div class="bottom"></div>
                 <div class="bottom">
                     <button type="submit" id="signup" class="btn active">Войти</button>
-                    <div class="form_link"><a href="#" id="repass">Забыли пароль?</a><br><a href="profile.html">Регистрация</a></div>
+                    <div class="form_link"><a href="/confirmed/droppass" id="repass">Забыли пароль?</a><br><a href="/register">Регистрация</a></div>
                 </div>
             </form>
         </div>
         <div class="repass" style="display: none;">
-            <form action="">
-                <div class="form-group"><input class="form-control email" type="text" placeholder="E-mail"></div>
+            <form action="/confirmed/senddroppass" method="post">
+                <div class="form-group">
+                    <input class="form-control email" name="email" type="text" placeholder="E-mail">
+                </div>
                 <div class="bottom"></div>
                 <div class="bottom">
-                    <button type="submit" id="repassbtn" class="btn active">Сменить</button>
-                    <div class="form_link"><a href="#" id="signupform">Войти</a><br><a href="profile.html">Регистрация</a></div>
+                    <input type="submit" id="repassbtn" class="btn active">Сменить</input>
+                    <div class="form_link"><a href="#" id="signupform">Войти</a><br><a href="/register">Регистрация</a></div>
                 </div>
             </form>
         </div>
+        <%}%>
     </div>
 </div>
 <div class="header_line"></div>
