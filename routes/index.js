@@ -139,7 +139,8 @@ router.post('/login', (req, res) => {
                 req.session.user = user._id;
                 req.session.username = user.name_f;
                 req.session.check_email = user.email_confirmed;
-                return res.redirect('/'); //res.status(200).send('Welcome, '+ username + '!');
+                //return res.redirect('/'); //res.status(200).send('Welcome, '+ username + '!');
+                return res.status(200).send('1');
             }
             //return res.status(200).send('Пользователь не найден!');
             return res.render('info', {
@@ -248,36 +249,6 @@ router.post('/register', (req, res) => {
 });
 //----------------------------------------------
 
-//**********************************************
-//**********************************************
- // структура
-
-// router.get('/getrec/:id', (req, res) => {
-//     //const request = require("request");
-//     let rnd = Math.random();
-//     const pzm = req.params.id;
-//     const http = require('http');
-//     const url = "http://blockchain.prizm.space/prizm?requestType=getAccount&account="+pzm+"&random="+rnd;
-//     console.log(url);
-//
-//     http.get(url, function(ress){
-//         let body = '';
-//
-//         ress.on('data', function(chunk){
-//             body += chunk;
-//         });
-//
-//         ress.on('end', function(){
-//             let fbResponse = JSON.parse(body);
-//             console.log("Got a response: ", fbResponse.transactions[0]);
-//             return res.status(200).send(fbResponse.transactions[0]);
-//         });
-//     }).on('error', function(e){
-//         console.log("Got an error: ", e);
-//         return res.status(500).send('Внутренняя ошибка!');
-//     });
-// });
-
 router.get('/gettrans/:id', (req, res) => {
     //const request = require("request");
     //let rnd = Math.random();
@@ -295,13 +266,6 @@ router.get('/gettrans/:id', (req, res) => {
 });
 
 //----------------------------------------------
-
-//**********************************************
-
-
-
-
-
 
 //************ БИРЖА ***************************
 
