@@ -124,10 +124,10 @@ router.get('/login', (req, res) => {
 });
 
 router.post('/login', (req, res) => {
-    const username = req.body.username;
+    const email = req.body.email;
     const password = req.body.password;
 
-    User.findOne({username: username}, function(err, user){
+    User.findOne({email: email}, function(err, user){
         if(err) {
             return res.render('info', {infoTitle: '<div class="w3-red">Внутренняя ошибка!</div>', infoText: 'Неправильный логин или пароль', url: '/login', title: 'Вход', user: null, LoginRegister: '<b><a href="/login">вход</a></b>'});
         }

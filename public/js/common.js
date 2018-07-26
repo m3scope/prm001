@@ -76,11 +76,7 @@ $(document).ready(function() {
 
 
 
-  	$('#signup, #repassbtn').click(function(e){
-  		e.preventDefault();
-  		$('.signup, .repass').hide();
-  		$('.signup').show();
-  	});
+
 
   	$('#repass').click(function(e) {
         e.preventDefault();

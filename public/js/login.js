@@ -22,7 +22,7 @@ function ValidMailLogin(idt,idm,idp) {
         //чтобы при регистрации с главной страницы не проходила запись кошелька
         stopvalid=0;
 
-        output= parseInt(login(myType,myMail,myPass,$.cookie('multisms_referal'),$('#formreg .input-form-promo').val()));
+        output= parseInt(login(myType,myMail,myPass));
 
         if(output==112) {output='Ошибка в заполнении почты и/или пароля!';}
 
@@ -78,26 +78,26 @@ function ValidMailLogin(idt,idm,idp) {
     } else output = 'Адрес электронной почты введен неправильно!';
 
     if(output && output!=1){
-        notyview(output);
+        //notyview(output);
     }
 
     if(stopvalid!=1) return valid;
 }
 
-function login(t,l,p,c,promocode) {
+function login(t,l,p) {
     const type_from_t=t;
     let timezone= new Date().getTimezoneOffset();
     const login_from_l=l;
     const password_from_p=p;
-    const cash_from_c=c;
-    const promocode_from_c=promocode;
+    // const cash_from_c=c;
+    // const promocode_from_c=promocode;
 
     let res='';
     $.ajax({
         async: false,
         url: "/login",
         type: "POST",
-        data: {t: type_from_t, l: login_from_l, p: password_from_p, c: cash_from_c, promocode: promocode_from_c, timezone: timezone},
+        data: {t: type_from_t, email: login_from_l, password: password_from_p, timezone: timezone},
         cache: false,
         success: function(data){
             res = data;
@@ -108,7 +108,7 @@ function login(t,l,p,c,promocode) {
 function logout() {
     $.ajax({
         async: false,
-        url: "/php/logout.php",
+        url: "/logout",
         cache: false,
         success: function(data){
             $('.in-account').removeClass('active');
