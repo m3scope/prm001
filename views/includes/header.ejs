@@ -44,9 +44,9 @@
         <%} else {%>
 
         <div class="signup">
-            <form id="formlogin" action="javascript:void(0);" onsubmit="return ValidMailLogin('#formlogin','#formlogin .input-form-email','#formlogin .input-form-pass');">
-                <div class="form-group"><input class="input-form-email form-control email" type="text" placeholder="E-mail"></div>
-                <div class="form-group"><input class="input-form-pass form-control password" type="password" placeholder="Пароль"></div>
+            <form id="formlogin" action="/login" method="post">
+                <div class="form-group"><input class="input-form-email form-control email" name="email" type="text" placeholder="E-mail"></div>
+                <div class="form-group"><input class="input-form-pass form-control password" name="password" type="password" placeholder="Пароль"></div>
                 <div class="bottom"></div>
                 <div class="bottom">
                     <input type="submit" id="signup" class="btn active" value="Войти" />
