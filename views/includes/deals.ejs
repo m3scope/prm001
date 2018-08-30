@@ -20,7 +20,7 @@
 
     <div class="trades">
         <div class="trade buy">
-            <div class="title">КУПИТЬ BTC</div>
+            <div class="title">КУПИТЬ <%= curr[deals.curr1] %></div>
             <div class="form">
                 <form action="">
                     <div class="form-group"><span class="name">Ваши средства:</span><input ng-click="getSelectBuy()" class="value form-control" id="cash" type="text" value="{{ UBalance_buy }} <%= curr[deals.curr2] %>"></div>
@@ -33,7 +33,7 @@
             </div>
         </div>
         <div class="trade sell">
-            <div class="title">ПРОДАТЬ BTC</div>
+            <div class="title">ПРОДАТЬ <%= curr[deals.curr1] %></div>
             <div class="form">
                 <form action="">
                     <div class="form-group"><span class="name">Ваши средства:</span><input class="value form-control" id="cash2" type="text"></div>
@@ -49,6 +49,9 @@
     <div class="line_black"></div>
 
     </div>
+
+
+<!--*************************************************************************************************************-->
     <!-- Left Column -->
     <div class="w3-col s6" ng-controller="MainCtrl">
         <div class="w3-card-4">

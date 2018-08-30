@@ -49,14 +49,7 @@ router.get('/', function(req, res, next) {
             infoText.txt = 'Внимание!' +
                 '<p><ul><li>Биржа работает в ручном режиме.</li><li>Заявки обрабатываются с 7.00 до 21.00 МСК.</li><li>Об ошибках и предложениях сообщать на support@prizmex.ru</li></ul></p>';
             UserBalance = [0,Math.round(user.PZM*100)/100,Math.round(user.USD*100)/100,Math.round(user.RUR*100)/100];
-            LoginRegister = '<div class="w3-right-align w3-small"><span class="w3-border-top">'+req.session.username+'</span></div><a href="/profile" class="w3-button w3-border w3-border-white w3-round"><label>ВВОД / ВЫВОД</label></a>&nbsp;&nbsp;<a href="/profile" class="w3-button w3-border w3-border-white w3-round"><label>ПРОФИЛЬ</label></a>&nbsp;&nbsp;<a href="/logout" class="w3-button w3-border w3-border-white w3-round">ВЫХОД</a>' +
-                '<div class="w3-right-align w3-small">' +
-                '<span>PZM: </span>' +
-                '<label class="w3-border-bottom"> '+UserBalance[1]+' </label>' +
-                '<span>&nbsp; RUR: </span>' +
-                '<label class="w3-border-bottom"> '+UserBalance[3]+' </label>' +
-                '<span>&nbsp; USD: </span>' +
-                '<label class="w3-border-bottom"> '+UserBalance[2]+' </label></div>';
+            LoginRegister = '';
             if(amd.indexOf(req.session.user) > -1) {
                 LoginRegister = '<div class="w3-right-align w3-small"><span class="w3-border-top">'+req.session.username+'</span></div><a href="/amd/querys" class=" w3-btn w3-border w3-border-green w3-round" >А</a>&nbsp;&nbsp;<a href="/profile" class="w3-button w3-border w3-border-white w3-round"><label>ВВОД / ВЫВОД</label></a>&nbsp;&nbsp;<a href="/profile" class="w3-button w3-border w3-border-white w3-round"><label>ПРОФИЛЬ</label></a>&nbsp;&nbsp;<a href="/logout" class="w3-button w3-border w3-border-white w3-round">ВЫХОД</a>';
             }
@@ -139,8 +132,8 @@ router.post('/login', (req, res) => {
                 req.session.user = user._id;
                 req.session.username = user.name_f;
                 req.session.check_email = user.email_confirmed;
-                //return res.redirect('/'); //res.status(200).send('Welcome, '+ username + '!');
-                return res.status(200).send('1');
+                return res.redirect('/'); //res.status(200).send('Welcome, '+ username + '!');
+                //return res.status(200).send('1');
             }
             //return res.status(200).send('Пользователь не найден!');
             return res.render('info', {

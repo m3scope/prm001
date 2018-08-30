@@ -3,7 +3,7 @@
     <div class="logo">
         <a href="/"><img src="/img/logo.svg" alt="logo"></a>
         <% if(user && user.status > 2){%>
-            <a href="/amd/querys" class="active" ><img src="/img/sign/key.png" alt="A"></a>
+            <br><a href="/amd/querys" class="active" ><img src="/img/sign/key.png" alt="A" style="width: 30px"></a>
         <%}%>
     </div>
     <div class="info">
@@ -19,19 +19,19 @@
             <span>Личный кабинет</span>
         </div>
         <% if(user){%>
-        <div class="in_acc" style="display: none;">
+        <div class="in_acc">
             <div class="body">
-                <div class="name"><span>Username</span><a href="#" id="logout">Выйти</a></div>
+                <div class="name"><span><%= user.name_f%></span><a href="/logout" >Выйти</a></div>
                 <div class="currency">
                     <div class="currency_text">
-                        <div class="namecur">B:</div><div class="val">55.00</div><div class="img"><img src="/img/account/currency/1.png" alt=""></div>
-                        <br><div class="namecur">S:</div><div class="val">5.00</div><div class="img"><img src="/img/account/currency/1.png" alt=""></div>
-                        <br><div class="namecur">P:</div><div class="val">25.00</div><div class="img">%</div>
+                        <!--<div class="namecur">B:</div><div class="val">55.00</div><div class="img"><img src="/img/account/currency/1.png" alt=""></div>-->
+                        <!--<br><div class="namecur">S:</div><div class="val">5.00</div><div class="img"><img src="/img/account/currency/1.png" alt=""></div>-->
+                        <!--<br><div class="namecur">P:</div><div class="val">25.00</div><div class="img">%</div>-->
                     </div>
                     <div class="currency_text">
-                        <div class="img"><img src="/img/account/currency/2.png" alt=""></div><div class="val">4.00</div>
-                        <br><div class="img"><img src="/img/account/currency/1.png" alt=""></div><div class="val">26.0000</div>
-                        <br><div class="img">$</div><div class="val">500.000</div>
+                        <div class="img"><img src="/img/account/currency/2.png" alt=""></div><div class="val"><%= user.RUR %></div>
+                        <br><div class="img"><img src="/img/account/currency/1.png" alt=""></div><div class="val"><%= user.PZM %></div>
+                        <br><div class="img">$</div><div class="val"><%= user.USD %></div>
                     </div>
                 </div>
             </div>
@@ -69,60 +69,10 @@
         <%}%>
     </div>
 </div>
-<div class="header_line"></div>
-
-
-
-<div class="w3-container w3-teal">
-    <div class="w3-row-padding">
-        <div class="w3-third">
-            <a href="/"> <h1>PrizmEx ТЕСТОВЫЙ</h1></a>
-            <% if(user && user.status > 2){%>
-                <a href="/amd/querys" class=" w3-btn w3-border w3-border-green w3-round" >А</a>
-            <%}%>
-            <% if(!user){%>
-            <p>
-                <b><a href="/login">Вход</a> </b>
-            </p>
-            <%}%>
-        </div>
-        <div class="w3-third w3-center-align  w3-small">
-            <h3>*** Работает на Chrome, IE 11, Edge ***</h3>
-
-                <label id="time" title="время сервера"></label>
-
-        </div>
-        <!-- Right Column -->
-        <div class="w3-third w3-right-align">
-
-            <% if(user){%>
-            <p>
-                <div class="w3-right-align w3-small">
-                    <span class="w3-border-top"><%= user.name_f%></span>
-                </div>
-                <a href="/profile/query" class="w3-button w3-border w3-border-white w3-round">
-                    <label>ВВОД / ВЫВОД</label>
-                </a>&nbsp;&nbsp;
-                <a href="/profile" class="w3-button w3-border w3-border-white w3-round">
-                    <label>МОИ ДАННЫЕ</label>
-                </a>&nbsp;&nbsp;
-                <a href="/logout" class="w3-button w3-border w3-border-white w3-round">ВЫХОД</a>
-                <div class="w3-right-align w3-small">
-                    <span>PZM: </span>
-                    <label class="w3-border-bottom"><%= user.PZM %></label>
-                    <span>&nbsp; RUR: </span>
-                    <label class="w3-border-bottom"><%= user.RUR %></label>
-                    <span>&nbsp; USD: </span>
-                    <label class="w3-border-bottom"><%= user.USD %></label>
-                </div>
-            </p>
-            <%}%>
-
-
-        </div>
-    </div>
+<div class="header_line">
 
 </div>
+
 
 <div class="w3-small" id="info">
 
