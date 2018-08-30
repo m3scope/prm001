@@ -19,12 +19,12 @@
     <div class="line_black"></div>
 
     <div class="trades">
-        <div class="trade buy">
+        <div class="trade buy" ng-controller="MainCtrl">
             <div class="title">КУПИТЬ <%= curr[deals.curr1] %></div>
             <div class="form">
                 <form action="">
                     <div class="form-group"><span class="name">Ваши средства:</span><input ng-click="getSelectBuy()" class="value form-control" id="cash" type="text" value="{{ UBalance_buy }} <%= curr[deals.curr2] %>"></div>
-                    <div class="cash">0  BTC</div>
+                    <div class="cash"></div>
                     <div class="form-group"><span class="name">Количество BTC:</span><input class="value form-control" id="amount" type="text" value="1.00000000"></div>
                     <div class="form-group"><span class="name">Цена за BTC (USD):</span><input class="value form-control" id="price" type="text" value="6000.000"></div>
                     <div class="form-group"><span class="name">Всего:</span><span class="value">0  USD</span></div>
@@ -36,8 +36,8 @@
             <div class="title">ПРОДАТЬ <%= curr[deals.curr1] %></div>
             <div class="form">
                 <form action="">
-                    <div class="form-group"><span class="name">Ваши средства:</span><input class="value form-control" id="cash2" type="text"></div>
-                    <div class="cash">0  BTC</div>
+                    <div class="form-group"><span class="name">Ваши средства:</span><input class="value form-control" id="cash2" type="text" value="<%= UBalance[deals.curr1]%> <%= curr[deals.curr1] %>"></div>
+                    <div class="cash"></div>
                     <div class="form-group"><span class="name">Количество BTC:</span><input class="value form-control" id="amount2" type="text" value="1.00000000"></div>
                     <div class="form-group"><span class="name">Цена за BTC (USD):</span><input class="value form-control" id="price2" type="text" value="6000.000"></div>
                     <div class="form-group"><span class="name">Всего:</span><span class="value">0  USD</span></div>
