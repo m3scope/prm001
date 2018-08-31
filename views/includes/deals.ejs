@@ -22,24 +22,25 @@
         <div class="trade buy" ng-controller="MainCtrl">
             <div class="title">КУПИТЬ <%= curr[deals.curr1] %></div>
             <div class="form">
-                <form action="">
-                    <div class="form-group"><span class="name">Ваши средства:</span><input ng-click="getSelectBuy()" class="value form-control" id="cash" type="text" value="{{ UBalance_buy }} <%= curr[deals.curr2] %>"></div>
-                    <div class="cash"></div>
-                    <div class="form-group"><span class="name">Количество BTC:</span><input class="value form-control" id="amount" type="text" value="1.00000000"></div>
-                    <div class="form-group"><span class="name">Цена за BTC (USD):</span><input class="value form-control" id="price" type="text" value="6000.000"></div>
-                    <div class="form-group"><span class="name">Всего:</span><span class="value">0  USD</span></div>
-                    <div class="form-group"><span class="name">Комиссия:</span><span class="value">0  BTC</span><button type="submit" class="btn active">Купить</button></div>
+                <form action="/createdeal" method="post">
+                    <div class="form-group"><span class="name">Ваши средства: <%= curr[deals.curr2] %></span><span class="value" ng-click="getSelectBuy()" class="value form-control" id="cash" type="text">{{ UBalance_buy }} </span></div>
+                    <div class="cash"></div><input type="hidden" name="class" value="1"><input type="hidden" name="deal_currency" value="{{ curr1 }}">
+                    <div class="form-group"><span class="name">Количество: <%= curr[deals.curr1] %></span><input class="value form-control" id="amount" type="number" value="0" min="1" step="any" name="deal_amount" required ng-model="deal_amount_buy" ng-change="change_buy()"></div>
+                    <input type="hidden" name="price_currency" value="{{ curr2 }}">
+                    <div class="form-group"><span class="name">Цена: <%= curr[deals.curr2] %></span><input class="value form-control" id="price" type="number" value="0" step="any" min="0.1" name="price_amount" required ng-model="price_amount_buy" ng-change="change_buy()"></div>
+                    <div class="form-group"><span class="name">Всего: <%= curr[deals.curr2] %></span><input class="value form-control" type="number" step="any" value="{{summ_buy}}" ng-model="summ_buy" name="summ_buy" ng-change="change_buy_summ()" ></div>
+                    <div class="form-group"><span class="name">Комиссия: <%= curr[deals.curr2] %></span><span class="value"></span><button type="submit" class="btn active">Купить</button></div>
                 </form>
             </div>
         </div>
-        <div class="trade sell">
+        <div class="trade sell" ng-controller="Main2Ctrl">
             <div class="title">ПРОДАТЬ <%= curr[deals.curr1] %></div>
             <div class="form">
                 <form action="">
-                    <div class="form-group"><span class="name">Ваши средства:</span><input class="value form-control" id="cash2" type="text" value="<%= UBalance[deals.curr1]%> <%= curr[deals.curr1] %>"></div>
+                    <div class="form-group"><span class="name">Ваши средства:</span><input ng-click="getSelectSell()" ng-disabled="true" class="value form-control" id="cash2" type="text" value="{{ UBalance_sell }}"> <%= curr[deals.curr1] %></div>
                     <div class="cash"></div>
-                    <div class="form-group"><span class="name">Количество BTC:</span><input class="value form-control" id="amount2" type="text" value="1.00000000"></div>
-                    <div class="form-group"><span class="name">Цена за BTC (USD):</span><input class="value form-control" id="price2" type="text" value="6000.000"></div>
+                    <div class="form-group"><span class="name">Количество:</span><input class="value form-control" id="amount2" type="text" value="1.00000000"></div>
+                    <div class="form-group"><span class="name">Цена:</span><input class="value form-control" id="price2" type="text" value="6000.000"></div>
                     <div class="form-group"><span class="name">Всего:</span><span class="value">0  USD</span></div>
                     <div class="form-group"><span class="name">Комиссия:</span><span class="value">0  BTC</span><button type="submit" class="btn active">Продать</button></div>
                 </form>
