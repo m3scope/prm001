@@ -19,11 +19,12 @@
     <div class="line_black"></div>
 
     <div class="trades">
-        <div class="trade buy" ng-controller="MainCtrl">
+        <div ng-controller="MainCtrl">
+        <div class="trade buy">
             <div class="title">КУПИТЬ <%= curr[deals.curr1] %></div>
             <div class="form">
                 <form action="/createdeal" method="post">
-                    <div class="form-group"><span class="name">Ваши средства: <%= curr[deals.curr2] %></span><span class="value" ng-click="getSelectBuy()" class="value form-control" id="cash" type="text">{{ UBalance_buy }} </span></div>
+                    <div class="form-group"><span class="name">Ваши средства: <%= curr[deals.curr2] %> </span><span class="value" ng-click="getSelectBuy()" class="value form-control" id="cash" type="text">{{ UBalance_buy }} </span></div>
                     <div class="cash"></div><input type="hidden" name="class" value="1"><input type="hidden" name="deal_currency" value="{{ curr1 }}">
                     <div class="form-group"><span class="name">Количество: <%= curr[deals.curr1] %></span><input class="value form-control" id="amount" type="number" value="0" min="1" step="any" name="deal_amount" required ng-model="deal_amount_buy" ng-change="change_buy()"></div>
                     <input type="hidden" name="price_currency" value="{{ curr2 }}">
@@ -33,24 +34,191 @@
                 </form>
             </div>
         </div>
-        <div class="trade sell" ng-controller="Main2Ctrl">
-            <div class="title">ПРОДАТЬ <%= curr[deals.curr1] %></div>
-            <div class="form">
-                <form action="/createdeal" method="post">
-                    <div class="form-group"><span class="name">Ваши средства: <%= curr[deals.curr1] %></span><span class="value" ng-click="getSelectSell()" class="value form-control" id="cash" type="text">{{ UBalance_sell }} </span></div>
-                    <div class="cash"></div><input type="hidden" name="class" value="1"><input type="hidden" name="deal_currency" value="{{ curr2 }}">
-                    <div class="form-group"><span class="name">Количество: <%= curr[deals.curr2] %></span><input class="value form-control" id="amount" type="number" value="0" min="1" step="any" name="deal_amount" required ng-model="deal_amount_sell" ng-change="change_sell()"></div>
-                    <input type="hidden" name="price_currency" value="{{ curr1 }}">
-                    <div class="form-group"><span class="name">Цена: <%= curr[deals.curr1] %></span><input class="value form-control" id="price" type="number" value="0" step="any" min="0.1" name="price_amount" required ng-model="price_amount_sell" ng-change="change_sell()"></div>
-                    <div class="form-group"><span class="name">Всего: <%= curr[deals.curr1] %></span><input class="value form-control" type="number" step="any" value="{{summ_sell}}" ng-model="summ_sell" name="summ_sell" ng-change="change_buy_sell()" ></div>
-                    <div class="form-group"><span class="name">Комиссия: <%= curr[deals.curr2] %></span><span class="value">{{commission_sell}}</span><button type="submit" class="btn active">Купить</button></div>
-                </form>
+    </div>
+        <div ng-controller="Main2Ctrl">
+            <div class="trade sell">
+                <div class="title">ПРОДАТЬ <%= curr[deals.curr1] %></div>
+                <div class="form">
+                    <form action="/createdeal" method="post">
+                        <div class="form-group"><span class="name">Ваши средства: <%= curr[deals.curr1] %> </span><span class="value" ng-click="getSelectSell()" class="value form-control" id="cash2" type="text">{{ UBalance_sell }} </span></div>
+                        <div class="cash"></div><input type="hidden" name="class" value="1"><input type="hidden" name="deal_currency" value="{{ curr2 }}">
+                        <div class="form-group"><span class="name">Количество: <%= curr[deals.curr2] %></span><input class="value form-control" id="amount2" type="number" value="0" min="1" step="any" name="deal_amount" required ng-model="deal_amount_sell" ng-change="change_sell()"></div>
+                        <input type="hidden" name="price_currency" value="{{ curr1 }}">
+                        <div class="form-group"><span class="name">Цена: <%= curr[deals.curr1] %></span><input class="value form-control" id="price2" type="number" value="0" step="any" min="0.1" name="price_amount" required ng-model="price_amount_sell" ng-change="change_sell()"></div>
+                        <div class="form-group"><span class="name">Всего: <%= curr[deals.curr1] %></span><input class="value form-control" type="number" step="any" value="{{summ_sell}}" ng-model="summ_sell" name="summ_sell" ng-change="change_buy_sell()" ></div>
+                        <div class="form-group"><span class="name">Комиссия: <%= curr[deals.curr2] %></span><span class="value">{{commission_sell}}</span><button type="submit" class="btn active">Купить</button></div>
+                    </form>
+                </div>
+            </div>
+            </div>
+        </div>
+
+
+<div ng-controller="userDealsCtrl">
+    <div class="orders_on_buy_full" >
+        <% if (userDeals.length>0) {  %>
+        <div class="line_black"></div>
+        <div class="title">Мои ордера</div>
+        <div class="tableback">
+            <div class="table">
+                <table>
+                    <thead>
+                    <tr>
+                        <td>Дата <img src="img/sort.png" alt=""></td>
+                        <td>Пара </td>
+                        <td>Тип</td>
+                        <td>Кол.(остаток)</td>
+                        <td>Цена</td>
+                        <td>Сумма</td>
+
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    <tr ng-repeat="dt in dtud" ng-click="setSelected();">
+                        <td ><div class="min-width">{{ dt.dat }}</div></td>
+                        <td><div class="min-width">{{ dt.deal_currency }}/{{ dt.price_currency}}</div></td>
+                        <td ><div class="min-width">{{ dt.typ }}</div></td>
+                        <td ><div class="min-width">{{ dt.deal_amount }}<span> ({{ dt.deal_amount_bill }})</span></div></td>
+                        <td ><div class="min-width">{{ dt.price_amount}}</div></td>
+                        <td ><div class="min-width">{{ dt.summ }}<span> ({{ dt.summ_bill }})</span></div></td>
+
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <%}%>
+    </div>
+</div>
+    <div class="orders_on_buy_and_sell">
+        <div class="orders_on_sell">
+            <div class="line_black"></div>
+            <div class="inner">
+                <div class="title">
+                    Ордера на продажу
+                </div>
+                <div class="total"><span>Всего: </span>886.06491500  BTC</div>
+                <div class="tableback">
+                    <div class="table">
+                        <table>
+                            <thead>
+                            <tr>
+                                <td>Цена</td>
+                                <td>BTC</td>
+                                <td>USD</td>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td><div class="min-width">8717.692</div></td>
+                                <td><div class="min-width">11.21009772</div></td>
+                                <td><div class="min-width">97726.179212</div></td>
+                            </tr>
+                            <tr>
+                                <td>8717.692</td>
+                                <td>11.21009772</td>
+                                <td>97726.179212</td>
+                            </tr>
+                            <tr>
+                                <td>8717.692</td>
+                                <td>11.210095467897654772</td>
+                                <td>97726.179212</td>
+                            </tr>
+                            <tr>
+                                <td>8717.692</td>
+                                <td>11.21009772</td>
+                                <td>97726.179212</td>
+                            </tr>
+                            <tr>
+                                <td>8717.692</td>
+                                <td>11.21009772</td>
+                                <td>97726.179212</td>
+                            </tr>
+                            <tr>
+                                <td>8717.692</td>
+                                <td>11.21009772</td>
+                                <td>97726.179212</td>
+                            </tr>
+                            <tr>
+                                <td>8717.692</td>
+                                <td>11.21009772</td>
+                                <td>97726.179212</td>
+                            </tr>
+                            <tr>
+                                <td>8717.692</td>
+                                <td>11.21009772</td>
+                                <td>97726.179212</td>
+                            </tr>
+                            <tr>
+                                <td>8717.692</td>
+                                <td>11.21009772</td>
+                                <td>97726.179212</td>
+                            </tr>
+                            <tr>
+                                <td>8717.692</td>
+                                <td>11.21009772</td>
+                                <td>97726.179212</td>
+                            </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="orders_on_buy">
+            <div class="line_black"></div>
+            <div class="inner">
+                <div class="title">
+                    Ордера на покупку
+                </div>
+                <div class="total"><span>Всего: </span>886.06491500  BTC</div>
+                <div class="tableback">
+                    <div class="table">
+                        <table>
+                            <thead>
+                            <tr>
+                                <td>Цена</td>
+                                <td>BTC</td>
+                                <td>USD</td>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td><div class="min-width">8717.6942</div></td>
+                                <td><div class="min-width">11.21009772</div></td>
+                                <td><div class="min-width">97726.179543534212</div></td>
+                            </tr>
+                            <tr>
+                                <td>8717.692</td>
+                                <td>11.21009772</td>
+                                <td>97726.179212</td>
+                            </tr>
+                            <tr>
+                                <td>8717.692</td>
+                                <td>11.21009772</td>
+                                <td>97726.179212</td>
+                            </tr>
+                            <tr>
+                                <td>8717.692</td>
+                                <td>11.21009772</td>
+                                <td>97726.179212</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
     <div class="line_black"></div>
 
-    </div>
+
+
+
+</div>
 
 
 <!--*************************************************************************************************************-->

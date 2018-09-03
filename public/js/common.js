@@ -7,10 +7,6 @@ $(document).ready(function() {
     	scrollbarPosition:"outside",
 	});
 
-
-
-
-
 	$(".orders_on_buy_full .table tbody, .orders_on_buy_and_sell .inner .table tbody").prepend('<tr><td>Top</td></tr>')
 	function widthHeadTable(){
   		var tdBody = $('.orders_on_buy_full .table tbody tr:eq(1) td, .orders_on_sell .table tbody tr:eq(1) td, .orders_on_buy .table tbody tr:eq(1) td');
@@ -71,11 +67,6 @@ $(document).ready(function() {
 			$('.parovoz').addClass('disabled');
 		}
 	});
-
-
-
-
-
 
 
   	$('#repass').click(function(e) {
