@@ -70,7 +70,7 @@
                         <td>Кол.(остаток)</td>
                         <td>Цена</td>
                         <td>Сумма</td>
-
+                        <td>Статус</td>
                     </tr>
                     </thead>
                     <tbody>
@@ -82,7 +82,23 @@
                         <td ><div class="min-width">{{ dt.deal_amount }}<span> ({{ dt.deal_amount_bill }})</span></div></td>
                         <td ><div class="min-width">{{ dt.price_amount}}</div></td>
                         <td ><div class="min-width">{{ dt.summ }}<span> ({{ dt.summ_bill }})</span></div></td>
-
+                        <td class=" {{ dt.color2 }}"><div class="min-width">
+                            <div ng-switch="{{ dt.status }}">
+                                <div ng-switch-when="0">
+                                    <span><a href="{{dt.cans}}">отменить</a> </span>
+                                </div>
+                                <div ng-switch-when="1">
+                                    <span> Активный </span><span><a href="{{dt.cans}}">отменить</a> </span>
+                                </div>
+                                <div ng-switch-when="3">
+                                    <span>отменен</span>
+                                </div>
+                                <div ng-switch-when="9">
+                                    <span>исполнен</span>
+                                </div>
+                            </div>
+                            </div>
+                        </td>
                     </tr>
                     </tbody>
                 </table>
@@ -92,6 +108,7 @@
     </div>
 </div>
     <div class="orders_on_buy_and_sell">
+        <div ng-controller="MainDealsBuy">
         <div class="orders_on_sell">
             <div class="line_black"></div>
             <div class="inner">
@@ -104,61 +121,16 @@
                         <table>
                             <thead>
                             <tr>
-                                <td>Цена</td>
-                                <td>BTC</td>
-                                <td>USD</td>
+                                <td>Цена (<%= curr[deals.curr2] %>)</td>
+                                <td>Кол-во (<%= curr[deals.curr1] %>)</td>
+                                <td>Сумма</td>
                             </tr>
                             </thead>
                             <tbody>
-                            <tr>
-                                <td><div class="min-width">8717.692</div></td>
-                                <td><div class="min-width">11.21009772</div></td>
-                                <td><div class="min-width">97726.179212</div></td>
-                            </tr>
-                            <tr>
-                                <td>8717.692</td>
-                                <td>11.21009772</td>
-                                <td>97726.179212</td>
-                            </tr>
-                            <tr>
-                                <td>8717.692</td>
-                                <td>11.210095467897654772</td>
-                                <td>97726.179212</td>
-                            </tr>
-                            <tr>
-                                <td>8717.692</td>
-                                <td>11.21009772</td>
-                                <td>97726.179212</td>
-                            </tr>
-                            <tr>
-                                <td>8717.692</td>
-                                <td>11.21009772</td>
-                                <td>97726.179212</td>
-                            </tr>
-                            <tr>
-                                <td>8717.692</td>
-                                <td>11.21009772</td>
-                                <td>97726.179212</td>
-                            </tr>
-                            <tr>
-                                <td>8717.692</td>
-                                <td>11.21009772</td>
-                                <td>97726.179212</td>
-                            </tr>
-                            <tr>
-                                <td>8717.692</td>
-                                <td>11.21009772</td>
-                                <td>97726.179212</td>
-                            </tr>
-                            <tr>
-                                <td>8717.692</td>
-                                <td>11.21009772</td>
-                                <td>97726.179212</td>
-                            </tr>
-                            <tr>
-                                <td>8717.692</td>
-                                <td>11.21009772</td>
-                                <td>97726.179212</td>
+                            <tr ng-repeat="dt in dt1" ng-click="setSelected();">
+                                <td><div class="min-width">{{ dt.name }}</div></td>
+                                <td><div class="min-width">{{ dt.deal_am }}</div></td>
+                                <td><div class="min-width">{{ dt.sm }}</div></td>
                             </tr>
 
                             </tbody>
@@ -167,7 +139,7 @@
                 </div>
             </div>
         </div>
-
+        </div>
         <div class="orders_on_buy">
             <div class="line_black"></div>
             <div class="inner">
@@ -418,22 +390,15 @@
     });
 
 
-    myApp.controller('MainCtrl', function($scope) {
-        $scope.curr1 = Curr[<%= deals.curr1 %>];
-        $scope.curr2 = Curr[<%= deals.curr2 %>];
+    myApp.controller('MainDealsBuy', function ($scope) {
         $scope.dt1 = [];
-        $scope.minPrice = Math.round(minPrice*100)/100;
-        $scope.commission_buy = 0;
-        $scope.summ_buy = 0;
-        $scope.data = {disabled_buy: true};
-        $scope.UBalance_buy = <%= UBalance[deals.curr2]%>;
-                <% deals.dt1.forEach(function (name) { %>
-                    nm.name = <%= Math.round(name._id*100)/100 %>;
-                    nm.deal_am = <%= Math.round(name.deal_am*100)/100 %>;
-                    nm.sm = <%= Math.round(name._id * name.deal_am * 100) / 100 %>;
-                        glub_buy = Math.round((glub_buy + nm.deal_am)*100)/100;
-                    $scope.dt1.push({name:nm.name, deal_am:nm.deal_am, sm:nm.sm, glub_buy:glub_buy});
-                <%})%>
+        <% deals.dt1.forEach(function (name) { %>
+        nm.name = <%= Math.round(name._id*100)/100 %>;
+        nm.deal_am = <%= Math.round(name.deal_am*100)/100 %>;
+        nm.sm = <%= Math.round(name._id * name.deal_am * 100) / 100 %>;
+        glub_buy = Math.round((glub_buy + nm.deal_am)*100)/100;
+        $scope.dt1.push({name:nm.name, deal_am:nm.deal_am, sm:nm.sm, glub_buy:glub_buy});
+        <%})%>
         $scope.setSelected = function() {
             $scope.selected = this.dt;
             $scope.deal_amount_buy = this.dt.glub_buy;
@@ -442,6 +407,20 @@
             $scope.data.disabled_buy = !($scope.deal_amount_buy > 0 && $scope.price_amount_buy > 0);
             $scope.summ_buy = Math.round($scope.deal_amount_buy * $scope.price_amount_buy*100)/100;
         };
+
+    });
+
+    myApp.controller('MainCtrl', function($scope) {
+        $scope.curr1 = Curr[<%= deals.curr1 %>];
+        $scope.curr2 = Curr[<%= deals.curr2 %>];
+
+        $scope.minPrice = Math.round(minPrice*100)/100;
+        $scope.commission_buy = 0;
+        $scope.summ_buy = 0;
+        $scope.data = {disabled_buy: true};
+        $scope.UBalance_buy = <%= UBalance[deals.curr2]%>;
+
+
         $scope.change_buy = function () {
             $scope.commission_buy = Math.round($scope.deal_amount_buy*0.007*100)/100;
             $scope.data.disabled_buy = !($scope.deal_amount_buy > 0 && $scope.price_amount_buy > 0);
