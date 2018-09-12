@@ -9,7 +9,7 @@
         <li class="active"><a href="index.html">Главная</a></li>
     </ul>
 </div>
-
+<div ng-controller="MainCtrl">
 <div class="container" >
     <div class="nav-content" ng-controller="w3BtnCtrl">
         <a href="/deals/1;3" class="btn {{ w3Btn[1][3] }}">PZM/RUR</a>
@@ -19,7 +19,7 @@
     <div class="line_black"></div>
 
     <div class="trades">
-        <div ng-controller="MainCtrl">
+
         <div class="trade buy">
             <div class="title">КУПИТЬ <%= curr[deals.curr1] %></div>
             <div class="form">
@@ -33,7 +33,7 @@
                     <div class="form-group"><span class="name">Комиссия: <%= curr[deals.curr1] %></span><span class="value">{{commission_buy}}</span><button type="submit" class="btn active">Купить</button></div>
                 </form>
             </div>
-        </div>
+
     </div>
         <div ng-controller="Main2Ctrl">
             <div class="trade sell">
@@ -107,8 +107,9 @@
         <%}%>
     </div>
 </div>
+    <div ng-controller="MainDealsBuy">
     <div class="orders_on_buy_and_sell">
-        <div ng-controller="MainDealsBuy">
+
         <div class="orders_on_sell">
             <div class="line_black"></div>
             <div class="inner">
@@ -139,7 +140,7 @@
                 </div>
             </div>
         </div>
-        </div>
+
         <div class="orders_on_buy">
             <div class="line_black"></div>
             <div class="inner">
@@ -185,13 +186,14 @@
             </div>
         </div>
     </div>
+    </div>
     <div class="line_black"></div>
 
 
 
 
 </div>
-
+</div>
 
 <!--*************************************************************************************************************-->
     <!-- Left Column -->
@@ -409,6 +411,8 @@
         };
 
     });
+
+
 
     myApp.controller('MainCtrl', function($scope) {
         $scope.curr1 = Curr[<%= deals.curr1 %>];
