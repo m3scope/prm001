@@ -23,11 +23,7 @@
             <div class="body">
                 <div class="name"><span><%= user.name_f%></span><a href="/logout" >Выйти</a></div>
                 <div class="currency">
-                    <div class="currency_text">
-                        <!--<div class="namecur">B:</div><div class="val">55.00</div><div class="img"><img src="/img/account/currency/1.png" alt=""></div>-->
-                        <!--<br><div class="namecur">S:</div><div class="val">5.00</div><div class="img"><img src="/img/account/currency/1.png" alt=""></div>-->
-                        <!--<br><div class="namecur">P:</div><div class="val">25.00</div><div class="img">%</div>-->
-                    </div>
+                    <div class="currency_text"> </div>
                     <div class="currency_text">
                         <div class="img"><img src="/img/account/currency/2.png" alt=""></div><div class="val"><%= user.RUR %></div>
                         <br><div class="img"><img src="/img/account/currency/1.png" alt=""></div><div class="val"><%= user.PZM %></div>
@@ -36,8 +32,8 @@
                 </div>
             </div>
             <div class="bottom">
-                <div><img src="/img/account/1.png" alt=""><a href="#">ПАРОВОЗ</a></div>
-                <div><img src="/img/account/2.png" alt=""><a href="#">rePRIZM</a></div>
+                <div><img src="/img/account/1.png" alt=""><a href="https://www.parovoz-prizm.com">ПАРОВОЗ</a></div>
+                <div><img src="/img/account/2.png" alt=""><a href="https://www.reprizm.ru">rePRIZM</a></div>
             </div>
         </div>
 
@@ -74,9 +70,6 @@
 </div>
 
 
-<div class="w3-small" id="info">
-
-</div>
 
 <script>
     let socket = io.connect('');
