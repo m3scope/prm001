@@ -9,7 +9,7 @@
 </div>
 <div class="container">
 <div class="profile">
-    <div class="title">ЗДРАВСТВУЙТЕ, USERNAME!</div>
+    <div class="title">ЗДРАВСТВУЙТЕ, <%= user.name_f%>!</div>
     <div class="form">
         <div class="blocks">
             <div class="one-block">
@@ -28,6 +28,13 @@
             </div>
         </div>
         <div class="blocks">
+            <% if(user.prizmaddress){%>
+            <div class="parovoz disabled">
+                <div class="form-group"><span class="name">Адрес в Паровозе</span><input class="value form-control" type="text" value="<%= user.prizmaddress%>"></div>
+                <div class="form-group"><span class="name">Public Key</span><input class="value form-control" type="text" value="<%= user.publicKey%>"></div>
+
+            </div>
+            <%} else {%>
             <div class="parovoz disabled">
                 <div class="checkbox-block">
                     <div class="checkbox">
@@ -35,127 +42,25 @@
                         <label for="check">Я в “Паравозе”</label>
                     </div>
                 </div>
-                <div class="form-group"><span class="name">Адрес в Паровозе</span><input class="value form-control" type="text" value=""></div>
-                <div class="form-group"><span class="name">Public Key</span><input class="value form-control" type="text" value=""></div>
+                <form action="/edituser" method="post">
+                <div class="form-group"><span class="name">Адрес в Паровозе</span><input name="prizmaddress" class="value form-control" type="text" value=""></div>
+                <div class="form-group"><span class="name">Public Key</span><input name="pubKey" class="value form-control" type="text" value=""></div>
                 <div class="form-group"><button type="submit" class="btn active">ПОДТВЕРДИТЬ</button></div>
+                </form>
             </div>
-            <div class="parovoz"></div>
+            <%}%>
+            <div class="parovoz">ВНИМАНИЕ!<br> С 1 июня 2018 г вводятся льготы для участников "ПАРОВОЗА ПРИЗМ".
+
+                Для того, чтобы воспользоваться льготой необходимо заполнить поля "адрес в ПАРОВОЗЕ ПРИЗМ".
+
+                Адрес проверяется на принадлежность ПАРОВОЗУ.
+                После заполнения, адрес невозможно изменить.
+                После занесения адреса, вывод PRIZM будет возможен ТОЛЬКО на указанный кошелёк.
+                Для вновь зарегистрированных участников льгота вводится через 4-5 дней после регистрации.
+                Размер льгот посмотреть можно здесь</div>
         </div>
     </div>
 </div>
-</div>
-
-<!--************************************************-->
-
-<div class="w3-panel" >
-
-    <a href="/profile/data" class="w3-cyan w3-btn w3-border w3-border-green w3-round-xlarge">Профиль</a>
-    <a href="/profile/finance" class="w3-white w3-btn w3-border w3-border-green w3-round-xlarge">Финансы</a>
-    <a href="/profile/query" class="w3-white w3-btn w3-border w3-border-green w3-round-xlarge">Ввод/Вывод</a>
-    <a href="/userinfo" class="w3-white w3-btn w3-border w3-border-green w3-round-xlarge">Сводный отчёт</a>
-    <!-- <a href="/3;3" class="w3-btn w3-white w3-border w3-border-green w3-round-xlarge">Pzm/Slv</a> -->
-    <% if(user.status > 2){%>
-
-    <a href="/amd/querys" class=" w3-btn w3-border w3-border-green w3-round" >А</a>
-    <%}%>
-</div>
-
-
-<div class="w3-row-padding w3-small">
-
-    <div class="w3-col m3">
-        <div class="w3-border">
-            <div class="w3-container w3-teal">
-                <h5>Личные данные</h5>
-            </div>
-            <div class="w3-container">
-                <p>
-                    <% if(user.vip){%>
-                    <span class="w3-input w3-border w3-green">VIP (включены льготные комиссии)</span>
-                    <%} else {%>
-                    <span class="w3-input w3-border w3-gray">Простой</span>
-
-                    <%}%>
-                    <span class="w3-tag w3-green">Статус</span>
-                </p>
-                <p>
-                    <span class="w3-input w3-border" ><%= user.UID%></span>
-                    <span class="w3-tag w3-green">UID</span>
-                </p>
-                <p>
-                    <span class="w3-input w3-border" ><%= user.username%></span>
-                    <span class="w3-tag w3-green">Login</span>
-                </p>
-                <p>
-                    <span class="w3-input w3-border"><%= user.name_f%></span>
-                    <span class="w3-tag w3-green">Имя пользователя</span>
-
-                </p>
-                <p>
-                    <span class="w3-input w3-border"><%= user.tel%></span>
-                    <span class="w3-tag w3-green">Телефон</span>
-                </p>
-                <p>
-              <span class="w3-input w3-border" ><%= user.email%>
-              </span>
-                    <% if(user.email_confirmed){%>
-                    <span class="w3-tag w3-green">e-mail</span>
-                    <%} else {%>
-                    <span class="w3-tag w3-red">e-mail</span>
-                    <% if(user.email_token){%><span class="w3-tag">перейдите по ссылке из письма на почте</span><%} else {%><span class="w3-tag"><a href="/confirmed/sendconfirmedemail">нажмите для подтверждения email</a></span> <%}%>
-                    <%}%>
-                </p>
-
-                <p>
-                    <% if(user.prizmaddress){%>
-                    <span class="w3-input w3-border"><%= user.prizmaddress%></span>
-                    <span class="w3-tag w3-green">Адрес в "Паровозе"</span>
-                    <%} else {%>
-                    <input type="checkbox" class="w3-check" ng-model="vip">
-                    <span class="w3-tag w3-green">Я в "Паровозе"</span>
-                <div ng-show="vip">
-                    <form action="/edituser" method="post" class="w3-form">
-                        <input name="prizmaddress" type="text" class="w3-input w3-border">
-                        <span class="w3-tag w3-green">Адрес в "Паровозе"</span>
-                        <input name="prizmPKey" type="text" class="w3-input w3-border">
-                        <span class="w3-tag w3-green">Public Key</span>
-                        <input class="w3-border w3-teal w3-btn w3-button" type="submit" value="Подтвердить">
-                    </form>
-
-                </div>
-                <%}%>
-                </p>
-
-            </div>
-
-        </div>
-    </div>
-
-    <div class="w3-col m3">
-
-        <div class="w3-border">
-            <div class="w3-container w3-green">
-                <h5>ВНИМАНИЕ! ПРОЧТИ!</h5>
-            </div>
-            <div class="w3-container">
-                <p>
-                    ВНИМАНИЕ! С 1 июня 2018 г вводятся льготы для участников "ПАРОВОЗА ПРИЗМ".
-                </p>
-                <p>
-                    Для того, чтобы воспользоваться льготой необходимо заполнить поля "адрес в ПАРОВОЗЕ ПРИЗМ".
-                </p>
-                <ul>
-                    <li>Адрес проверяется на принадлежность ПАРОВОЗУ.</li>
-                    <li>После заполнения, адрес невозможно изменить.</li>
-                    <li>После занесения адреса, вывод PRIZM будет возможен <b>ТОЛЬКО</b> на указанный кошелёк.</li>
-                    <li>Для вновь зарегистрированных участников льгота вводится через 4-5 дней после регистрации.</li>
-                </ul>
-                <a href="http://www.parovoz-prizm.com/obmennik">Размер льгот посмотреть можно здесь</a>
-            </div>
-        </div>
-
-    </div>
-
 </div>
 
 <script>
