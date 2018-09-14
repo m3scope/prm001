@@ -7,19 +7,24 @@
         <li><a href="/">Главная</a></li>
     </ul>
 </div>
+<div class="container">
 <div class="profile">
     <div class="title">ЗДРАВСТВУЙТЕ, USERNAME!</div>
     <div class="form">
         <div class="blocks">
             <div class="one-block">
-                <div class="form-group"><span class="name">Статус</span><input class="value form-control" type="text" value="Простой"></div>
-                <div class="form-group"><span class="name">UID</span><input class="value form-control" type="text" value="1234567890000"></div>
-                <div class="form-group"><span class="name">Login</span><input class="value form-control" type="text" value="Username"></div>
+                <% if(user.vip){%>
+                <div class="form-group"><span class="name">Статус</span><input class="value form-control" disabled type="text" value="VIP (включены льготные комиссии)"></div>
+                <%} else  {%>
+                <div class="form-group"><span class="name">Статус</span><input class="value form-control" disabled type="text" value="Простой"></div>
+                <%}%>
+                <div class="form-group"><span class="name">UID</span><input class="value form-control" disabled type="text" value="<%= user.UID%>"></div>
+                <div class="form-group"><span class="name">Login</span><input class="value form-control" disabled type="text" value="<%= user.username%>"></div>
             </div>
             <div class="one-block">
-                <div class="form-group"><span class="name">Имя пользователя</span><input class="value form-control" type="text" value="Username"></div>
-                <div class="form-group"><span class="name">Телефон</span><input class="value form-control" type="text" value="+7 912 345 67 89"></div>
-                <div class="form-group"><span class="name">E-mail</span><input class="value form-control" type="text" value="Username@gmail.com"></div>
+                <div class="form-group"><span class="name">Имя пользователя</span><input class="value form-control" disabled type="text" value="<%= user.name_f%>"></div>
+                <div class="form-group"><span class="name">Телефон</span><input class="value form-control" disabled type="text" value="<%= user.tel%>"></div>
+                <div class="form-group"><span class="name">E-mail</span><input class="value form-control" disabled type="text" value="<%= user.email%>"></div>
             </div>
         </div>
         <div class="blocks">
@@ -38,7 +43,7 @@
         </div>
     </div>
 </div>
-
+</div>
 
 <!--************************************************-->
 
