@@ -55,21 +55,7 @@ exports.get = function(req, res){
                                 LoginRegister: LoginRegister,
                                 UBalance: UserBalance
                             });
-                        // res.render('index', {
-                        //     title: 'PRIZM Stock Exchange',
-                        //     user: user,
-                        //     inc: {f: 'deals'},
-                        //     LoginRegister: LoginRegister,
-                        //     userDeals: userDeals,
-                        //     deals: data,
-                        //     UBalance: UserBalance,
-                        //     infoText: infoText
-                        // });
-                            // db_querys.getUserQExec(user._id, function (err, userQExec) {
-                            //     if(err) console.error(err);
-                            //     user.userQExec = userQExec;
-                            //     res.render('profile', {title: 'Профиль', user: user, LoginRegister: LoginRegister, UBalance: UserBalance});
-                            // });
+
                         });
 
                 });

@@ -99,6 +99,9 @@ router.get('/', function(req, res, next) {
 router.get('/profile/:id?', checkAuth, require('./getProfile').get);
 router.post('/profile/:id?', checkAuth, require('./getProfile').post);
 
+router.get('/getquery/:id?', checkAuth, require('./getQuery').get);
+router.post('/getquery/:id?', checkAuth, require('./getQuery').post);
+
 router.get('/userinfo/:id?', checkAuth, require('./u_user_info').get);
 router.post('/userinfo/:id?', checkAuth, require('./u_user_info').post);
 
